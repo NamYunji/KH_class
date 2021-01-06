@@ -23,7 +23,51 @@ public class ArrayListTest {
 //		a.test3();
 //		a.test4();
 //		a.test5();
-		a.test6();
+//		a.test6();
+		a.test7();
+	}
+
+	private void test7() {
+		List<Student> list = new ArrayList<>();
+		list.add(new Student(3, "세종대왕"));
+		list.add(new Student(2, "신사임당"));
+		list.add(new Student(5, "이황"));
+		list.add(new Student(4, "장영실"));
+		list.add(new Student(1, "홍길동"));
+
+		// 순회하는 도중 요소를 삭제하려면, 에러
+//		for (Student s : list) {
+//			if(s.getNo() == 5)
+//				list.remove(s);
+//		}
+		//1. 반복문 외부 변수에 list설정
+		// if 5번학생을 지우고 싶다면
+		// 순회하는 와중(for문内）에는 지울 수 없으니까, 해당 인덱스의 요소를 알아내고 for문 밖에서 지워줌
+		int idx = -1;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getNo() == 5) {
+				idx = i;
+			}
+		}
+		System.out.println(idx);
+		if (idx != -1)
+			list.remove(idx);
+		//2는 우리가 임의로 인덱스를 변수에 담아두기위해 나온 값
+//		System.out.println(list);
+
+		
+		//2. iterator 이용하는 방법
+		Iterator<Student> iter = list.iterator();
+		while(iter.hasNext()) {
+			Student s = iter.next();
+			//혹시 s.getNo의 번호가 5번이니?
+			if(s.getNo() == 5)
+				iter.remove(); //현재 가리키고 있는 collection요소를 제거
+		}
+//		System.out.println(list);
+
+		
+		System.out.println(list);
 	}
 
 	/*
@@ -177,7 +221,7 @@ public class ArrayListTest {
 		// List is a raw type.
 		// References to generic type List<E> should be parameterized
 		// Lise<E> : type parameter (타입변수)
-		//경고 표시 : 타입을 지정해줘야 하는데, 지정해주지 않으면 object로 처리됨, 타입을 구체적으로 써주지 않았기 때문
+		// 경고 표시 : 타입을 지정해줘야 하는데, 지정해주지 않으면 object로 처리됨, 타입을 구체적으로 써주지 않았기 때문
 		List list1 = new ArrayList();
 		list1.add("안녕!");
 		list1.add(123);
