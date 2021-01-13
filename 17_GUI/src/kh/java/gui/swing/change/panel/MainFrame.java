@@ -19,8 +19,5 @@ public class MainFrame extends JFrame{
 		panels[2] = new CustomPanel(this, Color.orange, "panel2");
 		
 		add(panels[0]); //시작페이지
-
-		
 	}
-
 }

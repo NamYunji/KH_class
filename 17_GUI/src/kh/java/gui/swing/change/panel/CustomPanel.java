@@ -46,7 +46,6 @@ public class CustomPanel extends JPanel{
 		btn0.addActionListener(listener);
 		btn1.addActionListener(listener);
 		btn2.addActionListener(listener);
-		
 	}
 	
 	

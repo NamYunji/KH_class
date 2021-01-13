@@ -21,14 +21,15 @@ public class JFrameTest1 {
 		
 		//윈도우크기 위치 지정
 		f.setSize(300, 200);
+		
 		//기준을 어디로 삼아서 위치시킬지 기준점 설정 (x,y)
 		//음수일수도 있으나, 화면 밖에 위치하게 될 것
 		f.setLocation(0, 0);
-		//프로그램은 직접 종료시키기 전까지 x버튼을 눌러도 돌아가고 있음
 		
 		//스크린 가운데 띄우기
 		f.setLocationRelativeTo(null);
 		
+		//프로그램은 직접 종료시키기 전까지 x버튼을 눌러도 돌아가고 있음
 		//x버튼 -> 프로그램 종료 처리 -> x버튼 누를 시 프로그램이 함께 꺼지도록
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
