@@ -13,7 +13,6 @@ public class Member implements Serializable{
 	
 	public Member() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	///////////////////////////
 	public Member(String name, String address, int age, boolean married) {

@@ -23,7 +23,7 @@ public class FlowLayoutTest extends JFrame{
          * 			JPanel -> FlowLayout
          * 필요하다면 짝이 아니더라도, border와 flow를 바꿔쓸 수 있음
          */
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         for (int i = 0; i < 15; i++) {
 			panel.add(new JButton((i+1) + "번"));
 		}

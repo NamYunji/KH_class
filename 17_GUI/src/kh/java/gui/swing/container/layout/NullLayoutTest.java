@@ -13,7 +13,10 @@ import kh.java.gui.util.MyUtil;
 
 public class NullLayoutTest extends JFrame{
 	
+	//a lightweight component that allows the editing of a single line of text.
 	private JTextField id;
+	//a lightweight component that allows the editing of a single line of text where the view indicates something was typed,
+	//but does not show the original characters.
 	private JPasswordField pwd;
 	
 	
@@ -49,6 +52,10 @@ public class NullLayoutTest extends JFrame{
 		//->
 		//1.이벤트 처리객체 생성(클래스 작성)
 		//2.btn컴포넌트와 연결(binding)
+		
+		
+		//addActionListener : Adds an ActionListener to the button.
+		//Parameters: the ActionListener to be added
 		btn.addActionListener(new LoginBtnListener());		
 		
 		add(labelId);

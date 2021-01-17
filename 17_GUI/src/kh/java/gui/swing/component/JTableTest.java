@@ -2,6 +2,7 @@ package kh.java.gui.swing.component;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +28,8 @@ import kh.java.gui.util.MyUtil;
  */
 public class JTableTest extends JFrame {
 	
+	//List : 중복허용 -> 쌓여서 들어감!
 	List<Member> list = new ArrayList<>();
-	
 	{
 		list.add(new Member("홍길동", "서울", 24, false));
 		list.add(new Member("신사임당", "부산", 48, true));
@@ -54,8 +55,6 @@ public class JTableTest extends JFrame {
 		list.add(new Member("홍길동", "서울", 24, false));
 		list.add(new Member("신사임당", "부산", 48, true));
 		list.add(new Member("세종", "서울", 67, true));
-
-
 	}
 
 	public JTableTest(int w, int h, String title) {
@@ -71,7 +70,7 @@ public class JTableTest extends JFrame {
 //				{"신사임당", "부산", 48, true},	
 //				{"세종", "서울", 67, true},	
 //		};
-		//2차원 배열의 공간을 만들어줌 / 이 사이즈, 이 공간만큼의 공간을 만들어줌
+		//2차원 배열의 공간을 만들어줌 / 이 사이즈, 이 길이만큼의 공간을 만들어줌
 		Object[][] rowData = new Object[list.size()][columnNames.length];
 		for (int i = 0; i < list.size(); i++) {
 			Member m = list.get(i);
@@ -115,9 +114,12 @@ public class JTableTest extends JFrame {
 			}
 		});
 		
+		//////////////////////////////////////////////////////////////
+		
 		//하단 저장 버튼
 		JButton btn = new JButton("저장");
 		//버튼은 actionlistener!
+		btn.setBackground(Color.PINK);
 		btn.addActionListener(new ActionListener() {
 			//데이터를 다 읽어와야하고
 			//실제 데이터가 저장되어있는 모델에 접근해야 함

@@ -9,12 +9,14 @@ import javax.swing.JPanel;
 
 import kh.java.gui.util.MyUtil;
 
+//마찬가지로 JFrame 상속
 public class BorderLayoutTest extends JFrame{
 	
+	//매개변수 생성자 -> 크기, 제목 전달
 	public BorderLayoutTest(int w, int h, String title) {
-		//현재객체, 인자로 전달받은 너비, 높이, 제목까지 전달함
+		//공용 static메소드를 만들어서 현재객체, 인자로 전달받은 너비, 높이, 제목까지 전달함
 		MyUtil.init(this, w, h, title);
-		
+
 		//패널도 커스터마이징 가능
 		//스윙에서 제공하는 클래스를 내 입맛대로 만들기
 		//JFrame객체의 기본 레이아웃은 borderlayout
