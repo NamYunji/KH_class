@@ -50,6 +50,8 @@ public class JFrameTest1 {
 		//자식 컴포넌트 : 컨테이너에 포함된 컴포넌트
 		//컨테이너에 자식 컴포넌트 추가
 		//객체(JFrame名).add(new 컴포넌트("텍스트 입력"));
+//		JLabel label = new JLabel("안녕");
+//		f.add(label);
 		f.add(new JLabel("안녕!"));
 		
 		//시각화처리

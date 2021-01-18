@@ -34,6 +34,7 @@ public class ActionEventTest extends JFrame implements ActionListener {
 //		input.addActionListener(new MyActionListener());
 		
 		//2. 익명클래스 : 클래스선언 + 객체생성
+		// 이름이 없음 -> 일회용
 		//지역내부클래스의 파생형
 //		ActionListener listener = new ActionListener() {
 //
