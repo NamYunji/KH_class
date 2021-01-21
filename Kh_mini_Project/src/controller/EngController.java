@@ -20,8 +20,13 @@ public class EngController {
 		io.deleteList(eng);
 	}
 	
-	//IO에서 파일을 읽어와 보내줌
+	//IO에서 파일을 읽어와 List<Eng>로 리턴
 	public List<Eng> loadEngList(){
 		return io.loadEngList();
+	}
+	
+	//Io에서 수정된내용을 List<Eng> 타입으로 전달해 수정내용 저장
+	public void modifyList(List<Eng> list) {
+		io.modifyList(list);
 	}
 }

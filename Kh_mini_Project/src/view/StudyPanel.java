@@ -34,20 +34,24 @@ public class StudyPanel extends JPanel {
 	
 	public StudyPanel(JFrame parent) {
 		this.parent = parent;
+		//백그라운드 이미지 그려주기
 		try {
 			image = ImageIO.read(new File("images/study.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		// null레이
-		setBackground(Color.DARK_GRAY);
+		// null레이아웃
 		setLayout(null);
+		
+		//component setting
 		JButton btn1 = new JButton("뒤로");
 		JButton btn2 = new JButton("next");
 		txt1 = new JLabel();
 		txt2 = new JLabel();
 		txt3 = new JLabel();
+		
+		//component내용 새로채워주기
 		reload();
 
 		btn1.setBounds(265, 0, 60, 45);
@@ -66,7 +70,9 @@ public class StudyPanel extends JPanel {
 		txt2.setForeground(Color.white);
 		txt3.setForeground(Color.white);
 
+		//화면전환 리스너
 		btn1.addActionListener(addListener(0));
+		//next버튼 기능구현 리스너
 		btn2.addActionListener(new ActionListener() {
 			
 			@Override

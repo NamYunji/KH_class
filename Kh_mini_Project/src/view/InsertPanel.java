@@ -1,12 +1,12 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -30,15 +30,17 @@ public class InsertPanel extends JPanel{
 	
 	public InsertPanel(JFrame parent) {
 		this.parent = parent;
+		//백그라운드 이미지 그려주기
 		try {
 			image = ImageIO.read(new File("images/add.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// null레이
-		setBackground(Color.DARK_GRAY);
+		// null레이아웃
 		setLayout(null);
+		
+		//component setting
 		JButton btn1 = new JButton("뒤로");
 		JButton btn2 = new JButton("추가");
 		txt1 = new JTextField("영단어");
@@ -51,7 +53,9 @@ public class InsertPanel extends JPanel{
 		txt2.setBounds(73, 300, 180, 45);
 		txt3.setBounds(73, 350, 180, 45);
 
+		//화면전환 리스너
 		btn1.addActionListener(addListener(1));
+		//추가버튼 기능 구현 리스너
 		btn2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -63,8 +67,11 @@ public class InsertPanel extends JPanel{
 				txt1.setText("영단어");
 				txt2.setText("영단어 뜻");
 				txt3.setText("영단어 예문");
+				List<Eng> list = new EngController().loadEngList();
+				System.out.println("Insert패널 단어 추가됨");
+				System.out.println("list size : "+list.size());
+				System.out.println("list : "+list);
 				JOptionPane.showMessageDialog(null, "단어 추가가 완료되었습니다.");
-				System.out.println(new EngController().loadEngList());
 			}
 		});
 
@@ -75,6 +82,8 @@ public class InsertPanel extends JPanel{
 		add(txt3);
 
 	}
+	
+	//화면전환 리스너
 	public ActionListener addListener(int num){
 		ActionListener listener = new ActionListener() {
 
@@ -86,6 +95,8 @@ public class InsertPanel extends JPanel{
 		};
 		return listener;
 	}
+	
+	//백그라운드 그려주기 메서드 오버라이딩
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

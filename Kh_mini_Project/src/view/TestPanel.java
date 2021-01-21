@@ -28,7 +28,6 @@ public class TestPanel extends JPanel{
 	private JFrame parent;
 	private List<Eng> list = MainFrame.list;
 	private int size = list.size();
-	private int ran = (int)(Math.random()*size);
 	private BufferedImage image;
 	private JLabel txt1;
 	private JButton btn2;
@@ -38,15 +37,17 @@ public class TestPanel extends JPanel{
 
 	public TestPanel(JFrame parent) {
 		this.parent = parent;
+		//백그라운드 이미지 그려주기
 		try {
 			image = ImageIO.read(new File("images/test.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// null레이
-		setBackground(Color.DARK_GRAY);
+		// null레이아웃
 		setLayout(null);
+		
+		//component setting
 		JButton btn1 = new JButton("뒤로");
 		txt1 = new JLabel();
 		btn2 = new JButton();
@@ -77,6 +78,7 @@ public class TestPanel extends JPanel{
 
 	}
 	
+	//화면전환 리스너
 	public ActionListener addListener(int num){
 		ActionListener listener = new ActionListener() {
 
@@ -89,6 +91,7 @@ public class TestPanel extends JPanel{
 		};
 		return listener;
 	}
+	//정답확인 리스너
 	public ActionListener addListener(){
 		ActionListener listener = new ActionListener() {
 
@@ -98,17 +101,17 @@ public class TestPanel extends JPanel{
 				if(q.getMeaning().equals(btn.getText())) {
 					JOptionPane.showMessageDialog(null, "정답 입니다");
 				}else
-					JOptionPane.showMessageDialog(null, "오답 입니다.");
+					JOptionPane.showMessageDialog(null, "오답 입니다.\n정답 : "+q.getWord()+" = "+q.getMeaning());
 				reload();
 			}
 		};
 		return listener;
 	}
 	
+	//문제 새로 제출해주는 메서드
 	public void reload() {
 		list=new EngController().loadEngList();
 		size = list.size();	
-		ran = (int)(Math.random()*size);
 		if(list.size()!=0) {
 			Set<Integer> set = new HashSet<>();
 			// 문제 3개 색출
@@ -124,9 +127,8 @@ public class TestPanel extends JPanel{
 			for (int a : set) {
 				arr[i++] = a;
 			}
-			shuffle(arr, 10);
 			// 문제 제시 = 첫번재꺼로
-			q=list.get(arr[0]);
+			q=list.get(arr[(int)(Math.random()*3)]);
 			txt1.setText(q.getWord());
 			
 			// 배열 셔플
@@ -145,6 +147,8 @@ public class TestPanel extends JPanel{
 		}
 		
 	}
+	
+	//배열을 섞어주는 알고리즘
 	public void shuffle(int[] array, int count) {
 		int temp, temp2, randomNum1, randomNum2;
 
