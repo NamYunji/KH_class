@@ -33,9 +33,6 @@ default tablespace users;--데이터가 저장될 영역 (system|users)
 --사용자 삭제
 --drop user kh;
 
-create user kh
-identified by kh 
-default tablespace users;
 
 --테이블은 무조건 소유주가 있음, 주인없는 테이블 존재불가
 --사용자를 삭제하면, 안에 있는 table들을 모두 삭제하는 것!
@@ -51,5 +48,4 @@ default tablespace users;
 
 --grant connect resource to kh;
 grant connect,resource to kh;
-
 
