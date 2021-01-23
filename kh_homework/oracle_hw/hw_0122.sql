@@ -40,7 +40,7 @@ where description like '%99.99*%%' escape '*';
 
 
 
-select fileno 파일번호, substr(filepath, (instr(filepath, '\', -1)+1)) 파일명
+select rpad(fileno, 3, ' ') 파일번호, substr(filepath, (instr(filepath, '\', -1)+1)) 파일명
 from tbl_files;
 
 
