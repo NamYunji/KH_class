@@ -32,20 +32,33 @@ SELECT*FROM nation;
 --급여등급테이블
 SELECT*FROM sal_grade;
 
+
+
 --테이블 table | entity | relation(entity가 확장된 형태)
 --데이터를 보관하는 객체
 --열 column | field | attribute / 세로 / 데이터가 담길 형식
 --행 row | record | tuple /가로 / 실질적데이터를 담고있음
 --도메인 domain 하나의 column에서 취할 수 있는 값의 그룹(범위)
         --ex. 남/녀 , y/n , 값을 그 중에서 선택해야 함
-
+        
+        
 --테이블 명세 (describe)
---컬럼명       널여부     자료형+(해당크기)
+--컬럼명       널여부     자료형+(해당크기)  
+        
+--1. 컬럼명
 --대소문자 구분이 없음
---(empid, EMPID나 다 같음.. 그래서 언더스코어를 이용해서 단어구분
+--(empid, empId, EMPID 모두 다 같음.. -> Camel-Casing도 의미가 없음
+--> 그래서 언더스코어를 이용해서 단어구분
 -- -> emp_id, EMP_ID)
--- 값이 없을 수 있으면 null (선택, 생략가능), 값이 없을 수 없으면 not null(꼭 기입해야함, 필수)
+
+--2. 널여부
+-- 값이 없을 수 있으면 null (선택, 생략가능),
+-- 값이 없을 수 없으면 not null(꼭 기입해야함, 필수)
+--like 회원가입's 필수, 선택 표시
+
+--3. 자료형(해당크기)
 -- 자료형 종류 : 날짜형, 숫자형, 문자형
+
 DESC employee;
 DESCRIBE employee;
 
@@ -56,82 +69,131 @@ DESCRIBE employee;
 --DATA TYPE
 --==========================================
 
+--data type의 목적 : 컬럼에 지정해서 값을 제한적으로 허용하기 위함
+    --> 해당컬럼에 지정해준 type만 올 수 있도록
 --1. 문자형 varchar2|char
 --2. 숫자형 number
 --3. 날짜시간형 date|timestamp
 --4. LOB
---데이터 타입은 컬럼에 지정해서 값을 제한적으로 허용하기 위함
---해당컬럼에 지정해준 type만 올 수 있도록
+
 --ex. salary -> 숫자만 , hire_date -> 날짜만
+    --> 다른 type을 쓴다면 error!
+    
+    
 ---------------------------------------------
 --문자형
 ---------------------------------------------
---고정형 char(byte) - 최대 2000byte
--- char(10) 'korea' 영소문자는 글자당 1byte씩 처리됨 -> korea 실제데이터크기는 5byte
--- -> 10byte로 지정해두었으니, 남은공간은 알아서 채워서 10byte로 저장됨
--- 10byte를 초과할수는 없음
---문자열은 홑따음표로 감쌈
---'안녕' 한글은 글자당 3byte(11g EX)이므로 실제크기 6byte, 고정형 10byte에 저장됨
---가변형 varchar2(byte) - 최대 4000byte
---'korea' 영소문자는 글자당 1byte씩 처리됨 ->실제데이터의 크기에 맞게 가변형 5byte로 저장됨
---'안녕' 한글은 글자당 3byte(11g EX)이므로 실제크기 6byte, 가변형 6byte로 저장됨
---cf. 고정형, 가변형 모두 지정한 크기 이상의 값은 추가불가
+--영소문자 : 글자당 1byte로 처리됨
+--한글 : 글자당 3byte로 처리됨 (11g XE Version / 다른 버전은 2byte)
+--문자열 : 홑따음표(' ')로 감쌈
+--cf. 고정형, 가변형 모두 지정된 크기 이상의 값은 추가 불가
 
---가변형 long : 최대 2GB (문자형임, 숫자가 아님!)
---숫자를 써도 되는데, 문자로 저장됨
---LOB타입(Large Object) 중의 CLOB(Character LOB)는 최대 4GB까지 지원
+--1) 고정형
+
+--고정형 | char(byte) | 최대 2000byte
+
+-- char(10)
+--'korea' -> 1byte * 5 -> 5byte -> 고정형 10byte에 저장됨
+--'안녕' -> 3byte * 2 -> 6byte -> 고정형 10byte에 저장됨
+--> 실제 데이터크기와 상관없이 정해준 만큼 크기가 고정됨
+
+
+--2) 가변형
+
+--가변형 | varchar2(byte) | 최대 4000byte
+
+--'korea' -> 1byte * 5 -> 실제데이터의 크기에 맞게 가변형 5byte로 저장됨
+--'안녕' -> 3byte * 2 -> 실제데이터의 크기에 맞게 가변형 6byte로 저장됨
+-->실제 데이터크기 = 저장되는 데이터크기
+
+--가변형 | long | 최대 2GB (문자형임, 숫자가 아님!)
+
+--LOB타입(Large Object) 중의 CLOB(Character LOB)는 단일컬럼 최대 4GB까지 지원
     
+  
+  
+--세미콜론(;)
+--이전 세미콜론 끝부터 현재 세미콜론 끝까지를 실행하도록 구역을 구분하는 구분자
 
+--테이블생성
+--CREATE TABLE 테이블명 (
+--컬럼명 자료형(크기)[ 널여부 기본값 ]
+--...
+--);
 
 CREATE TABLE tb_datatype (
--- 컬럼명 자료형 널여부 기본값
-    A CHAR(10),
+    a CHAR(10),
     b VARCHAR2(10)
 );
 
---테이블조회
---select * -- *는 모든 컬럼
-SELECT A, b -- 컬럼을 지정
-FROM tb_datatype; --테이블명
 
+--테이블조회
+--SELECT 컬럼
+--FROM 테이블
+
+--SELECT * -- *는 모든 컬럼
+SELECT a, b -- 컬럼을 직접 지정
+FROM tb_datatype; --테이블명
+ 
+ 
 --데이터추가 : 한행을 추가
-INSERT INTO tb_datatype --테이블명
+--INSERT INTO 테이블명
+--VALUES(1번째 컬럼의 값, 2번째 컬럼의 값 ...)
+
+INSERT INTO tb_datatype 
 VALUES('hello', 'hello');
 
+--숫자로 기입하여도 문자형으로 저장됨
 INSERT INTO tb_datatype
 VALUES('123', '안녕');
 
+--지정 데이터크기를 벗어난 경우, 추가 불가 -> 데이터 무결성 (모든 데이터 하나하나가 정확해야 한다)
+--Error : value too large for column (actual : 15, maximum : 10)
 INSERT INTO tb_datatype
-VALUES('에브리바디', '안녕');
+VALUES('에브리바디', '안녕'); 
 
---데이터가 변경(insert, update, delete)되는 경우, 메모리상에서 먼저 처리됨
--- 메모리상에서 먼저 처리되고, 반영되는 건 아님
+
+--데이터가 변경(insert, update, delete)되는 경우,
+--not DB에 실제 적용되는 것, but 메모리상에서 먼저 처리됨 , 실제 반영되는 건 아님
 --commit을 통해 실제 database에 적용해야 한다
+--실제 database에 적용하는 명령어 : COMMIT
+--한번 COMMIT한 것은 복구할 수 없음
 COMMIT;
+--ROLLBACK; --마지막 commit시점 이후 변경사항은 취소된다
 
---lengthb(컬럼명); number - 저장된 데이터의 실제크기를 리턴
+
+--lengthb(컬럼명): number - 저장된 데이터의 실제크기를 리턴
 SELECT A, lengthb(A), b, lengthb(b)
-FROM tb_datatype;
+FROM tb_datatype; 
+
 
 ---------------------------------------------
 --숫자형
 ---------------------------------------------
---정수, 실수를 구분하지 않는다
+
 --number(p, s)
 --p : 표현가능한 전체 자리수
---s : p 중 소수점 이하 자리수
+--s : p 개수 중 소수점 이하 자리수
+--cf. 표현가능한 정수 자리수 = p - s
+    --0, 양수 : 소수점 이하
+    --음수 : 소수점 이상
+
+--정수, 실수를 구분하지 않는다 (int, double x)
+--지정해준 자리수까지 반올림된다
+
 /*
 값 1234.567 
 --------------
-number      1234.567
-number(7)       1235
- (why? 7, 0이랑 똑같음 소수점이하 자리수를 설정해주지 않으면, 0 이 생략됨)
-number(7, 1) 1234.6 --자동반올림
-number(7, -2) 1200 --반올림
+number      1234.567 --저장에 제한이 없음
+number(7)       1235 --소수점 이하 자리수는 허용하지 않음. 반올림되어 정수까지만 표현됨
+ (why? 소수점이하 자리수를 설정해주지 않으면, 0 이 생략됨 -> 7, 0과 같음)
+number(7, 1) 1234.6 --소수점 이하 2의 자리에서 반올림 -> 소수점 1까지만 표현됨
+number(7, -2) 1200 --소수점 이상 2의 자리에서 반올림됨
 */
 
 
---rollback; --마지막 commit시점이후 변경사항은 취소된다
+
+
 CREATE TABLE tb_datatype_number (
     A NUMBER,
     b NUMBER(7),
@@ -143,18 +205,23 @@ SELECT * FROM tb_datatype_number;
 
 INSERT INTO tb_datatype_number 
 VALUES(1234.567, 1234.567, 1234.567, 1234.567);
+--출력 : 1234.567, 1235, 1234.6, 1200
 
---지정한 크기보다 큰 숫자는 ORA-01438: value larger than specified precision allowed for this column 유발
+--지정한 크기보다 큰 자리수의 숫자를 넣으면
+--Error : value larger than specified precision allowed for this column
+
+--소수점 이하의 자리수는 지정 자리수보다 넘치면 잘라내면 되지만,
+--소수점 이상의 자리수는 잘라낼 수 없음
 INSERT INTO tb_datatype_number 
 VALUES(1234567890.123, 1234567.567, 12345678.5678, 1234.567);
 
 DROP TABLE tb_datatype_number;
 
 CREATE TABLE tb_datatype_number (
-    A NUMBER,
+    a NUMBER,
     b NUMBER(7),
-    C NUMBER(7,1),
-    D NUMBER(7,-2)
+    c NUMBER(7,1),
+    d NUMBER(7,-2)
 );
 
 SELECT * FROM tb_datatype_number;
@@ -162,14 +229,13 @@ SELECT * FROM tb_datatype_number;
 INSERT INTO tb_datatype_number 
 VALUES(1234.567, 1234.567, 1234.567, 1234.567);
 
---지정한 크기보다 큰 숫자는 ORA-01438: value larger than specified precision allowed for this column 유발
+--지정한 크기보다 큰 숫자는 value larger than specified precision allowed for this column 유발
 INSERT INTO tb_datatype_number 
 VALUES(1234567890.123, 1234567.567, 12345678.5678, 1234.567);
 
 
 COMMIT;
---마지막 commit시점 이후 변경사항은 취소된다.
-ROLLBACK; 
+
 
 
 
@@ -177,40 +243,67 @@ ROLLBACK;
 --날짜시간형
 ---------------------------------------------
 
---date 년월일시분초 (보통의 경우)
---timestamp 년월일시분초 밀리초 지역대 (정밀하게 다뤄야할 경우)
+--1) date - sysdate
+--년월일시분초 (보통의 경우)
+--2) timestamp - systimestampe
+--년월일시분초 밀리초 지역대 (정밀하게 다뤄야할 경우)
 
 CREATE TABLE tb_datatype_date (
-    A DATE,
+    a DATE,
     b TIMESTAMP
  );
  
- --문자열로 표현하는 함수 : to_char
- SELECT to_char(A, 'yyyy/mm/dd hh24:mi:ss'), b
+SELECT *
 FROM tb_datatype_date;
  
 INSERT INTO tb_datatype_date
 VALUES (sysdate, systimestamp);
+--a 출력 : 21/01/26 (년월일만 출력되어 보임)
+--b 출력 : 21/01/26 03:29:35.108000000
+
+--to_char : 날짜/숫자를 문자열로 표현하는 함수
+--TO_CHAR(컬럼, '표현할 형식') 
+-- 해당 컬럼을 지정한 포맷으로 표현함
+SELECT to_char(a, 'yyyy/mm/dd hh24:mi:ss'), b
+FROM tb_datatype_date;
+--a 출력 : 2021/01/26 03:29:35
+--b 출력 : 21/01/26 03:29:35.108000000
+
+
+--날짜형은 산술연산이 가능하다!
+--날짜형 - 날짜형 = 숫자(1=하루)
+--날짜형 +- 숫자(=하루) = 날짜형
+
+
+--날짜형 +- 숫자(=하루) = 날짜형
+ SELECT to_char(a , 'yyyy/mm/dd hh24:mi:ss'),
+              to_char(a + 1, 'yyyy/mm/dd hh24:mi:ss'),
+              to_char(a - 1, 'yyyy/mm/dd hh24:mi:ss'),
+              b
+FROM tb_datatype_date;
+--1컬럼 출력 : 2021/01/26 03:29:35
+--2컬럼 출력 : 2021/01/27 03:29:35
+--3컬럼 출력 : 2021/01/25 03:29:35
+--4컬럼 출력 : 21/01/26 03:29:35.108000000
+
 
 --날짜형 - 날짜형 = 숫자(1=하루)
---날짜형 +- 숫자(1=하루) = 날짜형
- SELECT to_char(A , 'yyyy/mm/dd hh24:mi:ss'),
-              to_char(A + 1, 'yyyy/mm/dd hh24:mi:ss'),
-             to_char(A - 1, 'yyyy/mm/dd hh24:mi:ss'),
-            b
+SELECT sysdate - a 
 FROM tb_datatype_date;
-
---날짜형-날짜형 = 숫자(1=하루)
-SELECT sysdate - A --0.009일차
-FROM tb_datatype_date;
+--출력 : 0.009일차
 
 --to_date : 문자열을 날짜형으로 변환하는 함수
-SELECT TO_DATE('2021/01/23') - A
+--TO_DATE('날짜형으로 변환해줄 문자열')
+--년월일만 써주면 자정으로 세팅됨
+SELECT TO_DATE('2021/01/27') - a
 FROM tb_datatype_date;
+--출력 : 0.854(27일 자정이 되기까지 0.854일 남음)
+
 
 --dual 가상테이블 -> create하지 않아도 가능
 SELECT (sysdate + 1) - sysdate
 FROM dual;
+--출력 : 1 
 
 --===================================================
 --DQL (Data Query Language)
@@ -218,17 +311,18 @@ FROM dual;
 --데이터 조회(검색)을 위한 언어
 --select문
 --쿼리 조회결과를 ResultSet (결과집합)이라고 하며, 0행以上을 포함한다
+    --조회된 결과가 0행일 수도 있음
 --from절에 조회하고자 하는 테이블 명시
 --where절에 의해 특정행을 filtering 가능 (특정행을 추릴수 있음)
---select절에 의해 컬럼을 filtering 또는 추가 가능
---order by절에 의해 행을 정렬할 수 있다 (어떤 컬럼기준으로 행을 정렬할지)
+--select절에 의해 컬럼을 filtering 또는 추가(가공) 가능
+--order by절에 의해 행정렬 가능 (어떤 컬럼기준으로 행을 정렬할지)
 /*
-select 컬럼名 (5)                      필수
-from 테이블名 (1)                     필수
-where 조건点 (2)                     선택
-group by 그룹기준 컬럼 (3)    선택
-having 그룹조건点 (4)             선택
-order by 정렬기준컬럼 (6)      선택
+select 컬럼名 (5)                   필수
+from 테이블名 (1)                   필수
+where 조건点 (2)                   선택
+group by 그룹기준 컬럼 (3)     선택
+having 그룹조건点 (4)            선택
+order by 정렬기준컬럼 (6)       선택
 */
 
 SELECT *
@@ -271,37 +365,52 @@ ORDER BY emp_name ASC; --오름차순
 ----------------------------------------------------------------------------
 
 --select절에 쓸 수 있는 것
---table에 존재하는 컬럼
---만들어 낸 가상컬럼(산술연산 가능)
---literal 자체를 찍을 수 있음
+
+--col
+--1) table에 이미 존재하는 컬럼
+--2) 만들어 낸 가상컬럼(산술연산 가능)
+--3) literal 자체를 찍을 수 있음
+
 --각각의 컬럼은 별칭(alias)를 가질 수 있음
---(as) (")별칭(") (as와 쌍따음표 생략가능)
---if 별칭 생략하면, 그냥 컬럼명으로 들어감
+--col (as) (")alias(") (as와 쌍따음표 생략가능)
+--if 별칭 생략하면, 원래의 컬럼명으로 지정됨
 --별칭에 공백, 특수문자가 있거나 숫자로 시작하는 경우 쌍따음표 필수
---가상컬럼 : 실제로는 존재하지 않지만, 마치 존재하는 것처럼 만들 수 있음
-SELECT emp_name AS "사원명",
-            phone "전화번호",
-            salary 급여,
-            salary *12 "연 봉",--공백이 있음  --가상컬럼
-            123 "1abc",--숫자로 시작  --임의의 값
-            '안녕' --임의의 값
 
+--가상컬럼 : 실제로는 존재하지 않지만, 마치 존재하는 것처럼 만들 수 있는 col
+--또한 별칭을 가질 수 있음
+
+--alias
+SELECT emp_name AS "사원명", -- as + " "
+            phone "전화번호", -- " "
+            salary 급여, -- 모두 생략
+            salary "급 여", -- 공백이 있는 경우, 쌍따음표(" ") 생략 불가
+            salary "1급여",--숫자로 시작하는 경우, 쌍따음표(" ") 생략 불가
+            salary 급여1, -- 숫자를 포함하지만, 맨 처음에 오는 경우가 아니라면, 쌍따음표(" ")생략 가능
+            salary "급*여" --특수문자를 포함한 경우, 쌍따음표(" ") 생략 불가
 FROM employee;
 
---실급여 : salary + (Salary * bonus)
+--가상컬럼
+SELECT salary 급여, --이미 존재하는 컬럼
+             salary *12 연봉, --가상컬럼 (컬럼 가공)
+             123, --literal 자체 (임의의 값) / 숫자
+             '안녕' --literal 자체 (임의의 값) / 문자열
+FROM employee;
+
+
+--실급여 : salary + (salary * bonus)
 SELECT emp_name,
-        salary,
-        bonus,
-        salary + (salary * bonus) 실급여
+             salary,
+             bonus,
+             salary + (salary * bonus) 실급여
 FROM employee;
 
---null값하고는산술연산 불가
+--null값하고는 산술연산 불가
 --why? 결과는 무조건 null이기 때문
 --null%1 (나머지연산) 불가
 SELECT NULL + 1, 
-            NULL  - 1, 
-            NULL * 1, 
-            NULL / 1
+             NULL  - 1, 
+             NULL * 1, 
+             NULL / 1
 FROM dual; --1행짜리 가상테이블
 
 --null처리 함수 : nvl(처리해줄 col명, null일때 처리해줄 값)
@@ -314,9 +423,9 @@ FROM employee;
 
 
 SELECT emp_name,
-        salary,
-        bonus,
-        salary + (salary * nvl(bonus, 0)) 실급여
+             salary,
+             bonus,
+             salary + (salary * nvl(bonus, 0)) 실급여
 FROM employee;
 
 --중복제거용 keyword : distinct
@@ -334,6 +443,8 @@ FROM employee;
 --문자 연결연산자 ||
 --더하기(+) 사용불가, 산술연산만 가능하다
 --더하기 연산이면 오라클은 숫자라고 생각하고, 연산했다가, 숫자가 아니면 오류!
+
+--Error : The specified number was invalid.
 --select '안녕' + '하세요'
 --from dual;
 
@@ -352,12 +463,12 @@ FROM employee;
 /*
 연산자
 (=은 하나만 써줌)
-=                           같은가
-!=   ^=     <>         다른가
->   <   >= <=           크기비교 (단순숫자, 날짜형)
-between .. and      범위연산 (~이상 ~이하인가) (상한 값과 하한 값의 경계도 포함)
-like , not like         문자패턴연산
-is null , is not null    null여부
+=                               같은가
+!=   ^=     <>               다른가
+>   <   >= <=               크기비교 (단순숫자, 날짜형)
+between .. and          범위연산 (~이상 ~이하인가) (상한 값과 하한 값의 경계도 포함)
+like , not like           문자패턴연산
+is null , is not null   null여부
 in , not in                 값목록에 포함여부
 
 and             A이면서 B인가
@@ -460,13 +571,14 @@ FROM employee
 --where dept_code in 'D6' or dept_code in 'D8'; 
 --괄호 안에 값 나열하면 됨 (개수 제한 없음)
 WHERE dept_code IN ('D6' , 'D8'); 
+--in - or
 
 --부서코드가 D6 또는 D8이 아닌 사원 조회
 SELECT emp_name, dept_code
 FROM employee
 --where dept_code != 'D6' and dept_code != 'D8'; --D6도 아니면서 D8도 아니어야 하니까, AND사용
 WHERE dept_code NOT IN ('D6' , 'D8'); 
-
+--not in - and
 
 --in이나 not in이냐는 이게 아니면 저거 이니까, in과 not in을 합치면 전체일까? no!
 --부서가 지정되지 않은 null값은 포함되지 않음!, null은 산술연산 불가, 또한 비교대상에도 제외됨
@@ -488,6 +600,8 @@ WHERE dept_code IS NOT NULL; --null이 아닌 사원
 SELECT emp_name, dept_code
 FROM employee
 WHERE dept_code NOT IN ('D6' , 'D8') OR dept_code IS NULL; 
+
+
 
 --nvl버전 (null을 특정값으로 대치해서 대립값을 만듦)
 --select emp_name, dept_code
@@ -524,11 +638,11 @@ FROM employee
 --order by dept_code, emp_name; --두개의 기준컬럼을 세움, 앞에 것 먼저 처리, 뒤에 것을 다음으로 처리
 ORDER BY salary DESC; --많은 것부터 하려면 desc
 
---select절에 alias 사용가능
+--select절의 alias를 order by절에서 사용가능
 --alias가 반영될 수 있는 것은 order by절에만 가능
 --why? 처리순서가 select -> order by
 SELECT emp_id 사번,
-        emp_name 사원명
+             emp_name 사원명
 FROM employee
 ORDER BY 사원명; --컬럼명 그대로 써줘도 되지만, alias를사용해줘도 됨
 
@@ -593,9 +707,9 @@ FROM employee;
 
 SELECT instr('kh정보교육원 국가정보원', '정보'), -- -> 3을 리턴 --> 문자열에서 정보의 위치 : 3번
         instr('kh정보교육원 국가정보원', '안녕'), -- -> 0을 리턴 --> 값이 없으면 0리턴
-        instr('kh정보교육원 국가정보원', '정보', 5), --어디서 부터 찾을지 지정 (5번지부터 찾기 시작해서, 정보라는 것을 찾고, 정보의 첫번째 부터의 인덱스를 구함)
+        instr('kh정보교육원 국가정보원', '정보', 5), --어디서 부터 찾을지 지정 (5번지부터 찾기 시작해서, '정보'라는 것을 찾고, '정보'ㅛ 의 첫번째 부터의 인덱스를 구함)
         instr('kh정보교육원 국가정보원 정보문화사', '정보', 1, 3), --1번 인덱스부터 찾되, 3번째 나온 정보를 찾음
-        instr('kh정보교육원 국가정보원', '정보', -1) --음수면 뒤의 정보부터 찾아서, 그 정보의 인덱스 번호를 리턴함
+        instr('kh정보교육원 국가정보원', '정보', -1) --음수면 뒤의 '정보'부터 찾아서, 그 '정보'의 인덱스 번호를 리턴함
 FROM dual;
 
 --email 컬럼값 중 '@'의 위치는? (이메일, 인덱스)
@@ -692,6 +806,7 @@ FROM dual;
 
 
 
+
 --****************************************
 --      c. 날짜처리함수
 --****************************************
@@ -764,8 +879,8 @@ FROM dual;
 
 --to_char(date | number[, format])
 SELECT to_char(sysdate, 'yyyy/mm/dd (dy) hh24:mi:ss') NOW, -- date format API 참고하기
-          to_char(sysdate, 'fmyyyy/mm/dd (dy) hh24:mi:ss') NOW, --fm : 형식문자로 인한 앞글자 0을 제거
-          to_char(sysdate, 'yyyy"년" mm"월" dd"일"') NOW --한글로 표현하고 싶을때, 인식하지 못하는 한글을 쌍따음표로 감싸주기
+              to_char(sysdate, 'fmyyyy/mm/dd (dy) hh24:mi:ss') NOW, --fm : 형식문자로 인한 앞글자 0을 제거
+              to_char(sysdate, 'yyyy"년" mm"월" dd"일"') NOW --한글로 표현하고 싶을때, 인식하지 못하는 한글을 쌍따음표로 감싸주기
 FROM dual;
 
 
