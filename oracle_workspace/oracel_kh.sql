@@ -1194,3 +1194,236 @@ SELECT MAX(salary), MIN(salary),
             MAX(emp_name), MIN(emp_name) --max : 가나다 순에서 제일 뒤, min : 가나다 순에서 제일 앞
 FROM employee;
 
+
+--나이 추출시 주의점
+--한국식나이 : 현재년도 - 탄생년도 + 1
+
+Select Emp_Name,
+            Emp_No,
+            Substr(Emp_No, 1, 2),
+--           extract(year from to_date(substr(emp_no, 1, 2), 'yy')),
+--           extract(year from sysdate) -  extract(year from to_date(substr(emp_no, 1, 2), 'yy')) + 1,
+--           extract(year from to_date(substr(emp_no, 1, 2), 'rr')),
+--           extract(year from sysdate) -  extract(year from to_date(substr(emp_no, 1, 2), 'rr')) + 1
+               Extract(Year From Sysdate) -  
+               (Decode(Substr(Emp_No, 8, 1), '1', 1900, '2', 1900, 2000) + Substr(Emp_No, 1, 2)) + 1 Age
+From Employee;
+--yy는 현재년도 기준으로 현재세기(2000~2099)에서 추측한다.
+--rr은 현재년도 기준으로 앞 뒤 50년단위로(1950~2049) 추측한다.
+
+
+
+
+-------------------------------------------------
+--GROUP BY
+-------------------------------------------------
+--지정컬럼기준으로 세부적인 그룹핑이 가능하다
+--group by구문이 없다면 전체를 하나의 그룹으로 취급한다
+--group by절에 명시한 컬럼만 select절에 사용가능
+--group by절에는 일반컬럼 | 가공컬럼 모두 가능
+--콤마(,) 이용하여 group by를 여러개 해줄 수 있음
+   --두개 이상의 컬럼을 그룹핑 가능
+
+--아무런 그룹지정이 없기 때문에, 전체를 하나의 그룹으로 처리한 것
+select sum(salary)
+from employee
+group by (); --이것과 동일함
+
+
+--전체 24행
+select emp_name, dept_code, salary
+from employee;
+
+--전체 24행 중, dept_code가 같은 것끼리 묶어냄
+--그룹핑 된 것 중 salary를 더해 결과값을 냄
+--부서별로 급여의 합계를 더함
+select dept_code, sum(salary)
+from employee
+group by dept_code; 
+
+
+--group 함수가 아닌 컬럼은 group by절에 명시한 컬럼만 select절에 사용가능
+select dept_code, 
+          emp_name,
+          sum(salary)
+from employee
+group by dept_code; 
+--Error : not a GROUP BY expression
+
+select job_code, avg(salary)
+from employee
+group by job_code
+order by job_code;
+
+--부서코드별 사원수 조회
+--dept_code는 null값을 count하지 않음
+--*은 null값을 count함 why? 전체행을 하나로 취급하기 때문
+SELECT DEPT_CODE, COUNT(DEPT_CODE), COUNT(*)
+FROM EMPLOYEE
+GROUP BY DEPT_CODE;
+
+--부서코드별 사원수, 급여평균, 급여합계 조회
+SELECT DEPT_CODE, COUNT(DEPT_CODE),
+             to_char(trunc(avg(salary), 1), 'fml9,999,999,999.0'),
+             to_char(sum(salary), 'fml9,999,999,999')
+FROM EMPLOYEE
+GROUP BY DEPT_CODE;
+
+--cf. 테이블의 정렬을 보고, 숫자인지 문자열인지 확인가능
+    --오른쪽 정렬 : 숫자, 왼쪽 정렬 : '문자열'
+
+
+--가상컬럼으로 행 구분도 가능
+--성별 인원수, 평균급여 조회
+--각 행이 남, 여로 구분되어 그룹핑됨
+select decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender,
+            count(*) count,
+            to_char(trunc(avg(salary), 1), 'fml9,999,999,999.0') avg
+from employee
+group by decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여');
+
+
+--직급코드 J1을 제외하고, 입사년도별 인원수 조회
+select extract(year from hire_date)||'년' 입사년도,
+           count(*)||'명' 인원수
+from employee
+where job_code != 'J1'
+group by extract(year from hire_date)
+order by 입사년도;
+
+
+--두개 이상의 컬럼을 그룹핑 가능 (순서대로 처리됨)
+--같은 부서끼리 그룹핑, 그 부서내에서 직급이 같은 것끼리 또 그룹핑
+--null도 하나의 group으로 인식, null을 없애기 위한 nvl처리
+select nvl(dept_code, '인턴') dept_code,
+           job_code, count(*)
+from employee
+group by dept_code, job_code
+order by 1, 2;
+
+--부서별 성별 인원수
+select nvl(dept_code, '인턴') dept_code,
+           decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender,
+           count(*) "num/gender"
+from employee
+group by dept_code, decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여')
+order by 1, 2;
+
+
+
+-------------------------------------------------
+--HAVING
+-------------------------------------------------
+--group by 이후 조건절
+--where절도 조건절이었지만,
+--group by 이후 having을 통해 다시 filtering 가능함
+--그룹핑한 결과에 대해 다시 조건을 붙이는 것임 -> having 단독으로 사용 불가
+
+--부서별 평균 급여가 3,000,000원 이상인 부서만 조회
+select dept_code,
+            trunc(avg(salary)) avg
+from employee
+group by dept_code
+having avg(salary) >= 3000000;
+
+--직급별 인원수가 3명이상인 직급 조회
+select job_code 직급, count(*) 인원수
+from employee
+group by job_code
+having count(*) >= 3;
+
+
+--관리하는 사원이 두명 이상인 manager의 id, 관리하는 사원수 조회
+
+--방법1. where절로 행을 제외한 후 group by
+select manager_id id, count(*) "관리하는 사원수"
+from employee
+where manager_id is not null
+group by manager_id
+having count(*) >= 2
+order by id;
+
+-- 방법2. group by한 후, manager_id를 count함 -> 그룹함수이니까 null은 count되지 않음
+select manager_id id, count(*) "관리하는 사원수"
+from employee
+where manager_id is not null
+group by manager_id
+having count(manager_id) >= 2
+order by id;
+
+
+--group by절에서 사용하는 함수
+--rollup | cube(col1, col2 ....)
+--사용 이유 : 그룹핑 결과에 대해 소계(합계)를 제공
+
+--rollup : 지정컬럼에 대해 단방향 소계 제공
+--cube : 지정컬럼에 대해 양방향 소계 제공
+--지정컬럼이 하나인 경우, rollup/cube의 결과는 같다
+--지정컬럼이 두개 이상부터, 쓰임에 차이가 있다!
+
+--rollup
+select dept_code, count(*)
+from employee
+group by rollup(dept_code);
+--	출력 : (null) 24 (행 추가됨)
+
+--컬럼이 하나일때는 cube도 rollup과 결과가 같음
+select dept_code, count(*)
+from employee
+group by cube(dept_code);
+--	출력 : (null) 24 (행 추가됨)
+
+--grouping() 함수
+--실제데이터 | 집계 데이터 컬럼을 구분하는 함수
+--실제데이터 : 0리턴 | 집계데이터 : 1리턴
+
+
+--nvl처리만 해줄 경우
+select nvl(dept_code, '인턴') , count(*)
+from employee
+group by rollup(dept_code);
+--인턴 2
+--인턴 24 --소계도 같이 '인턴'처리됨
+
+select dept_code, decode(grouping(dept_code), 0, nvl(dept_code, '인턴'), 1, '합계') dept_code, count(*)
+from employee
+group by rollup(dept_code);
+
+
+
+
+--두개 이상의 컬럼을 rollup 또는 cube에 전달하는 경우
+
+--rollup 사용
+select decode(grouping(dept_code), 0, nvl(dept_code, '인턴'), '합계') dept_code, 
+            decode(grouping(job_code), 0, job_code, '소계') job_code,
+            count(*)
+from employee
+group by rollup(dept_code, job_code)
+order by 1, 2;
+
+
+--출력 : 부서코드별 소계가 나옴
+--전체합계,
+--그냥 dept_code gropu by 했을때의 결과만 돌려줌
+
+
+
+--cube 사용
+select decode(grouping(dept_code), 0, nvl(dept_code, 'intern'), '소계') dept_code,
+            decode(grouping(job_code), 0, job_code, '소계') job_code,
+            count(*)
+from employee
+group by cube(dept_code, job_code)
+order by 1, 2;
+--전체합계,
+--dept_code group by 했을때의 소계
+--job_code group by 했을때의 소계
+
+
+
+
+--===============================================
+--DQL2
+--===============================================
+

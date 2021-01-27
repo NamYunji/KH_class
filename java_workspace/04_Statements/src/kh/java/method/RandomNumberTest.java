@@ -94,6 +94,9 @@ public class RandomNumberTest {
 		
 		//앞/뒤를 랜덤으로 둠
 		int coin = (int)(Math.random() * 2) + 1;
+		String result = user == coin? "정답" : "오답";
+		System.out.println(result);
+		System.out.println("user =" + user + ", coin = " + coin);
 	}
 
 }

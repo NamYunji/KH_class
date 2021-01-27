@@ -86,6 +86,10 @@ DEFAULT TABLESPACE USERS;
 --connect, resource 부여
 GRANT CONNECT, RESOURCE TO chun;
 
-
+-- role(권한 묶음)에 포함된 권한 확인
+--DataDictionary : db의 각 객체에 대한 메타정보를 확인할 수 있는 read-only 테이블
+SELECT *
+FROM dba_sys_privs
+WHERE grantee IN ('CONNECT', 'RESOURCE');
 
 
