@@ -145,6 +145,5 @@ having count(class_no) >= 2;
 
 select department_no, class_type, count(*)
 from tb_class
-where class_type = '전공선택'
 group by department_no, class_type
-having count(class_no) >= 10;
+having count(class_no) >= 10 and class_type = '전공선택';  

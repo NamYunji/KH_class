@@ -1197,7 +1197,8 @@ FROM employee;
 
 --나이 추출시 주의점
 --한국식나이 : 현재년도 - 탄생년도 + 1
-
+--만나이 : 생일이 지나면, 현재년도 - 탄생년도 + 1
+            --생일이 안지나면, 현재년도 - 탄생년도
 Select Emp_Name,
             Emp_No,
             Substr(Emp_No, 1, 2),
@@ -1426,4 +1427,91 @@ order by 1, 2;
 --===============================================
 --DQL2
 --===============================================
+
+
+
+--relation으로 합쳐 만들어질 것을 대비하여 entity로 나누어서 관리함
+--entity와 entity를 합쳐 relation을 만드는 방법
+--가로 방향으로 합치기 : join (행 + 행)
+--세로 방향으로 합치기 : union (열 + 열)
+--cf. union은 열과 열을 그대로 붙임
+--cf. join은 행대로 그대로 붙이지 않고, 엇갈려서도 합칠수 있음, , 한줄 한줄을 붙여서, 긴 한 줄을 만듦
+--실제로 존재하는 테이블이 아니고, 잠깐 합쳐져서 출력되는 것 뿐, create과정 필요x
+
+--===============================================
+--JOIN
+--===============================================
+--두개 이상의 테이블을 연결해서 하나의 가상테이블(relation)을 생성
+--cf. 가상 테이블이라고는 하지만, 여전히 결과집합이긴 함
+--기준컬럼을 가지고 행을 연결시킴
+
+
+--송중기 사원의 부서명을 조회
+select dept_code
+from employee
+where emp_name = '송종기';
+--출력 : D9
+--부서명은 없고 dept_code가 있음
+--이 dept_code를 가지고 department 테이블에 가면 알 수 있음
+
+select dept_title
+from department
+where dept_id = 'D9';
+--출력 : 총무부
+
+--만약 employee테이블과 department테이블이 하나의 테이블이었다면?
+--D9이 총무부라고 적혀있었다면...?
+--하나의 쿼리 안에서 찾아볼 수 있었을텐데..
+
+--JOIN
+select *
+from employee E join department D
+    on E.dept_code = D.dept_id; --조건
+    
+--출력 : dept_id, dept_title, location_id가 추가됨
+--but 행은 여러번 반복됨
+
+--cf. 테이블에서 alias 사용가능
+--as나 쌍따음표 사용 x
+
+
+--어떻게 합쳐진건지
+select * from employee;
+select * from department;
+
+
+select D.dept_title
+from employee E join department D
+        on E.dept_code = D.dept_id
+where E.emp_name = '송종기';
+
+
+--join 종류
+--1. EQUI-JOIN | 동등조인 | 동등비교조건(=)에 의한 조인 
+   --기존 컬럼 값이 같으면 합쳐라
+   --대부분의 JOIN이 EQUI-JOIN을 사용
+--2. NON-EQUI JOIN | 동등비교조건이 아닌(between...and..., in, not in, !=, like) 조인
+   -- =이 아니면 다 NON-EQUI JOIN에 해당함
+   
+--join 문법
+--1. ANSI 표준문법 : 모든 DBMS 공통문법
+--2. Vendor별 문법 : DBMS별로 지원하는 문법. 오라클전용문법도 있음
+        --다른 DBMS program에서 사용할 수 없음
+
+
+--equi-join 종류
+/*
+1. equi join
+
+2. outer join
+
+3. cross join
+
+4. self join
+
+5. multiple join
+
+
+*/
+
 
