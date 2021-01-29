@@ -115,7 +115,7 @@ WHERE substr(student_address, 1, 2) = '전주'
             AND absence_yn = 'N';
             
 -------------------------------------------------
---hw_0127
+--class_0127
 -------------------------------------------------
             
 --1. 학과테이블에서 계열별 정원의 평균을 조회(정원 내림차순 정렬)
@@ -315,4 +315,41 @@ where STUDENT_NO = 'A112113'
 group by rollup(substr(TERM_NO,1,4), 
              substr(TERM_NO,5,2))
 order by 1,2;   
+
+
+
+
+-------------------------------------------------
+--class_0128
+-------------------------------------------------
+
+--학번/학생명/담당교수명 조회
+--1. 두 테이블의 기준컬럼 파악
+--2. on조건절에 해당되지 않는 데이터파악
+
+select * from tb_student; --coach_professor_no
+select * from tb_professor; --professor_no
+
+--담당교수가 배정되지 않은 학생이나 교수 제외 - inner
+--담당교수가 배정되지 않은 학생 포함 left
+--담당학생이 없는 교수 포함 right
+
+select count(*)
+from tb_student S right join tb_professor P
+    on S.coach_professor_no = P.professor_no;
+    
+--1. 교수배정을 받지 않은 학생 조회
+select count(*)
+from tb_student
+where coach_professor_no is null;
+
+--2. 담당 학생이 한명도 없는 교수 조회
+--전체 교수 수
+select count(*)
+from tb_professor;
+
+--중복없는 담당교수 수
+select count(distinct coach_professor_no) --113
+from tb_student;
+
 

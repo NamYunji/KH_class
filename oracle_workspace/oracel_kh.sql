@@ -1480,6 +1480,8 @@ from employee E join department D
 where E.emp_name = '송종기';
 
 
+
+
 --join 종류
 --1. EQUI-JOIN | 동등조인 | 동등비교조건(=)에 의한 조인 
    --기존 컬럼 값이 같으면 합쳐라
@@ -1488,24 +1490,180 @@ where E.emp_name = '송종기';
    -- =이 아니면 다 NON-EQUI JOIN에 해당함
    
 --join 문법
---1. ANSI 표준문법 : 모든 DBMS 공통문법
+--1. ANSI 표준문법 : 모든 DBMS 공통문법 | .join 키워드 사용
 --2. Vendor별 문법 : DBMS별로 지원하는 문법. 오라클전용문법도 있음
         --다른 DBMS program에서 사용할 수 없음
+        --오라클 전용문법 | ,(콤마) 키워드 사용
+
+--컬럼명이 두 테이블에 유일하다면 별칭을 생략할 수도 있음
+--but 되도록이면 별칭을 써주기
+
+--테이블 별칭
+
+
+    
+    --employee테이블의 job_code와 job테이블의 job_code가 연결되어 있음
+select * from employee;
+select * from job;
+
+--별칭을 뺀다면 테이블명을 그대로 적어줌
+     --why? 따로 부를 이름이 없기 때문
+select *
+from employee join job
+    on employee.job_code = job.job_code;
+    
+--Error : "column ambiguously defined"
+--어디에 있는 job_code인지 모르기 때문
+select emp_name, job_code, job_name
+from employee join job
+    on employee.job_code = job.job_code;
+    
+--테이블명을 반드시 명시해줘야함
+--but 테이블명을 일일이 써주기란 번거로움 -> 별칭 사용
+select employee.emp_name, job.job_code, job.job_name
+from employee join job
+    on employee.job_code = job.job_code;
+    
+select E.emp_name, J.job_code, J.job_name
+from employee E join job J
+    on E.job_code = j.job_code;
+    
+--기준 컬럼명이 좌우테이블에서 동일하다면, on 대신 using 사용가능
+--E.jobcode, J.jobcode와 같은 해당컬럼에 별칭을 사용할 수 없다
+--why? 공통된 것을 하나로 합쳐서 한번만 출력하기 때문
+--ORA-25154: column part of USING clause cannot have qualifier
+select E.emp_name,
+             job_code, --별칭 사용 불가
+             J.job_name
+from employee E join job J
+    using(job_code);
+--출력 : using에 사용하는 컬럼이 맨 앞컬럼으로 빼내면서, 중복된 것을 한번만 출력해줌
+
 
 
 --equi-join 종류
 /*
-1. equi join
+1. equi join 교집합 (공통된 부분만 추려냄)
 
-2. outer join
+2. outer join 합집합
+    - left outer join 좌측테이블 기준 합집합
+    - right outer join 우측테이블 기준 합집합
+    - full outer join 양테이블 기준 합집합
 
 3. cross join
+    두테이블간의 조인할 수 있는 최대 경우의 수를 표현
+    (행과 행이 만날 수 있는 모든 경우를 보여줌)
 
 4. self join
+    같은 테이블의 조인
 
 5. multiple join
+    3개 이상의 테이블을 조인
 
 
 */
+
+-------------------------------------------------
+-- INNER JOIN
+-------------------------------------------------
+--가장 기본이 되는 조인
+--A (inner) join B
+--그냥 join만 써도 됨 why? 기본값 : inner join
+
+--교집합
+--어떤 행들이 결과집합에서 제외되는가?
+--1. 기준 컬럼값이 null인 경우
+--2. 기준 컬럼값이 상대테이블에 存在하지 않는 경우
+
+
+select *
+from employee E join department D
+    on E.dept_code = D.dept_id;
+--출력 : 22행 (but 원래 테이블의 전체 행수 : 24행)
+--1. employee에서 dept_code가 null인 행 (인턴사원) 제외
+--2. department에서 dept_id가 D3, D4, D7 제외
+        --why? 상대테이블에 D3,  D4, D7인 값이 不存在
+        
+select *
+from employee;
+
+select *
+from employee E join job J
+    on E.job_code = J.job_code;
+--출력 : 24행 - 제외된 행이 없음
+
+
+-------------------------------------------------
+-- OUTER JOIN
+-------------------------------------------------
+    
+--1. LEFT (outer) join
+--좌측테이블 기준
+--좌측테이블의 모든 행 포함, 우측테이블에는 on조건절에 만족하는 행만 포함
+select *
+from employee E left outer join department D
+    on E.dept_code = D.dept_id;
+--출력 : 24행  = 22 + 2
+--좌측 테이블의 모든 행이 포함되었기 때문에
+--우측테이블의 dept_id, dept_title, location_id가 두 행이 null처리되어 나옴
+    
+
+--2. RIGHT (outer) join
+--우측테이블 기준
+--우측테이블 모든 행이 포함, 좌측테이블에는 on조건절에 만족하는 행만 포함
+select *
+from employee E right join department D
+    on E.dept_code = D.dept_id;
+
+
+ --3. FULL (outer) join
+ --완전 join
+ --좌우 테이블 모두 포함
+ 
+ select *
+ from employee E full join department D
+    on E.dept_code = D.dept_id;
+--출력 : 27행 (교집합 + 2(left) + 3(right))
+--dept_code의 하동운, 이오리 포함
+--D3,  D4, D7포함
+
+--기준 컬럼이 무엇인지 파악
+--기준 컬럼에 해당하지 않는 것이 있는지 파악
+
+--사원명/부서명 조회시
+--부서 지정이 안된 사원은 제외 : inner join
+--부서 지원이 안된 사원도 포함 : left join
+--사원 배정이 안된 부서도 포함 : right join
+
+
+
+-------------------------------------------------
+-- CROSS JOIN
+-------------------------------------------------
+--상호조인
+--on 조건절 없이, 좌측테이블 행과 우측테이블 행이 연결될 수 있는 모든 경우의 수를 포함한 결과집합 리턴
+--Cartesian's Product
+
+select *
+from employee E cross join department D;
+--출력 : 216행 = 24(employee) * 9(department)
+
+
+--일반 컬럼, 그룹함수 결과를 함께 조회
+
+--Error : ORA-00937: not a single-group group function
+select emp_name, salary, avg(salary)
+from employee;
+
+select trunc(avg(salary))
+from employee;
+
+select *
+from employee E cross join (select trunc(avg(salary))
+                                            from employee) A
+
+
+
+
 
 
