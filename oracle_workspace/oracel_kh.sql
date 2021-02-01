@@ -1697,60 +1697,111 @@ SELECT emp_name,
 FROM employee E CROSS JOIN (SELECT TRUNC(AVG(salary)) avg
                                                    FROM employee) A;
 
-
+--리턴한 결과집합을 하나의 테이블처럼 사용 가능
 
 
 
 --------------------------------------------
 -- SELF JOIN
 --------------------------------------------
---조인시 같은 테이블을 좌/우측 테이블로 사용.
+--조인시 같은 테이블을 좌/우측 테이블로 두번 사용
+--양쪽 테이블이 무조건 같은 테이블이기 때문에, 별칭 필수로 사용해야 함
 
 --사번, 사원명, 관리자사번, 관리자명 조회
-select E1.emp_id,
-            E1.emp_name, 
-            E1.manager_id,
-            E2.emp_id,
-            E2.emp_name
+
+/*
+select *
+from employee;
+*/
+--manager_id가 같은 테이블에 emp_id로 존재함
+
+/*
+select *
 from employee E1 join employee E2
-    on E1.manager_id  = E2.emp_id;
+    on E1.manager_id = E2.emp_id;
+*/
+--manager_id와 emp_id를 이어줌
 
---(oracle)
-select E1.emp_id,
-            E1.emp_name, 
-            E1.manager_id,
-            E2.emp_name
-from employee E1, employee E2
-where E1.manager_id = E2.emp_id;
+SELECT e1.emp_id, --두 테이블에 모두 emp_id가 있기 때문에 정확히 별칭으로 명시해줘야함
+            e1.emp_name, 
+            e1.manager_id,
+            e2.emp_id,
+            e2.emp_name
+FROM employee e1 JOIN employee e2
+    ON e1.manager_id  = e2.emp_id;
+--select 작업
 
-
+    
 ------------------------------------------
 -- MULTIPLE JOIN
 ------------------------------------------
---한번에 좌우 두 테이블씩 조인하여 3개이사의 테이블을 연결함.
+--한번에 좌우 두 테이블씩 조인하여 3개 以上의 테이블을 연결함.
 
 --사원명, 부서명, 지역명, 직급명 
+
+/*
 select * from employee; --E.dept_code
-select * from department; --D.dept_id, D.location_id
+select * from department; --D.dept_id / D.location_id
 select * from location; --L.local_code
+*/
 
-select E.emp_name,
+
+
+SELECT *
+FROM employee E
+    JOIN department D
+        ON E.dept_code = D.dept_id
+    JOIN LOCATION L
+        ON D.location_id = L.local_code;
+--join 1. employee + department -> join 2. (employee + department) + location
+
+SELECT E.emp_name,
             D.dept_title,
-            l.local_name,
-            J.job_name
-from employee E 
-    left join department D
-        on E.dept_code = D.dept_id
-    left join location L
-        on D.location_id = L.local_code
-    join job J
-        on E.job_code = J.job_code;
---where E.emp_name = '송종기';
+            L.local_name,
+            j.job_name
+FROM employee E 
+    LEFT JOIN department D
+        ON E.dept_code = D.dept_id
+    LEFT JOIN LOCATION L
+        ON D.location_id = L.local_code
+    JOIN JOB j
+        ON E.job_code = j.job_code;
 
---조인하는 순서를 잘 고려할 것. 
---left join으로 시작했으면, 끝까지 유지해줘야 데이터가 누락되지 않는 경우가 있다.
+--left join -> 인턴사원 포함
+--left join으로 시작했으면, 끝까지 유지해줘야 데이터가 누락되지 않음
+--+job.job_code (job의 경우는 순서 상관 X)
+--join1. employee + department -> join2. (employee + department) + location -> join3. (employee + department + location) + job
 
---(oracle)
+--조인하는 순서를 잘 고려할 것
+--bridge역할을 해주는 공통된 역할을 해주는 테이블의 순서 고려
+
+
+
+--직급이 대리,과장이면서 ASIA지역에 근무하는 사원 조회
+--사번, 이름, 직급명, 부서명,  급여, 근무지역, 국가
+
+SELECT *
+FROM employee;
+--job_code, dept_code
+
+SELECT *
+FROM job;
+--job_code, job_name
+
+SELECT *
+FROM LOCATION;
+--local_code, local_name, national_code
+
+SELECT *
+FROM department;
+--dept_id, location_id
+
+SELECT *
+FROM nation;
+--national_code, national_name
+
+
+
 select *
 from employee E, department D, location L, job J
 where E.dept_code = D.dept_id(+) 
@@ -1758,27 +1809,25 @@ where E.dept_code = D.dept_id(+)
     and E.job_code = J.job_code;
 
 
---직급이 대리,과장이면서 ASIA지역에 근무하는 사원 조회
---사번, 이름, 직급명, 부서명,  급여, 근무지역, 국가
+    
 
-select E.emp_id,
-            E.emp_name,
-            J.job_name,
-            D.dept_title,
-            E.salary,
-            L.local_name,
-            N.national_name
-from employee E
-    join job J
-        on E.job_code = J.job_code
-    join department D
-        on E.dept_code = D.dept_id
-    join location L
-        on D.location_id = L.local_code
-    join nation N
-        on L.national_code = N.national_code
-where J.job_name in ('대리', '과장')
-    and L.local_name like 'ASIA%';
+SELECT E.emp_id, E.emp_name, j.job_name, D.dept_title, E.salary, L.local_name, N.national_name
+FROM employee E
+        JOIN job j
+            ON E.job_code = j.job_code
+        JOIN department D
+            ON E.dept_code = D.dept_id
+        JOIN LOCATION L
+            ON D.location_id = L.local_code
+        JOIN nation N
+            ON L.national_code =N.national_code
+WHERE j.job_name IN ('대리', '과장')
+          AND L.local_name LIKE 'ASIA%';
+
+--테이블 구조를 살펴볼 때 유용한 tip
+--tip. 테이블명 커서 - Ctrl + Click -> 테이블에 관한 정보
+--열 - 테이블 명세 + comment (desc 테이블名)
+--데이터 - 조회한 것과 같은 전체 테이블 제공
     
     
 
