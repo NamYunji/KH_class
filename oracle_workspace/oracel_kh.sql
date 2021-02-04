@@ -1232,7 +1232,7 @@ GROUP BY (); --이것과 동일함
 
 
 --전체 24행
-SELECT emp_name, dept_code, salary
+SELECT emp_name, dept_code, salary 
 FROM employee;
 
 --전체 24행 중, dept_code가 같은 것끼리 묶어냄
@@ -1997,15 +1997,28 @@ ORDER BY E.emp_id, D.dept_id;
 --============================================================================
 --SET OPERATOR
 --============================================================================
+--여러 개의 SELECT 결과물을 하나의 쿼리로 만드는 연산자
 --집합연산자
 --entity를 컬럼수가 동일하다는 조건하에 上下로 연결한 것
 
-                                                        
+--조건
+--1. select절의 컬럼수가 동일
+--2. 자료형이 동일
+    --날짜형 + 문자형 -> error
+		--cf. 동일 자료형 내에서는 상호호환 가능
+	    --문자형(char) + 문자형(varchar2) -> ok
 
+
+--특징
+--위 아래의 컬럼명이 다른 경우, 첫번째 entity의 컬럼명을 결과집합에 반영
+--order by절은 마지막 entity에서 딱 한번만 사용가능
+
+--종류
 --UNION 합집합
 --UNION ALL 합집합
 --INTERSECT 교집합
 --MINUS 차집합
+                                                        
 
 /*
 A = {1, 3, 2, 5}
@@ -2016,9 +2029,10 @@ A union B => {1, 2, 3, 4, 5, 6}
 A union B => {1, 3, 2, 5, 2, 4, 6}
 A의 결과에 B를 뒤이어 붙여줌 (중복제거, 정렬 X)
 A intersect B => {2}
-교집합, 정렬 X (필요시 order by절로 직접 정렬해주기)
+교집합, 첫번째컬럼 기준 오름차순 정렬 
 A minus B => {1, 3, 5}
 A를 기준으로, A의 값 중 교집합에 해당하는 부분을 제외하고 리턴
+첫번째컬럼 기준 오름차순 정렬 
 */
 
 ----------------------------------------------
@@ -2044,7 +2058,7 @@ WHERE dept_code = 'D5'
 UNION
 SELECT emp_id, emp_name, dept_code, salary
 FROM employee
-WHERE salary > 3000000
+WHERE salary > 3000000;
 ORDER BY dept_code; --order by는 마지막 entity에서만 사용가능, order by를 써주지 않으면 첫번째 컬럼 기준으로 정렬됨
 --출력 : 13행 (중복 제거, 정렬)
 
@@ -2184,7 +2198,7 @@ WHERE salary > (SELECT AVG(salary)
                             
 --그룹함수는 sub쿼리로 있으면 select절에서도 일반컬럼과 함께 사용 가능                           
 SELECT emp_name, salary, TRUNC((SELECT AVG(salary)
-                                          FROM employee)) AVG
+                                                         FROM employee)) AVG
 FROM employee
 WHERE salary > (SELECT AVG(salary)
                             FROM employee);                     
@@ -2228,6 +2242,7 @@ WHERE salary > (SELECT TRUNC(AVG(salary))
 ------------------------------------------------------
 --다중행 단일 컬럼 서브쿼리
 ------------------------------------------------------
+--서브쿼리 조회결과가 하나의 열, 여러행인 경우
 --연산자 in | not in | any | all | exists와 함께 사용가능한 서브쿼리
 --동등연산으로는 처리 불가
 
@@ -2247,9 +2262,9 @@ where emp_name in ('송종기', '하이유');
 SELECT emp_name, dept_code
 FROM employee
 WHERE dept_code IN (SELECT dept_code
-                                FROM employee
-                                WHERE emp_name IN ('송종기', '하이유')
-                                );
+                                   FROM employee
+                                   WHERE emp_name IN ('송종기', '하이유')
+                                   );
 
 
 --차태연, 전지연 사원의 급여등급(sal_level)과 같은 사원 조회(사원명, 직급명, 급여등급)
@@ -2279,8 +2294,8 @@ FROM employee
         JOIN JOB
             USING(job_code)
 WHERE sal_level IN (SELECT sal_level
-                                FROM employee
-                                WHERE emp_name IN ('차태연', '전지연')
+                                 FROM employee
+                                 WHERE emp_name IN ('차태연', '전지연')
                                 );
             AND emp_name NOT IN ('차태연', '전지연');
 
@@ -2294,16 +2309,16 @@ WHERE sal_level IN (SELECT sal_level
 SELECT emp_id, emp_name, job_code
 FROM employee E
 WHERE E.job_code NOT IN (
-                                        SELECT job_code
-                                        FROM JOB
-                                        WHERE job_name IN ('대표', '부사장')
-                                        );
+                                           SELECT job_code
+                                           FROM JOB
+                                           WHERE job_name IN ('대표', '부사장')
+                                           );
 
 --ASIA1 지역에 근무하는 사원 조회 (사원명, 부서코드)
 --location.local_name : ASIA1
 --department.location_id --- location.local_code
 --employee.dept_code --- department.dept_id
-SELECT local_code
+SELECT local_code 
 FROM LOCATION
 WHERE local_name = 'ASIA1';
 
@@ -2461,6 +2476,8 @@ WHERE salary > (
                         FROM employee
                         WHERE job_code = E.job_code --메인쿼리에서 온 값임을 명시해줌
                         );
+
+       
 --메인쿼리의 컬럼의 값과 서브쿼리의 컬럼의 값을 비교함
 
 --부서별 평균급여보다 적은 급여를 받는 사원 조회
@@ -2955,7 +2972,7 @@ window_function(args) over([partition by절] [order by절] [windowing절])
 
 --rank () over() : 순위를 지정
     --넘버링 하되, 동률이 있다면 그 다음 번호는 그 동률 수만큼 건너뛰어서 이어짐
---dense_rank() oveer() : 순위를 지정
+--dense_rank() over() : 순위를 지정
     --빠진 숫자 없이 순위를 지정
 
 SELECT emp_name,
@@ -3005,3 +3022,492 @@ SELECT emp_name
             dept_code,
             COUNT(*) OVER(PARTITION BY dept_code) cnt_by_dept
 FROM employee;
+
+
+
+
+--==========================================================================
+--DML
+--==========================================================================
+--Data Manipulation Language 데이터 조작어
+--CRUD Create Retrieve Update Delete 테이블 행에 대한 명령어
+--insert 행추가
+--update 행수정
+--delete 행삭제
+--select (DQL)
+
+----------------------------------------------------------------------------
+--INSERT
+----------------------------------------------------------------------------
+--1. inseet into 테이블 values (컬럼1값, 컬럼2값, ...) 모든 컬럼을 빠짐없이 순서대로 작성해야 함
+--2. insert into 테이블 (컬럼1名, 컬럼2名, ...) values(컬럼1값, 컬럼2값, ...)
+    --컬럼을 생략가능, 컬럼 순서도 자유롭다
+    --not null컬럼이면서 기본값이 없다면 생략 불가
+
+create table dml_sample(
+    id number, 
+    nick_name varchar2(100) default '홍길동',
+    name varchar2(100) not null,
+    enroll_date date default sysdate not null
+);
+
+select *from dml_sample;
+
+--타입1--
+--inseet into 테이블 values (컬럼1값, 컬럼2값, ...) 
+
+--SQL 오류: ORA-00947: not enough values
+insert into dml_sample
+values (100, default, '신사임당');
+
+--SQL 오류: ORA-00913: too many values
+insert into dml_sample
+values (100, default, '신사임당', 'default', 'ㅋㅋ');
+
+insert into dml_sample
+values (100, default, '신사임당', 'default');
+
+--타입2--
+--insert into 테이블 (컬럼1名, 컬럼2名, ...) values(컬럼1값, 컬럼2값, ...)
+
+--모든 컬럼에 값을 넣어줌
+insert into dml_sample (id, nick_name, name, enroll_date)
+values (200, '제임스', '이황', sysdate);
+
+--장점 : 원하는 컬럼만 골라쓸 수 있음
+insert into dml_sample(name, enroll_date)
+values ('세종', sysdate); --nullable한 컬럼은 생략가능, 기본값이 있다면 기본값이 적용됨
+
+--not null이면서 기본값이 지정안된 경우 생략 불가
+--ORA-01400: cannot insert NULL into ("KH"."DML_SAMPLE"."NAME")
+insert into dml_sample(id, enroll_date)
+values (300, sysdate);
+--name은 생략 불가
+
+--name값만 추가
+insert into dml_sample(name)
+values ('윤봉길');
+
+--서브쿼리를 이용한 insert
+--서브쿼리를 이용하면 한번에 여러행을 삽입 가능
+create table emp_copy
+as
+select *
+from employee
+where 1 = 2; --false -> 테이블의 구조만 복사해서 테이블을 생성
+
+select * from emp_copy;
+
+--서브쿼리의 값들이 고스란히 테이블에 들어감
+insert into emp_copy (
+    select *
+    from employee
+);
+
+rollback;
+
+insert into emp_copy(emp_id, emp_name, emp_no, job_code, sal_level) (
+    select emp_id, emp_name, emp_no, job_code, sal_level
+    from employee
+);
+
+--emp_copy 데이터 추가
+select * from emp_copy;
+
+--기본값 확인 data_default
+select *
+from user_tab_cols
+where table_name = 'EMP_COPY';
+
+--테이블 구조를 바꿈
+--기본값 추가
+alter table emp_copy 
+modify quit_yn default 'N'
+modify hire_date default sysdate;
+
+insert into dml_sample(name, enroll_date)
+values ('세종', sysdate); 
+
+insert into emp_copy(emp_id, emp_name, emp_no, job_code, sal_level)
+values (224, '남윤지', '970505-1234567', 'J1', 'S1');
+
+select * from emp_copy;
+
+--insert all을 이용한 여러테이블에 동시에 데이터 추가
+--하나의 테이블에 있는 데이터를 migration 작업할 때, 병합 작업시
+--서브쿼리를 이용해서 2개 이상의 테이블에 동시에 데이터 추가, 조건부 추가도 가능
+
+--입사일 관리 테이블
+
+--구조를 복사해준 테이블 생성
+create table emp_hire_date
+as
+select emp_id, emp_name, hire_date
+from employee
+where 1 = 2;
+
+
+--매니저 관리 테이블
+--구조를 복사해준 테이블 생성
+create table emp_manager
+as
+select emp_id,
+           emp_name, 
+           manager_id,
+           emp_name "manager_name" --언더스코어는 글자로 취급
+from employee
+where 1 = 2;
+
+select * from emp_hire_date;
+select * from emp_manager;
+
+--manager_name을 null로 변경
+alter table emp_manager
+modify manager_name null;
+
+--from 테이블과 to테이블의 컬럼명이 같아야 한다
+insert all
+into emp_hire_date values(emp_id, emp_name, hire_date)
+into emp_manager values(emp_id, emp_name, manager_id, manager_name)
+select E.*, 
+            (select emp_name from employee where emp_id = E.manager_id) manager_name
+from employee E;
+
+--insert all을 이용한 여러행 한번에 추가
+
+--insert into dml_sample 
+--values(1, '치킨', '홍길동'); --명령어 하나에 한번
+
+--오라클에서 다음 문법은 지원하지 않는다
+--insert into dml_sample 
+--values(1, '치킨', '홍길동'),(1, '치킨', '홍길동'),(1, '치킨', '홍길동'); 
+
+
+--우회적으로 insert all을 이용하기
+insert all
+into dml_sample values(1, '치킨', '홍길동', default)
+into dml_sample values(1, '고구마', '장발장', default)
+into dml_sample values(1, '베베', '유관순', default)
+select * from dual; --더미 쿼리 
+--insert all의 문법 : 서브쿼리를 가져다가 쓰는 것
+--문법상 쿼리가 하나 있어야 하는 구조라서 의미없는 쿼리를 추가해준 것!
+-->한번에 처리 가능!
+
+
+----------------------------------------------------------------------------
+--UPDATE
+----------------------------------------------------------------------------
+--행을 수정
+--update 실행 后, 행의 수에는 변화 无
+--0행, 1행 이상을 동시에 수정
+--조건에 따라 한 행을 수정할 수도, 여러 행을 수정할 수도 있음
+--dml은 처리된 행의 수를 반환
+   --ex. 3개 행 이(가) 삽입되었습니다.
+
+drop table emp_copy;
+
+create table emp_copy 
+as
+select * 
+from employee;
+
+select * from emp_copy;
+
+--특정값을 업데이트
+update emp_copy
+set dept_code = 'D8'
+where emp_id = '202'; --행을 꼭 집어줘야 함
+--1 행 이(가) 업데이트되었습니다.
+
+--존재하지 않는 행을 업데이트 할때
+update emp_copy
+set dept_code = 'D8'
+where emp_id = '2020'; 
+--오류가 나지는 않고,
+--0개 행 이(가) 업데이트되었습니다.
+
+--여러 행을 업데이트
+update emp_copy
+set dept_code = 'D7', job_code = 'J3'
+where emp_id = '202';
+
+--메모리 상에서만 견정된 것
+--아직 데이터 수정이 완전히 이루어진 건 아님
+--rollback하면 이전의 데이터로 돌릴 수 있음
+--commit, rollback에 의해 최종으로 결정이 남
+
+commit; --메모리상 변경내역을 실제파일에 저장
+rollback; --마지막 커밋시점으로 되돌리기
+--commit하고 나면 아무리 rollback해도 되돌릴 수 없음
+
+--특정값이 아닌 상대적으로 값을 변경
+update emp_copy
+set salary = salary + 500000 --상대적 값 변경 , 복합대입연산자 (+=) 사용 불가
+where dept_code = 'D5'; --한 행이 아닌, D5인 모든 행을 변경
+
+--서브쿼리를 이용한 update
+--방명수 사원의 급여를 유재식 사원과 동일하게 수정
+
+update emp_copy
+set salary = (select salary from emp_copy where emp_name = '유재식')
+where emp_name = '방명수';
+
+commit;
+
+select * from emp_copy;
+select * from job; --job_code, job_name
+select * from department; --dept_id, dept_title
+--임시환 사원의 직급을 과장, 부서를 해외영업3부로 수정
+update emp_copy
+set job_code = (select  job_code
+                        from job
+                        where job_name = '과장'),
+      dept_code = (select dept_id
+                          from department
+                          where dept_title = '해외영업3부')
+where emp_name = '임시환';
+
+commit;
+--올바르게 작성한 경우 commit해주기!
+ --commit : f11
+ --rollback : f12
+ 
+--where절을 안써주면 모든 행이 '홍길동'으로 바뀜
+update emp_copy
+set emp_name = '홍길동';
+
+
+----------------------------------------------------------------------------
+--DELETE
+----------------------------------------------------------------------------
+--행을 날림
+--실수로 commit되면 위험한 경우, 사용 후 주석처리 해두기!
+
+select * from emp_copy;
+
+--delete from emp_copy
+--where emp_id = '211';
+
+rollback;
+
+--where절을 안쓰면 모든 행이 삭제됨
+--delete from emp_copy;
+
+rollback;
+
+----------------------------------------------------------------------------
+--TRUNCATE
+----------------------------------------------------------------------------
+--테이블의 행을 자르는 명령
+--DDL에 포함되는 명령어 
+    --(create, alter, drop, truncate 는 모두 자동커밋, DML과 섞어서 사용시에는 주의해야 함!)
+--자동커밋 지원, 실행과 동시에 바로 DB서버에 반영됨
+--rollback을 아무리 해도 되돌릴 수 없음
+--before image 생성작업이 없음
+--되돌릴 수 없다는 단점이 있으나
+--실행속도가 빠르다는 장점이 있음
+    --why? before image 생성작업이 없어서, 그 시간만큼 감축됨
+
+   --cf. delete의 경우는 commit전까지는 rollback으로 되돌릴 수 있음
+   --how? before image 생성작업이 있어서
+   --사진 찍는 것처럼 임시저장
+   
+truncate table emp_copy;
+--Table EMP_COPY이(가) 잘렸습니다.
+
+select * from emp_copy;
+
+
+
+rollback;
+--롤백을 아무리 실행해도 되돌릴 수 없음
+
+insert into emp_copy
+(select * from employee);
+
+--=============================================================================
+--DDL
+--=============================================================================
+--Data Definition Language 데이터 정의어
+--데이터베이스 객체에 대한 언어 
+--(데이터베이스 객체를 생성/수정/삭제할 수 있는 명령어 모음)
+--DML은 데이터(행의 값)에 대한 생성, 수정, 삭제, DDL은 데이터 객체 (테이블..)에 대한 생성, 수정 , 삭제
+--create
+--alter
+--drop
+--truncate
+
+--객체 종류
+--table, view, sequence, index, package, procedure, function, trigger, synonym, scheduler, user ...)
+
+--주석 comment
+--테이블, 컬럼에 대한 주석을 달 수 있다
+select *
+from user_tab_comments;
+
+select *
+from user_tab_comments
+where table_name = 'EMPLOYEE';
+
+desc tbl_files;
+
+--테이블 주석
+comment on table tbl_files is '파일경로테이블';
+--Comment이(가) 생성되었습니다.
+
+--컬럼 주석
+comment on column tbl_files.fileno is '파일 고유번호';
+comment on column tbl_files.filepath is '파일 경로';
+
+--수정/삭제 명령은 없다
+--....is ''; -> 삭제
+--why? oracle에서 빈문자열은 null과 동일
+comment on column tbl_files.filepath is '';
+
+--============================================================
+--제약조건 CONSTRAINT
+--============================================================
+--테이블 생성/수정 시 컬럼값에 대한 제약조건 설정할 수 있다
+--제약조건 EX. NOT NULL
+--데이터에 대한 무결성(integrity)을 보장하기 위한 것
+--무결성 = 데이터를 정확하고, 일관되게 유지하는 것
+
+/*
+1. not null : 컬럼에 대한 제약조건. null을 허용하지 않음. 필수 값
+2. unique : 중복값을 허용하지 않음 (ex. 주민번호, 아이디...)
+3. primary key : not null + unique (null을 허용하지도 않고, 고유해야 함) -> 레코드 식별자로써, 테이블당 1개만 허용
+4. foreign key : 외래키. 데이터 참조 무결성 보장. 부모 테이블의 데이터만 허용 (not 상속관계 but 참조관계)
+5. check : 저장가능한 값의 범위/조건을 제한
+
+값 하나만 제약조건에 위반되어도, 일절 허용하지 않음
+행에 대한 명령어 자체가 취소됨
+*/
+
+--제약조건 확인
+--user_constraints ( 컬럼명 无）
+--user_cons_columns （컬럼명 有）
+
+--employee에 걸려있는 제약조건 확인
+select *
+from user_constraints
+where table_name = 'EMPLOYEE';
+--컬럼명이 데이터 취급이라 대문자로 써야함
+
+-- C check | not null
+---> search_condition을 확인해줘야 함
+-- U unique
+-- P primary key
+-- R foreign key
+--ck : check 제약조건
+--not null제약조건은 
+--pk : primary key
+
+select *
+from user_cons_columns
+where table_name = 'EMPLOYEE';
+
+--제약조건 검색
+select constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+from user_constraints uc
+    join user_cons_columns ucc
+        using (constraint_name)
+where uc.table_name = 'EMPLOYEE';
+
+
+----------------------------------------------------------------------------
+--NOT NULL
+----------------------------------------------------------------------------
+--필수 입력 컬럼에 not null 제약조건을 지정한다
+--default 값 다음에 컬럼레벨에 작성한다
+--보통 제약조건명을 지정하지 않는다
+create table tb_cons_nn(
+    id varchar2(20) not null, --컬럼레벨
+    name varchar2(100) 
+    --테이블 레벨
+);
+
+insert into tb_cons_nn values(null, '홍길동');
+--ORA-01400: cannot insert NULL into ("KH"."TB_CONS_NN"."ID")
+
+insert into tb_cons_nn values('honggd', '홍길동');
+
+select * from tb_cons_nn;
+
+update tb_cons_nn
+set id = ''
+where id = 'honggd';
+--ORA-01407: cannot update ("KH"."TB_CONS_NN"."ID") to NULL
+
+
+----------------------------------------------------------------------------
+--UNIQUE
+----------------------------------------------------------------------------
+--이메일, 주민번호, 닉네임
+--전화번호는 uq 사용하지 말것
+--중복 허용 X (다른 행의 값과 중복되면 안됨)
+
+create table tb_cons_uq (
+    no number not null,
+    email varchar2(50),
+    --테이블레벨
+    constraint uq_email unique (email)
+    --(여기서는 s가 있으나 없으나 똑같음)
+);
+
+insert into tb_cons_uq values(1, 'abc@naver.com');
+insert into tb_cons_uq values(2, '가나다@naver.com');
+insert into tb_cons_uq values(3, 'abc@naver.com');
+--ORA-00001: unique constraint (KH.UQ_EMAIL) violated
+--아예 입력조차 할 수 없음)
+insert into tb_cons_uq values(4, null); --null 허용
+
+select * from tb_cons_uq;
+
+----------------------------------------------------------------------------
+--PRIMARY KEY
+----------------------------------------------------------------------------
+--레코드(행) 식별자
+--not null + unique 기능을 동시에 가지고 있음
+--테이블 당 한개만 설정 가능
+
+create table tb_cons_pk(
+    id varchar2(50),
+    name varchar2(100) not null,
+    email varchar2(200),
+    constraint pk_id primary key(id)
+    
+);
+
+insert into tb_cons_pk
+values('honggd', '홍길동', 'hgd@google.com');
+
+select * from tb_cons_pk;
+
+
+select constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+from user_constraints uc
+    join user_cons_columns ucc
+        using (constraint_name)
+where uc.table_name = 'TB_CONS_PK';
+
+--복합 기본키(주키 | primary key | pk)
+--여러컬럼을 조합해서 하나의 pk로 사용
+--사용된 컬럼 하나라도 null이어서는 안된다
+
+create table tb_order_pk (
+    user_id varchar2(50),
+    order_date date,
+    amount number deault 1 not null,
+    constraint pk_user_id_order_date primary key(user_id, order_date)
+);
+
+insert into tb_order_pk
+values ('honggd', sysdate, 3);    
