@@ -3023,6 +3023,13 @@ SELECT emp_name
             COUNT(*) OVER(PARTITION BY dept_code) cnt_by_dept
 FROM employee;
 
+SELECT emp_id 사번
+            ,emp_name 이름
+            ,(SELECT emp_name FROM employee WHERE E.manager_id = emp_id) 매니져이름
+            ,salary 월급
+    FROM employee E
+    WHERE manager_id IS NOT NULL
+        AND salary > (SELECT AVG(salary) FROM employee);
 
 
 
@@ -3032,17 +3039,21 @@ FROM employee;
 --Data Manipulation Language 데이터 조작어
 --CRUD Create Retrieve Update Delete 테이블 행에 대한 명령어
 --insert 행추가
---update 행수정
+--update 행수정 = 행에 속한 컬럼값을 수정함
 --delete 행삭제
 --select (DQL)
 
 ----------------------------------------------------------------------------
 --INSERT
 ----------------------------------------------------------------------------
---1. inseet into 테이블 values (컬럼1값, 컬럼2값, ...) 모든 컬럼을 빠짐없이 순서대로 작성해야 함
+--insert 사용법
+--1. insert into 테이블 values (컬럼1값, 컬럼2값, ...)
+        --모든 컬럼을 빠짐없이 순서대로 작성해야 함
 --2. insert into 테이블 (컬럼1名, 컬럼2名, ...) values(컬럼1값, 컬럼2값, ...)
-    --컬럼을 생략가능, 컬럼 순서도 자유롭다
-    --not null컬럼이면서 기본값이 없다면 생략 불가
+    `   --컬럼을 생략 가능, 컬럼 순서도 자유로움
+       `--not null컬럼이면서 기본값이 없다면 생략 불가
+        --원하는 컬럼만 insert해줄 수 있음
+
 
 create table dml_sample(
     id number, 
@@ -3499,15 +3510,398 @@ from user_constraints uc
 where uc.table_name = 'TB_CONS_PK';
 
 --복합 기본키(주키 | primary key | pk)
---여러컬럼을 조합해서 하나의 pk로 사용
---사용된 컬럼 하나라도 null이어서는 안된다
-
+--여러컬럼을 조합해서 하나의 PK로 사용.
+--사용된 컬럼 하나라도 null이어서는 안된다.
 create table tb_order_pk (
     user_id varchar2(50),
     order_date date,
-    amount number deault 1 not null,
+    amount number default 1 not null,
     constraint pk_user_id_order_date primary key(user_id, order_date)
 );
 
 insert into tb_order_pk
-values ('honggd', sysdate, 3);    
+values('honggd', sysdate, 3);
+
+insert into tb_order_pk
+values(null, sysdate, 3);--ORA-01400: cannot insert NULL into ("KH"."TB_ORDER_PK"."USER_ID")
+
+select user_id,
+            to_char(order_date, 'yyyy/mm/dd hh24:mi:ss') order_date,
+            amount
+from tb_order_pk;
+
+
+
+-------------------------------------------
+-- FOREIGN KEY
+-------------------------------------------
+--참조 무결성을 유지하기 위한 조건
+--참조하고 있는 부모테이블의 지정 컬럼값 중에서만 값을 취할 수 있게 하는 것
+--참조하고 있는 부모테이블의 지정컬럼은 PK, UQ제약조건이 걸려있어야 한다.
+--department.dept_id(부모테이블)   <------  employee.dept_code(자식테이블)
+--자식테이블의 컬럼에 외래키(foreign key) 제약조건을 지정
+
+create table shop_member(
+    member_id varchar2(20),
+    member_name varchar2(30) not null,
+    constraint pk_shop_memer_id primary key(member_id)
+);
+
+insert into shop_member values('honggd', '홍길동');
+insert into shop_member values('sinsa', '신사임당');
+insert into shop_member values('sejong', '세종대왕');
+
+select * from shop_member;
+
+--drop table shop_buy;
+create table shop_buy (
+    buy_no number,
+    member_id varchar2(20),
+    product_id varchar2(50),
+    buy_date date default sysdate,
+    constraints pk_shop_buy_no primary key(buy_no),
+    constraints fk_shop_buy_member_id foreign key(member_id)
+                                                                 references shop_member(member_id)
+                                                                 on delete cascade
+);
+
+
+insert into shop_buy
+values(1, 'honggd', 'soccer_shoes', default);
+
+insert into shop_buy
+values(2, 'sinsa', 'basketball_shoes', default);
+
+insert into shop_buy
+values(3, 'k12345', 'football_shoes', default);
+--ORA-02291: integrity constraint (KH.FK_SHOP_BUY_MEMBER_ID) violated - parent key not found
+
+
+select * from shop_buy;
+
+--fk기준으로 join -> relation
+--구매번호 회원아이디 회원이름 구매물품아이디 구매시각
+
+select B.buy_no,
+            member_id,
+            M.member_name,
+            B.product_id,
+            B.buy_date
+from shop_member M
+    join shop_buy B
+        using(member_id);
+
+
+--정규화 Normalization
+--이상현상 방지(anormaly)
+select *
+from employee;
+
+select *
+from department;
+
+--삭제 옵션
+--on delete restricted : 기본값. 참조하는 자식행이 있는 경우, 부모행 삭제불가 
+--                                  자식행을 먼저 삭제후, 부모행을 삭제
+--on delete set null : 부모행 삭제시 자식컬럼은 null로 변경
+--on delete cascade : 부모행 삭제시 자식행 삭제
+
+--delete from shop_buy
+--where member_id= 'honggd';
+
+delete from shop_member 
+where member_id = 'honggd';
+--ORA-02292: integrity constraint (KH.FK_SHOP_BUY_MEMBER_ID) violated - child record found
+
+select * from shop_member;
+select * from shop_buy;
+
+--식별관계 | 비식별관계
+--비식별관계 : 참조하고 있는 부모컬럼값을 PK로 사용하지 않는 경우. 여러행에서 참조가 가능(중복) 1:N관계
+--식별관계 : 참조하고 있는 부모컬럼을 PK로 사용하는 경우. 부모행 - 자식행사이에 1:1관계
+
+create table shop_nickname(
+    member_id varchar2(20),
+    nickname varchar2(100),
+    constraints fk_member_id foreign key(member_id) references shop_member(member_id),
+    constraints pk_member_id primary key(member_id)
+);
+
+insert into shop_nickname 
+values('sinsa', '신솨112');
+
+select *
+from shop_nickname;
+
+
+
+
+
+
+
+
+--------------------------------------
+-- CHECK
+--------------------------------------
+--해당 컬럼의 값의 범위를 지정.
+--null 입력 가능
+
+--drop table tb_cons_ck
+create table tb_cons_ck(
+    gender char(1),
+    num number,
+    constraints ck_gender check(gender in ('M', 'F')),
+    constraints ck_num check(num between 0 and 100)
+);
+
+insert into tb_cons_ck
+values('M', 50);
+insert into tb_cons_ck
+values('F', 100);
+insert into tb_cons_ck
+values('m', 50);--ORA-02290: check constraint (KH.CK_GENDER) violated
+insert into tb_cons_ck
+values('M', 1000);--ORA-02290: check constraint (KH.CK_NUM) violated
+
+
+
+----------------------------------------------------------------------------
+--CREARE
+----------------------------------------------------------------------------
+--sub query를 이용한 create는 not null제약조건을 제외한 모든 제약조건, 기본값등을 제거한다
+
+--제약조건 검색
+select constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+from user_constraints uc
+    join user_cons_columns ucc
+        using (constraint_name)
+where uc.table_name = 'EMP_BCK';
+
+--기본값 확인
+select *
+from user_tab_cols
+where table_name = 'EMP_BCK';
+
+-----------------------------------------------------------------------------
+--ALTER
+-----------------------------------------------------------------------------
+--table관련 alter문은 컬럼, 제약조건에 대해 수정이 가능
+--alter table ... add/modify/rename/drop ...
+/*
+서브명령어
+-add 컬럼, 제약조건 추가
+-modify 컬럼 (자료형, 기본값) 변경 (제약조건은 변경 불가)
+-rename 컬럼명, 제약조건명 변경
+-drop 컬럼, 제약조건 삭제
+*/
+
+create table tb_alter (
+    no number
+);
+
+--add 컬럼
+--맨 마지막 컬럼으로 추가
+alter table tb_alter add name varchar2(100) not null;
+
+--desc
+desc tb_alter;
+
+--add 제약조건
+--not null제약조건은 추가가 아닌 수정(modify)으로 처리
+
+alter table tb_alter
+add constraints pk_tb_alter_no primary key(no);
+
+--제약조건 검색
+select constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+from user_constraints uc
+    join user_cons_columns ucc
+        using (constraint_name)
+where uc.table_name = 'TB_ALTER';
+
+--modify 컬럼
+--자료형, 기본값, null여부 변경가능
+--문자열에서 호환가능타입으로는 변경가능 (char --- varchar2)
+
+alter table tb_alter
+modify name varchar2(500) default '홍길동' null;
+
+describe tb_alter;
+
+--행이 있다면, 변경하는데 제한이 있다
+--존재하는 값보다는 작은 크기로 변경할 수 없다
+--null값이 있는 컬럼을 not null로 변경불가
+    --why? 기존의 데이터가 유실되기 때문.. - 데이터 무결성이 깨지기 때문
+    --ex. 100으로 설정해서 90짜리 데이터를 넣어뒀는데 그보다 작은 50으로 줄이면 -> 기존 데이터 유실
+    --ex. null로 넣어뒀는데, not null로 바꾸면 기존의 null인 데이터들을 처리할 수 없음
+--char -> number로 변경불가
+
+--modify 제약조건은 불가능
+--제약조건은 이름 변경외에 변경불가
+--제약조건을 바꾸려면 삭제 후 재생성해야 함
+    --not 테이블 삭제 but 제약조건만 삭제하는 것
+
+--rename 컬럼
+--rename column기존컬럼名 to 바꿔줄컬럼名
+alter table tb_alter
+rename column no to num;
+
+desc tb_alter;
+
+--rename 제약조건
+
+--제약조건 검색
+select constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+from user_constraints uc
+    join user_cons_columns ucc
+        using (constraint_name)
+where uc.table_name = 'TB_ALTER';
+
+alter table tbl_alter
+rename constraint;
+
+--=========================================================================
+--DCL
+--=========================================================================
+--Data Control Language
+--권한 부여/회수 관련 명령어 : grant / revoke
+--TCL Transaction Contrl Language 포함 (commit / rollback / savepoint)
+
+
+--=========================================================================
+--DATABASE OBJECT 1
+--=========================================================================
+--DB의 효율적으로 관리하고, 작동하게 하는 단위
+select distinct object_type
+from all_objects;
+
+---------------------------------------------------------------------------
+--DATA DICTIONARY (DD)
+---------------------------------------------------------------------------
+--DB의 자원들을 효율적 관리하기 위해 SYSTEM에서 빌려주는것
+--일반사용자가 관리자로부터 열람권한을 얻어 사용하는 정보조회테이블
+--KH소유의 것이 아님
+--읽기전용, 수정/삭제 불가
+--객체 관련 작업을 하면 자동으로 그 내용이 반영됨
+
+-- 1. user_xxx
+    --사용자가 소유한 객체에 대한 정보 열람
+-- 2. all_xxx
+    --user_xxx를 포함
+    -- + 다른 사용자로부터 사용권한을 부여받은 객체에 대한 정보 열람
+-- 3. dba_xxx
+    --관리자 전용
+    --모든 사용자의 모든 객체에 대한 정보 열람
+
+--이용가능한 모든 db조회
+select *
+from dictionary;
+--from dict; --줄여서 dict라고 해도 동일
+--all_xxx + user_xxx
+
+--**********************************************************************************************
+--USER_XXX
+--**********************************************************************************************
+--xxx는 객체 이름 복수형을 사용
+
+--그 계정의 모든 테이블 조회
+--user tables
+select *
+from user_tables;
+--from tabs; --tables의 synonym
+--user_table 불가
+
+--user_sys_privs : 권한
+--user_role_privs : 롤 (권한묶음)
+--role_sys_privs : 사용자가 가진 롤에 포함된 모든 권한
+
+select *
+from user_sys_privs;
+
+select *
+from user_role_privs;
+
+select *
+from user_sys_privs;
+    --admin_option
+
+--xxx는 객체 이름 복수형을 사용
+
+--sequence 객체 조회
+--user_sequences
+select *
+from user_sequences;
+
+--view 객체 조회
+--user_views
+select *
+from user_views;
+
+--index 조회
+--user_indexes
+select *
+from user_indexes;
+
+--constraint 조회
+--user_constraints
+select *
+from user_constraints;
+
+--**********************************************************************************************
+--ALL_XXX
+--**********************************************************************************************
+--user_xxx를 포함
+--현재 계정이 소유하거나 사용권한을 부여받은 객체 조회
+
+--all_tables
+select *
+from all_tables;
+
+--all_indexes
+select *
+from all_indexes;
+
+
+--**********************************************************************************************
+--DBA_XXX
+--**********************************************************************************************
+select * from dba_tables;
+--ORA-00942: table or view does not exist
+
+select *
+from dba_tables
+where owner in ('KH', 'QUERTY');
+
+
+
+---------------------------------------------------------------------------
+--STORED VIEW
+---------------------------------------------------------------------------
+--저장뷰
+--inline view는 일회성이었으나, 이를 객체로 저장하면 재사용 가능
+--가상테이블처럼 사용하지만, 실제로 데이터를 가지고 있는 것은 아님
+--실제 테이블과 링크개념
+
+--뷰객체를 이용해서 제한적인 데이터만 다른 사용자에게 제공하는 것이 가능
+create view view_emp
+as
+select emp_id,
+            emp_name,
+            substr(emp_no, 8) || '******' emp_no,
+            email,
+            phone
+from employee;
+
+--create view 권한을 부여받아야 한다
