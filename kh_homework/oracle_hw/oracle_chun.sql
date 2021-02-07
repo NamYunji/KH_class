@@ -490,11 +490,41 @@ order by student_ssn desc;
 --3. 주소지가 강원도나 경기도인 학생들 중 1900년대 학번을 가진 학생들의 이름과 학번, 주소를 이름의 오름차순으로 화면에 출력하시오.
 --단, 출력헤더에는 "학생이름","학번", "거주지 주소" 가 출력되도록 한다.
 
+SELECT STUDENT_NAME AS "학생이름",
+       STUDENT_NO AS "학번",
+          STUDENT_ADDRESS AS "거주지 주소" 
+FROM   TB_STUDENT
+WHERE  ( STUDENT_ADDRESS LIKE '%강원도%'
+        OR STUDENT_ADDRESS LIKE '%경기도%' )
+        AND TO_CHAR(ENTRANCE_DATE, 'RRRR') LIKE '19%' 
+ORDER BY 1 ;
 
 
 
 --4. 현재 법학과 교수 중 가장 나이가 맋은 사람부터 이름을 확인핛 수 있는 SQL 문장을 작성하시오.
 --(법학과의 '학과코드'는 학과 테이블(TB_DEPARTMENT)을 조회해서 찾아 내도록 하자)
+
+SELECT DEPARTMENT_NO 
+FROM   TB_DEPARTMENT 
+WHERE  DEPARTMENT_NAME = '법학과';
+
+SELECT PROFESSOR_NAME,
+       PROFESSOR_SSN
+FROM   TB_PROFESSOR
+WHERE  DEPARTMENT_NO = '005'
+ORDER BY 2;
+
+--조인사용시
+--학과가 정해지지 않은 교수도 있지만, 위의 경우에는 해당되지 않기때문에 inner join으로도 가능함.
+SELECT * FROM TB_PROFESSOR
+WHERE DEPARTMENT_NO IS NULL;
+
+SELECT PROFESSOR_NAME,
+         PROFESSOR_SSN
+FROM   TB_PROFESSOR
+JOIN   TB_DEPARTMENT USING (DEPARTMENT_NO)
+WHERE  DEPARTMENT_NAME = '법학과'
+ORDER BY 2;
 
 
 
@@ -502,84 +532,368 @@ order by student_ssn desc;
 --5. 2004년2학기에 'C3118100' 과목을 수강한 학생들의 학점을 조회하려고 한다.
 --학점이 높은 학생부터 표시하고, 학점이 같으면 학번이 낮은 학생부터 표시하는 구문을 작성해보시오.
 
-
+SELECT STUDENT_NO, POINT
+FROM   TB_GRADE
+WHERE  TERM_NO = '200402'
+AND    CLASS_NO = 'C3118100'
+ORDER BY 2 DESC, 1;
 
 
 --6. 학생 번호, 학생 이름, 학과 이름을 학생 이름으로 오름차순 정렬하여 출력하는 SQL 문을 작성하시오.
 
-
+SELECT STUDENT_NO, STUDENT_NAME, DEPARTMENT_NAME
+FROM TB_STUDENT
+ JOIN TB_DEPARTMENT USING (DEPARTMENT_NO)
+ORDER BY 2;
 
 
 --7. 춘 기술대학교의 과목 이름과 과목의 학과 이름을 출력하는 SQL 문장을 작성하시오.
 
+-- ANSI 표준
+SELECT CLASS_NAME, DEPARTMENT_NAME
+FROM TB_CLASS
+JOIN TB_DEPARTMENT USING(DEPARTMENT_NO)
+ORDER BY 2;
 
+--오라클 전용
+SELECT CLASS_NAME, DEPARTMENT_NAME
+FROM TB_CLASS C, TB_DEPARTMENT D 
+WHERE C.DEPARTMENT_NO = D.DEPARTMENT_NO
+ORDER BY 2;
 
 
 --8. 과목별 교수 이름을 찾으려고 한다. 과목 이름과 교수 이름을 출력하는 SQL 문을 작성하시오.
 
+-- ANSI 표준
+SELECT CLASS_NAME, PROFESSOR_NAME
+FROM TB_CLASS_PROFESSOR
+JOIN TB_CLASS USING (CLASS_NO)
+JOIN TB_PROFESSOR USING (PROFESSOR_NO);
 
+-- 오라클 전용
+SELECT CLASS_NAME, PROFESSOR_NAME
+FROM TB_CLASS_PROFESSOR CP, TB_CLASS C, TB_PROFESSOR P 
+WHERE CP.CLASS_NO = C.CLASS_NO
+AND CP.PROFESSOR_NO = P.PROFESSOR_NO;
 
 
 --9. 8번의 결과 중 ‘인문사회’ 계열에 속한 과목의 교수 이름을 찾으려고 한다.
 --이에 해당하는 과목 이름과 교수 이름을 출력하는 SQL 문을 작성하시오.
 
+--ANSI 표준
+SELECT CLASS_NAME, PROFESSOR_NAME
+FROM TB_CLASS_PROFESSOR CP
+JOIN TB_CLASS C ON (C.CLASS_NO = CP.CLASS_NO)
+JOIN TB_PROFESSOR P ON (P.PROFESSOR_NO = CP.PROFESSOR_NO)
+JOIN TB_DEPARTMENT D ON (D.DEPARTMENT_NO = P.DEPARTMENT_NO)
+WHERE CATEGORY = '인문사회';
 
+--오라클 전용
+SELECT CLASS_NAME, PROFESSOR_NAME
+FROM TB_CLASS_PROFESSOR CP, TB_CLASS C, TB_PROFESSOR P, TB_DEPARTMENT D
+WHERE C.CLASS_NO = CP.CLASS_NO
+AND P.PROFESSOR_NO = CP.PROFESSOR_NO
+AND D.DEPARTMENT_NO = P.DEPARTMENT_NO
+AND CATEGORY = '인문사회';
 
 
 --10. ‘음악학과’ 학생들의 평점을 구하려고 한다. 
 --음악학과 학생들의 "학번", "학생 이름", "전체 평점"을 출력하는 SQL 문장을 작성하시오.
 --(단, 평점은 소수점 1자리까지만 반올림하여 표시한다.)
 
+SELECT STUDENT_NO  AS "학번", STUDENT_NAME AS "학생 이름", ROUND(AVG(POINT), 1) AS "전체 평점"
+FROM TB_STUDENT
+JOIN TB_GRADE USING (STUDENT_NO)
+JOIN TB_DEPARTMENT USING (DEPARTMENT_NO)
+WHERE DEPARTMENT_NAME = '음악학과'
+GROUP BY STUDENT_NO, STUDENT_NAME
+ORDER BY 3 DESC, 1;
 
+-- 오라클 전용
+SELECT S.STUDENT_NO, S.STUDENT_NAME, ROUND(AVG(G.POINT), 1)
+FROM TB_STUDENT S, TB_GRADE G, TB_DEPARTMENT D
+WHERE S.STUDENT_NO = G.STUDENT_NO
+AND S.DEPARTMENT_NO = D.DEPARTMENT_NO
+AND D.DEPARTMENT_NAME = '음악학과'
+GROUP BY S.STUDENT_NO, S.STUDENT_NAME
+ORDER BY 3 DESC, 1;
 
 
 --11. 학번이 A313047인 학생이 학교에 나오고 있지 않다. 지도 교수에게 내용을 전달하기 위한 학과 이름, 학생 이름과 지도 교수 이름이 필요하다.
 --이때 사용할 SQL 문을 작성하시오. 
 --단, 출력헤더는 "학과이름", "학생이름", "지도교수이름"으로 출력되도록 한다.
 
+-- ANSI 표준
+SELECT DEPARTMENT_NAME 학과이름, STUDENT_NAME 학생이름, PROFESSOR_NAME 지도교수이름
+FROM TB_STUDENT S
+JOIN TB_DEPARTMENT D ON (S.DEPARTMENT_NO = D.DEPARTMENT_NO)
+JOIN TB_PROFESSOR P ON (S.COACH_PROFESSOR_NO = P.PROFESSOR_NO)
+WHERE STUDENT_NO = 'A313047';
 
+-- 오라클 전용
+SELECT DEPARTMENT_NAME 학과이름, STUDENT_NAME 학생이름, PROFESSOR_NAME 지도교수이름
+FROM TB_STUDENT S, TB_DEPARTMENT D, TB_PROFESSOR P
+WHERE S.DEPARTMENT_NO = D.DEPARTMENT_NO
+AND S.COACH_PROFESSOR_NO = P.PROFESSOR_NO
+AND STUDENT_NO = 'A313047';
 
 
 --12. 2007년도에 '인간관계론' 과목을 수강한 학생을 찾아 학생이름과 수강학기름 표시하는 SQL 문장을 작성하시오.
 
+--ANSI 표준
+SELECT STUDENT_NAME, TERM_NO
+FROM TB_STUDENT S
+JOIN TB_GRADE G ON (S.STUDENT_NO = G.STUDENT_NO)
+JOIN TB_CLASS C ON (G.CLASS_NO = C.CLASS_NO)
+WHERE TERM_NO LIKE '2007%'
+AND C.CLASS_NAME = '인간관계론';
 
-
+--오라클 전용
+SELECT STUDENT_NAME, TERM_NO
+FROM TB_STUDENT S, TB_GRADE G, TB_CLASS C
+WHERE S.STUDENT_NO = G.STUDENT_NO
+AND G.CLASS_NO = C.CLASS_NO
+AND TERM_NO LIKE '2007%'
+AND C.CLASS_NAME  = '인간관계론';
 
 
 --13. 예체능 계열 과목 중 과목 담당교수를 한 명도 배정받지 못한 과목을 찾아 그 과목 이름과 학과 이름을 출력하는 SQL 문장을 작성하시오.
 
+-- ANSI 표준
+SELECT CLASS_NAME, DEPARTMENT_NAME
+FROM TB_CLASS_PROFESSOR CP
+RIGHT JOIN TB_CLASS C ON (CP.CLASS_NO = C.CLASS_NO)
+JOIN TB_DEPARTMENT D ON (C.DEPARTMENT_NO = D.DEPARTMENT_NO)
+WHERE CP.CLASS_NO IS NULL
+AND CATEGORY = '예체능';
 
+select c.class_name,
+      d.department_name
+from tb_class c
+    left join tb_department d on c.department_no = d.department_no
+    left join tb_class_professor cp on c.class_no = cp.class_no
+where d.category = '예체능' and cp.class_no is null;
+
+-- 오라클 전용
+SELECT CLASS_NAME, DEPARTMENT_NAME
+FROM TB_CLASS_PROFESSOR CP, TB_CLASS C, TB_DEPARTMENT D
+WHERE CP.CLASS_NO(+) = C.CLASS_NO
+AND C.DEPARTMENT_NO = D.DEPARTMENT_NO
+AND CP.CLASS_NO IS NULL
+AND CATEGORY = '예체능';
 
 
 --14. 춘 기술대학교 서반아어학과 학생들의 지도교수를 게시하고자 한다. 
 --학생이름과 지도교수 이름을 찾고 만일 지도 교수가 없는 학생일 경우 "지도교수 미지정"으로 표시하도록 하는 SQL 문을 작성하시오. 
 --단, 출력헤더는 "학생이름", "지도교수"로 표시하며 고학번 학생이 먼저 표시되도록 한다.
 
+-- ANSI 표준
+SELECT STUDENT_NAME 학생이름, NVL(P.PROFESSOR_NAME,'지도교수 미지정') 지도교수
+FROM TB_STUDENT S
+LEFT JOIN TB_PROFESSOR P ON (S.COACH_PROFESSOR_NO = P.PROFESSOR_NO)
+JOIN TB_DEPARTMENT D ON (S.DEPARTMENT_NO = D.DEPARTMENT_NO)
+WHERE DEPARTMENT_NAME = '서반아어학과';
 
+-- 오라클 전용
+SELECT STUDENT_NAME 학생이름, NVL(P.PROFESSOR_NAME,'지도교수 미지정') 지도교수
+FROM TB_STUDENT S, TB_PROFESSOR P, TB_DEPARTMENT D
+WHERE S.COACH_PROFESSOR_NO = P.PROFESSOR_NO(+)
+AND S.DEPARTMENT_NO = D.DEPARTMENT_NO
+AND DEPARTMENT_NAME = '서반아어학과';
 
 
 --15. 휴학생이 아닌 학생 중 평점이 4.0 이상인 학생을 찾아 그 학생의 학번, 이름, 학과 이름, 평점을 출력하는 SQL 문을 작성하시오.
 
+SELECT S.STUDENT_NO 학번, S.STUDENT_NAME 이름, D.DEPARTMENT_NAME "학과 이름",
+       ROUND(AVG(G.POINT),1) 평점
+FROM TB_STUDENT S
+JOIN TB_DEPARTMENT D ON (S.DEPARTMENT_NO = D.DEPARTMENT_NO)
+JOIN TB_GRADE G ON (S.STUDENT_NO = G.STUDENT_NO)
+WHERE S.ABSENCE_YN = 'N'
+GROUP BY S.STUDENT_NO, S.STUDENT_NAME, D.DEPARTMENT_NAME
+HAVING AVG(G.POINT) >= 4.0 
+ORDER BY S.STUDENT_NO;
 
+-- 오라클 전용
+SELECT S.STUDENT_NO 학번, S.STUDENT_NAME 이름, D.DEPARTMENT_NAME "학과 이름",
+       ROUND(AVG(G.POINT),1) 평점
+FROM TB_STUDENT S, TB_DEPARTMENT D, TB_GRADE G
+WHERE S.DEPARTMENT_NO = D.DEPARTMENT_NO
+AND S.STUDENT_NO = G.STUDENT_NO
+AND S.ABSENCE_YN = 'N'
+GROUP BY S.STUDENT_NO, S.STUDENT_NAME, D.DEPARTMENT_NAME
+HAVING AVG(G.POINT) >= 4.0 
+ORDER BY S.STUDENT_NO;
 
 
 --16. 환경조경학과 전공과목들의 과목 별 평점을 파악할 수 있는 SQL 문을 작성하시오.
 
-
+SELECT  CLASS_NO, 
+         CLASS_NAME,
+         TRUNC(AVG(POINT), 8) AS "AVG(POINT)"
+FROM TB_DEPARTMENT
+ JOIN TB_CLASS USING (DEPARTMENT_NO)
+ JOIN TB_GRADE USING (CLASS_NO)
+WHERE DEPARTMENT_NAME = '환경조경학과'
+  AND CLASS_TYPE LIKE '%전공%'
+GROUP BY CLASS_NO, CLASS_NAME
+ORDER BY 1;
 
 
 --17. 춘 기술대학교에 다니고 있는 최경희 학생과 같은 과 학생들의 이름과 주소를 출력하는 SQL 문을 작성하시오.
 
-
+SELECT STUDENT_NAME,
+        STUDENT_ADDRESS
+FROM TB_STUDENT
+WHERE DEPARTMENT_NO IN (SELECT DEPARTMENT_NO
+                            FROM TB_STUDENT
+                            WHERE STUDENT_NAME = '최경희');       
 
 
 --18. 국어국문학과에서 총 평점이 가장 높은 학생의 이름과 학번을 표시하는 SQL문을 작성하시오.
 
+--having 조건절에 all사용(최대값보다 같거나 큰)
+SELECT STUDENT_NO, STUDENT_NAME
+FROM TB_CLASS C
+ JOIN TB_GRADE G USING (CLASS_NO)
+ JOIN TB_STUDENT S USING (STUDENT_NO)
+WHERE C.DEPARTMENT_NO = (SELECT DEPARTMENT_NO FROM TB_DEPARTMENT WHERE DEPARTMENT_NAME = '국어국문학과')
+GROUP BY STUDENT_NO, STUDENT_NAME
+HAVING AVG(POINT) >= ALL(
+    SELECT AVG(POINT)
+    FROM TB_CLASS C2
+     JOIN TB_GRADE G2 USING (CLASS_NO)
+     JOIN TB_STUDENT S2 USING (STUDENT_NO)
+    WHERE C2.DEPARTMENT_NO = (SELECT DEPARTMENT_NO FROM TB_DEPARTMENT WHERE DEPARTMENT_NAME = '국어국문학과')
+    GROUP BY STUDENT_NO, STUDENT_NAME
+);
 
+--with, rownum사용
+
+WITH V_STDT_GRADE AS(SELECT STUDENT_NO, AVG(POINT) AVG                              
+                    FROM TB_GRADE G JOIN TB_STUDENT S USING (STUDENT_NO)
+                    GROUP BY STUDENT_NO)
+SELECT STUDENT_NO, STUDENT_NAME
+FROM(
+    SELECT STUDENT_NO, STUDENT_NAME, AVG
+    FROM TB_STUDENT S
+    JOIN TB_DEPARTMENT D ON S.DEPARTMENT_NO = D.DEPARTMENT_NO                    
+    JOIN V_STDT_GRADE USING(STUDENT_NO)
+    WHERE D.DEPARTMENT_NAME = '국어국문학과'
+    ORDER BY AVG DESC)
+WHERE ROWNUM = 1;
 
 
 --19. 춘 기술대학교의 "환경조경학과"가 속한 같은 계열 학과들의 학과 별 전공과목 평점을 파악하기 위한 적절한 SQL 문을 찾아내시오. 
 --단, 출력헤더는 "계열 학과명", "전공평점"으로 표시되도록 하고, 평점은 소수점 한 자리까지만 반올림하여 표시되도록 한다.
 
+SELECT DEPARTMENT_NAME AS "계열 학과명",
+          ROUND(AVG(POINT), 1) AS "전공평점"
+FROM TB_DEPARTMENT 
+ JOIN TB_CLASS C USING (DEPARTMENT_NO)
+ JOIN TB_GRADE USING (CLASS_NO)
+WHERE CATEGORY = (SELECT CATEGORY
+                      FROM TB_DEPARTMENT
+                      WHERE DEPARTMENT_NAME = '환경조경학과')
+     AND CLASS_TYPE LIKE '%전공%'
+GROUP BY DEPARTMENT_NAME
+ORDER BY 1;
+
+-- 단계별로 쿼리만들기
+--19.1 환경조경학과 계열 구하기
+select category
+from tb_department
+where department_name = '환경조경학과';
+
+--19.2 같은 계열 학과구하기
+select *
+from tb_department
+where category = (select category
+                  from tb_department
+                  where department_name = '환경조경학과');
+
+--19.3 학과별 수업 및 전공과목 구하기
+select *
+from tb_department
+ join TB_CLASS using(department_no)
+where class_type like '%전공%';
+
+select *
+from tb_department
+ join TB_CLASS using(department_no)
+where category = (select category
+                  from tb_department
+                  where department_name = '환경조경학과')
+  and class_type like '%전공%';
+
+--19.4 과목테이블 조인 및 과목별 점수구하기
+select *
+from tb_department
+ join TB_CLASS using(department_no)
+ join tb_grade using(class_no)
+where category = (select category
+                  from tb_department
+                  where department_name = '환경조경학과')
+  and class_type like '%전공%';
+
+--19.5 학과별 전공과목 평점 구하기
+select department_name 학과명, round(avg(point),1) 평점
+from tb_department
+ join TB_CLASS using(department_no)
+ join tb_grade using(class_no)
+where category = (select category
+                  from tb_department
+                  where department_name = '환경조경학과')
+  and class_type like '%전공%'
+group by department_name
+order by 2 desc;
 
 
+-------------------------------------------------
+--hw_0205 [DDL]
+-------------------------------------------------
+
+--1. 계열 정보를 저장핛 카테고리 테이블을 맊들려고 핚다. 다음과 같은 테이블을 작성하시오.
+
+--2. 과목 구분을 저장할 테이블을 만들려고 한다. 다음과 같은 테이블을 작성하시오.
+
+--3. TB_CATAGORY 테이블의 NAME 컬럼에 PRIMARY KEY를 생성하시오. 
+--(KEY 이름을 생성하지 않아도 무방함. 
+--만일 KEY 이를 지정하고자 한다면 이름은 본인이 알아서 적당한 이름을 사용한다.)
+
+--4. TB_CLASS_TYPE 테이블의 NAME 컬럼에 NULL 값이 들어가지 않도록 속성을 변경하시오.
+
+--5. 두 테이블에서 컬럼 명이 NO인 것은 기존 타입을 유지하면서 크기는 10 으로, 컬럼명이 NAME 인 것은 마찬가지로 기존 타입을 유지하면서 크기 20 으로 변경하시오.
+
+--6. 두 테이블의 NO 컬럼과 NAME 컬럼의 이름을 각 각 TB_ 를 제외한 테이블 이름이 앞에 붙은 형태로 변경한다.
+--(ex. CATEGORY_NAME)
+
+--7. TB_CATAGORY 테이블과 TB_CLASS_TYPE 테이블의 PRIMARY KEY 이름을 다음과 같이 변경하시오.
+--Primary Key의 이름은 "PK_ + 컬럼이름"으로 지정하시오. (ex. PK_CATEGORY_NAME )
+
+--8. 다음과 같은 INSERT 문을 수행한다.
+--INSERT INTO TB_CATEGORY VALUES ('공학','Y'); 
+--INSERT INTO TB_CATEGORY VALUES ('자연과학','Y'); 
+--INSERT INTO TB_CATEGORY VALUES ('의학','Y'); 
+--INSERT INTO TB_CATEGORY VALUES ('예체능','Y'); 
+--INSERT INTO TB_CATEGORY VALUES ('인문사회','Y'); 
+--COMMIT;
+
+--9.TB_DEPARTMENT의 CATEGORY 컬럼이 TB_CATEGORY 테이블의 CATEGORY_NAME 컬럼을 부모 값으로 참조하도록 FOREIGN KEY를 지정하시오. 
+--이 때 KEY 이름은 FK_테이블이름_컬럼이름으로 지정한다. (ex. FK_DEPARTMENT_CATEGORY )
+
+--10. 춘 기술대학교 학생들의 정보만이 포함되어 있는 학생일반정보 VIEW를 만들고자 한다. 아래 내용을 참고하여 적절한 SQL 문을 작성하시오.
+
+--11. 춘 기술대학교는 1년에 두 번씩 학과별로 학생과 지도교수가 지도 면담을 진행한다. 
+--이를 위해 사용할 학생이름, 학과이름, 담당교수이름 으로 구성되어 있는 VIEW 를 만드시오. 
+--이때 지도 교수가 없는 학생이 있을 수 있음을 고려하시오 
+--(단, 이 VIEW 는 단순 SELECT 만을 할 경우 학과별로 정렬되어 화면에 보여지게 만드시오.)
+
+--12. 모든 학과의 학과별 학생 수를 확인한 수 있도록 적절한 VIEW 를 작성해 보자.
+
+--13. 위에서 생성한 학생일반정보 View를 통해서 학번이 A213046인 학생의 이름을 본인 이름으로 변경하는 SQL 문을 작성하시오.
+
+--14. 13번에서와 같이 VIEW를 통해서 데이터가 변경될 수 있는 상황을 막으려면 VIEW를 어떻게 생성해야 하는지 작성하시오.
+
+--15. 춘 기술대학교는 매년 수강신청 기간만 되면 특정 인기 과목들에 수강 신청이 몰려 문제가 되고 있다. 
+--최근 3년을 기준으로 수강인원이 가장 많았던 3 과목을 찾는 구문을 작성해보시오. 

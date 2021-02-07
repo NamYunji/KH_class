@@ -3054,105 +3054,182 @@ SELECT emp_id 사번
        `--not null컬럼이면서 기본값이 없다면 생략 불가
         --원하는 컬럼만 insert해줄 수 있음
 
-
-create table dml_sample(
-    id number, 
-    nick_name varchar2(100) default '홍길동',
-    name varchar2(100) not null,
-    enroll_date date default sysdate not null
+--테이블 생성
+--컬럼명       널여부     자료형+(해당크기)
+CREATE TABLE dml_sample(
+    ID NUMBER, 
+    nick_name VARCHAR2(100) DEFAULT '홍길동',  
+    NAME VARCHAR2(100) NOT NULL, 
+    enroll_date DATE DEFAULT sysdate NOT NULL
 );
 
-select *from dml_sample;
+SELECT *FROM dml_sample;
+
 
 --타입1--
---inseet into 테이블 values (컬럼1값, 컬럼2값, ...) 
+--insert into 테이블 values (컬럼1값, 컬럼2값, ...) 
+--컬럼 개수와 순서를 반드시 지킬것!
 
 --SQL 오류: ORA-00947: not enough values
-insert into dml_sample
-values (100, default, '신사임당');
+INSERT INTO dml_sample
+VALUES (100, DEFAULT, '신사임당');
 
 --SQL 오류: ORA-00913: too many values
-insert into dml_sample
-values (100, default, '신사임당', 'default', 'ㅋㅋ');
+INSERT INTO dml_sample
+VALUES (100, DEFAULT, '신사임당', DEFAULT, 'ㅋㅋ');
 
-insert into dml_sample
-values (100, default, '신사임당', 'default');
+INSERT INTO dml_sample
+VALUES (100, DEFAULT, '신사임당', DEFAULT);
+
 
 --타입2--
 --insert into 테이블 (컬럼1名, 컬럼2名, ...) values(컬럼1값, 컬럼2값, ...)
 
 --모든 컬럼에 값을 넣어줌
-insert into dml_sample (id, nick_name, name, enroll_date)
-values (200, '제임스', '이황', sysdate);
+INSERT INTO dml_sample (ID, nick_name, NAME, enroll_date)
+VALUES (200, '제임스', '이황', sysdate);
 
---장점 : 원하는 컬럼만 골라쓸 수 있음
-insert into dml_sample(name, enroll_date)
-values ('세종', sysdate); --nullable한 컬럼은 생략가능, 기본값이 있다면 기본값이 적용됨
+--장점 : 원하는 컬럼만 골라 쓸 수 있음
+--nullable한 컬럼은 생략 가능
+--not null컬럼은 무조건 써줘야 함
+--기본값이 있다면 기본값이 적용됨
+INSERT INTO dml_sample(NAME, enroll_date)
+VALUES ('세종', sysdate);
 
 --not null이면서 기본값이 지정안된 경우 생략 불가
 --ORA-01400: cannot insert NULL into ("KH"."DML_SAMPLE"."NAME")
-insert into dml_sample(id, enroll_date)
-values (300, sysdate);
+INSERT INTO dml_sample(ID, enroll_date)
+VALUES (300, sysdate);
 --name은 생략 불가
+--why? not null이고 기본값도 지정이 안되었기 때문
 
 --name값만 추가
-insert into dml_sample(name)
-values ('윤봉길');
+INSERT INTO dml_sample(NAME)
+VALUES ('윤봉길');
+--id, nick_name : nullable -> 생략가능
+--enroll_date : not null이지만 기본값이 있음 -> 생략가능 
+
 
 --서브쿼리를 이용한 insert
 --서브쿼리를 이용하면 한번에 여러행을 삽입 가능
-create table emp_copy
+
+--cf. 테이블의 구조(컬럼)만 복사하기
+/*
+create table <만들어줄 테이블名>
 as
 select *
-from employee
-where 1 = 2; --false -> 테이블의 구조만 복사해서 테이블을 생성
+from <테이블 名>
+where <무조건 false가 될 식> ;
+*/
 
-select * from emp_copy;
+CREATE TABLE emp_copy
+AS
+SELECT *
+FROM employee
+WHERE 1 = 2; --false -> 테이블의 구조만 복사해서 테이블을 생성
 
+SELECT * FROM emp_copy;
+--EMP_COPY 테이블의 테이블 명세 = EMPLOYEE 테이블의 테이블 명세
+DESC emp_copy;
+DESC employee;
+
+
+--서브쿼리를 이용한 insert
+--서브쿼리를 이용하면 한번에 여러행을 삽입 가능
+
+/*
+insert into 테이블名 ( 서브쿼리 - 값으로 넣고싶은 테이블의 select구문
+                                    select *
+                                    from <테이블名>);
+*/
+
+--테이블의 모든 행, 모든 컬럼을 insert
 --서브쿼리의 값들이 고스란히 테이블에 들어감
-insert into emp_copy (
-    select *
-    from employee
-);
+INSERT INTO emp_copy (
+                                      SELECT *
+                                      FROM employee
+                                      );
+--24개 행 이(가) 삽입되었습니다.
 
-rollback;
+ROLLBACK;
 
-insert into emp_copy(emp_id, emp_name, emp_no, job_code, sal_level) (
-    select emp_id, emp_name, emp_no, job_code, sal_level
-    from employee
-);
+--원하는 컬럼만 insert
+/*
+insert into 테이블名 (원하는 컬럼 나열)
+                                 ( 서브쿼리 - 값으로 넣고싶은 테이블의 select구문
+                                     select 원하는 컬럼 나열
+                                     from <테이블名>
+                                 );
+*/
+INSERT INTO emp_copy(emp_id, emp_name, emp_no, job_code, sal_level)
+                         (SELECT emp_id, emp_name, emp_no, job_code, sal_level
+                           FROM employee
+                         );
+--not null인 컬럼은 모두 채워넣어야 함
+SELECT * FROM emp_copy;
 
 --emp_copy 데이터 추가
-select * from emp_copy;
 
---기본값 확인 data_default
+
+--DATA_DEFAULT : 기본값 확인 
+/*
 select *
 from user_tab_cols
-where table_name = 'EMP_COPY';
+where table_name = '테이블名 대문자';
+*/
+--이때 테이블名은 홑따음표(' ') 안에 대문자로 써줘야 함
+--cf. 기본값은 복사되지 않음
 
---테이블 구조를 바꿈
+SELECT *
+FROM user_tab_cols
+WHERE table_name = 'EMPLOYEE';
+
+
+SELECT *
+FROM user_tab_cols
+WHERE table_name = 'EMP_COPY';
+--이때 테이블名은 홑따음표(' ') 안에 대문자로 써줘야 함
+ 
+ 
+--ALTER : 테이블 구조를 바꿈
 --기본값 추가
-alter table emp_copy 
-modify quit_yn default 'N'
-modify hire_date default sysdate;
+/*
+alter table 테이블名
+modify 컬럼名1 default 기본값
+modify 컬럼名2 default 기본값
+...;
+*/
+--cf. 문자를 기본값으로 -> 홑따음표 (' ') 사용
+     --날짜를 기본값으로 -> 홑따음표 (' ') 미사용
+     
+ALTER TABLE emp_copy 
+MODIFY quit_yn DEFAULT 'N'
+MODIFY hire_date DEFAULT sysdate;  
+--Table EMP_COPY이(가) 변경되었습니다.
 
-insert into dml_sample(name, enroll_date)
-values ('세종', sysdate); 
+--기본값 변경 확인
+SELECT *
+FROM user_tab_cols
+WHERE table_name = 'EMP_COPY';
 
-insert into emp_copy(emp_id, emp_name, emp_no, job_code, sal_level)
-values (224, '남윤지', '970505-1234567', 'J1', 'S1');
 
-select * from emp_copy;
+INSERT INTO dml_sample(NAME, enroll_date)
+VALUES ('세종', sysdate); 
 
+INSERT INTO emp_copy(emp_id, emp_name, emp_no, job_code, sal_level, quit_yn, hire_date)
+VALUES (224, '남윤지', '970505-1234567', 'J1', 'S1', DEFAULT, DEFAULT);
+
+
+--Data Migration / INSERT ALL
 --insert all을 이용한 여러테이블에 동시에 데이터 추가
---하나의 테이블에 있는 데이터를 migration 작업할 때, 병합 작업시
---서브쿼리를 이용해서 2개 이상의 테이블에 동시에 데이터 추가, 조건부 추가도 가능
+--하나의 테이블에 있는 데이터를 migration 작업할 때, 병합 작업시 사용
+--서브쿼리를 이용해서 2개 이상의 테이블에 동시에 데이터 추가
+--조건부 추가 또한 가능
 
 --입사일 관리 테이블
-
 --구조를 복사해준 테이블 생성
 create table emp_hire_date
-as
+as  
 select emp_id, emp_name, hire_date
 from employee
 where 1 = 2;
