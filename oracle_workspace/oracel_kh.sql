@@ -4424,55 +4424,55 @@ END;
 --트랜잭션 구문을 실행하면, commit/rollback을 함께 작성하여 db에 적용해주어야 함
 
 
-create table member (
-    id varchar2(30),
-    pwd varchar2(50) not null,
-    name varchar2(100) not null,
-    constraint member_id_pk primary key(id)
+CREATE TABLE MEMBER (
+    ID VARCHAR2(30),
+    pwd VARCHAR2(50) NOT NULL,
+    NAME VARCHAR2(100) NOT NULL,
+    CONSTRAINT member_id_pk PRIMARY KEY(ID)
 --constraint pk_member_id primary key(id)
 --ORA-02264: name already used by an existing constraint
 );
 
-desc member;
+DESC MEMBER;
 
 --PL/SQL에서의 insert, update 사용
-begin
+BEGIN
 --insert
-    insert into member
-    values('honggd', '1234', '홍길동');
+    INSERT INTO MEMBER
+    VALUES('honggd', '1234', '홍길동');
     
 --update
-    update member
-    set pwd = 'abcd'
-    where id = 'honggd';
+    UPDATE MEMBER
+    SET pwd = 'abcd'
+    WHERE ID = 'honggd';
 
      --트랜잭션 처리
-     commit;
+     COMMIT;
      
-end;
+END;
 /
 
-select *
-from member;
+SELECT *
+FROM MEMBER;
 
 
 --사용자 입력값을 받아서 id, pwd, name을 새로운 행으로 추가하는 익명블럭을 작성하세요. 
-create table member2 (
-    id varchar2(30),
-    pwd varchar2(50) not null,
-    name varchar2(100) not null
+CREATE TABLE member2 (
+    ID VARCHAR2(30),
+    pwd VARCHAR2(50) NOT NULL,
+    NAME VARCHAR2(100) NOT NULL
 );
 
-begin
-    insert into member2
-    values('&id', '&pwd', '&name');
+BEGIN
+    INSERT INTO member2
+    VALUES('&id', '&pwd', '&name');
     --트랜잭션 처리
-    commit;
-end;
+    COMMIT;
+END;
 /
 
-select *
-from member2;
+SELECT *
+FROM member2;
 
 
 --emp_copy에 사번 마지막 번호에 +1한 사번으로 
@@ -4481,28 +4481,28 @@ from member2;
 --emp_name, emp_no, phone, job_code, sal_level
 --emp_id
 
-select * from emp_copy;
+SELECT * FROM emp_copy;
 
-declare
-    last_num number;
-begin
+DECLARE
+    last_num NUMBER;
+BEGIN
     --1. 사번 마지막 번호 구하기
-    select max(emp_id)
-    into last_num
-    from emp_copy;
+    SELECT MAX(emp_id)
+    INTO last_num
+    FROM emp_copy;
     
     dbms_output.put_line('last_num = ' || last_num);
     
     --2. 사용자입력값으로 insert문 실행
-    insert into emp_copy (emp_id, emp_name, emp_no, phone, job_code, sal_level)
-    values(last_num + 1, '&emp_name', '&emp_no', '&phone', '&job_code', '&sal_level');
+    INSERT INTO emp_copy (emp_id, emp_name, emp_no, phone, job_code, sal_level)
+    VALUES(last_num + 1, '&emp_name', '&emp_no', '&phone', '&job_code', '&sal_level');
 
     --3. transaction처리
-    commit;
-end;
+    COMMIT;
+END;
 /
 
-select * from emp_copy;
+SELECT * FROM emp_copy;
 
 --cf. too large : 글자수 초과
 --cf. too many : 컬럼수보다 더 많은 값을 넣을 때
@@ -4514,50 +4514,57 @@ select * from emp_copy;
 --if() {} X
 --if 조건식 then 실행구문 end if;
 --if 조건식 then 실행구문1 else 실행구문2 end if;
---if 조건식1 then 실행구문1 elseif 조건식2 then 실행구문2 end if;
+--if 조건식1 then 실행구문1 elsif 조건식2 then 실행구문2 end if;
 
-declare
-    name varchar2(100) := '&이름';
-begin
-    if name = '홍길동' then
+
+--if조건문
+DECLARE
+    NAME VARCHAR2(100) := '&이름';
+BEGIN
+    IF NAME = '홍길동' THEN
         dbms_output.put_line('반갑습니다. 홍길동님');
-    end if;
+    END IF;
     dbms_output.put_line('-----끝-----');
-end;
+END;
 /
 --홍길동 입력
 --출력 : 반갑습니다. 홍길동님
              -------끝-----
+             
 --홍길동이 아닌 이름 입력
 --출력 : -------끝-----
 
-declare
-    name varchar2(100) := '&이름';
-begin
-    if name = '홍길동' then
+
+--if~else 조건문
+DECLARE
+    NAME VARCHAR2(100) := '&이름';
+BEGIN
+    IF NAME = '홍길동' THEN
         dbms_output.put_line('반갑습니다. 홍길동님');
-    else
+    ELSE
         dbms_output.put_line('당신은 누구십니까?');
-    end if;
+    END IF;
     dbms_output.put_line('-----끝-----');
-end;
+END;
 /
 --홍길동이 아닌 이름 입력
 --출력 : 당신은 누구십니까?
     -------끝-----
 
-declare
-    num number := &숫자;  --홑따음표로 감싸지 않으면 문자가 아닌 숫자로 입력받음
-begin
-    if mod(num, 3) = 0 then
-        dbms_output.put_line('3의 배수를 입력하셨습니다.');
-    elsif mod(num, 3) = 1 then
-        dbms_output.put_line('3으로 나눈 나머지가 1입니다.');
-    elsif mod(num, 3) = 2 then
-        dbms_output.put_line('3으로 나눈 나머지가 2입니다.');
-    end if;
 
-end;
+--if~elsif~조건문
+DECLARE
+    NUM NUMBER := &숫자;  --홑따음표로 감싸지 않으면 문자가 아닌 숫자로 입력받음
+BEGIN
+    IF MOD(NUM, 3) = 0 THEN
+        dbms_output.put_line('3의 배수를 입력하셨습니다.');
+    ELSIF MOD(NUM, 3) = 1 THEN
+        dbms_output.put_line('3으로 나눈 나머지가 1입니다.');
+    ELSIF MOD(NUM, 3) = 2 THEN
+        dbms_output.put_line('3으로 나눈 나머지가 2입니다.');
+    END IF;
+
+END;
 /
 --30입력
 --출력 : 3의 배수를 입력하셨습니다.
@@ -4566,43 +4573,32 @@ end;
 --32입력
 --출력 : 3으로 나눈 나머지가 2입니다.
 
-select *
-from employee;
+
 
 --사번을 입력받고, 해당 사원의 직급이 J1이면 '대표'출력, J2이면 '임원'출력, 그외에는 '평사원'출력
-declare
-    emp_id number := &숫자;  --홑따음표로 감싸지 않으면 문자가 아닌 숫자로 입력받음
-begin
-    select job_code
-    from employee E
-    where E.emp_id;
-    if 
-        
-      THEN  dbms_output.put_line('3의 배수를 입력하셨습니다.');
-    end if;
 
-end;
-/
+SELECT * FROM employee;
 
-
-declare
-    v_emp_id employee.emp_id%type := '&사번';
-    v_job_code employee.job_code%type;
-begin
-    select job_code
-    into v_job_code
-    from employee
-    where emp_id = v_emp_id;
+DECLARE
+    v_emp_id employee.emp_id%TYPE := '&사번';
+    v_job_code employee.job_code%TYPE;
+BEGIN
+    SELECT job_code
+    INTO v_job_code
+    FROM employee
+    WHERE emp_id = v_emp_id;
     
-    if v_job_code = 'J1' then
+    IF v_job_code = 'J1' THEN
         dbms_output.put_line('대표');
-    elsif v_job_code = 'J2' then
+    ELSIF v_job_code = 'J2' THEN
         dbms_output.put_line('임원');
-    else 
+    ELSE 
         dbms_output.put_line('평사원');
-    end if;
-end;
+    END IF;
+END;
 /
+
+
 
 
 ------------------------------------------------------------------------------
@@ -4612,170 +4608,229 @@ end;
 --2. while loop - 조건에 따른 반복
 --3. for loop - 지정 횟수만큼 반복실행
 
+--기본 loop
+/*
 declare
-    n number := 1;
+    초기식 초기화
+      증감변수名 number := 1;
+      
 begin
     loop
-        dbms_output.put_line(n);
-        n := n + 1;
-        --exit 탈출 구문 必要 like 자바's break
-        if n > 100 then
-            exit;
-            end if;
+    [코드 작성]
+    증감식
+        증감변수名 := 변수名 + 1;
+    
+    탈출조건식 (if조건문, exit)
+        if 변수名 > 종료시점N then exit;
+        end if;
     end loop;
+    
 end;
 /
+*/
 
-declare
-    n number := 1;
-begin
-    loop
-        dbms_output.put_line(n);
-        n := n + 1;
-        --exit 탈출 구문 必要 like 자바's break
---        if n > 100 then
---        exit;
---        end if;
-            exit when n > 50;
+--1부터 100까지 출력
+DECLARE
+    N NUMBER := 1; --증감변수 선언
+    
+BEGIN
 
-    end loop;
-end;
+    LOOP
+        dbms_output.put_line(N); 
+        N := N + 1;         
+        
+        --탈출조건식
+        IF N > 100 THEN    
+            EXIT;                --exit 탈출 구문 必要 like 자바's break
+            END IF;
+            
+    END LOOP;
+END;
 /
+--출력 : 1 ~ 100
 
---난수 출력 (실수로 출력됨)
-declare
-    rnd number;
-begin
+
+--난수 출력 (실수로 출력됨) 
+--dbms_random.value(startN, endN)
+--이 때, startN 이상 endN 미만 사이의 실수 난수가 나옴
+DECLARE
+    rnd NUMBER;
+BEGIN
     --start이상, end 미만의 난수 생성
-    rnd := dbms_random.value(1, 11); --두가지 인자 (start, end)
+    rnd := dbms_random.VALUE(1, 11); --두가지 인자 (start, end)
     dbms_output.put_line(rnd);
-end;
+END;
 /
 
 --소수점 날림
-declare
-    rnd number;
-begin
+DECLARE
+    rnd NUMBER;
+BEGIN
     --start "이상", end "미만"의 난수 생성
-    rnd := trunc(dbms_random.value(1, 11)); --두가지 인자 (start, end) -> 1~10까지 
+    rnd := TRUNC(dbms_random.VALUE(1, 11)); --두가지 인자 (start, end) -> 1~10까지 
     dbms_output.put_line(rnd);
-end;
+END;
 /
 
 --1부터 10까지의 난수 10개 출력
-declare
-    rnd number;
-    n number := 1;
-begin 
-    loop
+DECLARE
+    rnd NUMBER;
+    N NUMBER := 1;
+BEGIN 
+    LOOP
         --start 이상, end 미만의 난수 
-        rnd := trunc(dbms_random.value(1, 11));
+        rnd := TRUNC(dbms_random.VALUE(1, 11));
         dbms_output.put_line(rnd);
         
-        n :=  n + 1;
-        exit when n > 10;
-    end loop;
-end;
+        N :=  N + 1;
+        EXIT WHEN N > 10;
+    END LOOP;
+END;
 /
+
+
 
 --while loop
 --조건이 일치할 때 까지만
-
+/*
 declare
-    n number := 1;
+    초기식 초기화
+      증감변수名 number := 1;
+      
 begin
-    while n < 10 loop--조건식
-        dbms_output.put_line(n);
-        n := n + 1; --증감식
+    while 변수명 > 종료시점N loop
+    [코드 작성]
+    증감식
+        증감변수名 := 변수名 + 1;
     end loop;
+    
 end;
+/
+*/
+
+
+DECLARE
+    N NUMBER := 1;
+BEGIN
+    WHILE N < 10 LOOP--탈출조건식
+        dbms_output.put_line(N);
+        N := N + 1; --증감식
+    END LOOP;
+END;
 /
 --조건의 결과가 false라면 중지되기 때문에 별도의 exit구문 불필요
 
+
 --짝수만 출력
-declare
-    n number := 1;
-begin
-    while n < 10 loop--조건식
-        if (mod(n, 2) = 0) then
-        dbms_output.put_line(n);
-        end if;
-        n := n + 1; --증감식
-    end loop;
-end;
+DECLARE
+    N NUMBER := 1;
+BEGIN
+    WHILE N < 10 LOOP--조건식
+        IF (MOD(N, 2) = 0) THEN
+        dbms_output.put_line(N);
+        END IF;
+        N := N + 1; --증감식
+    END LOOP;
+END;
 /
 
 --사용자로부터 단수(2단~9단) 입력받아 해당 단수의 구구단을 출력
 --2에서 9 외의 숫자를 입력하면, '잘못입력하셨습니다.' 출력 후 종료
-declare
-    dan number := &단;
-    n number := 1;
-begin
-        if (dan >= 2 and dan <= 9) then
-        while n < 10 loop--조건식
-        dbms_output.put_line(dan || '*'|| n || '=' || dan * n);
-        n := n + 1; --증감식        
-        end loop;
-        else
-        dbms_output.put_line('잘못입력하셨습니다.');
-        end if;
-end;
+DECLARE
+    dan NUMBER := &단;
+    N NUMBER := 1;
+BEGIN
+        IF (dan >= 2 AND dan <= 9) THEN
+            WHILE N < 10 LOOP--조건식
+            dbms_output.put_line(dan || '*'|| N || '=' || dan * N);
+            N := N + 1; --증감식        
+            END LOOP;
+        ELSE
+            dbms_output.put_line('잘못입력하셨습니다.');
+        END IF;
+END;
 /
 
---for 증감변수 (in) startN..endN loop
---장점 : 증감변수를 별도로 선언하지 않아도 可以
+
+
+--for 반복문
+/*
+begin
+    for 증감변수名 (in) startN..endN loop
+    [코드작성]
+    end loop;
+end;
+*/
+--장점 : 증감변수를 별도로 선언, 증감식 작성하지 않아도 可以
          --자동증가처리 (무조건 1씩 증가)
 --'reverse' keyword : endN부터 startN까지 1씩 감소
---startN과 endN도 포함됨
+--startN이상 endN 이하 (startN과 endN 포함)
 
-begin
+
+--1부터 5까지 증가 출력
+BEGIN
     --증감변수 n을 선언없이 바로 사용가능
     --시작값..종료값 (시작값 < 종료값 , 순서를 바꿔 쓸 수 없음) 
-    for n in 1..5 loop
-        dbms_output.put_line(n);
-    end loop;
-end;
+    FOR N IN 1..5 LOOP
+        dbms_output.put_line(N);
+    END LOOP;
+END;
 /
+--출력 : 1 2 3 4 5
 
-begin
+
+--'reverse' keyword : 뒤집기
+/*
+for 증감변수名 in reverse startN..endN loop
+*/
+--endN부터 먼저 시작하여 출력되긴 하나 
+--마찬가지로 startN은 제일 작은 숫자, endN에는 제일 큰 숫자를 써줘야 함
+
+--5부터 1까지 뒤집어서 출력
+BEGIN
     --reverse 키워드 사용해서 뒤집기
-    for n in reverse 1..5 loop
-        dbms_output.put_line(n);
-    end loop;
-end;
+    FOR N IN REVERSE 1..5 LOOP
+        dbms_output.put_line(N);
+    END LOOP;
+END;
 /
 
 --210 ~ 220번 사이의 사원 조회 (사번, 이름, 전화번호)
-declare 
-    e employee%rowtype;
+DECLARE 
+    E employee%rowtype;
 
-begin 
-    for n in 210..220 loop
+BEGIN 
+    FOR N IN 210..220 LOOP
 
     --select구문이 11번 돌게 됨
-    select * --전체 행을 조회한 후
-    into e --e라는 행변수에 담음
-    from employee
-    where emp_id = n;
+    SELECT * --전체 행을 조회한 후
+    INTO E --e라는 행변수에 담음
+    FROM employee
+    WHERE emp_id = N;
     
       --여러행을 한번에 처리할 수 없음
       --한 행씩 꺼내서 출력 
-    dbms_output.put_line('사번 : ' || e.emp_id);
-    dbms_output.put_line('이름 : ' || e.emp_name);
-    dbms_output.put_line('전화번호 : ' || e.phone);
+    dbms_output.put_line('사번 : ' || E.emp_id);
+    dbms_output.put_line('이름 : ' || E.emp_name);
+    dbms_output.put_line('전화번호 : ' || E.phone);
     dbms_output.put_line(' '); --엔터 역할
-    end loop;
-end;
+    END LOOP;
+END;
 /
+--출력 :
+--사번 : 210
+--이름 : 윤은해
+--전화번호 : 0179964233
+-- 
+--사번 : 211
+--이름 : 전형돈
+--전화번호 : 01044432222
+--.....
+--사번 : 220
+--이름 : 이중석
+--전화번호 : 
 
---@실습문제 : tb_number테이블에 난수 100개(0~999)를 저장하는 익명블럭을 생성
---실행시마다 생성된 모든 난수의 합을 콘솔에 룰력할 것
-create table tb_number(
-    id number, --pk sequence 객체로 부터 채번
-    num number, --난수
-    reg_date date default sysdate,
-    constraints pk_tb_number_id primary key(id)
-);
+
 
 --@실습문제 : tb_number테이블에 난수 100개(0 ~ 999)를 저장하는 익명블럭을 생성하세요.
 --실행시마다 생성된 모든 난수의 합을 콘솔에 출력할 것.
@@ -4811,69 +4866,133 @@ select * from tb_number;
 --DATABASE OBJECT2
 --========================================================================
 --PL/SQL문법을 사용하는 객체
---익명블럭 사용법과 유사함
---익명블럭은 실행하고 끝남. 저장되는 형태가 아니었는데, 오늘 배우는 것은 익명블럭의 저장형태라고 보면 됨
+--종류 : function, procedure, cursor, trigger 等
+--익명블럭 사용법과 유사하지만, 익명블럭을 저장해준 형태임
+    --DB에 저장해 두었다가 호출하는 방식
+--cf. 익명블럭 : 작성 -> 실행 -> 끝. DB에 저장되는 형태가 아님
 
+--대부분의 객체들은 create 'or replace' 옵션을 가지고 있음
+--수정하고 싶은 부분이 있다면, drop하지 않고 create or replace 구문을 한번 더 실행해서 수정 가능
+ 
 --------------------------------------------------------------------------
 --FUNCTION
 --------------------------------------------------------------------------
-
-
+--cf. function은 procedure의 일종
+--oracle에서 제공하는 built in 함수 이외에도 원하는 함수를 직접 만들어 호출해 사용할 수 있음
+--자주 쓰는 접두어 : fn_
 /*
 create or replace function db_func ()
 return
-is
+
+is (declare 대신)
 
 begin
 
-exception
+[exception]
 
 end;
 /
 */
---문자열 앞뒤에 d...b 헤드폰 씌우기 함수.. 양모자..
---저장해야 하기 때문에 저장하기 위해 필요한 return 타입이 반드시 필요함 - 자바와 달리 오라클 함수는 무조건 return값을 가짐
---매개변수, 리턴선언시 자료형 크기지정하지 말것
---자주 쓰는 접두어 : fn_
-                                                       --  변수명   자료형
+
+
+
+
+--문자열 앞뒤에 d...b 헤드폰 씌우기 함수 만들기 
+                                                        --  변수명   자료형 (크기 기술 X)
 create or replace function db_func (p_str varchar2)
-return varchar2 --이런걸 만들자~
-is --얘는 뭐냐면~
+--function을 생성합니다   함수 이름은 'db_func'이고 (받아올 parameter의 변수명과 자료형은 이러합니다) 
+                                                                            
+return varchar2 
+--리턴구문 : 리턴합니다 이런 자료형을 (크기 기술 X)
+--이런 함수를 만들자~
+
+/*
+자바와 달리 오라클 함수는 무조건 return값을 가짐 (void가 없음)
+
+익명블럭은 한번 실행 후 종료되는 것에 반하여
+함수는 저장해야 하기 때문에 저장하기 위해 필요한
+변수(객체)이름, 객체 호출 시 전달할 파라미터(변수명 자료형), 리턴 타입 반드시 필요
+
+매개변수, 리턴선언시 자료형 크기지정하지 말것
+*/
+
+
+is 
+--이 함수는 뭐냐면~ ('is' instead of 'declare') 
     --이 안에서 사용할 지역변수 선언
-    result varchar2(32767); --리턴할 값 (자료형, 크기 무조건 써야함)
+    result varchar2(32767); --리턴할 값
+--result 자료형(크기);  (자료형, 크기 무조건 써야함)
+    
 begin
     --실행로직
     result := 'd' || p_str || 'b';
+    --result에 parameter 변수를 이용한 식을 대입함
     return result;
+    --result를 리턴함
+    
+--(원한다면 exception처리 또한 가능)    
+
 end;
 /
 --Function DB_FUNC이(가) 컴파일되었습니다.
---db_func라는 함수가 db 서버 프로그램 안에 존재함
+--이렇게 만들어두면 db_func라는 함수가 db 서버 프로그램 안에 존재하게 됨
+
+
 
 --실행
+
 --1. 일반 sql문
+/*
+select 함수名(parameter : 컬럼名)
+from 테이블名;
+-> 원하는 테이블의 해당 컬럼을 parameter로 받아서 각 행마다의 값들에 함수를 입혀서 리턴함
+*/
+
 select db_func(emp_name)
 from employee;
 
---2. 익명블럭/다른 pl/sql객체에서 호출가능
 
---세션 시작시 무조건 호출
---DB서버에 명령 요청을 보낼 때, 보내는 요청 : 세션
+--DB연결이 시작되면 (세션이 맺어질 떄) 무조건 처음 한번은 호출
+    --cf. 세션이 시작된다는 것 : 클라이언트 프로그램이 DB서버에 요청을 보낼 때
+                                           --접속을 하기 위해 연결이 만들어 지는 것
 set serveroutput on;
+
+
+--2. 익명블럭 or 다른 PL/SQL객체에서 호출가능
+/*
+begin
+    dbms_output.put_line(함수名(parameter));
+end;
+/
+*/
 
 begin
     dbms_output.put_line(db_func('&이름'));
 end;
 /
---출력 : d홍길동b
+--홍길동 입력 후 출력 : 
+--d홍길동b 
 
---3. exec | execute 프로시져/함수 호출하는 방법
---세 줄을 하나씩 차례대로 실행
-var text varchar2; --var : variable의 약자
-exec :text := db_func('신사임당');
---execute :text := db_func('신사임당');
+
+--3. exec | execute  
+    -- : execute : PL/SQL을 프로시져/함수를 호출하는 실행명령어
+/*
+var  변수名  자료형;   (전역변수선언. var : variable의 약자)
+execute :변수名 := 함수名(parameter);   (변수에 함수 대입)
+print 변수名;   (변수 출력)
+*/
+
+--세 줄을 하나씩 차례대로 실행할 것!
+var text varchar2; 
+execute :text := db_func('신사임당');
 print text;
+--출력 :
+--TEXT
+------------------------------------------------------------------------------
+--d신사임당b
 
+
+24분 25초
 --Data Dictionary에서 확인
 
 select * from user_functions;
@@ -5428,6 +5547,10 @@ end;
                 --삭제만 하면 삭제 테이블로 이동시키는 것은 TRIGGER가 대신 해줌
 -->실제로는 삭제되지 않지만, 사용자에게는 조회했을 때만 삭제된 것처럼 보임
 
+--트리거 주의사항
+--原DML 문의 대상테이블에 접근할 수 없다
+--트리거 안에서는 原DML을 제어할 수 없다
+--cf. 原DML : 최초 실행하는 DML문. 트리거를 작동시키는 DML문
 
 /*
 create or replace trigger 트리거名
@@ -5554,7 +5677,7 @@ begin
 end;
 / 
 
-
+--트리거 안에서는 원DML문의 대상테이블에 접근할 수 없다
 
 --@실습문제 :
 --emp_copy 에서 사원을 삭제할 경우, emp_copy_del 테이블로 데이터를 이전시키는 trigger를 생성하세요.
@@ -5564,3 +5687,109 @@ as
 select E.*
 from emp_copy E
 where 1 = 2;
+
+create or replace trigger trig_emp_quit
+    before delete on emp_copy
+    for each row
+begin
+    insert into emp_copy_del
+    (emp_id, emp_name, emp_no, email, phone, dept_code, job_code, sal_level, salary, bonus, manager_id, hire_date, quit_date, quit_yn)
+    values (:old.emp_id, :old.emp_name, :old.emp_no, :old.email, :old.phone, :old.dept_code, :old.job_code, :old.sal_level, :old.salary, :old.bonus, :old.manager_id, :old.hire_date, sysdate, 'Y');
+    
+    dbms_output.put_line(:old.emp_id||'사원이 퇴사자 테이블로 이동했음');
+end;
+/
+
+select * from emp_copy;
+select * from emp_copy_del;
+
+delete from emp_copy
+where quit_yn = 'Y';
+
+
+--트리거를 이용한 상품 재고 관리
+--물건이 공장으로 들어왔다가 출고
+
+--cf. 부모, 자식테이블 : 뭐가 먼저 존재해야 하는지 생각해보기, 자식테이블에서 부모테이블을 참조해서 씀
+--부모 테이블
+CREATE TABLE product (
+    pcode NUMBER,
+    pname VARCHAR2(100),
+    price NUMBER,
+    stock_cnt NUMBER DEFAULT 0,
+    CONSTRAINT pk_product_pcode PRIMARY KEY(pcode)
+);
+--자식 테이블
+CREATE TABLE product_io (
+    iocode NUMBER,
+    pcode NUMBER,
+    amount NUMBER,
+    status CHAR(1),
+    io_date DATE DEFAULT sysdate,
+    CONSTRAINT pk_product_io_code PRIMARY KEY(iocode),
+    CONSTRAINT fk_product_io_pcode FOREIGN KEY(pcode)
+                                                         REFERENCES product(pcode)
+);
+
+--체크 제약조건 추가
+ALTER TABLE product_io
+ADD CONSTRAINTS ck_product_io_status CHECK(status IN ('I', 'O'));
+
+CREATE SEQUENCE seq_product_pcode;
+
+CREATE SEQUENCE seq_product_io_iocode
+START WITH 1000; --1000번대는 입출고 코드, 재고는 1번대
+
+--부모테이블의 상품에 해당하는 데이터 만들기
+INSERT INTO product
+VALUES (seq_product_pcode.NEXTVAL, '아이폰12', 1500000, 0);
+
+INSERT INTO product
+VALUES (seq_product_pcode.NEXTVAL, '갤럭시21', 990000, 0);
+
+
+--2. 동시에 product테이블의 stock 숫자도 바뀜
+SELECT * FROM product;
+--1. 입고, 출고, 데이터가 일어날 때마다
+SELECT * FROM product_io;
+--product_io테이블에 insert 입고 +n -> product 테이블에 update +n stock_cnt 
+--product_io테이블에 insert 출고 -n -> product 테이블에 update -n stock_cnt 
+
+
+--입출고 데이터가 insert되면, 해당상품의 재고수량을 변경하는 트리거
+CREATE OR REPLACE TRIGGER trg_product
+    BEFORE
+    INSERT ON product_io --io테이블의 insert가 일어나면 트리거 작동
+    FOR EACH ROW --매 행마다
+BEGIN
+--분기
+    --입고
+    IF :NEW.status = 'I' THEN --status가 'I'인 경우
+      UPDATE product --product테이블을 업데이트 할건데
+      SET stock_cnt  = stock_cnt + :NEW.amount --stock_cnt값을 amount만큼 플러스로 설정해라 
+      WHERE pcode = :NEW.pcode; --기존의 pcode가 새로 추가된 pcode와 동일한 행을 찾아서
+    --출고
+    ELSE --status가 'O'인 경우
+      UPDATE product 
+      SET stock_cnt  = stock_cnt - :NEW.amount --stock_cnt값을 amount만큼 마이너스로 설정해라 
+      WHERE pcode = :NEW.pcode;   
+    END IF;
+
+END;
+/
+
+--입출고 내역
+INSERT INTO product_io
+VALUES(seq_product_io_iocode.NEXTVAL, 1, 5, 'I', sysdate); --5개 입고
+
+INSERT INTO product_io
+VALUES(seq_product_io_iocode.NEXTVAL, 1, 100, 'I', sysdate); --100개 입고
+
+INSERT INTO product_io
+VALUES(seq_product_io_iocode.NEXTVAL, 1, 50, 'O', sysdate); --50개 출고
+
+--io테이블에 내역이 쌓임
+
+COMMIT;
+
+
