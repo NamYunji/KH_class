@@ -3498,28 +3498,85 @@ INSERT INTO emp_copy
 --table, view, sequence, index, package, procedure, function, trigger, synonym, scheduler, user ...
 
 --주석 comment
---테이블, 컬럼에 대한 주석을 달 수 있다
+--테이블, 컬럼에 대한 주석을 달 수 있다 (필수)
+
+
+--모든 테이블의 주석 확인
+/*
 select *
 from user_tab_comments;
+*/
+SELECT *
+FROM user_tab_comments;
 
+--지정 테이블의 주석 확인
+/*
 select *
 from user_tab_comments
-where table_name = 'EMPLOYEE';
+where table_name = '(대문자)테이블名';
+*/
+SELECT *
+FROM user_tab_comments
+WHERE table_name = 'EMPLOYEE'; --테이블 지정
 
-desc tbl_files;
+
+--지정 테이블의 모든 컬럼의 주석 확인
+/*
+select *
+from user_col_comments
+whre table_name = '(대문자)테이블名';
+*/
+SELECT *
+FROM user_col_comments
+WHERE table_name = 'EMPLOYEE'; --테이블 지정
+
+
+--주석 달기
+
+--tbl_files 명세
+DESC tbl_files;
+--이름       널? 유형            
+---------- -- ------------- 
+--FILENO      NUMBER(3)     
+--FILEPATH    VARCHAR2(500) 
+
 
 --테이블 주석
-comment on table tbl_files is '파일경로테이블';
+/*
+comment on table 테이블名 is '주석내용';
+*/
+COMMENT ON TABLE tbl_files IS '파일경로테이블';
 --Comment이(가) 생성되었습니다.
 
---컬럼 주석
-comment on column tbl_files.fileno is '파일 고유번호';
-comment on column tbl_files.filepath is '파일 경로';
+--주석 확인
+SELECT *
+FROM user_tab_comments
+WHERE table_name = 'TBL_FILES';
 
---수정/삭제 명령은 없다
---....is ''; -> 삭제
+
+--컬럼 주석
+/*
+comment on column 테이블名.컬럼名 is '주석내용';
+*/
+COMMENT ON COLUMN tbl_files.fileno IS '파일 고유번호';
+--Comment이(가) 생성되었습니다.
+COMMENT ON COLUMN tbl_files.filepath IS '파일 경로';
+--Comment이(가) 생성되었습니다.
+
+--주석 확인
+SELECT *
+FROM user_col_comments
+WHERE table_name = 'TBL_FILES';
+
+
+--수정/삭제 명령은 따로 없음
+
+--수정 : 덮어쓰기
+COMMENT ON COLUMN tbl_files.filepath IS '경로 파일';
+--삭제 : ....is ''; 
 --why? oracle에서 빈문자열은 null과 동일
-comment on column tbl_files.filepath is '';
+COMMENT ON COLUMN tbl_files.filepath IS '';
+
 
 --============================================================
 --제약조건 CONSTRAINT
@@ -3528,42 +3585,99 @@ comment on column tbl_files.filepath is '';
 --제약조건 EX. NOT NULL
 --데이터에 대한 무결성(integrity)을 보장하기 위한 것
 --무결성 = 데이터를 정확하고, 일관되게 유지하는 것
+--특정 컬럼에 대한 제약조건을 거는 것
 
 /*
-1. not null : 컬럼에 대한 제약조건. null을 허용하지 않음. 필수 값
-2. unique : 중복값을 허용하지 않음 (ex. 주민번호, 아이디...)
-3. primary key : not null + unique (null을 허용하지도 않고, 고유해야 함) -> 레코드 식별자로써, 테이블당 1개만 허용
-4. foreign key : 외래키. 데이터 참조 무결성 보장. 부모 테이블의 데이터만 허용 (not 상속관계 but 참조관계)
-5. check : 저장가능한 값의 범위/조건을 제한
+1. not null 
+    --null을 허용하지 않음. 필수 값
+2. unique 
+    --중복값을 허용하지 않음 (ex. 주민번호, 아이디...)
+3. primary key
+    --not null + unique (null을 허용하지도 않고, 고유해야 함)
+    --레코드 (행)식별자
+    --테이블당 1개만 허용
+        --cf. 다른 제약조건들은 한 테이블에 여러 컬럼에 존재할 수 있음
+    --이 컬럼만 보면 다른 어떤 행과도 구별할 수 있음
+4. foreign key 
+    --외래키
+    --데이터 참조 무결성 보장
+    --부모 테이블의 데이터만 허용 (not 상속관계 but 참조관계)
+        --ex. employee(자식테이블)의 dept_code는 
+        --      department(부모테이블)의 dept_id 값을 가져다 쓰는 것
+5. check
+    --저장가능한 값의 범위/조건을 제한
+    --ex. 성별컬럼의 남/여 값만 입력받음
 
-값 하나만 제약조건에 위반되어도, 일절 허용하지 않음
+값 하나라도 제약조건에 위반되어도, 일절 허용하지 않음
 행에 대한 명령어 자체가 취소됨
+->데이터 무결성
 */
 
---제약조건 확인
+
+--제약조건 확인하는 Data Dictionary
 --user_constraints ( 컬럼명 无）
 --user_cons_columns （컬럼명 有）
+--cf. DD는 모두 s로 끝남
 
+
+--컬럼명 无
 --employee에 걸려있는 제약조건 확인
+/*
+select *
+from user_constraints
+where table_name = '(대문자)테이블名';
+*/
 select *
 from user_constraints
 where table_name = 'EMPLOYEE';
 --컬럼명이 데이터 취급이라 대문자로 써야함
 
--- C check | not null
----> search_condition을 확인해줘야 함
--- U unique
--- P primary key
--- R foreign key
---ck : check 제약조건
---not null제약조건은 
---pk : primary key
+/*
 
+CONSTRAINT_NAME
+
+CK: check
+UQ : unique 
+PK : primary key
+FK : foreign key (부모테이블의 컬럼) 
+제약조건 이름无 : not null 제약조건 (흔하기 때문에 이름지정X)
+
+
+CONSTRAINT_TYPE
+
+C : check | not null
+    --> SEARCH_CONDITION 확인
+    --컬럼名 in ('값1', '값2') -> check
+    --"컬럼名" IS NOT NULL -> not null 
+U unique
+P primary key
+R foreign key (R : reference)
+*/
+
+
+--컬럼명 有
+/*
+select *
+from user_cons_columns
+where table_name = '(대문자)컬럼名';
+*/
 select *
 from user_cons_columns
 where table_name = 'EMPLOYEE';
 
---제약조건 검색
+
+
+
+--join
+    --(user_constraints JOIN user_cons_columns)
+/*
+select (원하는 정보의)컬럼名
+from user_constraints  uc
+    join user_cons_columns  ucc
+        using (constraint_name)
+where uc.table_name = '(대문자)테이블名';
+*/
+    
 select constraint_name,
            uc.table_name,
            ucc.column_name,
@@ -4835,29 +4949,29 @@ END;
 --@실습문제 : tb_number테이블에 난수 100개(0 ~ 999)를 저장하는 익명블럭을 생성하세요.
 --실행시마다 생성된 모든 난수의 합을 콘솔에 출력할 것.
 
-create sequence seq_tb_nubmer_id;
+CREATE SEQUENCE seq_tb_nubmer_id;
  --insert문 실행.
-declare
-    rnd number;
-    v_sum number := 0;
-begin
-    for n in 1..100 loop
+DECLARE
+    rnd NUMBER;
+    v_sum NUMBER := 0;
+BEGIN
+    FOR N IN 1..100 LOOP
         --난수 생성
-        rnd := trunc(dbms_random.value(0,1000));
+        rnd := TRUNC(dbms_random.VALUE(0,1000));
         -- 데이터 추가
-        insert into tb_number (id, num) 
-        values(seq_tb_nubmer_id.nextval, rnd);
+        INSERT INTO tb_number (ID, NUM) 
+        VALUES(seq_tb_nubmer_id.NEXTVAL, rnd);
         --누적합
         v_sum := v_sum + rnd;
-    end loop;
+    END LOOP;
     
     dbms_output.put_line('합계 : '||v_sum);
     --트랜잭션처리
-    commit;
-end;
+    COMMIT;
+END;
 /
 --데이터확인
-select * from tb_number;
+SELECT * FROM tb_number;
 --데이터제거
 --truncate table tbl_number;
 
@@ -4899,10 +5013,10 @@ end;
 
 --문자열 앞뒤에 d...b 헤드폰 씌우기 함수 만들기 
                                                         --  변수명   자료형 (크기 기술 X)
-create or replace function db_func (p_str varchar2)
+CREATE OR REPLACE FUNCTION db_func (p_str VARCHAR2)
 --function을 생성합니다   함수 이름은 'db_func'이고 (받아올 parameter의 변수명과 자료형은 이러합니다) 
                                                                             
-return varchar2 
+RETURN VARCHAR2 
 --리턴구문 : 리턴합니다 이런 자료형을 (크기 기술 X)
 --이런 함수를 만들자~
 
@@ -4917,22 +5031,22 @@ return varchar2
 */
 
 
-is 
+IS 
 --이 함수는 뭐냐면~ ('is' instead of 'declare') 
     --이 안에서 사용할 지역변수 선언
-    result varchar2(32767); --리턴할 값
+    RESULT VARCHAR2(32767); --리턴할 값
 --result 자료형(크기);  (자료형, 크기 무조건 써야함)
     
-begin
+BEGIN
     --실행로직
-    result := 'd' || p_str || 'b';
+    RESULT := 'd' || p_str || 'b';
     --result에 parameter 변수를 이용한 식을 대입함
-    return result;
+    RETURN RESULT;
     --result를 리턴함
     
 --(원한다면 exception처리 또한 가능)    
 
-end;
+END;
 /
 --Function DB_FUNC이(가) 컴파일되었습니다.
 --이렇게 만들어두면 db_func라는 함수가 db 서버 프로그램 안에 존재하게 됨
@@ -4948,14 +5062,14 @@ from 테이블名;
 -> 원하는 테이블의 해당 컬럼을 parameter로 받아서 각 행마다의 값들에 함수를 입혀서 리턴함
 */
 
-select db_func(emp_name)
-from employee;
+SELECT db_func(emp_name)
+FROM employee;
 
 
 --DB연결이 시작되면 (세션이 맺어질 떄) 무조건 처음 한번은 호출
     --cf. 세션이 시작된다는 것 : 클라이언트 프로그램이 DB서버에 요청을 보낼 때
                                            --접속을 하기 위해 연결이 만들어 지는 것
-set serveroutput on;
+SET SERVEROUTPUT ON;
 
 
 --2. 익명블럭 or 다른 PL/SQL객체에서 호출가능
@@ -4966,9 +5080,9 @@ end;
 /
 */
 
-begin
+BEGIN
     dbms_output.put_line(db_func('&이름'));
-end;
+END;
 /
 --홍길동 입력 후 출력 : 
 --d홍길동b 
@@ -4983,9 +5097,9 @@ print 변수名;   (변수 출력)
 */
 
 --세 줄을 하나씩 차례대로 실행할 것!
-var text varchar2; 
-execute :text := db_func('신사임당');
-print text;
+VAR text VARCHAR2; 
+EXECUTE :text := db_func('신사임당');
+PRINT text;
 --출력 :
 --TEXT
 ------------------------------------------------------------------------------
@@ -4995,107 +5109,107 @@ print text;
 24분 25초
 --Data Dictionary에서 확인
 
-select * from user_functions;
+SELECT * FROM user_functions;
 --바로 이렇게 찾을 수 없음
 
-select * from user_procedures
-where object_type = 'FUNCTION';
+SELECT * FROM user_procedures
+WHERE object_type = 'FUNCTION';
 --function은 프로시져에 포함됨
 
 
 --귀찮은 것은 함수로 만들어두면 좋음
 --성별구하기 함수
 --주민번호를 받아서 특정값을 가지고 판단
-create or replace function fn_get_gender(
-    p_emp_no employee.emp_no%type
+CREATE OR REPLACE FUNCTION fn_get_gender(
+    p_emp_no employee.emp_no%TYPE
     ) --뭘 받을건지
-return varchar2 --크기 쓰기 금지!
-is
-    gender varchar2(3); 
-begin
-    if substr(p_emp_no, 8, 1) in ('1', '3') then
+RETURN VARCHAR2 --크기 쓰기 금지!
+IS
+    gender VARCHAR2(3); 
+BEGIN
+    IF substr(p_emp_no, 8, 1) IN ('1', '3') THEN
         gender := '남';
-    else
+    ELSE
         gender := '여';       
-    end if;
-    return gender;
-end;
+    END IF;
+    RETURN gender;
+END;
 /
 
-create or replace function fn_get_gender(
-    p_emp_no employee.emp_no%type
+CREATE OR REPLACE FUNCTION fn_get_gender(
+    p_emp_no employee.emp_no%TYPE
     ) --뭘 받을건지
-return varchar2 --크기 쓰기 금지!
-is
-    gender varchar2(3); 
-begin
+RETURN VARCHAR2 --크기 쓰기 금지!
+IS
+    gender VARCHAR2(3); 
+BEGIN
 --type1 : when조건식을 여러개 나열
-    case
-        when substr(p_emp_no, 8, 1) in ('1', '3') then gender := '남';
-        else
+    CASE
+        WHEN substr(p_emp_no, 8, 1) IN ('1', '3') THEN gender := '남';
+        ELSE
             gender := '여';
-    end case;
-    return gender;
-end;
+    END CASE;
+    RETURN gender;
+END;
 /
 
 
-create or replace function fn_get_gender(
-    p_emp_no employee.emp_no%type
+CREATE OR REPLACE FUNCTION fn_get_gender(
+    p_emp_no employee.emp_no%TYPE
     ) --뭘 받을건지
-return varchar2 --크기 쓰기 금지!
-is
-    gender varchar2(3); 
-begin
+RETURN VARCHAR2 --크기 쓰기 금지!
+IS
+    gender VARCHAR2(3); 
+BEGIN
 --type2 : decod와 비슷. 단 하나의 계산식만 제공
             --case 값으로 처리될 수 있는 것 (계산식)
             --when 무엇이 올 수 있는지 then 처리식
-    case substr(p_emp_no, 8, 1)
-        when '1' then gender := '남';
-        when '3' then gender := '남';
-        else gender := '여';
-    end case;
-    return gender;
-end;
+    CASE substr(p_emp_no, 8, 1)
+        WHEN '1' THEN gender := '남';
+        WHEN '3' THEN gender := '남';
+        ELSE gender := '여';
+    END CASE;
+    RETURN gender;
+END;
 /
 --case, end case로 만들고 독립적으로 사용 가능
 
 --pl/sql 안에서는 decode 사용 불가
 --선택적으로 할 때에는 if문이나 case문 사용하기
 
-select emp_name,
+SELECT emp_name,
             fn_get_gender(emp_no) gender
-from employee;
+FROM employee;
 
 --주석 ctrl + 슬래시
 
 
 --주민번호를 입력받아 나이를 리턴하는 함수 fn_get_age를 작성하고,
 --사번, 사원명, 주민번호, 성별, 나이 조회(일반 sql문)
-create or replace function fn_get_age(p_emp_no employee.emp_no%type)
-return number
-is
-    v_birth_year number;
-    v_age number;
-begin
-    case 
-        when substr(p_emp_no, 8, 1) in ('1', '2') then v_birth_year := 1900;
-        when substr(p_emp_no, 8, 1) in ('3', '4') then v_birth_year := 2000;
-    end case;
+CREATE OR REPLACE FUNCTION fn_get_age(p_emp_no employee.emp_no%TYPE)
+RETURN NUMBER
+IS
+    v_birth_year NUMBER;
+    v_age NUMBER;
+BEGIN
+    CASE 
+        WHEN substr(p_emp_no, 8, 1) IN ('1', '2') THEN v_birth_year := 1900;
+        WHEN substr(p_emp_no, 8, 1) IN ('3', '4') THEN v_birth_year := 2000;
+    END CASE;
     v_birth_year := v_birth_year + substr(p_emp_no, 1, 2); --출생년도
     
-    v_age := extract(year from sysdate) - v_birth_year + 1;
-    return v_age;
-end;
+    v_age := EXTRACT(YEAR FROM sysdate) - v_birth_year + 1;
+    RETURN v_age;
+END;
 /
 
 
-select emp_id,
+SELECT emp_id,
             emp_name,
             emp_no,
             fn_get_gender(emp_no) gender,
             fn_gat_age(emp_no) age 
-from employee;
+FROM employee;
 
 /*
 client에서 쿼리를 작성 후 db서버에 실행해주세요! 하고 요청을 보냄
@@ -5124,6 +5238,8 @@ function을 만들면 컴파일하였습니다. 라는 메시지가 나오는데
 --sql developer는 클라이언트 프로그램, 단지 서버에 요청을 보내는 역할만
 --실제 db프로그램에 저장되었다가 호출하여 쓰는 것
 
+
+
 -----------------------------------------------------------------------
 --PROCEDURE
 -----------------------------------------------------------------------
@@ -5135,7 +5251,7 @@ function을 만들면 컴파일하였습니다. 라는 메시지가 나오는데
 --일련의 작업절차를 작성해 객체로 저장해 둔것
 
 
---함수와 달리, 리턴값이 없음
+--함수와 달리, "리턴값"이 없음
 --그러면 작업 처리 후 돌려줄 값이 없다는 것인데, 제한적인 것 아닐까?
 --NO!
 --OUT 매개변수를 사용하면 호출부 쪽으로 결과를 전달 할 수 있음
@@ -5149,47 +5265,47 @@ function을 만들면 컴파일하였습니다. 라는 메시지가 나오는데
 
 
 --1. 매개변수 없는 프로시져
-select * from member;
+SELECT * FROM MEMBER;
 
-create or replace procedure proc_del_member
+CREATE OR REPLACE PROCEDURE proc_del_member
 
 --리턴이 없으니, 리턴구문이 빠짐
 
-is
+IS
 --지역변수 선언 (없다면 건너뛸 수 있음)
 
-begin
+BEGIN
 --실행구문
-    delete from member;
-    commit;
-end;
+    DELETE FROM MEMBER;
+    COMMIT;
+END;
 /
 --Procedure PROC_DEL_MEMBER이(가) 컴파일되었습니다.
 --> 즉시 실행 가능한 상태
 
 --호출 시에는 일반 sql문에서는 사용 불가
+
 --1. 익명 블럭 | 타 프로시져 객체에서 호출 가능
 
 --익명 블럭 - 함수 호출하듯 사용하면 됨
-begin
+BEGIN
     proc_del_member; 
-end;
+END;
 /
 
 --2. execute 명령어 사용
-execute proc_del_member;
-
-
+EXECUTE proc_del_member;
 
 
 --DD에서 확인
-select *
-from user_procedures
-where object_type = 'PROCEDURE';
+SELECT *
+FROM user_procedures
+WHERE object_type = 'PROCEDURE';
 
+--user_source
 --실제 프로시져 소스코드를 라인단위로 저장되어 있는 것을 확인 가능
 SELECT *
-FROM USER_SOURCE
+FROM user_source
 WHERE NAME = 'PROC_DEL_MEMBER';
 
 
@@ -5208,54 +5324,54 @@ end;
 
 --in 매개변수 사용하기
 --기본적으로 매개변수는 mode를 가지는데
---매개변수의 mode는 기본값 in : 전달받는 용도
-create or replace procedure proc_del_emp_by_id(
-    p_emp_id in emp_copy.emp_id%type  --p_emp_id : parameter_emp_id의 의미
+--매개변수의 mode는 기본값 in
+--괄호 : 전달받는 용도
+CREATE OR REPLACE PROCEDURE proc_del_emp_by_id(
+    p_emp_id IN emp_copy.emp_id%TYPE  --p_emp_id : parameter_emp_id의 의미
 --p_emp_id emp_copy.emp_id%type --in 생략도 가능
 )
-is
+IS
 
-begin
-    delete from emp_copy
-    where emp_id = p_emp_id; 
-    commit;
+BEGIN
+    DELETE FROM emp_copy
+    WHERE emp_id = p_emp_id; 
+    COMMIT;
     dbms_output.put_line(p_emp_id || '번 사원을 삭제했습니다.');
-end;
+END;
 /
 --Procedure PROC_DEL_EMP_BY_ID이(가) 컴파일되었습니다.
 
-select * from emp_copy;
+SELECT * FROM emp_copy;
 
-begin
-    proc_del_emp_by_id('&삭제할_사번'); --띄어쓰기는 언더스코어로 잇기, 하나의 문자열이어야 함 공백 불가
-end;
+BEGIN
+    proc_del_emp_by_id('&삭제할_사번'); --띄어쓰기는 언더스코어로 잇기, 하나의 문자열이어야 함. 공백 불가
+END;
 /
 --222번 사원을 삭제했습니다.
 
---db서버에 를 저장해있고
---그것을 호출하는 익명블럭을 실행한 것
-
+--db서버에 프로시져(proc_del_emp_by_id)를 저장해놓고
+--그것을 호출하는 익명블럭(begin~end)을 실행한 것
 
 
 
 --out 매개변수 사용하기
 --사번을 전달해서 사원명, 전화번호를 리턴(실제 리턴은 아니고 out 매개변수를 이용하는 방법)받을 수 있는 프로시져
-create or replace procedure proc_select_emp_by_id(
---매개변수 선언, 여러개를 나열
+CREATE OR REPLACE PROCEDURE proc_select_emp_by_id(
+--매개변수 선언
     --in mode
-    p_emp_id in emp_copy.emp_id%type, --여러 매개변수 전달 -> 콤마로 연결
+    p_emp_id IN emp_copy.emp_id%TYPE, --여러 매개변수 전달 -> 콤마로 연결
     --out mode
-    p_emp_name out emp_copy.emp_name%type,  --얘네도 지역변수라 밑에 지역변수 딱히 필요 없음
-    p_phone out emp_copy.phone%type
+    p_emp_name OUT emp_copy.emp_name%TYPE,  --얘네도 지역변수라 밑에 지역변수 딱히 필요 없음
+    p_phone OUT emp_copy.phone%TYPE
 )
 
-is
-begin
-    select emp_name, phone --이걸
-    into p_emp_name, p_phone --out 매개변수에 담음
-    from emp_copy
-    where emp_id = p_emp_id;
-end;
+IS
+BEGIN
+    SELECT emp_name, phone --이걸
+    INTO p_emp_name, p_phone --out 매개변수에 담음
+    FROM emp_copy
+    WHERE emp_id = p_emp_id;
+END;
 /
 --Procedure PROC_SELECT_EMP_BY_ID이(가) 컴파일되었습니다.
 
@@ -5263,27 +5379,29 @@ end;
 
 
 --익명 블럭 : 호출하는 client 역할
-declare
+DECLARE
     --out 변수로 사용할 애들만
-    v_emp_name emp_copy.emp_name%type;
-    v_phone emp_copy.phone%type;
+    v_emp_name emp_copy.emp_name%TYPE;
+    v_phone emp_copy.phone%TYPE;
 
-begin
+BEGIN
     proc_select_emp_by_id('&사번', v_emp_name, v_phone); --매개변수 전달. 공간을 전달하는 것
+                                            --out매개변수로 전달하면 프로시져 변수에 값을 채워넣음
+                                            --호출하고 나면 값이 들어있음
     
     --값이 잘 담겨 있는지 확인
     dbms_output.put_line('v_emp_name : ' || v_emp_name);
     dbms_output.put_line('v_phone : ' || v_phone);
-end;
+END;
 /
 --변수에 값이 넘어옴
-
---v_emp_name : '송종기
+--출력 : 
+--v_emp_name : 송종기
 --v_phone : '01045686656
 
 --변수, 공간에 값을 채워넣은 것
---마치 여러개의 값을 리턴한 것 같은 효과
---변수에 대한 주소값을 전달해서 거기에 값을 채워줌
+--리턴하지 않아도 변수에 대한 주소값을 전달해서 거기에 값을 채워줌
+--대입, 리턴의 과정 없이도 마치 여러개의 값을 리턴한 것 같은 효과
 
 --in out은 하나의 변수에서 두개의 역할을 다 하는 것
 
@@ -5294,49 +5412,49 @@ end;
 --데이터 추가 명령어, 업데이트 명령어를 하나로 합친 후
 --존재하지 않으면 추가하고, 존재하면 기존값을 갱신함
 
-create table job_copy
-as
-select * from job;
+CREATE TABLE job_copy
+AS
+SELECT * FROM JOB;
 --서브쿼리를 이용하면 기존의 제약조건은 다 날아감 (not null은 남아있음)
 
 --pk 제약조건, not null 제약조건 추가
-alter table job_copy
-add constraints pk_job_copy primary key(job_code)
-modify job_name not null;
+ALTER TABLE job_copy
+ADD CONSTRAINTS pk_job_copy PRIMARY KEY(job_code)
+MODIFY job_name NOT NULL;
 --Table JOB_COPY이(가) 변경되었습니다.
 
-select * from job_copy;
+SELECT * FROM job_copy;
 
 --직급정보를 추가하는 프로시져
-create or replace procedure proc_man_job_copy(
+CREATE OR REPLACE PROCEDURE proc_man_job_copy(
     --in mode
-    p_job_code job_copy.job_code%type,
-    p_job_name job_copy.job_name%type
+    p_job_code job_copy.job_code%TYPE,
+    p_job_name job_copy.job_name%TYPE
 ) --인자 받기
-is
-begin
-    insert into job_copy
-    values (p_job_code, p_job_name);
-    commit;
-end;
+IS
+BEGIN
+    INSERT INTO job_copy
+    VALUES (p_job_code, p_job_name);
+    COMMIT;
+END;
 /
 
 --익명블럭에서 호출
-begin
+BEGIN
     proc_man_job_copy('J8', '주임');
-end;
+END;
 /
 --PL/SQL 프로시저가 성공적으로 완료되었습니다.
 
 SELECT *
-FROM JOB_COPY;
+FROM job_copy;
 --[J8, 주임] 한 행이 추가됨
 
 
 --만약, 직급을 수습사원으로 JOB_NAME을 바꾸면 
-begin
+BEGIN
     proc_man_job_copy('J8', '수습사원');
-end;
+END;
 /
 --00001. 00000 -  "unique constraint (%s.%s) violated"
 --PK에 중복값을 넣다니! 오류!
@@ -5347,49 +5465,49 @@ end;
 
 --upsert 예제 : insert + update
 
-create or replace procedure proc_man_job_copy(
-    p_job_code in job_copy.job_code%type,
-    p_job_name in job_copy.job_name%type
+CREATE OR REPLACE PROCEDURE proc_man_job_copy(
+    p_job_code IN job_copy.job_code%TYPE,
+    p_job_name IN job_copy.job_name%TYPE
 )
-is
-    v_cnt number := 0;
-begin
+IS
+    v_cnt NUMBER := 0;
+BEGIN
     --1. 존재여부 확인
-    select count(*)
-    into v_cnt
-    from job_copy
-    where job_code = p_job_code;
+    SELECT COUNT(*)
+    INTO v_cnt
+    FROM job_copy
+    WHERE job_code = p_job_code;
     
     dbms_output.put_line('v_cnt = ' || v_cnt);
 
     --2. 분기처리
-    if (v_cnt = 0) then
+    IF (v_cnt = 0) THEN
         -- 존재하지 않으면 insert
-        insert into job_copy
-        values(p_job_code, p_job_name);
-    else
+        INSERT INTO job_copy
+        VALUES(p_job_code, p_job_name);
+    ELSE
         -- 존재하면 update
-        update job_copy
-        set job_name = p_job_name
-        where job_code = p_job_code;
-    end if;
+        UPDATE job_copy
+        SET job_name = p_job_name
+        WHERE job_code = p_job_code;
+    END IF;
     
     --3. 트랙잭션 처리
-    commit;
-end;
+    COMMIT;
+END;
 /
 
 --익명블럭에서 호출
-begin
+BEGIN
     proc_man_job_copy('J8', '수습사원');
-end;
+END;
 /
 
-select * from job_copy;
+SELECT * FROM job_copy;
 
-delete from job_copy
-where job_code = 'J8';
-commit;
+DELETE FROM job_copy
+WHERE job_code = 'J8';
+COMMIT;
 
 /
 
@@ -5398,38 +5516,39 @@ commit;
 -----------------------------------------------------------------------
 --CURSOR
 -----------------------------------------------------------------------
---지금까지는 여러행이 나오도록 결과를 만든 적이 없음. 딱 한 행씩만 처리됨
---SQL문의 처리 결과인 Result Set을 가리키는 포인터 객체
+--지금까지는 여러행이 나오도록 결과를 만든 적이 없음. 한번에 한 행씩만 처리됨
+--cursor : Result Set(SQL문의 처리 결과)을 가리키는 포인터 객체
     --실행결과가 메모리 상에 있는데, 거기에 접근할 수 있는 객체임
---하나 이상의 row에 순차적으로 접근 가능!
---모든 dml처리까지도 포함함, 보통은 dql인 select절에 담아서 처리함
+--하나 이상의 row에 순차적으로 접근 가능
+--모든 dml처리까지도 포함함, 보통은 dql인 select절에 결과를 담아서 처리함
 
---1. 암묵적 커서 : 모든 sql 실행 시 암묵적 커서가 만들어져 처리됨
---2. 명시적 커서 : 변수로 선언 후, open ~ fetch ~ close 과정에 따라 행에 접근할 수 있음
+--1. 암묵적 커서 : 모든 sql 실행 시, 처리결과에 암묵적 커서가 만들어져 처리됨
+--2. 명시적 커서 : 변수로 선언 후, 'open ~ fetch ~ close' 과정에 따라 행에 접근할 수 있음
 
---지역변수로 선언
 
---employee에서 한행 한행 출력
-declare
+
+--employee에서 한 행 한 행의 정보를 출력
+DECLARE
+    --변수선언
     v_emp emp_copy%rowtype; --select해준 모든 행이 여기에 하나씩 모두 담김
     
-    cursor my_cursor --커서를 통해 접근할 수 있음
+    CURSOR my_cursor --커서를 통해 접근할 수 있음
     --커서는 오픈하지 않으면 실행되지 않음 (open은 실제 쿼리를 실행하고, 결과집합에 접근할 수 있도록 하는 역할)
-    is
-    select * from emp_copy
-    order by emp_id; --쿼리의 실행 결과에 
+    IS
+    SELECT * FROM emp_copy
+    ORDER BY emp_id; --쿼리의 실행 결과에 
     
-begin
-    open my_cursor;
-    loop --기본 루프 안에서 여러 번 반복 --한행한행씩 접근해서 가져옴
-        fetch my_cursor into v_emp; --모든 게 들어가 있음
-        exit when my_cursor%notfound; --notfound : cursor의 상태값
+BEGIN
+    OPEN my_cursor;
+    LOOP --기본 루프 안에서 여러 번 반복 --한행한행씩 접근해서 가져옴
+        FETCH my_cursor INTO v_emp; --모든 게 들어가 있음
+        EXIT WHEN my_cursor%notfound; --notfound : cursor의 상태값
         dbms_output.put_line('사번 : ' || v_emp.emp_id);
         dbms_output.put_line('사원명 : ' || v_emp.emp_name);
-    end loop;
+    END LOOP;
     
-    close my_cursor; --결과집합을 반납하는 역할
-end;
+    CLOSE my_cursor; --결과집합을 반납하는 역할
+END;
 /
 
 --사번 : 200
@@ -5440,32 +5559,31 @@ end;
 --사원명 : 남윤지
 
 
-
+--파라미터가 있는 커서
 --그때그때 파라미터를 전달하여 실행할 수도 있음
 --커서에 파라미터를 만듦
---파라미터 있는 커서
-declare
+DECLARE
     v_emp emp_copy%rowtype;
     
-    cursor my_cursor (p_dept_code emp_copy.dept_code%type) --커서에 파라미터가 있음
-    is
-    select * from emp_copy
-    where dept_code = p_dept_code --파라미터로 설정해준 것을 전달받아서 씀
-    order by emp_id;  
+    CURSOR my_cursor (p_dept_code emp_copy.dept_code%TYPE) --커서에 파라미터가 있음
+    IS
+    SELECT * FROM emp_copy
+    WHERE dept_code = p_dept_code --파라미터로 설정해준 것을 전달받아서 씀
+    ORDER BY emp_id;  
     
-begin
-    open my_cursor('&부서코드'); --오픈시에 파라미터를 전달해줘야 함
-    loop 
-        fetch my_cursor into v_emp; 
-        exit when my_cursor%notfound;
+BEGIN
+    OPEN my_cursor('&부서코드'); --오픈시에 파라미터를 전달해줘야 함
+    LOOP 
+        FETCH my_cursor INTO v_emp; 
+        EXIT WHEN my_cursor%notfound;
         dbms_output.put_line('사번 : ' || v_emp.emp_id);
         dbms_output.put_line('사원명 : ' || v_emp.emp_name);
         dbms_output.put_line('부서코드 : ' || v_emp.dept_code);
-    end loop;
+    END LOOP;
     
     
-    close my_cursor; --결과집합을 반납하는 역할
-end;
+    CLOSE my_cursor; --결과집합을 반납하는 역할
+END;
 /
 
 --사번 : 206
@@ -5478,23 +5596,24 @@ end;
 
 
 --for...in문을 통해 처리
---1. open ~ fetch ~ close 작업 자동으로 이루어짐
---2. 행변수는 자동으로 선언됨 --fetch는 한행씩 가져오는데
+--1. open ~ fetch ~ close 작업이 자동으로 이루어짐
+--2. 행변수는 자동으로 선언됨 
+    --cf. fetch는 한행씩 가져옴
 
-declare
+DECLARE
 --커서선언
-    cursor my_cursor
-    is
-    select * from employee; --select all도 가능
-    select emp_id, emp_name, dept_code from employee;--특정 컬럼을 가져올 수도 있음
+    CURSOR my_cursor
+    IS
+    SELECT * FROM employee; --select all도 가능
+    SELECT emp_id, emp_name, dept_code FROM employee;--특정 컬럼을 가져올 수도 있음
     --컬럼이 뭐든간에 유연하게 선택한 컬럼을 하나의 행으로 묶기 때문
-begin
-    for my_row in my_cursor loop --my row는 임의의 변수를 선언해준 것
+BEGIN
+    FOR my_row IN my_cursor LOOP --my row는 임의의 변수를 선언해준 것
                                                         --자동으로 행변수로 처리됨
         dbms_output.put_line(my_row.emp_id || ' : ' || my_row.emp_name);
-    end loop;
+    END LOOP;
 
-end;
+END;
 /
 
 --200 : 선동일
@@ -5504,17 +5623,17 @@ end;
 
 
 --파라미터도 가능
-declare
-    cursor my_cursor(p_job_code emp_copy.job_code%type)
-    is
-    select emp_id, emp_name, job_code 
-    from emp_copy
-    where job_code = p_job_code;
-begin
-    for my_row in my_cursor('&직급코드') loop
+DECLARE
+    CURSOR my_cursor(p_job_code emp_copy.job_code%TYPE)
+    IS
+    SELECT emp_id, emp_name, job_code 
+    FROM emp_copy
+    WHERE job_code = p_job_code;
+BEGIN
+    FOR my_row IN my_cursor('&직급코드') LOOP
         dbms_output.put_line(my_row.emp_id || ' : ' || my_row.emp_name);
-    end loop;   
-end;
+    END LOOP;   
+END;
 /
 
 
@@ -5526,26 +5645,32 @@ end;
 --특정 이벤트 (DDL, DML, LOGON)가 발생했을때
 --실행될 코드를 모아둔 데이터베이스 객체
 
---작성해놓고 호출하지 않음
+--특징 : 작성해놓고 호출하지 않음
 --특정 이벤트가 일어나면 트리거가 자동으로 실행됨
+--ex. DML문이 실행되면 자동으로 트리거가 실행됨
 
 --TRIGGER 종류 (이벤트)
 --1. DDL Trigger
+    --DDL문(create, alter, drop, truncate)발생 시 실행
 --2. DML Trigger 
---3. LOGON/LOGOFF Trigger (세션, 연결이 맺어졌다가 끊어질 때 발생)
+    --DML문(insert, update, delete)발생 시 실행
+--3. LOGON/LOGOFF Trigger 
+    --세션, 연결이 맺어졌다가 끊어질 때 실행
 
 
 --게시판 테이블의 한 게시물을 삭제
 --delete로 삭제하면
---게시물은 한 행의 데이터인데, 그 데이터를 실제로 삭제해도 될까?, 그 데이터는 진짜 거기서 삭제될까?
+--게시물은 한 행의 데이터인데, 그 데이터를 실제로 삭제해도 될까? 그 데이터는 진짜 거기서 삭제될까?
 --NO!
 --모든 데이터는 개발자, 운영자는 의무적으로 보관해야 함
 
 --보관 방법
---1. 삭제여부 컬럼을 유지 : del_flag 'N' -> 'Y' 값으로 바꿔줌
---2. 삭제테이블을 별도로 관리 : 삭제된 행 데이터를 그대로 삭제 테이블에 INSERT해줌  -- TRIGGER
-                --삭제만 하면 삭제 테이블로 이동시키는 것은 TRIGGER가 대신 해줌
--->실제로는 삭제되지 않지만, 사용자에게는 조회했을 때만 삭제된 것처럼 보임
+--1. 삭제여부 컬럼을 유지 
+    --del_flag 기존값 'N'으로 유지 -> 'Y' 값으로 바꿔줌
+--2. 삭제테이블을 별도로 관리 (트리거)
+    --delete가 일어나면 삭제된 행 데이터를 그대로 삭제 테이블에 INSERT해줌 
+    --삭제만 하면 삭제 테이블로 이동시키는 것은 TRIGGER가 대신 해줌
+--> 실제로는 삭제되지 않지만, 사용자에게는 조회했을 때만 삭제된 것처럼 보임
 
 --트리거 주의사항
 --原DML 문의 대상테이블에 접근할 수 없다
@@ -5554,29 +5679,32 @@ end;
 
 /*
 create or replace trigger 트리거名
-옵션값
+    옵션값
     before | after                                            --原 DML문 실행 전 | 실행 후에 trigger 실행/작동시킬 것인지
     insert | update | delete    on 테이블名     --테이블에 insert | update | delete 가 일어나면 trigger 실행 (or로 연결하면 여러개 선택 가능)
     [for each row]                                         --행 level trigger --각 행마다
-                                                                      --생략하면 문장 level trigger
+                                                                      --생략하면 문장 level trigger로 작동함
         
 begin
     --실행코드
 end;
 /
 
-- 행레벨 트리거 : 原 DML문이 처리되는 행마다 트리거 실행 
-                            만약 원DML문이 10행이라면 TRIGGER 10번 실행
-- 문장레벨 트리거 : 原 DML문이 몇 행이든간에 실행 시 TRIGGER는 딱 한번만 실행
+- 행 레벨 트리거 : 原 DML문이 처리되는 행마다 트리거 실행 
+                         ex. 원DML문이 10행이라면 TRIGGER 10번 실행
+                               update문에서 10행이 동시에 update된다면, 매 행마다 트리거가 실행됨
+- 문장 레벨 트리거 : 原 DML문이 몇 행인지 상관없이, 실행 시 TRIGGER는 딱 한번만 실행
+                        ex. 원DML문이 10행일지라도 TRIGGER 딱 한번만 실행
+                              update문에서 10행이 동시에 update될지라도, 한번만 트리거가 실행됨
 
 
-의사 (pseudo) 레코드 (행레벨트리거 인 경우에만 유효)
-- :old    原DML 문 실행前 데이터
-- :new    原DML 문 실행後 데이터
+의사 (pseudo) 레코드 (행레벨트리거의 경우에만 유효)
+- :old    原DML문 실행前 데이터
+- :new    原DML문 실행後 데이터
 
 insert
     :old    null (삽입 전이기 때문)
-    :new 추가된 데이터
+    :new   추가된 데이터
 update
     :old 변경前 데이터
     :new 변경後 데이터
@@ -5590,91 +5718,103 @@ delete
 
 */
 
-create or replace trigger trig_emp_salary
-    before
-    insert or update on emp_copy --update가 되었다면
-    for each row --매행마다 실행해라
-begin
-    dbms_output.put_line('변경전 salary : ' || :old.salary);
-    dbms_output.put_line('변경후 salary : ' || :new.salary);
-end;
+CREATE OR REPLACE TRIGGER trig_emp_salary
+    BEFORE
+--update on emp_copy --update의 경우에만
+    INSERT OR UPDATE ON emp_copy --insert와 update의 경우에
+    FOR EACH ROW --매행마다 트리거를 실행해라
+BEGIN
+    dbms_output.put_line('변경전 salary : ' || :OLD.salary);
+    dbms_output.put_line('변경후 salary : ' || :NEW.salary);
+END;
 /
 --Trigger TRIG_EMP_SALARY이(가) 컴파일되었습니다.
---변경전 salary : 1800000
---변경후 salary : 2800000
---...
---변경전 salary : 3760000
---변경후 salary : 4760000
 
 
 --for each row문 -> 한번 실행했는데, 적용받는 행마다 작동함
 
 --트리거를 실행하는 이벤트
-update emp_copy
-set salary = salary + 1000000
-where dept_code = 'D5';
+UPDATE emp_copy
+SET salary = salary + 1000000
+WHERE dept_code = 'D5';
 --6개 행 이(가) 업데이트되었습니다.
+--변경전 salary : 1800000
+--변경후 salary : 2800000
+--...
+--변경전 salary : 3760000
+--변경후 salary : 4760000
+--한번 실행에 적용받는 모든 행에 트리거 작동
 
 --commit시 실제로 반영됨
 
+
 --급여 변경 로그 테이블
+--변경 내역 추적을 위한 salay변경 시마다 급여변경내역을 관리
 
 --PK 추가
-alter table emp_copy
-add constraints pk_emp_copy_emp_id primary key (emp_id);
+ALTER TABLE emp_copy
+ADD CONSTRAINTS pk_emp_copy_emp_id PRIMARY KEY (emp_id);
 
-create table emp_copy_salary_log (
-    emp_id varchar2(3),
-    before_salary number,
-    after_salary number,
-    log_date date default sysdate,
-    constraint fk_emp_id foreign key (emp_id) references emp_copy(emp_id)
+CREATE TABLE emp_copy_salary_log (
+    emp_id VARCHAR2(3),
+    before_salary NUMBER,
+    after_salary NUMBER,
+    log_date DATE DEFAULT sysdate,
+    CONSTRAINT fk_emp_id FOREIGN KEY (emp_id) REFERENCES emp_copy(emp_id)
 );
 
-select * from emp_copy;
 
-select * from emp_copy_salary_log;
+--트리거
+--salary컬럼에 insert 혹은 update가 일어난다면, 그 내역을 고스란히 log 테이블에 추가해 주겠다
+CREATE OR REPLACE TRIGGER trig_emp_salary
+    BEFORE
+    INSERT OR UPDATE ON emp_copy --update가 되었다면
+    FOR EACH ROW --매행마다 실행해라
+BEGIN
 
---salary컬럼에 insert 혹은 update가 일어난 다면, 그 내역을 고스란히 log 테이블에 추가해 주겠다
-create or replace trigger trig_emp_salary
-    before
-    insert or update on emp_copy --update가 되었다면
-    for each row --매행마다 실행해라
-begin
-    dbms_output.put_line('변경전 salary : ' || :old.salary);
-    dbms_output.put_line('변경후 salary : ' || :new.salary);
+    dbms_output.put_line('변경전 salary : ' || :OLD.salary);
+    dbms_output.put_line('변경후 salary : ' || :NEW.salary);
     
-    insert into emp_copy_salary_log (emp_id, before_salary, after_salary)
-    values (:new.emp_id, :old.salary, :new.salary); --emp_id는 old는 가져올 것이 없음
+    INSERT INTO emp_copy_salary_log (emp_id, before_salary, after_salary)
+    VALUES (:NEW.emp_id, :OLD.salary, :NEW.salary); --emp_id는 old는 insert문에서 가져올 것이 없음
     --commit과 같은 트랜잭션 처리 x
-end;
+END;
 /
 
 --트리거를 실행하는 이벤트
-update emp_copy
-set salary = salary + 1000000
-where dept_code = 'D5';
+UPDATE emp_copy
+SET salary = salary + 1000000
+WHERE dept_code = 'D5';
+--6개 행 이(가) 업데이트되었습니다.
+--변경전 salary : 6800000
+--변경후 salary : 7800000
+--...
+--변경전 salary : 8760000
+--변경후 salary : 9760000
 
-rollback; --trigger에서 실행된 dml문도 함께 rollback됨
+SELECT * FROM emp_copy_salary_log;
+
+ROLLBACK; --trigger에서 실행된 dml문도 함께 rollback됨
 --**트리거 내부에서는 transaction처리 하지 않음
  --   原DML 문의 트랜잭션에 자동포함된다
   --  (procedure는 transaction 필요했었음)
   
-  
+--재컴파일 명령어
+ALTER TRIGGER trig_emp_salary COMPILE;
   
   --특정 컬럼에 대한 trigger는 of 컬럼 on 테이블
   
- create or replace trigger trig_emp_salary
-    before
-    insert or update of salary on emp_copy --특정 컬럼에 대한 trigger
-    for each row 
-begin
-    dbms_output.put_line('변경전 salary : ' || :old.salary);
-    dbms_output.put_line('변경후 salary : ' || :new.salary);
+ CREATE OR REPLACE TRIGGER trig_emp_salary
+    BEFORE
+    INSERT OR UPDATE OF salary ON emp_copy --특정 컬럼에 대한 trigger
+    FOR EACH ROW 
+BEGIN
+    dbms_output.put_line('변경전 salary : ' || :OLD.salary);
+    dbms_output.put_line('변경후 salary : ' || :NEW.salary);
     
-    insert into emp_copy_salary_log (emp_id, before_salary, after_salary)
-    values (:new.emp_id, :old.salary, :new.salary); 
-end;
+    INSERT INTO emp_copy_salary_log (emp_id, before_salary, after_salary)
+    VALUES (:NEW.emp_id, :OLD.salary, :NEW.salary); 
+END;
 / 
 
 --트리거 안에서는 원DML문의 대상테이블에 접근할 수 없다
@@ -5682,29 +5822,29 @@ end;
 --@실습문제 :
 --emp_copy 에서 사원을 삭제할 경우, emp_copy_del 테이블로 데이터를 이전시키는 trigger를 생성하세요.
 --quit_date에 현재날짜를 기록할 것.
-create table emp_copy_del
-as
-select E.*
-from emp_copy E
-where 1 = 2;
+CREATE TABLE emp_copy_del
+AS
+SELECT E.*
+FROM emp_copy E
+WHERE 1 = 2;
 
-create or replace trigger trig_emp_quit
-    before delete on emp_copy
-    for each row
-begin
-    insert into emp_copy_del
+CREATE OR REPLACE TRIGGER trig_emp_quit
+    BEFORE DELETE ON emp_copy
+    FOR EACH ROW
+BEGIN
+    INSERT INTO emp_copy_del
     (emp_id, emp_name, emp_no, email, phone, dept_code, job_code, sal_level, salary, bonus, manager_id, hire_date, quit_date, quit_yn)
-    values (:old.emp_id, :old.emp_name, :old.emp_no, :old.email, :old.phone, :old.dept_code, :old.job_code, :old.sal_level, :old.salary, :old.bonus, :old.manager_id, :old.hire_date, sysdate, 'Y');
+    VALUES (:OLD.emp_id, :OLD.emp_name, :OLD.emp_no, :OLD.email, :OLD.phone, :OLD.dept_code, :OLD.job_code, :OLD.sal_level, :OLD.salary, :OLD.bonus, :OLD.manager_id, :OLD.hire_date, sysdate, 'Y');
     
-    dbms_output.put_line(:old.emp_id||'사원이 퇴사자 테이블로 이동했음');
-end;
+    dbms_output.put_line(:OLD.emp_id||'사원이 퇴사자 테이블로 이동했음');
+END;
 /
 
-select * from emp_copy;
-select * from emp_copy_del;
+SELECT * FROM emp_copy;
+SELECT * FROM emp_copy_del;
 
-delete from emp_copy
-where quit_yn = 'Y';
+DELETE FROM emp_copy
+WHERE quit_yn = 'Y';
 
 
 --트리거를 이용한 상품 재고 관리
@@ -5791,5 +5931,11 @@ VALUES(seq_product_io_iocode.NEXTVAL, 1, 50, 'O', sysdate); --50개 출고
 --io테이블에 내역이 쌓임
 
 COMMIT;
+
+
+
+
+
+
 
 

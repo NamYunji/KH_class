@@ -93,3 +93,5 @@ FROM dba_sys_privs
 WHERE grantee IN ('CONNECT', 'RESOURCE');
 
 
+
+
