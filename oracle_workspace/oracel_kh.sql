@@ -3627,9 +3627,9 @@ select *
 from user_constraints
 where table_name = '(대문자)테이블名';
 */
-select *
-from user_constraints
-where table_name = 'EMPLOYEE';
+SELECT *
+FROM user_constraints
+WHERE table_name = 'EMPLOYEE';
 --컬럼명이 데이터 취급이라 대문자로 써야함
 
 /*
@@ -3661,9 +3661,9 @@ select *
 from user_cons_columns
 where table_name = '(대문자)컬럼名';
 */
-select *
-from user_cons_columns
-where table_name = 'EMPLOYEE';
+SELECT *
+FROM user_cons_columns
+WHERE table_name = 'EMPLOYEE';
 
 
 
@@ -3678,29 +3678,39 @@ from user_constraints  uc
 where uc.table_name = '(대문자)테이블名';
 */
     
-select constraint_name,
+SELECT constraint_name,
            uc.table_name,
            ucc.column_name,
            uc.constraint_type,
            uc.search_condition
-from user_constraints uc
-    join user_cons_columns ucc
-        using (constraint_name)
-where uc.table_name = 'EMPLOYEE';
+FROM user_constraints uc
+    JOIN user_cons_columns ucc
+        USING (constraint_name)
+WHERE uc.table_name = 'EMPLOYEE';
 
 
 ----------------------------------------------------------------------------
 --NOT NULL
 ----------------------------------------------------------------------------
 --필수 입력 컬럼에 not null 제약조건을 지정한다
---default 값 다음에 컬럼레벨에 작성한다
+--default 값이 있다면 default값 다음에 컬럼레벨에 작성한다
 --보통 제약조건명을 지정하지 않는다
+
+
+--테이블 생성 & 제약조건
+/*
+create table 테이블名(
+    컬럼名 자료형(크기) [default  값] not null
+);
+*/
 create table tb_cons_nn(
-    id varchar2(20) not null, --컬럼레벨
-    name varchar2(100) 
+    id varchar2(20) not null, --필수 데이터 - null이 들어갈 수 없음 - not null제약
+    name varchar2(100) --컬럼레벨 (특정 컬럼에 제약조건을 거는 것)
     --테이블 레벨
+    --not null은 테이블 레벨에는 작성할 수 없음 (only 컬럼레벨)
 );
 
+--not null 컬럼에 null을 insert하면 오류
 insert into tb_cons_nn values(null, '홍길동');
 --ORA-01400: cannot insert NULL into ("KH"."TB_CONS_NN"."ID")
 
@@ -3708,178 +3718,458 @@ insert into tb_cons_nn values('honggd', '홍길동');
 
 select * from tb_cons_nn;
 
+--insert뿐 아니라 update의 경우에도 null값으로 수정할 수 없음
 update tb_cons_nn
 set id = ''
 where id = 'honggd';
 --ORA-01407: cannot update ("KH"."TB_CONS_NN"."ID") to NULL
 
-
 ----------------------------------------------------------------------------
 --UNIQUE
 ----------------------------------------------------------------------------
+--중복 허용 X = 다른 행의 값과 중복될 수 없음
 --이메일, 주민번호, 닉네임
 --전화번호는 uq 사용하지 말것
---중복 허용 X (다른 행의 값과 중복되면 안됨)
 
-create table tb_cons_uq (
-    no number not null,
-    email varchar2(50),
-    --테이블레벨
-    constraint uq_email unique (email)
-    --(여기서는 s가 있으나 없으나 똑같음)
+
+--컬럼레벨의 UQ
+/*
+create table 테이블名(
+    컬럼名 자료형(크기) [default  값] [not null] unique
+);
+*/
+CREATE TABLE tb_cons_uq_col (
+    NO NUMBER NOT NULL,
+    email VARCHAR2(50) NOT NULL UNIQUE
 );
 
-insert into tb_cons_uq values(1, 'abc@naver.com');
-insert into tb_cons_uq values(2, '가나다@naver.com');
-insert into tb_cons_uq values(3, 'abc@naver.com');
---ORA-00001: unique constraint (KH.UQ_EMAIL) violated
---아예 입력조차 할 수 없음)
-insert into tb_cons_uq values(4, null); --null 허용
+--중복된 값을 넣으면 오류
+INSERT INTO tb_cons_uq_col VALUES (1, 'abc@naver.com');
+INSERT INTO tb_cons_uq_col VALUES (1, 'abc@naver.com');
+--ORA-00001: unique constraint (KH.SYS_C007261) violated
 
-select * from tb_cons_uq;
+
+--테이블레벨의 UQ
+/*
+create table 테이블名(
+   컬럼名 자료형(크기) [default  값] [not null]
+   constraint[s] 제약조건이름지정(uq_컬럼名) unique (컬럼名)
+);
+*/
+CREATE TABLE tb_cons_uq_tbl (
+    NO NUMBER NOT NULL,
+    email VARCHAR2(50),
+    CONSTRAINT uq_email UNIQUE (email)
+);
+
+--중복된 값을 넣으면 오류
+INSERT INTO tb_cons_uq_tbl VALUES(1, 'abc@naver.com');
+INSERT INTO tb_cons_uq_tbl VALUES(2, '가나다@naver.com');
+INSERT INTO tb_cons_uq_tbl VALUES(3, 'abc@naver.com');
+--ORA-00001: unique constraint (KH.UQ_EMAIL) violated
+--테이블 레벨로 지정하면 지정해준 제약조건 이름을 에러메시지로 확인할 수 있음
+
+--null값은 허용한다
+INSERT INTO tb_cons_uq_tbl VALUES(4, NULL); 
+INSERT INTO tb_cons_uq_tbl VALUES(5, NULL);
+
+SELECT * FROM tb_cons_uq_tbl;
 
 ----------------------------------------------------------------------------
 --PRIMARY KEY
 ----------------------------------------------------------------------------
 --레코드(행) 식별자
+    --특정 행을 다른 행과 구별하기 위한 목적
 --not null + unique 기능을 동시에 가지고 있음
 --테이블 당 한개만 설정 가능
+    --cf. 단순 not null과 unique 제약조건을 동시에 걸어주는 것은
+    --한 테이블에 여러 컬럼 설정 가능
+--primary key | 기본키 | 주키 | pk
 
-create table tb_cons_pk(
-    id varchar2(50),
-    name varchar2(100) not null,
-    email varchar2(200),
-    constraint pk_id primary key(id)
+
+/*
+create table 테이블名(
+    --컬럼 레벨
+    컬럼名 자료형(크기) [default  값] [not null] primary key
+    --테이블 레벨
+    컬럼名 자료형(크기) [default  값] [not null]
+    constraint[s] 제약조건이름지정(pk_컬럼名) primary key (컬럼名)
     
 );
+*/
+CREATE TABLE tb_cons_pk(
+    ID VARCHAR2(50),
+    NAME VARCHAR2(100) NOT NULL,
+    --컬럼 레벨
+    --email varchar2(200) primary key
+    email VARCHAR2(200),
+    --테이블 레벨
+    CONSTRAINT pk_id PRIMARY KEY(ID),
+    --테이블 레벨에서도 제약조건 여러개 설정 가능
+    CONSTRAINT uq_email2 UNIQUE(email)
+    --다른 테이블일지라도 제약조건명은 중복될 수 없다
+);
 
-insert into tb_cons_pk
-values('honggd', '홍길동', 'hgd@google.com');
 
-select * from tb_cons_pk;
+--중복된 값을 추가할 수 없음
+INSERT INTO tb_cons_pk VALUES('honggd', '홍길동', 'hgd@google.com');
+INSERT INTO tb_cons_pk VALUES('honggd', '홍동길', 'hdg@google.com');
+--ORA-00001: unique constraint (KH.PK_ID) violated
+--cf. unique제약조건과 제약조건에 대한 오류메시지가 동일
+    --오류메시지만 보면 무슨 제약조건을 위반했는지 알 수 없기 때문에
+    --제약조건을 명명하는 것!
 
 
-select constraint_name,
+--null을 허용하지 않음
+INSERT INTO tb_cons_pk VALUES(NULL, '홍동길', 'hdg@google.com');
+--ORA-01400: cannot insert NULL into ("KH"."TB_CONS_PK"."ID")
+--not null을 쓰지 않아도 not null효과
+
+
+--한 테이블에 여러개의 primary key를 가질 수 없음
+CREATE TABLE tb_cons_pk_duplicate(
+    ID VARCHAR2(50) PRIMARY KEY,
+    NAME VARCHAR2(100) PRIMARY KEY
+);
+--ORA-02260: table can have only one primary key
+
+--반면에 단순 not null과 unique 제약조건을 함께 쓰는 것은 테이블 당 여러개 가능
+CREATE TABLE tb_cons_nn_uq_duplicate(
+    ID VARCHAR2(50) NOT NULL UNIQUE,
+    NAME VARCHAR2(100) NOT NULL UNIQUE
+);
+--Table TB_CONS_NN_UQ_DUPLICATE이(가) 생성되었습니다.
+--Primary Key는 not null 기능과 unique 기능을 동시에 가지고 있을 뿐,
+--단순 두가지 제약조건을 함께 쓰는 것과 동일하지는 않음
+
+
+--제약조건 검색
+SELECT constraint_name,
            uc.table_name,
            ucc.column_name,
            uc.constraint_type,
            uc.search_condition
-from user_constraints uc
-    join user_cons_columns ucc
-        using (constraint_name)
-where uc.table_name = 'TB_CONS_PK';
+FROM user_constraints uc
+    JOIN user_cons_columns ucc
+        USING (constraint_name)
+WHERE uc.table_name = 'TB_CONS_PK';
 
---복합 기본키(주키 | primary key | pk)
---여러컬럼을 조합해서 하나의 PK로 사용.
---사용된 컬럼 하나라도 null이어서는 안된다.
-create table tb_order_pk (
-    user_id varchar2(50),
-    order_date date,
-    amount number default 1 not null,
-    constraint pk_user_id_order_date primary key(user_id, order_date)
+
+--not null은 pk 제약조건에 함께 걸 수 있음
+    --not null을 제약조건으로 걸지 않아도, null을 허용하지는 않음
+--unique는 pk 제약조건과 함께 걸 수 없음
+
+--NN + PK
+
+--not null 명시 O
+CREATE TABLE tb_nn1_pk(
+    ID VARCHAR2(50) NOT NULL PRIMARY KEY
+);
+--Table TB_NN_PK이(가) 생성되었습니다.
+--not null과 primary key제약조건을 함께 쓸 수 있음
+
+INSERT INTO tb_nn1_pk VALUES(NULL);
+--ORA-01400: cannot insert NULL into ("KH"."TB_NN1_PK"."ID")
+--null 허용치 않음
+
+--not null 명시  X
+CREATE TABLE tb_nn2_pk(
+    ID VARCHAR2(50) PRIMARY KEY
+);
+--Table TB_NN2_PK이(가) 생성되었습니다.
+INSERT INTO tb_nn2_pk VALUES(NULL);
+--ORA-01400: cannot insert NULL into ("KH"."TB_NN2_PK"."ID")
+--not null을 쓰지 않아도 null을 허용치 않음
+--> primary key는 not null기능을 가지고 있음
+
+
+--UQ + PK
+CREATE TABLE tb_uq_pk(
+    ID VARCHAR2(50) UNIQUE PRIMARY KEY
+);
+--ORA-02259: duplicate UNIQUE/PRIMARY KEY specifications
+--unique는 아예 primary key와 함께 제약조건으로 걸 수 없음
+--> primary key는 unique기능을 가지고 있음
+
+----> Primary key는 not null과 unique 기능을 모두 가지고 있음
+
+
+--복합 기본키
+--여러 컬럼을 조합해서(묶어서) 하나의 PK로 사용.
+    --ex. 두 개의 컬럼을 사용한다면, 두 개의 컬럼값을 합친 값이 고유하면 됨
+--합쳐진 컬럼 중, 컬럼 하나라도 null이어서는 안된다.
+--테이블 레벨로만 지정 가능
+
+/*
+create table 테이블名(
+    컬럼名1 자료형(크기) [default  값] [not null]
+    컬럼名2 자료형(크기) [default  값] [not null]
+    constraint[s] 제약조건이름지정(pk_컬럼名1_컬럼名2...) primary key (컬럼名1, 컬럼名2...)
+);
+*/
+CREATE TABLE tb_order_pk (
+    user_id VARCHAR2(50),
+    order_date DATE,
+    amount NUMBER DEFAULT 1 NOT NULL,
+    --user_id와 order_date를 묶어서 하나의 pk로 사용
+    CONSTRAINT pk_user_id_order_date PRIMARY KEY(user_id, order_date)
 );
 
-insert into tb_order_pk
-values('honggd', sysdate, 3);
+INSERT INTO tb_order_pk VALUES('honggd', sysdate, 3);
+--1 행 이(가) 삽입되었습니다.
+INSERT INTO tb_order_pk VALUES('honggd', sysdate, 3);
+--1 행 이(가) 삽입되었습니다.
+INSERT INTO tb_order_pk VALUES('honggd', sysdate, 3);
+--1 행 이(가) 삽입되었습니다.
 
-insert into tb_order_pk
-values(null, sysdate, 3);--ORA-01400: cannot insert NULL into ("KH"."TB_ORDER_PK"."USER_ID")
+--why? sysdate는 시분초까지 다룸 
+--insert 후 다음 insert까지도 시간은 계속 흐르므로 값이 중복되지 않음
 
-select user_id,
+--테이블 확인
+SELECT user_id,
             to_char(order_date, 'yyyy/mm/dd hh24:mi:ss') order_date,
             amount
-from tb_order_pk;
+FROM tb_order_pk;
+--날짜, 시간, 분 단위로는 같을지라도 초 단위가 다르기 때문에 값이 다르다고 봄
+--user_id는 같아도 order_date가 다르므로 pk제약조건에 위배되지 않음
+--지정한 컬럼을 합쳤을 때의 값이 완전 동일해야 위배
 
+--복합 기본키 또한 null을 허용하지 않음
+INSERT INTO tb_order_pk
+VALUES(NULL, sysdate, 3);
+--ORA-01400: cannot insert NULL into ("KH"."TB_ORDER_PK"."USER_ID")
 
 
 -------------------------------------------
 -- FOREIGN KEY
 -------------------------------------------
---참조 무결성을 유지하기 위한 조건
+--참조 무결성을 유지하기 위한 조건 (참조하는 값에 결함이 없어야 함)
 --참조하고 있는 부모테이블의 지정 컬럼값 중에서만 값을 취할 수 있게 하는 것
---참조하고 있는 부모테이블의 지정컬럼은 PK, UQ제약조건이 걸려있어야 한다.
---department.dept_id(부모테이블)   <------  employee.dept_code(자식테이블)
+--참조하고 있는 부모테이블의 지정 컬럼은 PK또는 UQ제약조건이 걸려있어야 한다.
+--department.dept_id(부모테이블)   <---(참조)---  employee.dept_code(자식테이블)
+    --employee.dept_code는 department.dept_id 값(D1 ~ D9) 중 하나여야 함
+    --department.dept_id에 없는 값을 취할 수 없음
 --자식테이블의 컬럼에 외래키(foreign key) 제약조건을 지정
+--foreign key : 외래키 | fk
+--fk를 기반으로 테이블간의 관계를 파악하는 것이 중요
 
-create table shop_member(
-    member_id varchar2(20),
-    member_name varchar2(30) not null,
-    constraint pk_shop_memer_id primary key(member_id)
+--cf. 이 때 부모, 자식은 상속관계가 아닌 참조관계
+    --단순히 부모테이블의 값을 가져다 쓰기 위한 것
+
+SELECT constraint_name,
+           uc.table_name,
+           ucc.column_name,
+           uc.constraint_type,
+           uc.search_condition
+FROM user_constraints uc
+    JOIN user_cons_columns ucc
+        USING (constraint_name)
+WHERE uc.table_name = 'EMPLOYEE';
+--자식테이블에 foregin key가 걸려있는 것을 확인할 수 있음 (R)
+
+
+--부모테이블 (가게 회원정보)
+CREATE TABLE shop_member(
+    member_id VARCHAR2(20),
+    MEMBER_NAME VARCHAR2(30) NOT NULL,
+    CONSTRAINT pk_shop_memer_id PRIMARY KEY(member_id)
+);
+--부모테이블의 컬럼에 primary key 지정
+
+
+INSERT INTO shop_member VALUES('sinsa', '신사임당');
+INSERT INTO shop_member VALUES('sejong', '세종대왕');
+INSERT INTO shop_member VALUES('honggd', '홍길동');
+
+SELECT * FROM shop_member;
+
+
+--자식 테이블 (가게 구매내역)
+/*
+create table 테이블名(
+    컬럼名 자료형(크기) [default  값] [not null] [unique | primary key]
+    constraint[s] 제약조건이름지정(fk_테이블名_컬럼名) foreign key (현재 테이블의 컬럼名)   --이 컬럼을 외래키로 해서
+                                                                                      references 부모테이블名(컬럼名)  --부모테이블의 컬럼을 참조하겠다
+                                                                                      [삭제옵션]
+                                                                                      on delete restricted | on delete set null | on delete cascade
+);
+*/
+CREATE TABLE shop_buy (
+    buy_no NUMBER,
+    member_id VARCHAR2(20),
+    product_id VARCHAR2(50),
+    buy_date DATE DEFAULT sysdate,
+    CONSTRAINTS pk_shop_buy_no PRIMARY KEY(buy_no),
+    CONSTRAINTS fk_shop_buy_member_id FOREIGN KEY(member_id)
+                                                                 REFERENCES shop_member(member_id)
 );
 
-insert into shop_member values('honggd', '홍길동');
-insert into shop_member values('sinsa', '신사임당');
-insert into shop_member values('sejong', '세종대왕');
 
-select * from shop_member;
+INSERT INTO shop_buy
+VALUES(1, 'sinsa', 'basketball_shoes', DEFAULT);
 
---drop table shop_buy;
-create table shop_buy (
-    buy_no number,
-    member_id varchar2(20),
-    product_id varchar2(50),
-    buy_date date default sysdate,
-    constraints pk_shop_buy_no primary key(buy_no),
-    constraints fk_shop_buy_member_id foreign key(member_id)
-                                                                 references shop_member(member_id)
-                                                                 on delete cascade
-);
+INSERT INTO shop_buy
+VALUES(2, 'sejong', 'soccer_shoes', DEFAULT);
 
+SELECT * FROM shop_buy;
 
-insert into shop_buy
-values(1, 'honggd', 'soccer_shoes', default);
-
-insert into shop_buy
-values(2, 'sinsa', 'basketball_shoes', default);
-
-insert into shop_buy
-values(3, 'k12345', 'football_shoes', default);
+--부모테이블의 컬럼에 없는 값은 insert할 수 없음
+INSERT INTO shop_buy
+VALUES(3, 'k12345', 'football_shoes', DEFAULT);
 --ORA-02291: integrity constraint (KH.FK_SHOP_BUY_MEMBER_ID) violated - parent key not found
 
+--RDBMS (Relational Database Management System)의 주요목적
+--entity + entity -> relation 
+--마음대로 relation을 만들 수 없음
 
-select * from shop_buy;
 
 --fk기준으로 join -> relation
---구매번호 회원아이디 회원이름 구매물품아이디 구매시각
+--구매번호, 회원아이디, 회원이름, 구매물품아이디, 구매시각
 
-select B.buy_no,
-            member_id,
-            M.member_name,
-            B.product_id,
-            B.buy_date
-from shop_member M
-    join shop_buy B
-        using(member_id);
+--shop_member - **member_id, [member_name]
+--shop_buy - [buy_no], **member_id, [product_id], [buy_date]
+
+SELECT b.buy_no,
+            member_id, --cf. using을 사용하면 기준컬럼명에 별칭사용 불가
+            M.MEMBER_NAME,
+            b.product_id,
+            b.buy_date
+FROM shop_member M
+    JOIN shop_buy b
+         USING(member_id);
+--foregin key인 member_id를 구심점으로 두개의 행이 합쳐짐
 
 
 --정규화 Normalization
---이상현상 방지(anormaly)
-select *
-from employee;
+--성격에 맞게 테이블을 분리해놓는 과정
 
-select *
-from department;
+SELECT * FROM employee;
+SELECT * FROM department;
+
+--애초에 employee테이블에 department의 다른 컬럼들도 한꺼번에 넣으면 안될까?
+--아예 합쳐놨으면 join없이도 필요한 것들만 골라 쓸 수 있었을텐데..
+--왜 쪼개서 두개의 테이블로 만들었을까?
+
+--이상현상 방지(anormaly)
+
+--만명의 총무부원이 있는 '총무부'가 '업무총괄부'라고 수정
+
+--한테이블에 모두 있었다면
+--D9이라는 키워드 사용 대신 총무부라고 직접 쓸 경우
+-->만줄의 데이터를 수정해야 함
+--+ 수정 시 누락자가 있으면, 데이터 무결성이 깨짐
+
+--이런 현상을 방지하기 위해 별도로 코드로써 관리함
+--테이블을 나눠서 관리하면
+-->department 테이블의 D9에 해당하는 부서명 한줄만 수정하면 됨 (데이터 관리의 수월)
+--+ 데이터 무결성이 깨질 확률이 줄어듦
+--+ '총무부'라고 쓰면 9byte이지만, 코드로 관리하면 데이터 크기가 2byte로 줄어듦
+
+
 
 --삭제 옵션
 --on delete restricted : 기본값. 참조하는 자식행이 있는 경우, 부모행 삭제불가 
---                                  자식행을 먼저 삭제후, 부모행을 삭제
---on delete set null : 부모행 삭제시 자식컬럼은 null로 변경
---on delete cascade : 부모행 삭제시 자식행 삭제
+                                     --해결책 : 자식행을 먼저 삭제후, 부모행을 삭제
+--on delete set null : 부모행 삭제시 해당 자식컬럼의 값은 null로 변경
+--on delete cascade : 부모행 삭제시 자식행도 삭제
 
---delete from shop_buy
---where member_id= 'honggd';
 
-delete from shop_member 
-where member_id = 'honggd';
+
+
+--ON DELETE RESTRICTED
+CREATE TABLE shop_buy (
+    buy_no NUMBER,
+    member_id VARCHAR2(20),
+    product_id VARCHAR2(50),
+    buy_date DATE DEFAULT sysdate,
+    CONSTRAINTS pk_shop_buy_no PRIMARY KEY(buy_no),
+    CONSTRAINTS fk_shop_buy_member_id FOREIGN KEY(member_id)
+                                                                 REFERENCES shop_member(member_id)
+                                                                 --on delete restricted (기본값이라 생략 가능)
+);
+
+--참조하고 있는 자식행이 있는데, 부모행 삭제불가
+DELETE FROM shop_member 
+WHERE member_id = 'sinsa';
 --ORA-02292: integrity constraint (KH.FK_SHOP_BUY_MEMBER_ID) violated - child record found
 
-select * from shop_member;
-select * from shop_buy;
+--해결책 : 자식행을 먼저 삭제후, 부모행을 삭제
+DELETE FROM shop_buy
+WHERE member_id = 'sinsa';
+--1 행 이(가) 삭제되었습니다.
+DELETE FROM shop_member 
+WHERE member_id = 'sinsa';
+--1 행 이(가) 삭제되었습니다.
 
+SELECT * FROM shop_member;
+--sinsa행이 삭제됨
+SELECT * FROM shop_buy;
+-- sinsa행이 삭제됨
+
+--ON DELETE SET NULL
+CREATE TABLE shop_buy (
+    buy_no NUMBER,
+    member_id VARCHAR2(20),
+    product_id VARCHAR2(50),
+    buy_date DATE DEFAULT sysdate,
+    CONSTRAINTS pk_shop_buy_no PRIMARY KEY(buy_no),
+    CONSTRAINTS fk_shop_buy_member_id FOREIGN KEY(member_id)
+                                                                 REFERENCES shop_member(member_id)
+                                                                 ON DELETE SET NULL                            
+);
+
+--참조하는 자식 행이 있더라도, 부모테이블 행삭제 가능
+DELETE FROM shop_member
+WHERE member_id = 'sinsa';
+--1 행 이(가) 삭제되었습니다.
+
+SELECT * FROM shop_member;
+--sinsa행이 삭제됨
+SELECT * FROM shop_buy;
+-- member_id행에서 원래 sinsa자리가 (null)로 표시됨
+
+
+--ON DELETE CASCADE
+CREATE TABLE shop_buy (
+    buy_no NUMBER,
+    member_id VARCHAR2(20),
+    product_id VARCHAR2(50),
+    buy_date DATE DEFAULT sysdate,
+    CONSTRAINTS pk_shop_buy_no PRIMARY KEY(buy_no),
+    CONSTRAINTS fk_shop_buy_member_id FOREIGN KEY(member_id)
+                                                                 REFERENCES shop_member(member_id)
+                                                                 ON DELETE CASCADE                           
+);
+
+--부모테이블의 행을 삭제
+DELETE FROM shop_member
+WHERE member_id = 'sinsa';
+--1 행 이(가) 삭제되었습니다.
+
+SELECT * FROM shop_member;
+--sinsa행이 삭제됨
+SELECT * FROM shop_buy;
+--자식테이블도 따라서 sinsa행이 삭제됨
+
+--(+) 삭제옵션과 상관없이
+--      참조하는 자식테이블이 있으면 부모 테이블 삭제 불가
+DROP TABLE shop_member;
+--ORA-02449: unique/primary keys in table referenced by foreign keys
+
+--해결책 : 자식테이블을 먼저 삭제후, 부모행을 삭제
+DROP TABLE shop_buy;
+--Table SHOP_BUY이(가) 삭제되었습니다.
+DROP TABLE shop_member;
+--Table SHOP_MEMBER이(가) 삭제되었습니다.
+
+
+
+--5시간 38초
 --식별관계 | 비식별관계
 --비식별관계 : 참조하고 있는 부모컬럼값을 PK로 사용하지 않는 경우. 여러행에서 참조가 가능(중복) 1:N관계
 --식별관계 : 참조하고 있는 부모컬럼을 PK로 사용하는 경우. 부모행 - 자식행사이에 1:1관계
 
+drop table shop_nickname;
 create table shop_nickname(
     member_id varchar2(20),
     nickname varchar2(100),
@@ -3887,15 +4177,13 @@ create table shop_nickname(
     constraints pk_member_id primary key(member_id)
 );
 
+
+
 insert into shop_nickname 
 values('sinsa', '신솨112');
 
 select *
 from shop_nickname;
-
-
-
-
 
 
 

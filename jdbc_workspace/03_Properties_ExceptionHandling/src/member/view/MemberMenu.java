@@ -235,5 +235,12 @@ public class MemberMenu {
 		return member;
 	}
 
+	/*
+	 * 사용자에게 오류메시지 출력하기
+	 */
+	public void displayError(String errorMsg) {
+		System.out.println(errorMsg);
+	}
+
 }
 

@@ -363,7 +363,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		
 		//키워드, 값 사이의 공란주의
-		String query = "update member set "
+		String query = "update member set " //여러줄로 쓸 때는 띄어쓰기를 지우기 않기
 					 + " password=?"
 					 + ",email=?"
 					 + ",phone=?"
@@ -391,8 +391,17 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				pstmt.close();
-				conn.close();
+				//null pointer exception을 대비한 try/catch
+				if (pstmt != null) {
+					pstmt.close();					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();					
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

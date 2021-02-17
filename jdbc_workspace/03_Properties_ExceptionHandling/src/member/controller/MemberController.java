@@ -2,17 +2,25 @@ package member.controller;
 
 import java.util.List;
 
+import member.exception.MemberException;
 import member.model.service.MemberService;
 import member.model.vo.Member;
+import member.view.MemberMenu;
 
 public class MemberController {
 	
 	private MemberService memberService = new MemberService();
 
 	public List<Member> selectAll() {
-		
-		return memberService.selectAll();
-		//selectAll의 리턴타입도 List<Member>임
+		List<Member> list = null;
+		try {
+			list = memberService.selectAll();
+		} catch(MemberException e) {
+			//서버로깅 (예외사항을 기록으로 남김)
+			//관리자 이메일 알림			
+			new MemberMenu().displayError(e.getMessage() + " : 관리자에게 문의하세요.");
+		}
+		return list;
 	}
 
 	public int insertMember (Member member) {
