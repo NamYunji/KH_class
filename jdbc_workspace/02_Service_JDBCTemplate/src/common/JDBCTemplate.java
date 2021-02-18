@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 //매번 중복되는 부분을 처리하려면..?
-//공통된 코드를 미리 구현해두고, 간편하게 가져다 쓸 수 있도록!
+//공통된 코드를 미리 구현해두고, 사용시 간편하게 가져다 쓸 수 있도록!
 
 /*
  * Service, Dao클래스의 공통부분을 static 메소드로 제공
@@ -17,29 +17,49 @@ import java.sql.SQLException;
  */
 public class JDBCTemplate {
 	
-	//Cannot make a static reference to the non-static field driverClass
-	//static자원에서는 instance변수를 참조를 할 수 없음	
+	//Service단의 필드들을 가져와서 필드로 지정
+	
+	//String driverClass = "oracle.jdbc.OracleDriver";
+	//String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	//String user = "student";
+	//String password = "student";		
+		//static자원에서는 instance변수를 참조를 할 수 없음	
+		//instance는 객체가 만들어져야 사용할 수 있지만
+		//static은 바로 사용할 수 있기 때문에
+		//존재하지 않는 것들을 참조하게 됨
+		//참조할 수 있도록 static으로 만들어줌
+		
+		//static으로 바꿔줌
 		static String driverClass = "oracle.jdbc.OracleDriver";
-		//static String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		static String url = "jdbc:oracle:thin:@khmclass.iptime.org:1521:xe";
+		static String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		static String user = "student";
 		static String password = "student";
-		
+
+
+		// <1> DriverClass등록 (최초1회)
+		//DriverClass는 최초 1회만 등록해주면 됨
+		//매번 호출할 때마다 실행할 필요 없음
+		// --> static 초기화 블럭을 이용해서 딱 한번만 등록할 수 있도록 <2>와 분리함
+		// --> 클래스가 사용될 때 딱 한번 실행됨
 		static {
-			try {
-				//1. DriverClass등록(최초1회)
+			try { 
 				Class.forName(driverClass);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
 
+		
+		// <2> Connection객체 생성 (url, user, password)
+		// <2.1> [DML] 자동커밋 false설정
 		public static Connection getConnection() {
+			
 			Connection conn = null;
+			
 			try {
-				//2. Connection객체생성 url, user, password
+				// <2> Connection객체 생성 (url, user, password)
 				conn = DriverManager.getConnection(url, user, password);
-				//2.1 자동커밋 false설정
+				// <2.1> [DML] 자동커밋 false설정
 				conn.setAutoCommit(false);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -48,8 +68,8 @@ public class JDBCTemplate {
 			return conn;
 		}
 		
+		// <7> Connection만 자원반납 - [MemberService - conn]	
 		public static void close(Connection conn) {
-			//7. 자원반납(conn) 
 			try {
 				if (conn != null)
 				conn.close();
@@ -58,6 +78,7 @@ public class JDBCTemplate {
 			}
 		}
 		
+		// <5> Connection을 제외하고 자원반납 - [Dao - rset]
 		public static void close(ResultSet rset) {
 			try {
 				if(rset != null)
@@ -67,6 +88,7 @@ public class JDBCTemplate {
 			}
 		}
 		
+		// <5> Connection을 제외하고 자원반납 - [Dao - pstmt]		
 		public static void close(PreparedStatement pstmt) {
 			try {
 				if(pstmt != null)
@@ -75,7 +97,8 @@ public class JDBCTemplate {
 				e.printStackTrace();
 			}
 		}
-				
+		
+		//<6> [DML] 트랜잭션처리 (commit)					
 		public static void commit(Connection conn) {
 		
 			try {
@@ -85,7 +108,8 @@ public class JDBCTemplate {
 				e.printStackTrace();
 			}
 		}
-		
+
+		//<6> [DML] 트랜잭션처리 (rollback)		
 		public static void rollback(Connection conn) {
 			
 			try {

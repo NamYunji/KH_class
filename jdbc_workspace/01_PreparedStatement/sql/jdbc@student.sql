@@ -69,6 +69,15 @@ select * from member;
 commit;
 
 
----------------------------------------
---
----------------------------------------
+--삭제트리거 생성
+	--resource 롤에 create trigger권한이 있기때문에 별도의 DCL없이 진행할 수 있음.
+	create or replace trigger trig_delete_member
+		before delete on member
+		for each row
+	begin
+		insert into member_del
+		values(:old.member_id, :old.password, :old.member_name, :old.gender, :old.age, :old.email, :old.phone, :old.address, :old.hobby, :old.enroll_date, sysdate);
+	end;
+	/
+	--데이터확인
+	select * from member_del;

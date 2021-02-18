@@ -7,12 +7,13 @@ import member.model.vo.Member;
 
 public class MemberController {
 	
+	//MemberService 클래스를 필드로 객체화
+	//MemberService의 메소드를 이 클래스에서 호출할 수 있도록 (has a 포함관계)
 	private MemberService memberService = new MemberService();
 
 	public List<Member> selectAll() {
 		
 		return memberService.selectAll();
-		//selectAll의 리턴타입도 List<Member>임
 	}
 
 	public int insertMember (Member member) {

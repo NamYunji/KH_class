@@ -39,8 +39,7 @@ public class MemberMenu {
 			String memberId = null;
 			String memberName = null;
 			
-			
-			Member mName;
+		
 			// switch문으로 처리
 			switch (choice) {
 			case 1:

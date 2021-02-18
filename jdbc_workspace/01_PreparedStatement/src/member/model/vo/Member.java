@@ -20,8 +20,14 @@ public class Member {
 	private String hobby;
 	private Date enrollDate; // java.sql.Date
 	/*
-	 * sql developer - java varchar2 - String char - String number - 정수 데이터면 int -
-	 * 실수 데이터면 double date - Date (java.sql.Date - java.util.Date의 자식클래스) 단어 구분
+	 * sql developer - java 
+	 * varchar2 - String 
+	 * char - String 
+	 * number - 정수 데이터면 int 
+	 *        - 실수 데이터면 double 
+	 * date - Date (java.sql.Date - java.util.Date의 자식클래스) 
+	 * 
+	 * 단어 구분
 	 * 언더스코어(_) - Camel Casing ex. member_id - memberId
 	 * 
 	 */

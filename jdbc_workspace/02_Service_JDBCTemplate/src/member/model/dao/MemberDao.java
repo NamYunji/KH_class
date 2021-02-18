@@ -10,41 +10,47 @@ import java.util.List;
 
 import member.model.vo.Member;
 
+//static import / 두개의 메소드 명이 같으므로 close라고만 써줌
 import static common.JDBCTemplate.close;
 
 public class MemberDao {
 	
 
-	/**
-	 *  Dao
-	 * 
-	 * 3. PreparedStatement객체 생성(미완성쿼리)
-	 * 3.1 ? 값대입
-	 * 4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
-	 * 4.1 ResultSet -> Java객체 옮겨담기
-	 * 5. 자원반납(생성역순 rset - pstmt) 
-	 *
-	 */
+	// <3> 미완성커리(?가 있는 커리)를 이용해서 PreparedStatement객체 생성
+	// <3.1> [DML] ? 값대입
+	// <4> 실행 (DML -> int 리턴 | DQL -> ResultSet 리턴)
+	// [DML]executeUpdate
+	// [DQL] executeQuery
+	// <4.1> [DQL] ResultSet을 Java객체로 옮겨담기
+	// <5> Connection을 제외하고 자원반납 (생성 객체의 역순)
+	//    [DML] pstmt
+	//    [DQL] rset - pstmt 
+	
 	public List<Member> selectAll(Connection conn) {
-		//3
+		// <3> 미완성커리(?가 있는 커리)를 이용해서 PreparedStatement객체 생성
+		//PreparedStatement
 		PreparedStatement pstmt = null;
-		//4
 		ResultSet rset = null;
+		//sql문
 		String sql = "select * from member order by enroll_date desc";
+		//리턴값
 		List<Member> list = null;
 		
-		 //3. 미완성커리(?가 있는 커리)를 이용해서 PreparedStatement객체 생성
+		//<3>에 대한 try
 		try {
+			// <3> 미완성커리(?가 있는 커리)를 이용해서 PreparedStatement객체 생성
 			pstmt = conn.prepareStatement(sql);
-			//3.1  ? 값대입
-			//미완성커리가 아니므로 생략
-			//4. 실행 (DML -> int 리턴 | DQL -> ResultSet 리턴)
-			rset = pstmt.executeQuery();
-			//DML실행하는 쿼리 : executeUpdate
-			//DQL실행하는 쿼리 : executeQuery
+			// <3.1> [DML] ? 값대입
+			//DQL -> 미완성커리가 아니므로 생략
 			
-			//4.1  DQL의 경우 ResultSet을 Java객체로 옮겨담기
+			// <4> 실행 (DML -> int 리턴 | DQL -> ResultSet 리턴)
+			// [DML]executeUpdate
+			// [DQL] executeQuery
+			rset = pstmt.executeQuery();
+			// <4.1> [DQL] ResultSet을 Java객체(list)로 옮겨담기
+			//list를 객체화
 			list = new ArrayList<>();
+			//while문을 통해 member객체에 한 행씩 옮겨담음
 			while (rset.next()) {
 					String memberId = rset.getString("member_id");
 					String password = rset.getString("password");
@@ -57,17 +63,27 @@ public class MemberDao {
 					String hobby = rset.getString("hobby");
 					Date enrollDate = rset.getDate("enroll_date");
 					//한행 한행의 데이터를 member객체로 바꾸는 것
-					//테이블의 데이터 한 행 = vo의 member객체 한 개
+					//result set - 테이블의 데이터 한 행 = vo의 member객체 한 개
+					//테이블 한 행과 member객체 한 개가 짝을 이룬다
 					Member member = new Member(memberId, password, memberName, gender, age, email, phone, address, hobby, enrollDate);
+					//list에 추가
 					list.add(member);
 				}
-		} catch (SQLException e) {
+		} 
+		  //<3>에 대한 catch
+		  catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			 //5. 자원반납(rset - pstmt) 
+		} 
+		
+		  finally {
+			//Service, Dao 분기처리만 진행
+			// <5> Connection을 제외하고 자원반납 (생성 객체의 역순)
+			//    [DML] pstmt
+			//    [DQL] rset - pstmt 
+
 			/*
 			try {
-				if(rset != null)
+				if(rset != null) //rset이 생성도 안되었을 경우를 대비하여 try/catch
 				rset.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -79,6 +95,8 @@ public class MemberDao {
 				e.printStackTrace();
 			}
 			*/
+			  
+			//JDBCTemplate 처리 &	static import 처리 후  
 			//import static -> 클래스名.메소드名  -> 메소드名
 			close(rset);
 			close(pstmt);

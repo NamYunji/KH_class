@@ -79,8 +79,7 @@ public class MemberDao {
 			// 실제 값이 들어가야 할 부분은 물음표로 처리)
 			// 주의 : 세미콜론을 문자열 안에 찍지 않음
 			pstmt = conn.prepareStatement(sql);
-			// PreparedStatement 변수 = Connection객체.preparedStatement(미완성쿼리 변수); -> 쿼리를 실행하는
-			// 객체
+			// PreparedStatement 변수 = Connection객체.preparedStatement(미완성쿼리 변수); -> 쿼리를 실행하는 객체
 			// 물음표 자리에 실제 데이터 하나씩 대입
 			// 변수.set자료형(자리수, parameter.getter());
 			pstmt.setString(1, member.getMemberId());
@@ -100,13 +99,14 @@ public class MemberDao {
 			result = pstmt.executeUpdate();
 			// dml인 경우는 executeUpdate, dql인 경우는 executeQuery
 			// 정상 실행되면 1 리턴, 정상 실행 안되면 오류
+			
+//7. (DML의 경우) 트랜잭션 처리
 			// 정상 처리 시 커밋
 			if (result > 0)
 				conn.commit();
 			// 오류 시 롤백
 			else
 				conn.rollback();
-//7. (DML의 경우) 트랜잭션 처리
 
 		} catch (ClassNotFoundException e) {
 			// ojdbc6.jar를 프로젝트와 연동실패 시 ClassNotFoundException 발생
@@ -125,7 +125,6 @@ public class MemberDao {
 				if (pstmt != null)
 					pstmt.close(); // try/catch
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -133,7 +132,6 @@ public class MemberDao {
 				if (conn != null)
 					conn.close(); // try/catch
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
