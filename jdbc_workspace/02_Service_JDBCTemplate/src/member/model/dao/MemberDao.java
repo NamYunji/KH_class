@@ -19,7 +19,7 @@ public class MemberDao {
 	// <3> 미완성커리(?가 있는 커리)를 이용해서 PreparedStatement객체 생성
 	// <3.1> [DML] ? 값대입
 	// <4> 실행 (DML -> int 리턴 | DQL -> ResultSet 리턴)
-	// [DML]executeUpdate
+	// [DML] executeUpdate
 	// [DQL] executeQuery
 	// <4.1> [DQL] ResultSet을 Java객체로 옮겨담기
 	// <5> Connection을 제외하고 자원반납 (생성 객체의 역순)
@@ -104,7 +104,6 @@ public class MemberDao {
 
 		return list;
 	}
-
 
 
 	public int insertMember(Connection conn, Member m) {

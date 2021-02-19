@@ -81,3 +81,82 @@ commit;
 	/
 	--데이터확인
 	select * from member_del;
+    
+    
+    
+------------------------------------------------------------
+--최종 실습문제
+------------------------------------------------------------
+
+
+create table PRODUCT_STOCK (
+    PRODUCT_ID varchar2(30) primary key,
+    PRODUCT_NAME varchar2(30) not null,
+    PRICE number(10) not null,
+    description varchar2(50),
+    STOCK number default 0
+);
+
+create table product_io (
+    io_no number primary key, -- sequence처리할 것.
+    product_id varchar2(30), --PRODUCT_STOCK테이블 PRODUCT_ID 참조
+    iodate date default sysdate,
+    amount number,
+    status char(1),
+    constraint ck_status check(status in ('I', 'O')),
+    constraint fk_io_stock_prod_id foreign key(product_id)
+                                                                 references product_stock(product_id)
+                                                                 --상품정보를 삭제하면, 해당 입출고 데이터도 삭제되도록 처리
+                                                                 on delete cascade
+);
+
+
+
+--시퀀스 생성
+--drop sequence seq_product;
+
+create sequence seq_product
+    start with 1
+    increment by 1;
+    
+insert into PRODUCT_STOCK values('nb_ss7', '삼성노트북', 1570000, '시리즈 7', 55);
+insert into PRODUCT_STOCK values('nb_macbook_air', '맥북에어', 1200000, '애플 울트라북', 0);
+insert into PRODUCT_STOCK values('pc_ibm', 'ibmPC', 750000, 'windows 8', 10);
+
+
+
+--트리거를 이용한 상품 재고 관리
+--입출고 데이터가 insert되면, 해당상품의 재고수량을 변경하는 트리거
+CREATE OR REPLACE TRIGGER trg_prod
+    BEFORE
+    INSERT ON product_io --io테이블의 insert가 일어나면 트리거 작동
+    FOR EACH ROW --매 행마다
+BEGIN
+--분기
+    --입고
+    IF :NEW.status = 'I' THEN --status가 'I'인 경우
+      UPDATE product_stock --product테이블을 업데이트 할건데
+      SET stock = stock + :NEW.amount -- amount만큼 플러스로 설정해라 
+      WHERE product_stock.product_id = :NEW.product_id; 
+    --출고
+    ELSE --status가 'O'인 경우
+      UPDATE product_stock 
+      SET stock = stock - :NEW.amount --amount만큼 마이너스로 설정해라 
+      WHERE product_stock.product_id = :NEW.product_id; 
+    END IF;
+
+END;
+/
+
+
+insert into PRODUCT_STOCK values('nb_ss7', '삼성노트북', 1570000, '시리즈 7', 55);
+insert into PRODUCT_IO VALUES(SEQ_PRODUCT.nextval, 'nb_ss7', sysdate, 5, 'I');
+
+select * from product_io;
+select * from product_stock;
+
+commit;
+
+DESC PRODUCT_IO;
+
+DESC PRODUCT_STOCK;

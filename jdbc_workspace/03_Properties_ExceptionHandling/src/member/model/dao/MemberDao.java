@@ -66,7 +66,7 @@ public class MemberDao {
 			//4.1 ResultSet -> Java객체 옮겨담기
 			list = new ArrayList<>();
 			while(rset.next()) {
-				String memberId = rset.getString("member_idddddd");
+				String memberId = rset.getString("member_id");
 				String password = rset.getString("password");
 				String memberName = rset.getString("member_name");
 				String gender = rset.getString("gender");

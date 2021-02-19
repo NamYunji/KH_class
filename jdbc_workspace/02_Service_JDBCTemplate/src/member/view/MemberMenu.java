@@ -156,12 +156,14 @@ public class MemberMenu {
 	 * @param list
 	 */
 	private void displayMemberList(List<Member> list) {
+		//조회된 데이터가 있을 경우
 		if(list != null && !list.isEmpty()) {
 			System.out.println("==========================================================================================");
 			for(int i = 0; i < list.size(); i++)
 				System.out.println((i + 1) + " : " + list.get(i));
 			System.out.println("==========================================================================================");
 		}
+		//조회된 데이터가 없을 경우
 		else {
 			System.out.println(">>> 조회된 회원 정보가 없습니다.");
 		}
