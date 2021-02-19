@@ -103,12 +103,14 @@ create table product_io (
     iodate date default sysdate,
     amount number,
     status char(1),
-    constraint ck_status check(status in ('I', 'O')),
+    constraints ck_status check(status in ('I', 'O')),
     constraint fk_io_stock_prod_id foreign key(product_id)
                                                                  references product_stock(product_id)
                                                                  --상품정보를 삭제하면, 해당 입출고 데이터도 삭제되도록 처리
                                                                  on delete cascade
 );
+
+drop table product_io;
 
 
 

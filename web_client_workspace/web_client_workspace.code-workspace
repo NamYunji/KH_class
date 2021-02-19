@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "01_html"
+		},
+		{
+			"path": "02_css"
+		},
+		{
+			"path": "03_javascript"
+		},
+		{
+			"path": "04_jquery"
+		},
+		{
+			"path": "05_html5api"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "01_html"
+	}
+}

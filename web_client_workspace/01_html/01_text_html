@@ -1,0 +1,12 @@
+<! DOCTYPE html><!--html5 문서선언-->
+<html> lang = "ko";
+    <head>
+        <title>text관련</title>
+    </head>
+    <body> 
+        <h1>text관련</h1>
+        <li><a href="index.html">인덱스페이지 가기</a></li>
+      
+    </body>
+
+</html>
