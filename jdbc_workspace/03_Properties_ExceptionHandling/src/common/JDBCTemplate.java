@@ -21,31 +21,49 @@ import java.util.Properties;
  */
 public class JDBCTemplate {
 	
+	//cf. DB접속하는 정보는 소스코드와 분리하는 것의 의의
+	//보안상 민감한 정보를 자바소스와 분리해두면 프로젝트시 소스코드 공유만 공유 가능
+	//공유 시 정보를 공유하지 말고, 소스코드만 공유할 것!
+	//.gitignore 파일 에 이 파일을 관리하지 않겠다고 명시하기
+	
 	//Cannot make a static reference to the non-static field driverClass
 	//static자원에서는 instance변수를 참조를 할 수 없음	
+	//값대입을 하지 않은 상태로 바꿈
+	
 		static String driverClass;
 		static String url;
 		static String user;
 		static String password;
 		
 		static {
+			
+			//java.util.Properties
 			//data-source.properties의 내용을 읽어서 변수에 대입함
 			Properties prop = new Properties();
-			//파일경로를 변수로 만들어줌
+			//data-source.properties 파일경로를 변수로 만들어줌
 			String fileName = "resources/data-source.properties";
+			
 			try {
+				//prop객체에 읽어옴
 				prop.load(new FileReader(fileName));
+				//잘 읽어왔는지 출력
 				System.out.println(prop);
+				//출력 : {driverClass=oracle.jdbc.OracleDriver, user=student, password=student, 
+						//url=jdbc:oracle:thin:@localhost:1521:xe}
+				//값대입
 				driverClass = prop.getProperty("driverClass");
 				url = prop.getProperty("url");
 				user = prop.getProperty("user");
 				password = prop.getProperty("password");
 						
-			} catch (FileNotFoundException e1) {
+			} 
+			  //prop.load에 대한 catch
+			  catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			
 			try {
 				//1. DriverClass등록(최초1회)
 				Class.forName(driverClass);

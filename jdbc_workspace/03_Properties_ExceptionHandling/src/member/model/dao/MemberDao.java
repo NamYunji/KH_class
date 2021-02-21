@@ -18,7 +18,9 @@ import member.model.vo.Member;
 import static common.JDBCTemplate.close;
 
 public class MemberDao {
-	
+	//필드
+	//properties 객체
+	//파일의 내용을 읽어다 보관할 용도	
 	private Properties prop = new Properties();
 	
 	/*
@@ -28,7 +30,7 @@ public class MemberDao {
 	 * dao메소드 호출시마다 prop으로부터 query를 꺼내 가져다 사용한다
 	 */
 	public MemberDao() {
-		//member-query.properties의 내용을 prop으로 옮겨다 놓는 코드
+		//member-query.properties의 모든 쿼리를 prop으로 옮겨다 놓는 코드
 		String fileName = "resources/member-query.properties";
 		try {
 			prop.load(new FileReader(fileName));
@@ -130,7 +132,7 @@ public class MemberDao {
 		Member m = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = "select * from member where member_id = ?";
+		String sql = prop.getProperty("selectOneMember");
 		
 		try {
 			//1. PreparedStatement객체 생성, 미완성 쿼리 값대입
@@ -181,7 +183,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		
 		//미리준비된 statement(query)
-		String query = "select * from member where member_id=?";
+		String query = prop.getProperty("selectOne");
 		
 		try {
 			//미완성쿼리문을 가지고 객체생성함
@@ -225,7 +227,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String query = "select * from member where member_name like ?";
+		String query = prop.getProperty("selectByName");
 		try {
 			
 			//3. 쿼리문을 실행할 statement객체 생성
@@ -267,12 +269,7 @@ public class MemberDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		String query = "update member set "
-					 + " password=?"
-					 + ",email=?"
-					 + ",phone=?"
-					 + ",address=?"
-					 + " where member_id=?";
+		String query = prop.getProperty("updateMember");
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -296,7 +293,7 @@ public class MemberDao {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		
-		String query = "delete from member where member_id=?";
+		String query = prop.getProperty("deleteMember");
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, memberId);
