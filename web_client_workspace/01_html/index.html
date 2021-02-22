@@ -1,27 +1,41 @@
-<! DOCTYPE html><!--html5 문서선언-->
-<html> lang = "ko";
+<!--특정 폴더 내 index.html = 보통 대문 페이지를 의미함,
+이 페이지에 가면 목차가 있음-->
+
+
+<!--주석 - 브라우저가 이 주석은 해석하지 않음-->
+
+<!--html5 문서 선언
+대소문자를 구분하지 않으나 관례상 'DOCTYPE'은 대문자-->
+<!DOCTYPE html> 
+
+<!--html 태그 열기-->
+<html lang="ko"> <!--lang 설정은 선택, 메타정보
+                한글로 설정한다고 해서 한글만 써야하는 것은 아님
+                crawling bot(검색봇)에게 한국어 문서라는 정도의
+                정보를 주는 용도-->
+
+    <!--HEAD 설정정보-->
     <head>
-        <title>HTML 인덱스</title>
+        <title>HTML 인덱스</title> <!--타이틀-->
     </head>
-    <body> 
-        <h1>HTML</h1>
-        <P>Hyper Text Markup Language</P>
-        <hr>
-        <ul>
-            <li>a</li>
+
+    <!--BODY 실제 화면에 나타낼 내용-->
+    <body>
+        <h1>HTML</h1> <!--머릿말, 큰 글자크기의 머릿글로 보여줌-->
+        <p>Hyper Text Markup Language</p>
+        <hr> <!--수평 줄긋기-->
+        <ul> <!--목록-->
+            <li>a</li> <!--부모 ul태그의 자식 태그-->
             <li>b</li>
             <li>c</li>
-            <li>d</li>
-            <li><a href="01_text.html">text관련</a></li>
-            안녕안녕안녕
-            emmit <!--자동태그 완성기능-->
-            <li></li>
+
+            <li> 
+
+                <a href = "01_text.html">text관련</a> <!--하이퍼 텍스트 (링크걸기)-->
+                <!-- <a  href = "이동하고자 하는 주소 (파일명.html)"> 링크에 제시할 내용 </a> -->
+            </li>
+
         </ul>
     </body>
-
-
-
-
-    
 
 </html>
