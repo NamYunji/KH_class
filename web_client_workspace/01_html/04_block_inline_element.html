@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>block | inline</title>
+    <!-- style [스타일 태그] 
+         cf. style태그는 head태그 안에 만듦-->
+    <style>
+        div {
+            width : 100px; /* 너비 */
+            height : 100px; /* 높이 */
+            /* border : 1px solid black;
+            방법1. 컬러이름 사용 */
+            border : 1px solid rgb(0, 0, 0); /* 테두리 굵기, 색상 */
+            /* 방법2. 컬러를 나타내는 16진수(RGB(red, green, blue)) 사용 */
+            background-color: crimson; /* 배경색상 */
+        }
+
+        span {
+            width : 100px;
+            height : 100px;
+            border : 1px solid magenta;
+            background-color: gold;  
+        }
+        /* 너비, 높이 지정한 것이 무시됨 */
+    </style>
+</head>
+<body>
+    <!-- 영역태그 : 태그들을 그룹핑하거나 공간 지정시 사용 -->
+
+    <h1>block요소</h1>
+    <!-- div [그룹핑하는 영역태그]
+         block형식의공간을분할(수직으로공간분할) -->
+    <!-- 요소가 화면너비를 전체 사용하므로, 태그를 나열시 줄바꿈처리되어 세로로 배치됨 -->
+    <!-- div{div$}*3 -->
+    <div>div1</div>
+    <div>div2</div>
+    <div>div3</div>
+    <!-- Ctrl + Shift + C - 요소검사 - 너비가 100px임에도 불구하고
+        한개의 영역이 맨끝까지 차지하고 있음 -> 세로로 배치 -->
+
+    <!-- lorem ipsum [표준 채우기 텍스트] 
+    아무 의미없는 텍스트가 채우져 나옴
+    내용이 있어야 샘플을 바탕으로 디자인을 파악할 수 있으므로, 아무 글자나 샘플로 제시해줌-->
+    <!-- p>lorem -->
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, similique. Illo eaque necessitatibus dignissimos nulla. Nobis commodi quia, quaerat, eaque dolorum soluta atque, adipisci fugiat voluptates magni quo dolorem dolor.</p>
+
+
+    <h1>inline요소</h1>
+    <!-- div [짧은 문구를 감싸는 영역태그]
+         inline형식의공간을분할(수평으로공간분할) -->
+    <!-- 컨텐츠영역만을 너비로 사용하므로, 태그 나열시 줄바꿈되지 않고 옆으로 배치됨 -->
+    <!-- span{span$}*3 -->
+    <span>span1</span>
+    <span>span2</span>
+    <span>span3</span>
+    <!-- inline요소에는 width, height값을 아무리 줘도 적용되지 않음 
+        why? 컨텐츠영역만을 너비로 사용하니까 -->
+
+    <!-- 스타일 적용 -->
+    <!-- 방법1. head태그 내 style태그 이용 (ref. 8줄 ~ 19줄)-->
+    <!-- 방법2. 태그에서 속성, 속성값을 이용해 바로 스타일 적용 -->
+    <p style="background-color: goldenrod;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic natus autem ad voluptatibus voluptate ipsa placeat aperiam minus tempore. Autem optio at reprehenderit neque rem nobis molestiae sunt officiis non.</p>
+     <!-- cf. block요소이기 때문에, 글자가 끝나도 오른쪽 끝까지 배경색이 채워짐 -->
+    <span style="background-color: brown;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis velit vitae delectus, est odit inventore assumenda. Voluptatem odio alias optio incidunt repudiandae aperiam libero earum iusto id, necessitatibus eum quae.</span>
+     <!-- cf. inline요소이기 때문에, 글자가 끝나는 곳 까지만 배경색이 채워짐 -->
+</body>
+</html>

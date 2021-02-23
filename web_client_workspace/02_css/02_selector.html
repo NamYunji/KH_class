@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector</title>
+</head>
+<body>
+    <h1>선택자</h1>
+    <div>
+        <ul>
+            <li id="li-html5">html5</li>
+            <li>css3</li>
+            <li id="li-js" class="favor">javascript2015</li>
+            <li>jquery</li>
+            <li class="favor">python</li>
+            <li class="favor">node.js</li>
+            <li class="favor special">springframework</li>
+            <!-- class속성 : 태그들을 그룹핑
+                 cf. id는 고유해야 하나, class는 여러개일 수 있음 -->
+        </ul>
+    </div>
+    <style>
+        태그선택자
+        li {
+            color:blueviolet;
+        }
+        /* 모든 li태그에 색상이 적용됨 */
+        h1 {
+            color:deeppink
+        }
+
+        /* 아이디 선택자 */
+        #li-js {
+            font-size: 32px;
+            color:magenta;
+        }
+
+        /* 아이디와 태그를 합작하여 사용할 수도 있음 */
+        li#li-js {
+            font-size: 32px;
+            color:magenta;
+        }
+        /* 클래스 선택자 */
+        .favor {
+            background-color: peachpuff;
+        }
+        /* 복수개 지정 : 콤마(,)로 연결*/
+        h1, .favor {
+            text-decoration: underline;
+        }
+
+        /* 복수개 이상의 클래스 선택자 */
+        /* favor 클래스와 special클래스를 모두 가진 것만 해당 (and) */
+        .favor.special {
+            color :rgb(119, 70, 168);
+            font-size: 48px;
+        }
+    </style>
+    <!-- 원래는 style태그는 head태그 안에 작성해야 하지만, 수업에서는 이 곳에 써줌.. -->
+
+    <hr>
+    <div class="wrapper">
+        <h4>머리글 h4</h4>
+        <ul id="first-ul">
+            <li>에라이1</li>
+            <li>에라이2</li>
+        </ul>
+        <div id="second-div">
+            <h4>머리글 h4</h4>
+            <ul>
+                <li>에라이3</li>
+                <li>에라이4</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 바로 밑(직계)의 태그 : 자식 태그 -->
+    <!-- 자식의 자식(의 자식..(의 자식..)) 태그 : 후손 태그 -->
+    <style>
+    /* 자식태그 */
+    div.wrapper > h4 {
+        color:royalblue;
+    }
+    /* 후손태그 */
+    div.wrapper h4 {
+        text-decoration: line-through; /* line-through : 취소선*/
+    }
+    /* 후속에는 자식도 포함되어 나타남 */
+    </style>
+
+
+</body>
+</html>

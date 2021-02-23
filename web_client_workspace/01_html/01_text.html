@@ -2,12 +2,146 @@
 
 <html>
     <head>
-        <title>text관련</title>
+        <title>text관련</title> <!--tab의 머리글-->
     </head>
     
     <body>
         <h1>text관련</h1>
         <a href = "index.html">인덱스 페이지 가기</a>
+        <!--emmit : 내장되어 있는 자동태그 완성기능
+            사용법 
+            1) 일반태그
+            keyword만 입력 -> enter | tab
+            ex. li -> <li></li> 
+            2) 부모자식관계를 가진 태그
+            부모keyword>자식keyword -> enter | tab 
+            ex. ul>li -> <ul>
+                         <li></li>
+                         </ul>                     -->
 
+        <!-- hn [머리글 태그] -->
+        <h1>머리글1</h1>
+        <h2>머리글2</h2>
+        <h3>머리글3</h3>
+        <h4>머리글4</h4>
+        <h5>머리글5</h5>
+        <h6>머리글6</h6>
+        <h6>머리글7</h7>
+        <h8>머리글8</h8>
+        <h9>머리글9</h9>
+        <!--숫자가 커질수록 머리글의 글자크기가 줄어듦-->
+
+
+        <!--emmit을 이용한 머리글-->
+
+        <!--중괄호는 contents를 작성할 수 있다
+            h1{작성될 contents} + enter | tab
+            ex. h1{머리글} + enter | tab
+                -> <h1>머리글</h1>            -->
+
+        <!--증감변수처럼 사용하는 emmit 기능
+            keyword$*n + enter | tab
+            -> 1($)부터 n번까지의 시리즈 태그기능을 자동으로 제공
+            ex. h$*6
+                -> <h1></h1>
+                   <h2></h2>
+                   <h3></h3>
+                   <h4></h4>
+                   <h5></h5>
+                   <h6></h6>-->
+        
+        <!-- h${머리글$}*6 + enter | tab -->
+        <h1>머리글1</h1>
+        <h2>머리글2</h2>
+        <h3>머리글3</h3>
+        <h4>머리글4</h4>
+        <h5>머리글5</h5>
+        <h6>머리글6</h6>
+
+
+        <!-- p [문단태그] -->
+        <p>안녕하세요.                      홍길동
+            입니다.
+        </p>
+        <p>반갑습니다.</p>
+        <!--첫번째 p태그와 두번째 p태그 사이 줄바꿈 작동
+            첫번째 p태그의 두 문장 사이의 공백, 개행문자는 하나의 공백으로 바뀜-->
+
+        <!--cf. Text를 태그없이 쓸 경우-->
+        안녕하세요.                    홍길동입니다.
+        반갑습니다.
+        <!--많은 공백, 개행이 모두 하나의 공백으로 바뀜-->
+
+        <!-- => text의 공백, 개행문자 처리는 tag와 함께 써야 한다!-->
+        
+        <!-- &nbsp; [공백처리] -->
+        <p>안녕하세요.      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;홍길동입니다.</p>
+        <!--cf. &nbsp 하나 = 공백 하나
+        -> 많은 공백이 바뀐 공백 1개 + &nbsp 공백 5개 -->
+
+        <!-- <br> [개행문자] -->
+        <!--종료태그 없이 <br>로만 씀-->
+        <p>안녕하세요
+            <br> 홍길동입니다.
+        </p>
+
+        <!-- pre [공백/개행 처리]
+            = pre-formatted : 미리 형식지정이 된 -->
+        <pre>
+            안녕하세요.                남윤지
+            입니다.
+        </pre>
+        <!--글자 사이의 공백, 개행문자까지 모두 인정
+            들여쓰기도 공백으로 처리,
+            마지막 문장과 종료태그 사이의 개행, 공백도 처리 -->
+
+        <!--특수문자 처리-->
+        <p> "특수문자" & <tag></p>
+        <!--태그의 기능이 아닌, 문자 그대로를 화면에 출력하고자 한다면-->
+        <p>&lt;p&gt; &quot;특수문자&quot; &amp; &lt;tag&gt; &lt;&#47p&gt;</p>
+        <!-- < : &lt; [less than]
+             > : &gt; [greater than]
+             " : &quot; [quotation]
+             & : &amp; [ampersand]
+             별칭이 없는 경우 : &#아스키코드(ex. /(47) -> &#47) -->
+        <!-- cf. 맨 앞의 태그(<)만 바꿔주면 그 뒤의 특수문자도 태그로 인식하지 않음 -->
+        
+        <!-- strong [bold체] -->
+        <strong>안녕</strong><br>
+        <strong>하세요</strong><br>
+
+        <!-- cf. 줄바꿈이 되지 않음
+            p태그는 br태그를 사용하지 않고도 줄바꿈이 되었는데, 왜일까?
+            -> Ctrl + Shift + C하여 블럭잡히는 영역확인해보기
+
+            block 요소 : 한 행 끝까지 영역을 사용 (ex. hn, p, pre 等)
+            inline 요소 : 컨텐츠 부분만 영역으로 차지함 (ex. a, strong 等)
+                          다음줄로 이동하려면 br태그 사용 -->
+
+
+        <!-- phrase tag : html5 semantic tag 중 일부.
+            = 태그의 의미에 따라 내용을 작성해야 함
+            단순 시각적 효과가 아닌 실제로도 그에 해당하는 내용이 와야 함 -->
+            <!-- why? 시각장애인을 위한 screen leader가 해석할 때
+                      태그에 따라 적절한 문맥을 제공할 수 있다. -->
+        <strong>bold체로 강조할 내용을 작성</strong><br>
+        <em>[emphasize] 이탤릭체로 기울여서 강조할 내용을 작성</em><br>
+        <del>[delete] 취소선을 의미하는 내용</del><br>
+        <mark>형광펜 효과로 강조하는 내용</mark><br>
+        <ins>[insert] 밑줄을 삽입해서 강조하는 내용</ins><br>
+        <!-- <abbr title = "알려줄 내용"> [abbreviation] 약어 </abbr> -->
+        <abbr title = "Internet of Things"> IoT</abbr>란 각종 사물에 센서와 통신기능을 추가해 인터넷에 연결한 제품.<br>
+        <!-- code [코드임을 명시] -->
+        <p>
+            자바의 출력문은 
+            <code>System.out.println("Hello world~");</code>입니다.
+        </p>
+
+        <!-- 태그를 중첩하여 사용 가능 -->
+        <p>이번 내용은 <mark><em><strong>아주 완전</strong></em></mark> 중요합니다.</p>
+        
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </body>
 </html>

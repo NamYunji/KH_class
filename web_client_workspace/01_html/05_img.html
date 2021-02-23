@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>img</title>
+    <style>
+        img {
+            width : 200px;
+            /* 하나만 지정시 지정한 것의 비율에 맞추어서 조절됨 */
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지관련</h1>
+    <!-- 가지고 있는 폴더내 이미지 사용 [상대주소]-->
+    <!-- <img src="이미지 주소" alt="대체텍스트"> [이미지태그]
+         src : source / alt : alternative (이미지가 적절치 않을 때 대신해줄 문구, screen leader에 의해 해석됨)
+         cf. 종료태그가 없음. 보통 하나짜리 태그는 /(슬래시)로 끝임을 명시해줌-->
+    <img src="sample/image/flower1.PNG" alt="꽃사진" />
+    <!-- 크기를 따로 지정해주지 않으면, 원래 이미지의 크기로 나옴
+         (ref. head에 크기 지정 : 8줄 ~ 12줄) -->
+    
+    <!-- 웹상의 이미지 [절대주소]
+         원하는 이미지 - 우클릭 - 이미지 주소복사-->
+    <img src="https://t1.daumcdn.net/cfile/tistory/2778F93B56FA21A103" alt="튤립사진" />
+
+    <!-- 존재하지 않는 주소일경우 대체텍스트가 나타남-->
+    <img src="https://t1.daumcdn.net/cfile/tistory/없는주소ㅇㅁㅇ" alt="튤립사진" />
+
+    <hr>
+    <!-- 태그와 함께 크기 지정 -->
+    <h2>절대값 | 상대값 </h2>
+    <!-- div>img*4 -->
+
+    <!-- 절대값 -->
+    <div>
+        <!-- px (픽셀) : 절대단위, 화면(viewport)이 변해도 이미지의 너비/높이가 변하지 않음-->
+        <img src="sample/image/flower1.PNG" style="width:250px"/>
+        <img src="sample/image/flower2.PNG" style="width:250px"/>
+        <img src="sample/image/flower3.PNG" style="width:250px"/>
+        <img src="sample/image/flower4.PNG" style="width:250px"/> 
+    </div>
+
+    <hr>
+    <!-- % (퍼센트) : 상대단위, 화면(viewport)대비 너비/높이값이 변한다
+         사실은 div대비이지만, div가 화면크기와 같으므로... -->
+    <div>
+        <img src="sample/image/flower1.PNG" style="width:23%"/>
+        <img src="sample/image/flower2.PNG" style="width:23%"/>
+        <img src="sample/image/flower3.PNG" style="width:23%"/>    
+        <img src="sample/image/flower4.PNG" style="width:23%"/> 
+        </div>
+
+
+</body>
+
+
+
+</html>

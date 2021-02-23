@@ -1,0 +1,130 @@
+<!-- [emmit] !!!(느낌표 세개) + enter|tab : 문서선언-->
+<!-- <!DOCTYPE html> -->
+
+<!-- [emmit] 부모 > 자식(형제) + 자식(형제) (부모자식은 >, 형제는 +) -->
+<!-- html>head+body -->
+<!-- <html>
+<head></head>
+<body>
+    
+</body>
+</html>-->
+
+<!-- [emmit] !(느낌표) + enter|tab : 구조를 잡아줌-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--이 페이지가 어떤 인코딩을 사용하는지-->
+        <meta charset="UTF-8"> 
+        <!--호환성 관련-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--key : http-equi, value : contents-->
+        <!--X-UA-Compatible : 호환모드,
+            IE=edge : 문서버전=최신버전-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--key : name, value : content-->  
+        <!--viewport : 보여주는 창,
+            width=device-width : 너비=디바이스 너비에 따라 최대한으로,
+            initial-scale=1.0 : 확대여부=1.0(기본)-->
+        <title>목록관련</title>
+    </head>
+
+    <body>
+        <h1>목록관련</h1>
+        <!-- ul [순서 없는 목록 Unordered-List] 
+             글머리 기호 : 까만 동그라미-->
+        <!-- [emmit] ul>li*3 -->
+        <ul>
+            <li>html5</li>
+            <li>css3</li>
+            <li>javascript2015</li>
+        </ul>
+
+        <!-- ol [순서 있는 목록 Ordered-List]
+             글머리 기호 : 넘버링-->
+        <ol>
+            <li>html5</li>
+            <li>css3</li>
+            <li>javascript2015</li>
+        </ol>
+
+        <!-- 중첩된 목록 (목록 안의 세부 목록)
+        :<li> 태그 안에 자식태그로 또 다시 ul|ol>li 태그 만들기 -->
+        <ol>
+            <li>안녕
+                <ul>
+                    <li>hello</li>
+                    <li>你好</li>
+                </ul>
+            </li>
+            <li>잘가
+                <!-- ul>li>ol>li*2 -->
+                <ul>
+                    <li> good bye
+                        <ol>
+                            <li></li> good
+                            <li></li> bye
+                        </ol>
+                    </li>
+                </ul>
+            </li>
+            <li>반가웠어</li>
+        </ol>
+
+        <!-- ^ [부모태그로 올라가기] 
+             ^ 한번 - 한번 거슬러 올라감 -->
+        <!-- ul>li>ul>li*2^^li>ul>li 
+            올라간 li는 첫번째 li와 형제요소가 됨-->
+        <ul>
+            <li> A1
+                <ul>
+                    <li></li> B1
+                    <li></li> B2
+                </ul>
+            </li>
+            <li> A2
+                <ul>
+                    <li></li> B3
+                </ul>
+            </li>
+        </ul>    
+
+        <!-- 글머리 기호 모양 바꾸기 
+             default : 동그라미-->
+        
+        <!-- 옛날버전 : type 속성 -->
+        <!-- <ul type = "모양"> -->
+        <ul type = "square">
+            <li>html5</li>
+            <li>css3</li>
+            <li>javascript2015</li>
+        </ul>
+        <!-- 그러나 타입 지정은 deprecated됨 -->
+
+        <!-- 현재버전 : style 속성 -->
+        <!-- <ul style = "(CSS내용) list-style-type :모양선택;"> -->
+        <ul style = "list-style-type :square;">
+            <li>html5</li>
+            <li>css3</li>
+            <li>javascript2015</li>
+        </ul>
+        <!-- cf. F12 - CSS 영역 - Styles - element.style
+            여러 글머리 기호 모양 쉽게 테스트 가능-->
+
+    <!-- dl>dt+dd [설명 목록] -->
+    <dl>
+        <dt>제목</dt>
+        <dd>설명을 적으세요1</dd>
+        <dd>설명을 적으세요2</dd>
+        <!-- 설명은 여러개 적을 수 있음 -->
+        <dt>다른 제목</dt>
+        <dd>다른 설명을 적으세요</dd>
+        <!-- 제목 또한 여러개 적을 수 있음 -->
+    </dl>
+
+
+
+ 
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>

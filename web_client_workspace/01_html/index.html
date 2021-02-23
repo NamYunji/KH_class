@@ -19,7 +19,7 @@
         <title>HTML 인덱스</title> <!--타이틀-->
     </head>
 
-    <!--BODY 실제 화면에 나타낼 내용-->
+    <!--BODY 실제 화면(view port)에 나타낼 내용-->
     <body>
         <h1>HTML</h1> <!--머릿말, 큰 글자크기의 머릿글로 보여줌-->
         <p>Hyper Text Markup Language</p>
@@ -29,13 +29,35 @@
             <li>b</li>
             <li>c</li>
 
-            <li> 
-
-                <a href = "01_text.html">text관련</a> <!--하이퍼 텍스트 (링크걸기)-->
+            <!-- li>a : emmit | li태그 하에 a태그를 만들겠다 -->
+            <li> <a href = "01_text.html">text관련</a> </li>
+                <!--하이퍼 텍스트 (링크걸기)-->
                 <!-- <a  href = "이동하고자 하는 주소 (파일명.html)"> 링크에 제시할 내용 </a> -->
-            </li>
+            <li> <a href="02_list.html">list관련</a></li>
+            <!-- href 속성에 적을 수 있는 것들 
+                 절대주소 : root가 어디인지 알려주는 것 (시작루트부터 작성)
+                (ex. 윈도우 C:\users\~, 맥 /users/user1, 웹상의 주소 http://~)
+                 상대주소 : 현재 페이지부터 경로를 파악
+                 (./~ 현재디렉토리, ../~ 부모디렉토리)
+                 cf. ./는 생략 가능
 
+                 Q1.
+                /a/b/c/test.html -> a/b/c/hello.html
+                <a href = "./hello.html"> 또는 <a href = "hello.html">  
+                 Q2.
+                /a/b/c/test.html -> /a/b/c/d/good.html 
+                <a href = "./d/good.html"> 또는 <a href = "d/good.html">
+                 Q3.
+                /a/b/c/test.html -> a/b/kkk.html
+                <a href = "../kkk.html">                             -->
+            <li><a href="./실습문제_목록.html">@실습문제 : 목록</a></li>
+            <li><a href="./03_table.html">table 관련</a></li>
+            <li><a href="./04_block_inline_element.html">block요소 | inline요소</a></li>
+            <li><a href="./05_img.html">이미지관련</a></li>
         </ul>
+        <!--ul>li를 부모자식 관계로 사용하면 글머리 기호 + li 작성부분이 들여쓰기 처리됨-->
+        <li>d</li> 
+        <!--li만 작성시 들여쓰기 없이 글머리 기호만 작성됨-->
     </body>
 
 </html>
