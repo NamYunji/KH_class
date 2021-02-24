@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>media</title>
+  </head>
+
+  <body>
+    <h1>미디어관련</h1>
+    <h2>audio</h2>
+    <!-- 방법1 : audio 태그 안에 source속성 넣기 -->
+    <!-- <audio src="음원파일주소" 속성(="속성값")>(fallback 태그 사용실패시 보일 메시지)</audio> -->
+    <audio src="sample/audio/major.mp3" controls autoplay muted>
+      <!-- fallback : IE가 옛날버전일 경우 -->
+      당신의 브라우져는 audio태그를 사용할 수 없습니다.
+    </audio>
+    <!-- 속성
+         controls="controls" : 재생버튼 보이기
+         autoplay="autoplay" : 자동재생
+         loop="loop" : 반복재생
+         muted="muted" : 음소거
+         preload="auto(미리 다운)|metadata(관련정보만 미리 다운)|none(재생시 다운)" : 재생전 미리 다운로드할지 여부
+          -->
+    <!-- 속성명과 속성값이 동일한 경우 속성값 생략 가능 (ex. controls="controls" -> controls) -->
+
+    <!-- 방법2 : audio태그를 만들고, source를 태그로 따로 만들기 -->
+    <!-- 장점 : 여러개의 source파일을 제공해서 device별로 최적화된 파일재생 - 우선순위를 가지고 제공 -->
+    <!--<audio 속성>
+            <source src="음원파일주소">
+        </audio> -->
+    <audio controls>
+      <source src="sample/audio/major.mp3" />
+    </audio>
+
+    <h2>video</h2>
+    <!-- 방법1 : video 태그 안에 source속성 넣기 -->
+    <!-- <video src="비디오파일주소" 속성>(fallback 태그 사용실패시 보일 메시지)</video> -->
+    <video src="sample/video/small.mp4" controls>
+      당신의 브라우져는 video태그를 지원하지 않습니다.
+    </video>
+    <!-- 속성
+         controls="controls" : 재생버튼 보이기
+         autoplay="autoplay" : 자동재생
+         loop="loop" : 반복재생
+         muted="muted" : 음소거
+         preload="auto(미리 다운)|metadata(관련정보만 미리 다운)|none(재생시 다운)" : 재생전 미리 다운로드할지 여부
+         +
+         width | heigth
+         poster="이미지주소" : 비디오재생전에 노출할 이미지
+          -->
+
+    <!-- 방법2 : video태그를 만들고, source를 태그로 따로 만들기 -->
+    <!-- 장점 : 여러개의 source파일을 제공해서 device별로 최적화된 파일재생 - 우선순위를 가지고 제공 -->
+    <!-- <video 속성>
+            <source src="비디오파일주소" type="video/타입">
+         </video> -->
+    <video controls>
+      <source src="sample/video/small.webm" type="video/webm" />
+      <source src="sample/video/small.ogv" type="video/ogg" />
+      <source src="sample/video/small.mp4" type="video/mp4" />
+      <!-- 다 재생되는 것이 아닌 위에서부터 최적화된 파일 하나를 골라서 실행하는 것 -->
+      <!-- web browser : mp4 - webm - ogg순으로 재생
+             mobile : mp4 - 3gp 순으로 재생 -->
+    </video>
+
+    <!-- 별도의 미디어 서버에 업로드하고, 그 곳으로부터 가져와서 사용 -->
+    <h2>유투브 영상 가져오기</h2>
+    <!-- 공유 - 퍼가기 - iframe태그 소스 복사 - 붙여넣기 -->
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/xsb5CMy1dd8"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </body>
+</html>

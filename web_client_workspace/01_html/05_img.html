@@ -53,6 +53,53 @@
         <img src="sample/image/flower4.PNG" style="width:23%"/> 
         </div>
 
+    <h2>이미지링크</h2>
+    <!-- 포인터가 화살표 -> 손가락 모양으로 바뀜 -->
+    <!-- a태그와 img태그 중첩하여 사용 -->
+    <a href="http://w3schools.com">
+        <img src="sample/image/tiger.jpg" alt="타이거 사진">
+    </a>    
+    <!-- title속성 : 모든 태그가 가진 Global Attribute -->
+    <a href="http://w3schools.com" title="와삼스쿨로 이동하기">
+        <img src="sample/image/tiger.jpg" alt="타이거 사진">
+    </a>    
+
+    <!-- 하나의 이미지를 쪼개서 여러개의 링크를 걺 -->
+    <h3>image map</h3>
+    <!-- img태그에서 usemap 속성 추가
+         usemap="#map에서 설정해준 네임 속성값"-->
+    <img src="sample/image/river1.PNG" style="width:500px" alt="두물머리 사진" usemap="#mymap">
+    <!-- <map name="네임 속성값"> [영역을 나누는 태그]
+            <area shape="모양" coords="좌표(n,n,n,n)" href="이동할 주소" alt="대체 텍스트"> [area 태그]
+            cf. shape = "rect(rectangle) | circle | poly(polygon)
+                cords(coordinate) = "(시작지점)n, n, (끝지점)n, n"
+                cf. left-top(0, 0)과 bottom-right (이미지 너비, 높이) 고려하기
+                href = "이동할 주소"
+                alt = "대체 텍스트"
+         </map>  -->
+    <map name="mymap">
+        <area shape="rect" coords="0, 0, 250, 333" href="http://google.com" alt="구글 이동">
+        <area shape="rect" coords="250, 0, 500, 333" href="http://naver.com" alt="네이버 이동">
+    </map>
+
+    <h2>이미지 배치</h2>
+    <!-- img는 inline요소이지만, p태그는 block요소라서 이미지 밑으로 위치함 -->
+    <!-- div>img+p>lorem*10 -->
+    <!-- style="float:left|right;" float 속성 -->
+    
+    <!-- left -->
+    <div>
+        <img src="sample/image/forest1.PNG" style="float:left;"> <!--붕 떠서 왼쪽으로 배치시켜라-->
+        <p><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure molestiae, aut ea repudiandae, quisquam mollitia, minima fugit soluta fugiat praesentium a doloribus error adipisci porro? Quia hic ipsum porro recusandae.</span><span>Odio error repellendus totam quam id alias repudiandae possimus unde. Neque soluta at ratione, quasi ducimus assumenda earum blanditiis reiciendis ad sunt illo! Quae repellat nobis iusto aperiam, adipisci sequi.</span><span>Excepturi nesciunt odit est cumque eligendi magnam nobis nihil temporibus similique dignissimos, veniam quia deserunt explicabo, fugiat harum suscipit ipsum esse incidunt consequuntur. Sapiente rem necessitatibus corrupti dignissimos consectetur laborum.</span><span>Ad alias odit mollitia reprehenderit quam ea soluta minima excepturi iure eum repellendus magnam fugit hic, delectus sit doloremque consequatur. Architecto cumque blanditiis ullam, sint alias minima amet ad possimus.</span><span>Asperiores, molestiae? Eveniet officia facere laudantium numquam sit consequuntur neque. Architecto vitae a, culpa repudiandae magnam officiis accusamus. Deleniti, nulla? Iste ducimus ipsum in atque, eveniet commodi ea. Obcaecati, suscipit.</span><span>Quae earum, vel sequi laboriosam dignissimos dicta natus, ullam, asperiores nisi reprehenderit adipisci pariatur corrupti error illo. Voluptas neque ipsa, sequi magni quos dignissimos beatae, voluptatibus sint nobis saepe odio?</span><span>Ratione quo nesciunt molestias, commodi qui et reprehenderit ex deserunt debitis. Molestias itaque consequatur voluptatem laboriosam qui error ducimus, asperiores ea, quos tempora rem, assumenda repellat! Exercitationem alias eligendi nihil.</span><span>Esse rem nam aliquam culpa architecto ea minus sint iste? Vel placeat laborum tempora nam fugiat expedita praesentium vitae enim? Iusto nihil in quod quidem unde dolores a inventore adipisci?</span><span>Deserunt optio, fuga, veritatis, suscipit ut necessitatibus quidem nemo voluptatum consectetur voluptates eligendi odio omnis dolor deleniti odit eveniet? Ipsum quo consectetur, cupiditate aut vitae nam at minima aspernatur dolore?</span><span>Deleniti impedit voluptas laborum optio repellat ipsam molestias suscipit exercitationem placeat dolore, inventore aliquam perferendis provident nam sequi nemo autem reprehenderit maxime praesentium, consectetur voluptates at. Totam odio voluptatibus laudantium.</span></p>
+        <!-- 그 다음요소가 밀려 올라옴 -->
+    </div>
+    <!-- Ctrl + Shift + C - img - Styles - 체크박스 해제/설정, left/right 바꾸기 가능 -->
+    
+    <!-- right -->
+    <div>
+        <img src="sample/image/forest1.PNG" style="float:right;">
+        <p><span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure molestiae, aut ea repudiandae, quisquam mollitia, minima fugit soluta fugiat praesentium a doloribus error adipisci porro? Quia hic ipsum porro recusandae.</span><span>Odio error repellendus totam quam id alias repudiandae possimus unde. Neque soluta at ratione, quasi ducimus assumenda earum blanditiis reiciendis ad sunt illo! Quae repellat nobis iusto aperiam, adipisci sequi.</span><span>Excepturi nesciunt odit est cumque eligendi magnam nobis nihil temporibus similique dignissimos, veniam quia deserunt explicabo, fugiat harum suscipit ipsum esse incidunt consequuntur. Sapiente rem necessitatibus corrupti dignissimos consectetur laborum.</span><span>Ad alias odit mollitia reprehenderit quam ea soluta minima excepturi iure eum repellendus magnam fugit hic, delectus sit doloremque consequatur. Architecto cumque blanditiis ullam, sint alias minima amet ad possimus.</span><span>Asperiores, molestiae? Eveniet officia facere laudantium numquam sit consequuntur neque. Architecto vitae a, culpa repudiandae magnam officiis accusamus. Deleniti, nulla? Iste ducimus ipsum in atque, eveniet commodi ea. Obcaecati, suscipit.</span><span>Quae earum, vel sequi laboriosam dignissimos dicta natus, ullam, asperiores nisi reprehenderit adipisci pariatur corrupti error illo. Voluptas neque ipsa, sequi magni quos dignissimos beatae, voluptatibus sint nobis saepe odio?</span><span>Ratione quo nesciunt molestias, commodi qui et reprehenderit ex deserunt debitis. Molestias itaque consequatur voluptatem laboriosam qui error ducimus, asperiores ea, quos tempora rem, assumenda repellat! Exercitationem alias eligendi nihil.</span><span>Esse rem nam aliquam culpa architecto ea minus sint iste? Vel placeat laborum tempora nam fugiat expedita praesentium vitae enim? Iusto nihil in quod quidem unde dolores a inventore adipisci?</span><span>Deserunt optio, fuga, veritatis, suscipit ut necessitatibus quidem nemo voluptatum consectetur voluptates eligendi odio omnis dolor deleniti odit eveniet? Ipsum quo consectetur, cupiditate aut vitae nam at minima aspernatur dolore?</span><span>Deleniti impedit voluptas laborum optio repellat ipsam molestias suscipit exercitationem placeat dolore, inventore aliquam perferendis provident nam sequi nemo autem reprehenderit maxime praesentium, consectetur voluptates at. Totam odio voluptatibus laudantium.</span></p>
+    </div>
 
 </body>
 
