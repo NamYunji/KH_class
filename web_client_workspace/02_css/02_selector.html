@@ -8,60 +8,110 @@
 </head>
 <body>
     <h1>선택자</h1>
+    <!-- CSS : html요소(tag)에 대한 디자인을 적용하는 것 -->
+    <!-- 선택자 : 어떤 html태그에 대한 디자인을 적용할지 고르는 문법 -->
     <div>
         <ul>
             <li id="li-html5">html5</li>
             <li>css3</li>
             <li id="li-js" class="favor">javascript2015</li>
             <li>jquery</li>
+            <!-- class속성 {태그들을 그룹핑}
+                 cf. id는 고유해야 하나, class는 여러개일 수 있음 -->
             <li class="favor">python</li>
             <li class="favor">node.js</li>
+            <!-- 두 개 이상의 속성 부여 -->
             <li class="favor special">springframework</li>
-            <!-- class속성 : 태그들을 그룹핑
-                 cf. id는 고유해야 하나, class는 여러개일 수 있음 -->
         </ul>
     </div>
+    <!-- 원래 style태그는 head태그 내에 써야 하지만, 수업 편의상 body태그에 써줌 -->
     <style>
-        태그선택자
+
+        /* 1. 태그선택자 */
+        /* 태그 {
+                속성 : 속성값 ;
+           } 
+        */
         li {
             color:blueviolet;
         }
-        /* 모든 li태그에 색상이 적용됨 */
+        /* 모든 li태그에 적용됨 */
+
         h1 {
             color:deeppink
         }
 
-        /* 아이디 선택자 */
+
+        /* 2. 아이디 선택자 */
+        /* #아이디 {
+                속성 : 속성값 ;
+           } 
+        */
         #li-js {
             font-size: 32px;
             color:magenta;
         }
+        /* 해당하는 아이디에만 적용됨 */
 
-        /* 아이디와 태그를 합작하여 사용할 수도 있음 */
+        /* cf. 아이디와 태그를 합작하여 사용할 수도 있음 */
+        /* 태그#아이디 {
+                속성 : 속성값 ;
+           } 
+        */
         li#li-js {
             font-size: 32px;
             color:magenta;
         }
-        /* 클래스 선택자 */
+
+
+        /* 3. 클래스 선택자 */
+        /* .클래스 {
+                속성 : 속성값 ;
+           } 
+        */
         .favor {
             background-color: peachpuff;
         }
-        /* 복수개 지정 : 콤마(,)로 연결*/
+        /* 같은 이름의 클래스로 그룹핑된 것들에 적용됨 */
+
+
+        /* (or) 선택자 복수개 지정 : 콤마(,)로 연결 */
+        /* 선택자1, 선택자2 {
+                속성 : 속성값 ;
+           } 
+        */       
         h1, .favor {
             text-decoration: underline;
         }
+        /* h1태그이거나 .favor클래스인 것에 적용됨 */
 
-        /* 복수개 이상의 클래스 선택자 */
-        /* favor 클래스와 special클래스를 모두 가진 것만 해당 (and) */
+
+        /* (and) 선택자 복수개 지정 : 공백없이 연달아 써줌 */
+        /* 선택자1선택자2 {
+                속성 : 속성값 ;
+           }
+        */
         .favor.special {
             color :rgb(119, 70, 168);
             font-size: 48px;
         }
+        /* favor 클래스와 special클래스를 모두 가진 것만 해당 */
     </style>
-    <!-- 원래는 style태그는 head태그 안에 작성해야 하지만, 수업에서는 이 곳에 써줌.. -->
 
     <hr>
     <div class="wrapper">
+    <!-- div의 자식태그 : h4, first-ul, second-div -->
+    <!-- 바로 밑(직계)의 태그 : 자식 태그 -->
+
+    <!-- 형제태그 : h4, first-ul, second-div -->
+
+    <!-- first-ul의 자식태그 : 에라이1, 에라이2 -->
+    <!-- second-div의 자식태그 : h4, ul / ul의 자식태그 : 에라이3, 에라이4 -->
+
+    <!-- div의 후손태그 : 에라이1,에라이2, h4, ul, 에라이3, 에라이4  -->
+    <!-- cf. 후손태그는 계층에 상관없음. 자식의 자식이든 자식의 자식의 자식이든 다 후손태그
+             ***후손태그에는 자식태그도 포함된다*** -->
+
         <h4>머리글 h4</h4>
         <ul id="first-ul">
             <li>에라이1</li>
@@ -75,20 +125,219 @@
             </ul>
         </div>
     </div>
-    <!-- 바로 밑(직계)의 태그 : 자식 태그 -->
-    <!-- 자식의 자식(의 자식..(의 자식..)) 태그 : 후손 태그 -->
+
     <style>
-    /* 자식태그 */
+    /* 자식 선택자 : 부모 > 자식 */
+    /* 부모 > 자식 {
+        속성 : 속성값 ;
+    }
+    */
     div.wrapper > h4 {
         color:royalblue;
     }
-    /* 후손태그 */
+    /* wrapper클래스인 div태그의 자식 h4만 */
+
+    /* 후손태그 : 부모 (공백) 후손 */
+    /* 부모 후손 {
+        속성 : 속성값 ;
+    } */
     div.wrapper h4 {
-        text-decoration: line-through; /* line-through : 취소선*/
+        text-decoration : line-through; /* line-through : 취소선*/
     }
+    /* 자식의 자식인 h4와 자식인 h4 모두 적용 */
     /* 후속에는 자식도 포함되어 나타남 */
+
+    /* 하나가 적용이 되면, 그것의 포함하는 범위인 자식들까지 내리 적용된다. */
+
+    /* 에라이1, 에라이2만 적용 */
+    #first-ul > li {
+        background-color: darkorchid;
+    }
+    .wrapper > #first-ul > li {
+        color: deepskyblue;
+    }
+    .wrapper > ul {
+        text-decoration: line-through;
+    }
+
+    /* li중에서도 에라이1, 에라이2, 에라이3, 에라이4만 적용 */
+    .wrapper li {
+        text-decoration:underline;
+    }
     </style>
 
+    <div>
+        <!-- 형제 선택자 -->
+        <!-- p#p-test${안녕$}*5 -->
+        <p id="p-test1">안녕1</p>
+        <p id="p-test2">안녕2</p>
+        <p id="p-test3">안녕3</p>
+        <p id="p-test4">안녕4</p>
+        <p id="p-test5">안녕5</p>
+        <pre id="pre-test6">안녕6</pre>
+    </div>
+
+    <style>
+        #p-test2 {
+            background-color: purple;
+            color: #fff; 
+            /* 16진수의 ff ff ff를 f f f로 한글자씩 줄인 것 */
+        }
+        /* p-test2의 형제요소 찾기 */
+        /* 해당요소 기준 다음 형제요소 딱 하나 : 해당선택자 + 선택자 */
+        /* 해당선택자 + 선택자 {
+            속성 : 속성값 ;
+        }
+         */
+        #p-test2 + p {
+            background-color: red;
+        }
+
+        /* 해당요소 기준 다음 형제요소 모두 : 해당선택자 ~ 선택자 */
+        /* 해당선택자 ~ 선택자 {
+            속성 : 속성값 ;
+        }
+         */
+        #p-test2 ~ p {
+            color: rgb(66, 34, 211);
+        }
+        /* pre태그는 적용 X */
+
+        /* 해당요소 기준 다음 요소 모두 (선택자 상관없이) : 해당선택자 ~ *    */
+        /* 해당선택자 ~ * {
+            속성 : 속성값 ;
+        }
+         */
+        #p-test2 ~ * {
+            font-size: 24px;
+        }
+
+        /* cf. 이전 형제요소를 가리키는 선택자는 없다 */
+    </style>
+
+
+    <form action="">
+        <fieldset>
+            <legend>속성관련 선택자</legend>
+            <input type="text"><br> 
+            <input type="text" name="user-name"><br>
+            <input type="email" name="user-email"><br>
+            <input type="text" name="petname" id=""><br>
+        </fieldset>
+    </form>
+    <style>
+
+    /* 속성관련 선택자 : [ ] (대괄호) */
+
+    /* 해당속성 전체 */
+    /* [속성] {
+        속성 : 속성값 ;
+    } 
+    */
+    [name] {
+        background-color: pink;
+    }
+    /* name속성이 단순 존재하기만 하면 적용됨 */
+    
+    /* 속성의 속성값을 지정 */
+    /* [속성 = 속성값] {
+        속성 : 속성값 ;
+    }
+    */
+    [name=user-email] {
+        background-color: rebeccapurple;
+    } 
+    /* 해당 속성의 지정 속성값과 일치하는 것만 적용됨 */
+
+    /* 속성의 속성값에 해당글자가 포함되는 것 */
+    /* [속성 *= 포함시킬 속성값글자] {
+        속성 : 속성값 ;
+    }
+    */
+    [name*=er] {
+        background-color: seagreen;
+    }
+
+    /* 속성의 속성값이 해당 글자로 시작하는 것 */
+    /* [속성 ^= 속성값의 시작글자] {
+        속성 : 속성값 ;
+    }
+    */
+    [name^=user] {
+        background-color: steelblue;
+    }
+
+    /* 속성의 속성값이 해당 글자로 끝나는 것 */
+    /* [속성 $= 속성값의 끝글자] {
+        속성 : 속성값 ;
+    }
+    */
+    [name$=name] {
+        background-color: tomato;
+    }
+    </style>
+
+    <h2>:가상선택자</h2>
+    <!-- 가상선택자는 :(콜론)을 이용한다 -->
+    <!-- 선택자:가상선택자{
+        속성 : 속성값 ;
+    } -->
+    <!-- 상태값이 바뀌어서 특정 상황에만 일치하는 경우 -->
+
+    <div class="box click">click me!</div>
+    <div class="box over">커서를 이동하세요</div>
+    <style>
+    /* 속성
+       cursor : pointer ;                 ([포인터] 화살표 -> 손가락)
+       border : ~px solid|dashed  색상 ;  ([테두리] 굵기, 선종류(실선|점선), 색상)
+       padding : ~px ;                    ([글자와 테두리 사이 좌우상하여백] 여백크기)
+       margin : ~px ;                     ([다른요소와의 거리] 거리크기)  */
+
+    .box {
+        cursor : pointer;
+        border : 2px solid rebeccapurple;
+        padding : 50px;
+        margin : 50px;
+    }
+    /* Ctrl + Shift + C - Styles - 적용된 우선순위 및 모양 보기, 체크박스를 통해 조절 */
+
+    /* 액티브 가상선택자 */
+    /* 클릭했을 때 속성을 적용한다 */
+    /* 선택자:active {
+        속성 : 속성값 ;
+       } 
+    */
+    .click:active {
+        background-color: sandybrown;
+        color: #fff;
+    }
+    /* 호버 가상선택자 */
+    /* 해당 선택자를 가진 요소에 마우스 커서가 올라오면 속성을 적용한다 */
+    /* 선택자:hover {
+        속성 : 속성값 ;
+       }
+     */
+    .over:hover {
+        color: red;
+        border: 2px dashed red;
+    }
+    /* Ctrl + Shift + C - Styles - Filter옆 - :hov 확인 */
+    /* + 선택자간 적용 우선순위 확인 */
+    </style>
+
+    <!-- 링크 -->?>[]
+    <!-- 링크의 네가지 상태 : 어떤 사이트(방문전 | 방문후 | 호버 | 클릭) -->
+    <a href="https://www.innerbody.com/htm/body.html">어떤 사이트(방문전 | 방문후 | 커서 | 클릭)</a>
+    <style>
+        /* a:link {} */
+        a:link{color:aqua;}
+        /* a:visited {} */
+        /* a:hover {} */
+        /* a:active {} */
+    </style>
+
+
+    
 
 </body>
 </html>

@@ -5,23 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello CSS</title>
-    /* 연결작업 */
+    <!-- 연결작업 -->
+    <!-- link rel="어떤 관계로 연결되었는지" href="css파일위치" -->
     <link rel="stylesheet" href="./css/style.css">
     <style>
-    /* 선택자 */
     #p-second {
         text-decoration: underline;
     }
     </style>
+    <!-- <style>
+         #아이디 : 아이디 선택자 
+         선택자 {
+           스타일속성 : 속성값 ; 
+         }
+         </style> -->
+    
 </head>
 <body>
     <h1>Hello CSS</h1>
     <h2>CSS 작성하는 3가지 방법</h2>
-    <p style="color :aqua">1. html태그의 공통속성 (Global Attribute) style에 작성하기 = inline에 작성</p>
+    <!-- <태그 style="스타일속성 : 속성값"> -->
+    <p style="color :aqua">1. html태그의 공통속성(Global Attribute)인 style에 작성하기 = inline에 작성</p>
     <!-- 비추. 각기 스타일을 적어두면 관리가 안됨 -->
-    <p id="p-second">2. 현재 문서내에 style태그 안에 작성하기</p>
+
+    <!-- ref. 11줄 ~ 21줄 -->
+    <p id="p-second">2. 현재 문서내에 style태그 안에 작성하기 = head태그 내에 작성 </p> 
     <!-- id는 문서내에 고유해야한다 -->
+
     <p id="p-third">3. 문서외부에 css파일을 작성하고, link태그를 이용해 현재문서와 연결하기</p>
-    <!-- 3번째 방법 추천! 시각적 부분 뿐 아니라, 정보 분리 측면에서 좋음 -->
+    <!-- 3번째 방법 추천! 스타일적 부분과 정보부분의 분리 측면에서 좋음 -->
+    <!-- 보통 .css 파일들은 별도의 폴더안에 관리함 -->
+    <!-- ref. style.css파일 3줄~10줄 -> 연결작업 8줄 ~ 10줄-->
 </body>
 </html>

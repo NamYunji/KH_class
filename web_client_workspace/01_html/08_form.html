@@ -89,7 +89,7 @@
                     id="아이디지정"
                     placeholder="사용자 입력전 회색으로 노출될 가이드 텍스트" -> 입력시작시 없어짐
                     value="초기값 -> VALUE값" 초기값이었다가, 지우고 사용자 입력값이 들어오면 value속성에 작성되어 제출됨
-                    readonly="readonly" 편집불가, 값을 입력할 수는 없고 적혀있는 것을 확인만 가능 
+                    readonly="readonly" 편집불가, 값을 입력할 수는 없고 적혀있는 것을 확인만 가능, readonly여도 제출은 됨
                     required="required" 필수(NOT NULL), value가 채워지지 않으면 제출이 안됨 '이 입력란을 입력하세요'-->
             <br>
             <!-- [Emmit] input:password - input태그인데 타입이 password인 태그 만듦-->
@@ -108,6 +108,7 @@
             <!-- cf. 이때, GET방식이면 url에 패스워드가 노출되므로, POST방식으로 지정하기 -->
 
         </fieldset>
+
 
         <fieldset>
             <legend>기타정보</legend>
@@ -160,7 +161,7 @@
 
         <fieldset>
             <legend>자기소개</legend>
-            <!-- 여러줄을 입력할 수 있는 textarea -->
+            <!-- textarea [여러줄을 입력할 수 있는 칸을 만들어주는 태그] -->
             <!-- <textarea name="서버에 제출되는 KEY값" id="아이디지정" cols="30" rows="10">
                  사용자입력값은 이 자리에 기록됨 (VALUE값), 기본값 설정도 가능
                  </textarea> -->
@@ -267,7 +268,7 @@
                     style="width: n너비지정px;" -->
             <br><br>
             <!--[Emmit] input:range[max=100][min] -->
-            <!-- 범위 -->
+            <!-- 범위 타입 -->
             <!-- <input type="range" name="서버에 제출되는 KEY값" id="아이디지정" + max, min 속성> [범위 태그]-->
             <input type="range" 
                    name="userAmount" 
@@ -285,6 +286,258 @@
         <button type="submit">제출</button>
         <!-- 제출해보면 url에서 range태그가 몇을 가리키고 있는지 확인 가능 -->
     </form>
+
+    <h2>날짜/시간관련</h2>
+    <form action="">
+        <fieldset>
+
+            <legend>날짜 | 시간</legend>
+            <label for="birthday">생일</label>
+            <!-- input:date -->
+            <!-- 날짜 타입 -->
+            <!-- <input type="date" name="서버에 제출되는 KEY값" id="아이디지정"> -->
+            <input type="date" name="birthday" id="birthday" value="2020-01-01">
+            <!-- 속성
+                 type="date"
+                 name="서버에 제출되는 KEY값"
+                 id="아이디지정" 
+                 +
+                 value="yyyy-mm-dd 초기값지정" -->
+            <br>
+
+            <label for="reservation">예약</label>
+            <!-- input:time -->
+            <!-- 시간 타입 -->
+            <!-- <input type="time" name="서버에 제출되는 KEY값" id="아이디지정"> -->
+            <input type="time" name="reservation" id="reservation" value="21:30">
+            <!-- 속성
+                 type="time"
+                 name="서버에 제출되는 KEY값"
+                 id="아이디지정"
+                 +
+                 value="hh:mi 초기값지정 (0~24:0~59)" -->
+            <br>
+            <label for="kakao_reserv">카카오 미용실 예약</label>
+            <!-- input:datetime-local -->
+            <!-- 지역대를 기반으로 한 년원일시분 타입-->
+            <!-- <input type="datetime-local" name="서버에 제출되는 KEY값" id="아이디지정"> -->
+            <input type="datetime-local" name="kakao_reserv" id="kakao_reserv" value="2020-01-01T13:30">
+            <!-- 속성
+                 type="datetime-local"
+                 name="서버에 제출되는 KEY값"
+                 id="아이디지정"
+                 +
+                 value="yyyy-mm-ddThh:mi 초기값지정" -->
+            <!-- 날짜/시간 표준 포맷 iso-8601 yyyy-mm-ddThh-mi -->
+        </fieldset>
+        <input type="submit" value="제출">
+        <!-- url출력 : birthday=2021-02-09 - 값은 문자열로 처리됨-->
+        <!-- url출력 : reservation=17%3A00 - 오후 5시 -> 17시로 처리됨
+                       -오전, 오후가 나뉘어 보이긴 하지만, 실제로는 0~24시로 처리됨  -->
+        <!-- url출력 : kakao_reserv=2021-02-16T18%3A30 -2021-02-16 오후6시 30분 - 날짜와 시간 사이 T가 있음-->
+    </form>
+
+    <h2>선택관련</h2>
+    <form action="">
+        <fieldset>
+            <legend>라디오</legend>
+            <!-- input:radio -->
+            <!-- 라디오 타입 : 제시한 것 중 딱 하나만 선택-->
+            <!-- <input type="radio" name="서버에 제출되는 KEY값" id="아이디지정" value="제출될 VALUE값"> -->
+            <!-- 남 -->
+            <input type="radio" name="gender" id="gender-male" value="m">
+            <label for="gender-male">남</label>
+            <!-- 여 -->
+            <input type="radio" name="gender" id="gender-female" value="f" checked>
+            <label for="gender-female">여</label>
+            <!-- 속성
+                 type="radio"
+                 name="서버에 제출되는 KEY값"
+                 id="아이디지정"
+                 value="선택된 것의 제출시 url에 보일 값"
+                 +
+                 checked="checked" 초기값 세팅, 미리 선택되어 있음
+                -->
+            <!-- 남/여 중 하나만 선택할 수 있음 -> 둘이 하나의 그룹임 - ***name속성값이 같은것끼리 그룹핑됨***
+                 + input의 id속성값과 label의 for속성값이 하나의 짝을 이룸 -->
+            <!-- cf. 한번 선택하고 나면, 체크해제가 안됨. 무조건 하나는 선택해야 함 -->
+            <input type="submit" value="제출">
+            <!-- gender=m - name속성값=value속성값 -->
+            <!-- gender=f - name속성값=value속성값 -->
+        </fieldset>
+        <br>
+
+        <fieldset>
+            <legend>체크박스</legend>
+            <!-- input:checkbox -->
+            <!-- 체크박스 타입1 : 제시한 것 중 복수개 선택 가능-->
+            <!-- <input type="checkbox" name="서버에 제출되는 KEY값" id="아이디지정" value="제출될 VALUE값" checked> -->
+            <!-- 음악 -->
+            <input type="checkbox" name="hobby" id="hobby-music" value="music" checked>
+            <label for="hobby-music">음악</label>
+            <!-- 게임 -->
+            <input type="checkbox" name="hobby" id="hobby-game" value="game">
+            <label for="hobby-game">게임</label>
+            <!-- 운동 -->
+            <input type="checkbox" name="hobby" id="hobby-fitness" value="fitness">
+            <label for="hobby-fitness">운동</label>
+            <!-- 속성
+                 type="checkbox" 
+                 name="서버에 제출되는 KEY값" 
+                 id="아이디지정" 
+                 value="제출될 VALUE값"
+                 +
+                 checked="checked" 초기값 세팅, 미리 선택되어있음
+                  -->
+            <input type="submit" value="제출">
+            <!-- hobby=music&hobby=game 각각의 동일한 key값으로 각각의 value가 &로 연결되어 전송됨 -->
+            <!-- 아무것도 선택하지 않으면 아무것도 전송되지 않음 -->
+            <br>
+
+            <!-- input:checkbox -->
+            <!-- 체크박스 타입2 : yes/no만 확인할 용도 -->
+            <!-- ***value속성이 없다면, 체크시에 "on"값이 전송된다***-->
+            <!-- <input type="checkbox" name="서버에 제출되는 KEY값" id="아이디지정"> -->
+            <input type="checkbox" name="mailOk" id="mailOk">
+            <!-- 속성
+                 type="checkbox" 
+                 name="서버에 제출되는 KEY값" 
+                 id="아이디지정" 
+                -->
+            <label for="mailOk">메일수신</label>
+
+            <input type="submit" value="제출">
+            <!-- url출력 : mailOk=on -->
+        </fieldset>
+
+        <fieldset>
+            <legend>select</legend>
+            <label for="nation">국적 : </label>
+            
+            <!-- select [drop-down 목록으로값을입력] -->
+            <!-- <select name="서버에 제출되는 KEY값" id="아이디지정"> </select> -->
+            <select name="nation" id="nation" multiple>
+            <!-- 속성
+                name="서버에 제출되는 KEY값"
+                id="아이디지정"
+                +
+                multiple="multiple" 복수개 선택 (Ctrl + 클릭) like 체크박스
+            -->
+                <optgroup label="America">
+                    <!-- option [list에서옵션값으로지정] -->
+                    <!-- <option value="제출될 VALUE값"> 옵션으로 보여질 텍스트 </option> -->
+                    <option value="usa" selected>미국</option>
+                    <!-- 속성
+                         value="제출될 VALUE값"
+                         selected="selected" 초기값, 기본으로 선택된 값-->
+                </optgroup>
+                <!-- optgroup [옵션을 그룹핑하는 태그] -->
+                <!-- <optgroup label="그룹핑 텍스트"> option태그들 </optgroup> -->
+                <!-- optgroup은 선택할 수 없음, 단지 옵션들에 대한 그룹을 보여주는 용도 -->
+                <optgroup label="Asia">
+                    <option value="kor">한국</option>
+                    <option value="jpn">일본</option>
+                    <option value="chn">중국</option>
+                </optgroup>
+            </select>
+            <input type="submit" value="제출">
+            <!-- multiple 속성 X : nation=kor -->
+            <!-- multiple 속성 O : nation=usa&nation=jpn&nation=chn -->
+        <br><br>
+
+        <!-- 옵션 + 사용자 직접 입력 -->
+        <label for="menu">메뉴선택</label>
+        <!-- input태그의 text타입에 list 추가 -->
+        <!-- <input type="text" name="서버에 제출되는 KEY값" id="아이디지정" list="datalist의 id값">  -->
+        <input type="text" name="menu" id="menu" list="menu-list">
+        <!-- 속성
+            type="text" 
+            name="서버에 제출되는 KEY값" 
+            id="아이디지정" 
+            list="datalist의 id값" -->
+
+        <!-- datalist -->
+        <!-- datalist [옵션 제시, 옵션에 없으면 사용자가 직접 적음] -->
+        <!-- <datalist id="아이디지정"> option태그들 </datalist> -->
+        <!-- ***input태그의 list속성값과 datalist태그의 id속성값은 동일해야 한다 -->
+        <datalist id="menu-list">
+            <option value="된장찌개">된장찌개</option>
+            <option value="김치찌개">김치찌개</option>
+            <option value="순두부찌개">순두부찌개</option>
+        </datalist>
+        <input type="submit" value="제출">
+        <!-- 값을 고를 수도 있고, 원하는 것을 적을 수도 있음 -->
+        <!-- menu=순대국 -->
+        </fieldset>
+    </form>
+    
+    <h2>기타</h2>
+    <form action="">
+        <fieldset>
+            <legend>기타</legend>
+            <label for="useColor">컬러 : </label>
+            <!-- [Emmit] input:color#useColor - 아이디 함께 지정 : # -->
+            <!-- color 타입 -->
+            <!-- color palette 중에서 원하는 색을 스포이드로 집어 고를 수 있음 (기본값 : 0, 0, 0 검정색)-->
+            <!-- cf. color picker 기능도 제공 - palette 내에서 뿐 아니라, 그 밖의 색상도 스포이드로 고를 수 있음 -->
+            <!-- <input type="color" name="서버에 제출되는 KEY값" id="아이디 지정"> -->
+            <input type="color" name="useColor" id="useColor" value="#e27474">
+            <!-- 속성
+                 type="color" 
+                 name="서버에 제출되는 KEY값"
+                 id="아이디 지정"
+                 +
+                 value="RGB #16진수" 초기값 세팅-->
+
+            <input type="submit" value="제출">
+            <!-- useColor=%23912121 -->
+            <!-- RGB color를 16진수로 만들어서 제출 ((red)nn(green)nn(blue)nn) -> #(%23)912121 -->
+            <br>
+
+            <label for="upFile">파일 업로드 : </label>
+            <!-- input:file#upFile[name=upFile] -->
+            <!-- file 타입 -->
+            <!-- 컴퓨터내의 file 선택 -->
+            <!-- 선택된 파일 없음 -> 파일명.확장자 -->
+            <!-- cf. 반드시 POST방식으로 지정할 것! -->
+            <!-- <input type="file" name="서버에 제출되는 KEY값" id="아이디지정"> -->
+            <!-- GET방식 - fileName / POST방식 - binary-data -->
+            <input type="file" name="upFile" id="upFile">
+            <!-- 속성
+                 type="file"
+                 name="서버에 제출되는 KEY값"
+                 id="아이디지정"
+                -->
+
+            <input type="submit" value="전송">
+            <!-- GET방식 선택시 - upFile=9_HTML+-+폼관련태그.pdf -> 파일명만 전송됨 -->
+            <!-- 반드시 POST방식으로 선택하기 -->
+            <br>
+            
+            <!-- input:hidden -->
+            <!-- hidden 타입 -->
+            <!-- 사용자에게 보이지는 않지만 값을 넣을수있는 창관리자에게 필요한 값을 넣을때 필요 -->
+            <!-- <input type="hidden" name="서버에 제출되는 KEY값" value="hidden에 들어갈 값설정"> -->
+            <input type="hidden" name="notVisible" value="저는 안보이지만, 전송은 됩니다.">
+            <!-- 속성
+                 type="hidden"
+                 name="서버에 제출되는 KEY값"
+                 value="hidden에 들어갈 값설정"
+                -->
+            <input type="submit" value="전송">
+            <!-- notVisible=저는+안보이지만%2C+전송은+됩니다. -->
+            <br>
+
+            <!-- disabled="disabled" {전송이 안되도록 설정하는 속성} -->
+            <input type="text" name="userId" id="userId" disabled value="honggd">
+            <input type="submit" value="전송">
+            <!-- 입력/전송 불가 -->
+            <!-- cf. readonly의 경우는 입력만 불가할 뿐, 전송은 가능했음 -->
+        </fieldset>
+    </form>
+
+    <br><br><br><br><br><br><br><br><br><br>
 </body>
 
 </html>
+

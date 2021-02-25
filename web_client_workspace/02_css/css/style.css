@@ -1,4 +1,9 @@
 /* style 태그 없이 css코드만 작성*/
+
+/* #아이디 : 아이디 선택자 
+선택자 {
+  스타일속성 : 속성값 ; 
+} */
 #p-third {
     background-color: #006400;
     color: indianred;
