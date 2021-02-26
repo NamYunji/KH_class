@@ -325,19 +325,292 @@
     /* + 선택자간 적용 우선순위 확인 */
     </style>
 
-    <!-- 링크 -->?>[]
+    <!-- 링크관련 가상선택자 -->
     <!-- 링크의 네가지 상태 : 어떤 사이트(방문전 | 방문후 | 호버 | 클릭) -->
     <a href="https://www.innerbody.com/htm/body.html">어떤 사이트(방문전 | 방문후 | 커서 | 클릭)</a>
     <style>
-        /* a:link {} */
-        a:link{color:aqua;}
-        /* a:visited {} */
-        /* a:hover {} */
-        /* a:active {} */
+
+        /* a태그 속성
+           text-decoration : underline | none (underline은 기본값) */
+
+        /* a태그 + 방문전 가상선택자 */
+        /* a:link{
+            속성 : 속성값 ;
+        } */
+        a:link{
+            color:aqua;
+            text-decoration: none;}
+
+        /* a태그 + 방문후 가상선택자 */
+        /* a:visited{
+            속성 : 속성값 ;
+        } */
+        a:visited{
+            color: olive;
+        }
+        /* 브라우저 차원에서 이 사이트에 방문했는지 아닌지를 관리
+           ex. 구글 - 검색결과 중 방문한 적 없는 링크 : 파란색, 이미 다녀온 링크 : 보라색 */
+
+        /* a태그 + 호버 가상선택자 */
+        /* a:hover{
+            속성 : 속성값 ;
+        } */
+        a:hover{
+            text-decoration: underline;
+        }
+
+        /* a태그 + 액티브 가상선택자 */
+        /* a:active{
+            속성 : 속성값 ;
+        } */
+        a:active{
+            color: tomato;
+        }
+    </style>
+    <br><br>
+
+    <!-- checked  가상선택자 -->
+    <input type="checkbox" name="smsOk" id="smsOk">
+    <label for="smsOk">문자수신</label>
+    <style>
+        /* 선택자:checked {
+            속성 : 속성값;
+        } */
+        /* 체크박스의 너비와 높이를 조절 */
+        input[type=checkbox]:checked {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* 체크박스 적용시 라벨 폰트크기 조절 */
+        /* 형제선택자 사용 */
+        input[type=checkbox]:checked + label {
+            font-size: 200px;
+        }
+
+        /* 체크박스 너비, 높이 조절 + 체크박스 적용시 라벨 폰트크기 조절 한번에 */
+        input[type=checkbox]:checked, input[type=checkbox]:checked+label {
+            width: 200px;
+            height: 200px;
+            font-size: 200px;
+        }
     </style>
 
+    <h2>구조선택자</h2>
+    <div class="test">
+        <pre>테스트1</pre>
+        <p>테스트1</p>
+        <p>테스트2</p>
+        <p>테스트3</p>
+        <p>테스트4</p>
+        <p>테스트5</p>
+        <p>테스트6</p>
+        <p>테스트7</p>
+        <p>테스트8</p>
+        <p>테스트9</p>
+        <p>테스트10</p>
+        <pre>테스트10</pre>
+    </div>
+    
+    <!-- 자식, 형제관계를 모두 고려한 선택자 -->
+    <style>
+    /* 부모태그의 자식태그 종류에 상관없이 무조건 n번째 자식 */
+    /* (부모태그) 자식태그:구조가상선택자 {
+        속성 : 속성값 ;
+    } */
+    div.test p:first-child {
+        background-color: yellow;
+    }
 
+    /* 부모태그를 생략할 수도 있음 */
+    /* 첫번째 자식 */
+    /* (부모태그, 생략가능) 자식태그:first-child {
+         속성 : 속성값 ;
+    } */
+    /* 첫번째 자식인 것만 */
+    p:first-child {
+        color: yellowgreen;
+    }
+
+    /* 마지막 자식 */
+    /* (부모태그, 생략가능) 자식태그:last-child {
+         속성 : 속성값 ;
+    }*/
+    /* last-child */
+    p:last-child {
+        color: violet;
+    }
+
+    /* 특정 자리의 자식 : 1-based index */
+
+    /* 특정 자리만 */
+    /* (부모태그, 생략가능) 자식태그:nth-child(자리지정) {
+        속성 : 속성값 ;
+    } */   
+    p:nth-child(2) {
+        text-decoration: underline;
+    }
+
+    /* 특정자리의 곱의 자리 자식 선택 */
+    /* (부모태그, 생략가능) 자식태그:nth-child(자리지정n)) {
+        속성 : 속성값 ;
+    } */
+    /* 짝수 -> 2n | 홀수 -> 2n+1 | 3의 곱 -> 3n */
+
+    /* 짝수 */
+    p:nth-child(2n) {
+        color:darkgreen;
+    }
+
+    /* 홀수 */
+    p:nth-child(2n+1) {
+        color: darkmagenta;
+    }
+
+    /* 3의 곱 */
+    p:nth-child(3n) {
+        color: teal;
+    } -->
+
+    /* 부모태그의 자식태그 종류에 상관없이 무조건 n번째 자식 */
+    /* 자식태그를 지정하지 않음 */
+
+    /* 부모태그의 무조건 첫번째 자식 */
+    /* 부모태그 :first-child {
+        속성 : 속성값 ; 
+        }  */
+        .test :first-child {
+            color: deeppink;
+        }
+
+    /* 부모태그의 무조건 마지막 자식 */
+    /* 부모태그 :last-child { 
+        속성 : 속성값 ; 
+        }  */
+
+    /* 부모태그의 특정자리의 자식 선택 */
+    /* (부모태그, 생략가능) : nth-child(자리지정) { 
+        속성 : 속성값 ; 
+        }  */
+
+    /* 부모태그의 특정자리의 곱의 자리 자식 선택 */
+    /* (부모태그, 생략가능)  : nth-child(자리지정n) {
+        속성 : 속성값 ; 
+        } */
     
 
+    /* 해당자식 태그 중에서만 순서를 매겨서 n번째 */
+    /* 해당 태그 중에서만 순위를 매겨서 첫번째 */
+    /* 태그:first-of-type {
+        속성 : 속성값 ; 
+       } */
+    p:first-of-type {
+        color: deepskyblue;
+    }
+
+    /* 태그:last-of-type {
+        속성 : 속성값 ; 
+       } */
+    /* 해당 태그 중에서만 순위를 매겨서 마지막 */
+    p:last-of-type {
+        background-color: firebrick;
+    }
+
+    /* 해당 태그 중에서만 순위를 매겨서 특정 자리 */
+    /* 태그 :nth-of-type(자리지정) {
+        속성 : 속성값 ;
+    } */
+    p:nth-of-type(3) {
+        background-color: goldenrod;
+    }
+
+    /* 해당 태그 중에서만 순위를 매겨서 특정 자리의 곱 */
+    /* 태그 :nth-of-type(자리지정n) {
+        속성 : 속성값 ;
+    } */
+    p:nth-of-type(3n) {
+        background-color: goldenrod;
+    }
+
+    /* not(선택자) 부정 가상선택자 */
+    /* 해당 선택자가 아닌 것에 속성 적용 */
+    /* :not(선택자) { 
+         속성 : 속성값 ; 
+        } */
+    div.test > :not(p) {
+        font-size: 24px;
+    }
+
+    div.test > :not(p:nth-of-type(3)) {
+        font-size: 20px;
+    }
+
+    /* :root 최상위 가상선택자 */
+    /* 문서내 최상위 태그인 html에 적용 -> 전체 적용 */
+    /* :root {
+        속성 : 속성값 ;
+    } */
+    :root {
+        background-color:peachpuff;
+    }
+    </style>
+    <br><br><br>
+
+    
+    <h2>선택자 우선순위</h2>
+    <div class="wrapper">
+        <div id="mydiv" class="test" style="background-color: crimson;">우선순위 테스트</div>
+    </div>
+
+    <style>
+        /* 우선순위 下 -----------------------------------------> 우선순위 上 */
+        /* 태그 -> 속성 -> 클래스 -> 아이디 -> 인라인속성 -> !important키워드 */
+        /* 속성이 다른 속성에 의해 덮어써지면, 그 새로 쓰인 속성이 우선순위가 높다 */
+        
+        /* 태그 : div */
+        div {
+            width: 500px;
+            height: 500px;
+            background-color: aquamarine;
+        }
+        
+        /* 클래스 : div -> .test */
+        .test {
+            background-color: bisque;
+        } 
+        
+        /* 아이디 : div -> .test -> #mydiv */
+        #mydiv {
+            background-color: thistle;
+        }
+        
+        /* 인라인에 속성으로 style 지정 : div -> .test -> #mydiv -> element.style */
+        /* ref. 560줄 */
+
+        /* !important */
+        /* important 사용법
+        선택자 {
+            속성:속성값 !imporatnt ;
+        } */
+        div {
+            width: 500px;
+            height: 500px;
+            background-color: darkmagenta !important;
+        } 
+
+        /* 같은 선택자를 가리켜도 부모,자식관계를 따져서 구체적으로 작성하면 우선순위가 높다 */
+        /* 선택자만 쓸경우 : .test */
+        .test {
+            font-size: 24px;
+        }
+        /* 구체적으로 쓸경우 :.test -> .wrapper .test */
+        .wrapper .test {
+            font-size: 36px;
+        } 
+
+
+    </style>
+    
+<br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>

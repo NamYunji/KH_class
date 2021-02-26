@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - font</title>
+</head>
+<body>
+    <h1>Font</h1>
+    <!-- OS에 내장된 글자체를 가져와서 페이지에 반영 -->
+    <p id="ff1">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+    <p id="ff2">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+    <p id="ff3">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+    <style>
+        /* font-family : "글꼴1", "글꼴2" ... ; {글꼴을 정하는 속성} */
+        /* : 뒤 클릭 - Ctrl + Space - 샘플 폰트를 볼 수 있음 */
+        /* rule
+           1. 왼쪽부터 우선순위가 높다.
+              첫번째 글꼴이 있으면 적용, 아니면 그 다음 글꼴 적용
+           2. 오른쪽 끝에는 generic-family라는 기본서체를 적어준다.
+              목적 : 앞의 폰트들이 모두 없을 때를 대비하여, 없을 수가 없는 글꼴을 써줌
+              종류 : serif(글자 끝 장식이 있음) | sans-serif (글자 끝 장식이 없음)
+                     cursive (필기체) | monospace (글자마다 폭이 같은 글씨체)
+           3. 공백이 있는 폰트는 ''(홑따음표)|""(쌍따음표)로 감쌈
+              공백이 없다면 따음표 없이 폰트명만 써줘도 됨
+        */
+        #ff1 {
+            font-family: "휴먼모음T", 궁서체, serif;
+        }
+        /* 숫자, 영어의 경우, 지정한 글씨체와 같지 않음
+          -> 폰트파일에 한글용 폰트, 영문용 폰트, 숫자용 폰트를 만들어놨을 때 적용됨
+          - 파일에 없다면 그 비슷한걸로 OS에서 대신 표현해줌
+        */
+ 
+
+
+    </style>
+
+</body>
+</html>
