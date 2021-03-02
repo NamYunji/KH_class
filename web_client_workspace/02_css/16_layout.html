@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - layout</title>
+</head>
+<body>
+    <h1>layout</h1>
+
+    <style>
+        div {
+            padding : 10px;
+        }
+        #container {
+            background-color: #f0f0f0;
+            width: 960px;
+            margin: 0 auto;
+        }
+        #header {
+            background-color: #908886;
+            height: 100px;
+        }
+        #content {
+            background-color: #f5f5f5;
+            width: 640px;
+            height: 500px;
+            /* float이 그림만 가지고 올라감 */
+            float: left;
+        }
+        #sideinfo {
+            background-color: #dcdad9;
+            width: 280px;
+            height: 500px;
+            /* 글자도 위로 올라가도록 하는 float */
+            float: left;
+        }
+        #footer {
+            /* clear : left | right | both
+            {이전 float으로 인해 요소가 위로 끌려올라가지 않도록
+                다음요소에 float이 끝났음을 알리는 속성}
+                */
+                clear: both;
+                background-color: #555;
+                height: 100px;
+            }
+    </style>
+
+    <!-- html5 이전의 페이지 레이아웃 -->
+    <div id="container">
+    <div id="header">Header</div>
+    <div id="content">Content</div>
+    <div id="sideinfo">Sideinfo</div>
+    <div id="footer">Footer</div>
+    </div>
+    <!-- but 좋은 레이아웃이 아님
+    div는 단지 그룹핑(영역설정) 목적이어야 하는데,
+    태그명이 다 div면 무슨 목적(header, content 等)으로 쓴 것인지를 구분짓지 못함
+    -> Screen Reader 또한 id값을 읽어내지 못함 -->
+
+    <!-- 해결책 : semantic tag
+        태그의 이름과 의미가 일치하도록
+        -> Screen Reader가 의미있게 해석 가능
+         cf. phrase tag도 semantic tag의 일종 -->
+    <!-- header -> header [헤더내용]
+         content -> article [실제내용]
+         content와 연관 -> section [내용과 연관이 있다면 section태그로 묶음]
+         sideinfo -> aside [사이드인포]
+         footer -> footer [꼬리말]     -->
+    <!-- div는 CSS적 용도의 그룹핑에서 사용하고,
+         내용적으로 구분해내서 묶을 경우에는 section태그를 사용하기 -->
+</body>
+</html>

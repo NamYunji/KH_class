@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html5 - layout</title>
+  </head>
+  <body>
+    <div id="container">
+      <!-- HEADER -->
+      <header>
+        <h2>Header</h2>
+        <!-- NAVIGATOR -->
+        <nav>
+            <ul class="navi">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">HTML5</a></li>
+              <li><a href="#">CSS3</a></li>
+              <li><a href="#">JQuery</a></li>
+              <li><a href="#">Mobile</a></li>
+              <li><a href="#">Profile</a></li>
+            </ul>
+          </nav>
+      </header>
+      <!-- SECTION -->
+      <section id="content">
+        <!-- ARTICLE -->
+        <article>
+          <h3>Article1</h3>
+          <p>
+            동력은 역사를 끝까지 사라지지 생명을 사막이다. 귀는 풀이 맺어,
+            산야에 안고, 아니다. 아니한 가치를 끓는 어디 같은 간에 희망의 커다란
+            이것이다. 인생을 가장 어디 아니한 사랑의 석가는 몸이 교향악이다.
+          </p>
+        </article>
+        <article>
+          <h3>Article2</h3>
+          <p>
+            동산에는 살았으며, 반짝이는 불어 곳이 그들은 것이다.보라, 영원히
+            것이다. 행복스럽고 낙원을 옷을 하였으며, 살았으며, 아름다우냐?
+          </p>
+        </article>
+      </section>
+      <!-- ASIDE -->
+      <aside>
+        <h4>Aside</h4>
+      </aside>
+      <!-- FOOTER -->
+      <footer>
+        <h3>Footer</h3>
+        <p>
+          &lt;copyright 2017. <strong>KH정보교육원</strong>. All rights
+          reserved.&gt;
+        </p>
+      </footer>
+    </div>
+    <style>
+      /* 전체 적용 */
+      div,
+      header,
+      section,
+      aside,
+      footer {
+        padding: 10px;
+      }
+      /* div */
+      div#container {
+        background-color: beige;
+        width: 960px;
+        margin: 0 auto;
+      }
+      /* header */
+      header {
+        background-color: burlywood;
+        height: 100px;
+      }
+      /* section */
+      section#content {
+        background-color: lightgoldenrodyellow;
+        float: left;
+        width: 640px;
+        height: 500px;
+      }
+      /* aside */
+      aside {
+        background-color: lightsteelblue;
+        float: right;
+        width: 280px;
+        height: 500px;
+      }
+      /* footer */
+      footer {
+        background-color: mistyrose;
+        clear: both;
+        text-align: center;
+        padding-bottom: 30px;
+      }
+      footer h3 {
+        text-align: left;
+      }
+      /* nav */
+      nav ul li {
+          list-style: none;
+          float: left;
+      }
+      /* 수직바 넣기 */
+      nav ul li:not(:last-of-type)::after{
+        content: "|";
+      }
+      /* 링크 선없앰, 간격주기, 호버전 블랙 */
+      li a {
+          text-decoration: none;
+          padding: 0 10px;
+          color: black;
+      }
+      /* 호버시 화이트 */
+      li a:hover {
+          color: white;
+      }
+      /* 오른쪽 끝으로 정렬 */
+      nav {
+          float: right;
+          transform: translateY(-10px);
+      }
+    </style>
+  </body>
+</html>

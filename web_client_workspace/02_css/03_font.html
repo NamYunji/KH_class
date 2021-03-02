@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>css - font</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Font</h1>
+    <!-- Ctrl + Shift - C - 해당글자 hover - 폰트 속성 볼 수 있음 -->
     <!-- OS에 내장된 글자체를 가져와서 페이지에 반영 -->
-    <p id="ff1">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
-    <p id="ff2">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
-    <p id="ff3">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+    <div class="wrapper">
+        <p id="ff1">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+        <p id="ff2">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+        <p id="ff3">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+        <p id="ff4">가나다라마바사 abcdefg ABCDEFG 1234567890</p>
+    </div>
+
     <style>
-        /* font-family : "글꼴1", "글꼴2" ... ; {글꼴을 정하는 속성} */
-        /* : 뒤 클릭 - Ctrl + Space - 샘플 폰트를 볼 수 있음 */
-        /* rule
+      /* font-family */
+      /* font-family : "글꼴1", "글꼴2" ... ;  {글꼴을 정하는 속성} */
+      /* : 뒤 클릭 - Ctrl + Space - 샘플 폰트를 볼 수 있음 */
+      /* rule
            1. 왼쪽부터 우선순위가 높다.
-              첫번째 글꼴이 있으면 적용, 아니면 그 다음 글꼴 적용
+              첫번째 글꼴이 사용자 컴퓨터에 있으면 적용, 아니면 그 다음 글꼴 적용
            2. 오른쪽 끝에는 generic-family라는 기본서체를 적어준다.
               목적 : 앞의 폰트들이 모두 없을 때를 대비하여, 없을 수가 없는 글꼴을 써줌
               종류 : serif(글자 끝 장식이 있음) | sans-serif (글자 끝 장식이 없음)
@@ -25,17 +31,153 @@
            3. 공백이 있는 폰트는 ''(홑따음표)|""(쌍따음표)로 감쌈
               공백이 없다면 따음표 없이 폰트명만 써줘도 됨
         */
-        #ff1 {
-            font-family: "휴먼모음T", 궁서체, serif;
-        }
-        /* 숫자, 영어의 경우, 지정한 글씨체와 같지 않음
+      #ff1 {
+        font-family: "휴먼모음T", 궁서체, serif;
+      }
+      /* 숫자, 영어의 경우, 지정한 글씨체와 같지 않음
           -> 폰트파일에 한글용 폰트, 영문용 폰트, 숫자용 폰트를 만들어놨을 때 적용됨
           - 파일에 없다면 그 비슷한걸로 OS에서 대신 표현해줌
         */
- 
 
-
+      /* 문제점
+        지정한 글꼴이 사용자 컴퓨터에 없다면, 그 글꼴이 무시되고 넘어감
     </style>
 
-</body>
+    <!-- 해결책 : web font
+         그때그때 웹에서 폰트를 내려받을 수 있도록 만든다 -->
+    <!-- 1. 다운로드 받은 폰트의 HTML 태그 -->
+    <!-- WEB FONT를 다운로드 받기 위한 연결 -->
+    <!-- link태그의 장점 : 내컴퓨터에 다운로드받은 폰트를 사용하지 않아도
+                           웹상에 접속하여 폰트를 사용할 수 있음 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        /* 2. 선택자에 다운로드 받은 폰트의 CSS 스타일속성 적용 */
+        #ff2 {
+            font-family: 'Black And White Picture', sans-serif;
+        }
+        #ff3 {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        /* 모든 p태그의 속성에 적용 */
+        p {
+            font-size: 32px;
+        }
+
+        /* cascade 부모태그에 적용한 속성이 자식(후손)태그로 전이되어 처리됨 */
+        /* 상위 태그에 적용하면 모든 자식태그에 적용됨, 
+           만약 따로 지정한 게 있으면 덮어씌워짐 */
+        body {
+            font-family:"궁서체";
+        }
+    </style>
+
+    <!-- font-size -->
+    <!-- font-size : ~단위 ;  {폰트크기를 조절하는 속성} -->
+    <!-- px  : 절대값 단위, px로 고정되면 크기가 변하지 않음
+         em  : 상대값 단위, 가장 가까운 부모요소 기준
+               기본값 : 1em = 16px  ex. 2em = 32px
+         %   : 상대값 단위, 가장 가까운 부모요소 기준
+               기본값 : 100% = 16px  ex. 150% = 24px (16px + 8px)
+         rem : 상대값 단위, 최상위 태그(r=root)인 html태그 기준
+               기본값 : 1rem = 16px,  ex. 2rem = 32px -->
+    <style>
+        /* 부모요소에 속성 적용 */
+        .wrapper {
+            font-size: 24px;
+        }
+
+        /* px */
+        #ff1 {
+        font-size: 32px;
+        }
+        /* 부모요소에 속성 적용 X - 32px
+           부모요소에 속성 적용 O - 32px */
+
+        /* em */
+        #ff2 {
+            font-size: 2em;
+        }
+        /* 부모요소에 속성 적용 X - 32px
+           부모요소에 속성 적용 O - 48px */
+
+        /* % */
+        #ff3 {
+            font-size: 150%;
+        }
+        /* 부모요소에 속성 적용 X - 24px
+           부모요소에 속성 적용 O - 36px */
+
+        /* rem */
+        #ff4 {
+            font-size: 3rem;
+        }
+        /* cf. rem은 주로 device별로 크기를 따로 잡을 때, 
+               html에 크기를 잡아두고 전체페이지의 크기를 조절 */
+    </style>
+
+    <hr>
+    <ul>
+        <!-- font-weight : 굵기속성값 ;  {폰트 굵기를 조절하는 속성} -->
+        <!-- lighter : 가장 가까운 부모요소 굵기에서 한단계 더 얇게
+             bold    : 두껍게
+             bolder  : 가장 가까운 부모요소 굵기에서 한단계 더 두껍게
+             n 수치화하여 처리 (기본값 : 400)
+               cf. 수치화하여 사용하는 경우는 해당 폰트가 해당 수치를 지원해야 함 -->
+        <!-- cf. CSS 효과는 screen reader가 읽지 못함
+                 단순 시각적 요소가 아닌, 내용의 중요성을 위해 굵은 글자를 쓰는거면 strong 태그 사용하기 -->
+        <li id="li1">글꼴 더 얇게</li>
+        <li id="li2">글꼴 두껍게</li>
+        <li id="li3">글꼴 더 두껍게</li>
+        <li id="li4">수치화</li>
+
+    </ul>
+    <style>
+        ul {
+            font-weight: 200;
+        } 
+
+        li {
+            font-size: 32px;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        /* lighter */
+        #li1 {
+            font-weight: lighter;
+        } 
+        /* bold */
+        #li2 {
+            font-weight: bold;
+        }
+        /* bolder */
+        #li3 {
+            font-weight: bolder;
+        }
+        /* 수치화하여 처리 */
+        #li4 {
+            font-weight:200;
+        }
+    </style>
+
+    <!-- 모아쓰기 -->
+    <!-- font : 속성값 ; {여러 속성들을 한번에 표현 가능한 속성} -->
+    <!-- 필요한 속성들을 골라 나열해쓰면 됨, 생략하면 기본값으로 적용됨 -->
+    <!-- 사용가능한 속성
+         font-style
+         font-variant
+         font-weight
+         font-size/line-height (cf. line-height : 한줄의 높이)
+         font-family -->
+    <span id="font">안녕하세요. ABCDEFG abcdefg 1234567890</span>
+    <style>
+        span#font {
+            font: italic bold 24px/30px "Noto Sans KR";
+        }
+    </style>  
+  </body>
 </html>

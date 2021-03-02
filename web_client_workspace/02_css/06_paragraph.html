@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - paragraph</title>
+</head>
+<body>
+    <h1>문단</h1>  
+    <div class="wrapper">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas consequuntur sint similique provident nam corrupti enim quae reprehenderit voluptatem perferendis suscipit quibusdam quisquam minus, itaque nihil, animi tempore doloribus deleniti.</p>
+        <p>Cumque enim porro ea ad iure necessitatibus. Iure nostrum est magni quo repellat fugiat quos sint officiis. Animi ex veniam ab! Sunt eligendi doloremque repellat doloribus ipsam, quaerat corporis voluptatem?</p>
+        <p>Nam maiores accusantium reprehenderit quae optio dolorem exercitationem eveniet aliquam temporibus est aliquid ipsam saepe architecto molestias culpa, laudantium adipisci dolorum necessitatibus facilis fugiat nisi veniam labore voluptates! Dignissimos, nihil?</p>
+        <p>Dolor veritatis tempore eos accusamus alias inventore perspiciatis voluptatem corporis quisquam cupiditate, quasi ratione, provident illo, dignissimos dolorum officiis. Neque ratione aperiam nihil, vero ipsam dolor nam commodi inventore unde?</p>
+        <p>Debitis nulla quidem, porro praesentium veritatis quis ducimus ex facere. Odit a obcaecati eos, consequuntur repellendus dicta amet porro iste commodi quia dolorem soluta est cupiditate, exercitationem ducimus odio laboriosam.</p>
+    </div> 
+    <style>
+        /* 시작/끝에 내용 추가 */
+        /* 선택자::first-letter { 속성 : 속성값 ; } 해당 선택자의 첫글자 */
+        /* 선택자::first-line { 속성 : 속성값 ; } 해당 선택자의 첫째줄 */
+        .wrapper p::first-letter {
+            font-size: 2em;
+        }
+        .wrapper p::first-line {
+            text-decoration: underline;
+        }
+
+        /* 선택자::before { 속성 : 속성값 ; } 선택자 시작부분 */
+        /* 선택자::after { 속성 : 속성값 ; } 선택자 끝부분 */
+        /* content : "추가할 텍스트" ;  {내용 추가 속성} */
+        .wrapper p::before {
+            content: "💌";
+        }
+        .wrapper p::after {
+            content: "💛";
+        }
+        /* 개발도구 확인 - 시작태그 (::before) 실제내용 (::after) 종료태그 */
+
+        /* 카운터 : 문단 넘버링 */
+        /* 1. 부모요소에 카운터 선언 */
+        /* 부모선택자 { counter-reset : 변수명; } */
+        .wrapper {
+            counter-reset: num;
+        }
+        /* 문단별 어느 자리에 넘버링할지 지정 */
+        /* 선택자::before {} */
+        .wrapper p::before {
+            /* 2. 지정한 변수의 카운트를 증가 */
+            /* counter-increment : 변수명 ; */
+            counter-increment : num;
+            /* 3. content에 인자에 num을 전달하는 counter함수를 속성값으로 넣기 */
+            /* content : counter(변수명); */
+            content: counter(num)". ";
+        }
+
+        /* ::selection { 속성 : 속성값 ; } 블럭 가상선택자 */
+        ::selection {
+            background-color: thistle;
+            color: white;
+        }
+        /* 마우스로 블럭잡았을 때 지정한 속성이 적용된다 */
+
+    </style>
+</body>
+</html>

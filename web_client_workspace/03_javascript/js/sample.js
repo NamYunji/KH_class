@@ -1,0 +1,1 @@
+alert("안녕, 나 sample.js에서 왔어");

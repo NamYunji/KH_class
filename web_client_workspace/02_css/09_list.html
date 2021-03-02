@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - list</title>
+</head>
+<body>
+    <h1>목록</h1>
+    <!-- ul : padding-left값 -> 들여쓰기 효과, 위/아래 margin, 자식태그 width -->
+    <!-- 메뉴 성격을 가지고 있어서 링크를 제공하면, nav태그로 감싸주기
+         -> 이 안에는 navigation관련한 내용이 있다라는 의미 전달! -->
+    <!-- nav [링크를 가진 메뉴를 의미하는 태그] -->
+    <nav>
+        <ul id="menu">
+            <!-- li : content영역 값만 있음 -->
+            <li><a href="">css3</a></li>
+            <li><a href="">html5</a></li>
+            <li><a href="">javascript</a></li>
+            <li><a href="">jquery</a></li>
+            <li><a href="">bootstrap</a></li>
+            <li><a href="">foundation</a></li>
+        </ul>
+    </nav>
+
+    <style>
+        nav {
+            height: 30px;
+            background-color:moccasin;
+            padding: 5px 0;
+        }
+        /* list-style-type : 글머리기호지정 ;
+            기본값 : disc(까만 동그라미)
+            none(글머리기호없음), square(네모),  circle(하얀 동그라미)*/
+        /* padding-left : 들여쓰기정도 ; */
+        ul#menu {
+            list-style-type:none;
+            padding-left: 0px;
+            width : 450px;
+            margin :0 auto;
+        }
+        /* cf. ul태그 - block요소 */
+        /* li는 block요소이기 때문에 세로로 배치됨 - 가로로 배치되도록 설정하기*/
+        /* float : 방향 ; {가로로 만들기}
+           - 붕 떠서 지정한 방향대로 차곡차곡 붙음 */
+        /* margin-right | margin-left : ~px ; {요소간의 간격 만들기} */
+        ul#menu li {
+            float : left;
+            margin-right: 15px;
+        }
+        /* 링크의 밑줄 지우기 */
+        ul#menu a {
+            text-decoration: none;
+        }
+        /* hover했을 때의 속성 적용 */
+        ul#menu li:hover {
+            border-bottom: 4px solid lightslategrey;
+            text-shadow: 2px 2px 3px lightseagreen;
+        }
+    
+    </style>
+</body>
+</html>

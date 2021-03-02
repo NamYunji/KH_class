@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>css - text</title>
+  </head>
+  <body>
+    <h1>Text관련</h1>
+    <p id="sample1">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, inventore
+      maxime, quod voluptas ducimus amet quo dolore sit, ipsam facilis voluptate
+      consequatur deleniti delectus nesciunt officiis autem recusandae
+      repellendus tenetur?
+    </p>
+    <p id="sample2">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, inventore
+      maxime, quod voluptas ducimus amet quo dolore sit, ipsam facilis voluptate
+      consequatur deleniti delectus nesciunt officiis autem recusandae
+      repellendus tenetur?
+    </p>
+    <p id="sample3">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, inventore
+      maxime, quod voluptas ducimus amet quo dolore sit, ipsam facilis voluptate
+      consequatur deleniti delectus nesciunt officiis autem recusandae
+      repellendus tenetur?
+    </p>
+
+    <p id="sample3">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, inventore
+      maxime, quod voluptas ducimus amet quo dolore sit, ipsam facilis voluptate
+      consequatur deleniti delectus nesciunt officiis autem recusandae
+      repellendus tenetur?
+    </p>
+    <p id="sample4">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, inventore
+      maxime, quod voluptas ducimus amet quo dolore sit, ipsam facilis voluptate
+      consequatur deleniti delectus nesciunt officiis autem recusandae
+      repellendus tenetur?
+    </p>
+
+    <style>
+      /* color : 속성값 ; {컬러지정}*/
+      /* 컬러명으로 지정 */
+      #sample1 {
+        color: blue;
+      }
+      /* RGB 함수 이용 */
+      /* RED, GREEN, BLUE | 최댓값 : 255 */
+      #sample2 {
+        color: rgb(255, 0, 0);
+      }
+      /* 16진수로 표현 (6자리표현, 3자리표현 다 가능) */
+      #sample3 {
+        color: #00ff00;
+      }
+      /* rgba (rgb alpha) alpha = 투명도 */
+      /* 0 ~ 1 (0은 완전 불투명, 1은 완전 투명(-> 속성 생략)) */
+      #sample4 {
+        color: rgba(0, 255, 255, 0.164);
+      }
+    </style>
+
+    <style>
+      /* text-decoration : 데코레이션속성값 ; {글꼴 장식 속성} */
+      /* underline(밑줄), line-through(중간선) */
+      #sample1 {
+        text-decoration: underline;
+      }
+      /* Ctrl + Shift + C - Styles요소 검사를 통해 적용시 스타일 확인 가능 */
+      /* text-decoration 역시 시각적요소이기 때문에, screen reader에 의해 읽히지 않음
+           -> 내용적 강조는 ins태그(underline), del태그(line-through) 사용하기
+           cf. font-weight : bold -> strong태그 */
+    </style>
+
+    <h1 id="shadow">그림자</h1>
+    <style>
+      /* text-shadow : ~px(가로 offset) ~px(세로offset) ~px(번짐(spread)) 색상(color) ;
+           {그림자 주기 속성} */
+      /* cf. 가로,세로offset : 해당 글자에서 얼마나 떨어져서 그림자를 만들지 (음수값으로 설정도 가능)
+               가로 offset : 줄일수록 왼쪽으로 가고, 늘릴수록 오른쪽으로 감
+               세로 offset : 줄일수록 위로 가고, 늘릴수록 아래로 감
+               spread : 줄일수록 작아지면서 또렷해지고, 늘릴수록 커지면서 흐려짐
+               색상 : 그림자 색상 */
+      /* 한 선택자에 콤마를 이용해서 여러 그림자 속성을 섞어 쓸 수 있음 */
+      #shadow {
+        text-shadow: 3px -5px 5px red;
+      }
+    </style>
+
+    <!-- @실습문제 : text-shadow -->
+    <div id="bg">
+      <span id="ts1" class="common">HTML5</span><br />
+      <span id="ts2" class="common">HTML5</span><br />
+      <span id="ts3" class="common">HTML5</span><br />
+      <span id="ts4" class="common">HTML5</span>
+    </div>
+    <style>
+      #bg {
+        background-color: rgb(0, 0, 0);
+      }
+      span.common {
+        font: bolder 80px/80px "고딕체";
+      }
+      #ts1 {
+        color: orangered;
+        text-shadow: 5px 5px 0 orange;
+      }
+      #ts2 {
+        color: #ffffff;
+        text-shadow: 0px 0px 25px rgb(255, 255, 255);
+      }
+      #ts3 {
+        color: #ffffff;
+        text-shadow: 0px 0px 25px rgb(0, 255, 0);
+      }
+      #ts4 {
+        color: #000000;
+        text-shadow: 0px 0px 3px gray, 0px -5px 7px yellow, 0px -7px 10px orange,
+          0px -10px 30px red;
+      }
+    </style>
+    <br />
+
+    <hr />
+    <div class="wrapper">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque itaque,
+        maxime nesciunt quos minima blanditiis. Quas provident minima inventore
+        facere quisquam repudiandae fugiat architecto id necessitatibus,
+        deserunt incidunt impedit quibusdam!
+        <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque itaque,
+        maxime nesciunt quos minima blanditiis. Quas provident minima inventore
+        facere quisquam repudiandae fugiat architecto id necessitatibus,
+        deserunt incidunt impedit quibusdam!
+      <style>
+        /* white-space : nowrap ; {줄바꿈 없애는 속성} */
+        /* overflow : 속성값 ; {부모영역 밖의 자식요소 처리}
+            cf. 부모요소에 적용한다
+            속성값 종류
+                visible(기본값) contents영역을 벗어나서 margin영역까지 차지함
+                hidden 부모영역까지만 보여줌
+                scroll 부모영역은 고정된 상태로 그 안에서 자식내용을 스크롤을 통해 볼 수 있음
+            overflow 종류
+            overflow : 스크롤 필요 여부와 상관없이 가로, 세로 모두 스크롤이 만들어짐
+            overflow-x : 스크롤이 필요 없을 시 가로 방향으로만 스크롤이 만들어짐
+            overflow-y : 스크롤이 필요 없을 시 세로 방향으로만 스크롤이 만들어짐
+            */
+        /* text-overflow : ellipsis {영역 밖으로 넘쳐나는 텍스트에 대한 말줄임표 처리} */
+        div.wrapper {
+          width: 300px;
+          border: 1px solid #000;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+      </style>
+    </div>
+    <br /><br /><br /><br /><br />
+  </body>
+</html>

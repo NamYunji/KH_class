@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - position</title>
+</head>
+<body>
+    <h1>position</h1>
+    <!-- 화면상의 요소배치
+    position : 배치속성값 ; {화면 요소를 배치하는 속성}
+    속성값 종류
+    static : (기본값) 문서내 작성된 순서대로 배치
+             offset값 무시
+    relative : 문서내 작성된 순서대로 배치
+               offset값 적용
+    absolute : 가장 가까운 부모요소(position : relative) 기준으로 offset값 적용
+    fixed : viewport(화면) 기준으로 offset 적용
+               스크롤해도 그 자리에 고정됨
+    cf. offset값 종류 : top | bottom, left | right
+    -->
+
+    <h2>static</h2>
+    <div class="outer">
+        <div class="first"></div>
+        <div class="second"></div>
+        <div class="third"></div>
+    </div>
+    <style>
+        .outer {
+            background-color: lightgrey;
+            border: 1px solid #000;
+        }
+        .first {
+            width: 300px;
+            height: 300px;
+            background-color: thistle;
+        }
+        .second {
+            width: 200px;
+            height: 200px;
+            background-color:violet;
+            /* offset값 지정 */
+            top: 50px;
+            left: 50px;
+        }
+        .third {
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            /* offset값 적용 */
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+
+    <h2>relative</h2>
+    <div class="outer">
+        <div class="first"></div>
+        <div class="second position-relative"></div>
+        <div class="third position-relative" ></div>
+    </div>
+    <style>
+        .position-relative {
+            position: relative;
+        }
+    </style>
+    <br><br><br>
+
+    <h2>absolute</h2>
+    <div class="outer position-relative">
+        <div class="first"></div>
+        <div class="second position-absolute"></div>
+        <div class="third position-absolute" ></div>
+    </div>
+    <style>
+        .position-absolute {
+            position : absolute;
+        }
+    </style>
+    <!-- position이 relative인 outer클래스 기준으로 offset이 처리됨 -->
+    <!-- 가장 가까운 부모 요소 중 relative가 없으면, body요소를 기준으로 처리됨 -->
+
+    <h2>fixed</h2>
+    <div class="third position-fixed"></div>
+    <style>
+        .position-fixed {
+            position: fixed;
+        }
+    </style>
+
+    <h2>z-index</h2>
+    <!-- z-index z축기준으로 요소를 배치
+         z-index : ~ ;
+         숫자가 클수록 사용자 쪽에 가까움
+         position:static 에서는 사용불가 -->
+    <!-- z-index가 명시되지 않으면, 문서상 나중에 작성된 것이 z-index가 더 높다 -->
+    <div class="wrapper position-relative">
+        <div class="box box1 position-absolute">테스트1</div>
+        <div class="box box2 position-absolute">테스트2</div>
+        <div class="box box3 position-absolute">테스트3</div>
+    </div>
+    <style>
+        .box {
+            width: 150px;
+            height: 100px;
+            border: 1px solid #000;
+        }
+
+        .box1 {
+            background-color: skyblue;
+            z-index: 10;
+        }
+        .box2 {
+            background-color: blue;
+            top: 20px;
+            left: 20px;
+            z-index: 5;
+        }
+        .box3 {
+            background-color: yellowgreen;
+            top: 40px;
+            left: 40px;
+        }
+    </style>
+<br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>

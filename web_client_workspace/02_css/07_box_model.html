@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - box model</title>
+</head>
+<body>
+    <h1>Box Model</h1>
+    <!-- Box Model : Ctrl+Shift+C - Styles - 해당 선택자에 대한 도면
+         모든 요소가 시각화되는 데에는 이 box model에 근거하여 페이지에 그려짐 -->
+    <!-- 구성요소
+        content : 시작태그와 종료태그 사이 작성한 내용
+                  width속성값 = content의 너비, height속성값 - content의 높이
+        padding : content와 border 사이의 여백 
+        border  : content를 감싸는 경계선. 너비를 가진다
+                  테두리의 종류, 색상 지정 가능
+        margin  : border와 다른 요소 사이의 여백 
+                  좌우정렬을 auto로 지정 - 가운데 정렬
+        cf. padding, border, margin은 top - right - bottom - left 값으로 각각 제어 가능
+        방법1. 나눠서 따로따로 쓰기
+        (ex. padding-top: 5px;
+        padding-right: 10px;
+        padding-bottom: 15px;
+        padding-left: 20px;)
+        방법2. 한번에 몰아서 쓰기 (ex. padding : 5px 10px 15px 20px )
+        방법3. 일부 생략 : 반대편의 값을 가져와서 대칭적용
+        방법4. 값 하나만 : 모든 방향 5px로 지정
+    -->
+    <!-- 총 사이즈 : ClientWidth (width + padding + border) (margin 제외)
+                     ClientHeight (height + padding + border) (margin 제외) -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="test">컨텐츠컨텐츠컨텐츠</div>
+    <div class="test" id="m-collapse">컨텐츠컨텐츠컨텐츠</div>
+    <!-- Margin-Collpase : 마진 겹침현상
+        like 두사람이 마주보고 앞으로 나란히 했을 때, 둘 사이의 간격은 더 팔이 긴 사람이 결정
+         margin이 동일한 요소가 두개 있을때, margin은 두배가 되지 않고, 겹침
+         ex. margin이 둘다 100일 때  -> 실제margin : 100
+         margin이 한 쪽이 더 클경우, 실제 margin은 그 큰 쪽의 수치로 처리된다.
+         ex. margin1 : 100, margin2 : 150 -> 실제margin : 150
+        => 마주하는 요소간의 margin값은 큰값으로 처리된다   -->
+
+    <style>
+        .test {
+            background-color: violet;
+            width: 200px;
+            height: 200px;
+            border: 10px solid blue;
+            /* border-right: 10px solid tomato; */
+            margin: 100px auto;
+            /* 1. 나눠서 따로따로 쓰기 */
+            /* padding-top: 5px;
+            padding-right: 10px;
+            padding-bottom: 15px;
+            padding-left: 20px; */
+            /* 2. 한번에 몰아쓰기 */
+            /* padding : 5px 10px 15px 20px; */
+            /* 3. 생략 : 반대편의 값을 가져와서 대칭적용*/
+            /* padding : 5px 10px 15px; */
+            /* right의 값 10을 가져와서 left의 갑으로 적용 */
+            /* padding : 5px 10px; */
+            /* top의 값 5를 가져와서 bottom으로, right의 값 10을 가져와서 left에 적용 */
+            /* 4. 값 하나만 : 모든 방향 5px로 지정 */
+            padding : 5px;
+        }
+        /* 총사이즈 : 230*230 = width(200) + padding(5*2) + border(10*2) 
+                      * height(200) + padding(5*2) + border(10*2) */
+
+        #m-collapse {
+            margin-top: 150px;
+        }
+    </style>
+</body>
+</html>

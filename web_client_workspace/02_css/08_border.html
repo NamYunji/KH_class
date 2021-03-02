@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css - border</title>
+</head>
+<body>
+    <h1>Border</h1>
+    <!-- 방법1. 나눠서 따로따로 지정
+                border-width : 크기지정 ;
+                border-style : solid(실선) | dashed(긴점선) | dotted(등근점선) | double(이중선);
+                border-color : 색상지정 ; 
+                border-ladious : 수치지정 ; (모서리 둥글게) ;
+                                 단위 : ~px, ~%
+                                 방향 : top_left - top_right - bottom_right - bottom_left
+                                 1) 모서리마다 - 모서리마다 따로 적용
+                                 2) 생략 - 반대쪽 수치를 가져와서 대칭적용
+                                 1) 하나만 - 전체 모서리에 적용
+                cf. 원만들기 : border-ladious의 수치를 원이 될 때까지(50%) 늘림
+         방법2. 모아쓰기 
+                border : border-width  border-style  border-color ;  -->
+    <div class="test"></div>
+    <style>
+        .test{
+            width: 100px;
+            height: 100px;
+            background-color:lightblue;
+            /* 따로따로 설정 */
+            /* border-width: 1px;
+            border-style: solid;
+            border-color: black; */
+            /* 모아쓰기 */
+            border: 1px solid black;
+             /* 원만들기  */
+            border-radius: 50%;
+            /* 하나만 - 전체적용 */
+            border-radius: 10px;
+            /* 모서리마다 적용 */
+            border-radius: 50% 30% 20%  5px;
+            /* 생략 - 반대쪽 수치를 가져와서 대칭적용*/ 
+            border-radius : 50% 20%;
+        }
+    </style>
+
+
+    <h2>box-shadow</h2>
+    <!-- box shadow
+        box shadow : ~px(가로 offset) ~px(세로offset) ~px(번짐(spread)) ~px(그림자크기) 색상(color)
+               가로,세로offset : 해당 글자에서 얼마나 떨어져서 그림자를 만들지 (음수값으로 설정도 가능)
+               가로 offset : 줄일수록 왼쪽으로 가고, 늘릴수록 오른쪽으로 감
+               세로 offset : 줄일수록 위로 가고, 늘릴수록 아래로 감
+               spread : 줄일수록 또렷해지고, 늘릴수록 흐려짐
+               그림자크기 : 그림자 크기
+               색상 : 그림자 색상
+        -->
+
+    <div class="box"></div>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: lightseagreen;
+            border: 5px solid black;
+            border-radius: 10px;
+            margin: 10px auto;
+            /* 기본적 상태일 때 그림자 값 주기 */
+            /* box-shadow: 5px 5px 15px 10px gray; */
+        }
+        /* hover했을 때 그림자 나타나도록 */
+        .box:hover {
+            box-shadow: 5px 5px 15px 10px gray;
+        }
+    </style>
+    
+</body>
+</html>

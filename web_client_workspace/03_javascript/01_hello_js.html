@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hello - js</title>
+    <script>
+        // 한줄 주석
+        /* 그룹 주석 */
+        // script 작성 best position 1
+        alert('나를 실행하고 지나가라~');
+    </script>
+    <script src="js/sample.js"></script>
+    <!-- <script src="스크립트의 위치"></script> 
+        이 스크립트는 여기에 있습니다! 하고 알려주는 것-->
+  </head>
+  <body>
+    <h1>Hello JavaScript</h1>
+    <h2>JavaScript를 사용하는 3가지 방법</h2>
+    <!-- 방법1 : 태그의 inline 이벤트 속성 작성
+                 이벤트속성 = "자바스크립트 영역" -->
+    <!-- cf. alert - 팝업창
+             console.log - 개발도구 - console에 출력됨 -->
+    <input
+      type="button"
+      value="실행1"
+      onclick="alert('안녕~ 나 자스야!'); console.log('안녕~ 여기도 쟈스야!');"
+    />
+
+    <!-- 방법2 : 문서내 내부 script태그를 작성 -->
+    <input type="button" value="실행2" onclick="foo();">
+    <!-- script best position1 : head 태그 내 (ref. 8줄 ~ 13줄) -->
+    <!-- 브라우저가 html문서를 만나면 위에서부터 아래로 실행
+        -> head태그 내의 script태그를 만남 -> 그 즉시 실행 -> body실행 -->
+
+    <!-- script best position2 : body 태그 내 -->
+    <script>
+        alert('html태그를 모두 해석하고, 그 다음에 나를 실행한다');
+    </script>
+    <!-- html을 모두 처리한 후, 그 후 script가 처리됨 -->
+
+    <!-- 내부스크립트에 작성하되, 함수를 이용하는 방식 -->
+    <script>
+        // 함수 선언
+        function foo() {
+            alert('foo를 호출!!!');
+        }
+        // 함수 호출 : 함수 선언만 해서는 실행되지 않는다.
+        foo();
+    </script>
+    <!-- + html태그의 event로 처리할 수도 있다 (ref. 30줄) -->
+
+    <!-- 방법3 : 외부 스크립트에 작성 
+          ref. js폴더 - sample.js 1줄
+          -> head태그 - script 태그
+             ref. 14줄 ~ 16줄 ->
+    <input type="button" value="실행3">
+   
+  </body>
+</html>

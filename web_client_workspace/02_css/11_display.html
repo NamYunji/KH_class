@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>css - display</title>
+  </head>
+  <body>
+    <h1>display</h1>
+    <!-- display속성값에 따라 inline/block요소가 나뉜다 -->
+
+    <h2>inline요소</h2>
+    <!-- 요소검사
+         div의 기본 속성 - div { display: block; } -->
+    <!-- block요소를 inline으로 바꾸기 - element.style { display: inline; } -->
+    <div class="box box1 inline inline-block">테스트1</div>
+    <div class="box box2 inline inline-block">테스트2</div>
+    <div class="box box3 inline inline-block">테스트3</div>
+    <div class="box box4 inline inline-block">테스트4</div>
+    <div class="box box5 inline inline-block">테스트5</div>
+
+    <h2>block요소</h2>
+    <span class="box box1 block" >span1</span>
+    <span class="box box2 block" >span2</span>
+    <span class="box box3 block" >span3</span>
+    <span class="box box4 block" >span4</span>
+    <span class="box box5 block" >span5</span>
+
+    <style>
+      .box {
+        width: 150px;
+        height: 150px;
+        border: 1px solid #000;
+        color: #fff;
+      }
+      .box1 {
+        background-color: lightseagreen;
+      }
+      .box2 {
+        background-color: lightskyblue;
+      }
+      .box3 {
+        background-color: lightslategray;
+      }
+      .box4 {
+        background-color: lightblue;
+      }
+      .box5 {
+        background-color: lightcyan;
+      }
+      /* display : inline ; {block요소를 inline요소로 만드는 속성값}
+         -> 결과 : 너비, 높이를 무시하고 content영역으로만 크기가 잡힘 */
+      div.inline {
+          display : inline;
+      }
+      /* display : inline-block {inline처럼 한 행으로 배치 - block처럼 width/height 적용} */
+      div.inline-block {
+          display: inline-block;
+      }
+      /* display : inline ; {inline요소를 block요소로 만드는 속성}
+       -> 결과 : span이 마치 block요소인 것처럼 작동 */
+      span.block {
+          display : block ;
+      }
+    </style>
+
+    <hr>
+    <h2>숨김처리</h2>
+    <div class="box box1"></div>
+    <hr>
+    <div class="box box2"></div>
+    <hr>
+    <div class="box box3"></div>
+    <hr>
+
+    <style>
+    /* display : none ; 
+        -> 결과 : 아예 없어짐*/
+    .display-none {
+        display : none;
+    }
+    /* visibility : hidden ; 
+        cf. 기본값 : visible
+        -> 결과 : 눈에는 안보이지만, 공간은 그대로 비워둠 */
+    .visibility-hidden {
+        visibility: hidden;
+    }
+    /* opacity : 0 ; {투명도} (0완전 투명 ~ 1 완전 불투명)
+        cf. 기본값 : 1
+        -> 결과 : 눈에는 안보이지만, 공간은 그대로 비워둠  */
+    .opacity-0 {
+        opacity: 0;
+    }
+    </style>
+    <!-- 개발도구의 Filter 옆 .cls - Add new class로 추가할 수도 있음 -->
+
+
+  </body>
+  <br><br>
+</html>
