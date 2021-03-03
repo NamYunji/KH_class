@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>getElement</title>
+    <title>js - Element</title>
 </head>
 <body>
     <h1>Get Element</h1>
+    <!-- Element = 태그 -->
+    <!-- Scripting Language = 다른 언어를 제어하기 위함
+         -> JS의 목적 : HTML, CSS를 제어
+         -> HTML요소에 접근, CSS요소에 접근(by HTML요소에 접근하여 간접적으로) -->
     <ul>
         <li id="myli1" class="group">요소1</li>
         <li id="myli2">요소2</li>
@@ -16,14 +20,261 @@
         <li id="myli5" class="group">요소5</li>
     </ul>
 
+    <!-- onclick = "함수();" - 클릭했을 때의 이벤트 -->
     <input type="button" value="id" onclick="test1();">
     <input type="button" value="tag name" onclick="test2();">
+    <!-- class name으로 제어 -->
     <input type="button" value="class name" onclick="test3();">
+
     <script>
     function test1() {
-        var li = document.getElementById("myli1")
+        // getElementById("아이디값") - 단수형 (id - 고유함 -> 하나 또는 0개 리턴)
+        // - id값을 문자열로 감싸서 전달 -> 아이디로 요소를 가져옴
+        var li = document.getElementById("myli"); // li = 태그객체
+        console.log(li);
+        // <li id="myli1" class="group">요소1</li>
+        // li = 태그객체 (브라우저는 해석할 때 객체로 변환해서 가지고 있음)
+        //  dir(변수명) - 객체 구조로 열람하는 명령어
+        console.dir(li);
+        // 속성 : 속성값  형태의 li 객체들이 무수히 많이 출력됨
+        // accessKey : ""
+        // ariaAtomic : null
+        // ariaAutoComplete : null ...
+        // -> 브라우저가 html문서를 해석하면서 자바스크립트 객체로 변환해둠
+        //    javascript object = document = DOM(Document Object Model)
+        // -> document 객체 안에 html구조를 가지고 있는 js object로 만들어줌
+        //    (ex. document --- html > (head > meta) + body > h1)
+        //    요소 하나하나가 모두 js 객체고, 그 최상에서 document 객체가 js 객체들을 변환하여 보관하고 있음
+        // -> 그러다 getElementById()(~값을 가진 객체가 있니?) 라고 물어보면 찾아서 리턴해줌
+        /* 정리
+        document 객체 : 작성한 html5의 태그를 parsing해서
+                        변환된 js object를 가지고 있는 객체
+        -> 브라우저는 html문서를 document객체로 변환해준다
+        */
+
+        // 태그객체.객체.속성 = '값';
+        // 태그 객체에 접근해서 style속성을 변경 -> html객체에 접근해서 CSS속성을 제어함
+        // li태그 밑에 style이라는 객체이자 속성이 있고, 그 밑에 또 color속성이 있음, 그 color속성의 값을 red로 바꿔준 것
+        // 자바에서 객체.메소드로 호출한 것 처럼 객체이기 때문에 .으로 접근해서 속성호출하는 것!
+        li.style.color = 'red';
+        li.style.backgroundColor = 'green';
+        // 주의 : CSS의 속성은 hypoon을 이용 (background-color)
+        //        JS의 속성은 camel-casing을 이용 (backgroundColor)
+
+
+        // 만약 없는 존재하지 않는 아이디를 찾는다면?
+        var li = document.getElementById("myli11111"); 
+        // Uncaught TypeError: Cannot read property 'style' of null (null에 style속성이 없음)
+        // 콘솔출력 - null = 존재하지 않는 객체
+        // null의 자료형 = object  
     }
     </script>
-    
+
+    <script>
+        // getElementsByTagName은 복수개의 요소를 가진 배열객체(유사배열)를 리턴한다.
+        function test2() {
+            // getElementsByTagName("태그명") - 복수형 (태그 - 여러개 존재 가능 -> 복수개 리턴)
+            var liArr = document.getElementsByTagName("li");
+            console.log(liArr);
+            // 0: li#myli1.group
+            // 1: li#myli2
+            // 2... 3...
+            // 4: li#myli5.group
+            // length: 5 - 길이도 가지고 있음
+            // 0부터 시작, index로 접근 가능 (like 자바의 배열)
+            console.log(liArr[0]);
+            // <li id="myli1" class="group">요소1</li>
+            console.log(liArr[1]);
+            // <li id="myli3" class="group">요소3</li>
+            console.log(liArr[2]);
+            // <li id="myli4">요소4</li>
+            console.log(liArr[3]);
+            // <li id="myli5" class="group">요소5</li>
+            console.log(liArr[4]);
+            // <li id="myli2">요소2</li>
+
+            var b = 50;
+
+            //for 반복문
+            for(var i = 0; i <liArr.length; i++) {
+                console.log(liArr[i]);
+                // 속성값을 동적으로 바꿔줌
+                liArr[i].style.color = "rgb(130, 220," + b + ")";
+                b += 50;
+            }
+
+        }
+    </script>
+
+    <script>
+
+    // document.getElementsByClassName("클래스명")
+    function test3() {
+        var groups = document.getElementsByClassName("group");
+        console.log(groups);
+
+        for(var i = 0; i < groups.length; i++) {
+            var li = groups[i];
+            li.style.color = "springgreen";
+        }
+    }
+    </script>
+    <fieldset>
+        <legend>취미</legend>
+        <input type="checkbox" name="hobby" id="hobby1" value="음악감상">
+        <label for="hobby1">음악감상</label>
+        <input type="checkbox" name="hobby" id="hobby2" value="영화시청">
+        <label for="hobby2">영화시청</label>
+        <input type="checkbox" name="hobby" id="hobby3" value="게임">
+        <label for="hobby3">영화시청</label>
+        <br>
+        <input type="button" value="name" onclick="test4();">
+    </fieldset>
+
+    <script>
+        function test4() {
+            var hobbies = document.getElementsByName("hobby");
+            console.log(hobbies);
+
+            for(var i = 0; i <hobbies.length; i++) {
+                var hobby= hobbies[i];
+                // 체크 여부
+                if(hobby.checked) {
+                    console.log(hobby.value); //input태그의 value속성값 가져옴
+                }
+                // 체크되어 있으면, 콘솔에 hobby의 value값을 출력해라
+            }
+        }
+    </script>
+
+    <fieldset>
+        <legend>이메일 입력</legend>
+        <input type="email" name="userEmail" id="userEmail" placeholder="이메일을 입력하세요.">
+        <input type="button" value="확인" onclick="test5();">
+    </fieldset>
+    <script>
+        // #userEmail을 입력하고, 확인을 눌렀을 때 사용자 입력값을 경고창에 출력하세요.
+        /* - 아이디로 접근
+           - 태그명으로 접근
+           - name값으로 접근
+           cf. 요소를 하나만 리턴하는지, 여러개를 리턴하는지 생각해보기
+        */
+        function test5() {
+            // var userEmail = document.getElementById("userEmail");
+            // alert(userEmail.value);
+
+            // var inputs = document.getElementsByTagName("input");
+            // console.log(inputs);
+            // alert(inputs[7].value);
+
+            var userEmails = document.getElementsByName("userEmail");
+            console.log(userEmails);
+            alert(userEmails[0].value); //getter
+
+            //속성은 getter/setter처리 가능
+            userEmails[0].value = 'ㅋㅋㅋ'; //setter
+            userEmails[0].value = ''; //초기화 setter
+        }
+    </script>
+    <br>
+
+    <fieldset>
+        <legend>수량</legend>
+        <input type="range" name="amount" id="amount" min="1" max="100"
+                oninput="test6()"/>
+        <span id="result"></span>
+    </fieldset>
+    <script>
+        function test6() {
+             var amount = document.getElementById("amount");
+             var result = document.getElementById("result");
+
+            //  id속성은 변수 선언없이 태그객체에 접근 가능 (비표준)
+            // 시작태그/종료태그사이 내용으로 추가
+            result.innerHTML = amount.value;
+            console.log(amount.value);
+        }
+    </script>
+
+    <table>
+        <tr>
+        <th colspan="3">수강신청</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" id="checkAll">
+                <label for="checkAll">모두 선택/해제</label>
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                <!-- (this용법1) 태그  -->
+                <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> 
+                <label for="subject0">국어</label>
+            </td>
+            <td>
+                <input type="checkbox" name="subject" id="subject1" onclick="test8(this)">
+                <label for="subject1">영어</label>
+            </td>
+            <td>
+                <input type="checkbox" name="subject" id="subject2" onclick="test8(this)">
+                <label for="subject2">수학</label>
+            </td>
+        </tr>
+        <style>
+            table {
+                border: 1px solid #000;
+                border-collapse: collapse;
+                margin: 30px 0;
+            }
+            th, td {
+                border: 1px solid #000;
+                padding: 10px;
+                text-align: center;
+            }
+        </style>
+    </table>
+    <script>
+        // name=subject를 전체선택/해제
+        // css선택자로 요소접근하기
+        // - document.querySelector(선택자) : 선택자와 일치하는 하나의 요소 리턴 
+        // - document.querySelectorAll(선택자) : 선택자와 일치하는 모든 요소를 유사배열로 리턴
+        // 주의사항
+        function test7() {
+            // var subjects = document.getElementsByName("subject");
+            var subjects = document.querySelectorAll("[name=subject]");
+            console.log(subjects);
+            var checkAll = document.querySelector("#checkAll");
+            console.log(checkAll);
+            for(var i = 0; i < subjects.length; i++) {
+                //setter로써 checked
+                subjects[i].checked = checkAll.checked;
+            }
+        }
+    </script>
+
+    <!-- 개별체크박스를 통해 전체 선택 체크박스 제어하기 -->
+    <script>
+        function test8() {
+            var subjects = document.querySelectorAll("[name=subject]");
+            var checkedSubjects = document.querySelectorAll("[name=subject]:checked");
+            checkAll.checked = (subjects.length == checkedSubjects.length);
+        }
+    </script>
+
+    <!-- 체크한 것에 색상 변경 -->
+    <style>
+        /* 체크한 것에 on클래스 값 적용되도록 */
+        td.on {
+            background-color: royalblue;
+            color: #fff;
+        }
+    </style>
+    <script>
+        function test8(chk) {
+            // 부모 td태그의 class값 제어
+            console.log(chk);
+        }
+    </script>
 </body>
 </html>

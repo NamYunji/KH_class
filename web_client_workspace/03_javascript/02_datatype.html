@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - datatype</title>
+</head>
+<body>
+    <h1>Data Type</h1>
+    <input type="button" value="실행1" onclick="test1();">
+    <!-- function ⊃ method
+         함수 - 일련의 절차를 모아둔 묶음
+         function 중 객체 소속의 함수를 method라고 부름
+         독립적으로 존재하면 함수라고 부름 -->
+    <script>
+        function test1() {
+
+            // [변수 선언]
+            // 변수선언시 var 키워드 사용 (자료형을 구분치 않음)
+            // var 변수명 ;
+            // 1. undefined형 (undefined) - 값대입이 안된 상태의 자료형
+            var i;
+            console.log(i, typeof(i));
+            // 요소검사 - Console창 내역 확인 - 값 "자료형"
+            // 값대입을 하지 않는다면, 값도 undefined, 자료형도 undefined됨
+            // undefined "undefined"
+            
+
+            // [값 대입]
+            // 변수명 = 값 ;
+            // 값대입이 일어날 때 변수에 담긴 값(literal)에 따라 변수의 자료형이 결정됨
+
+            // 2. 숫자형 (number)
+            // cf. 정수와 실수를 구분치 않음
+            i = 100; 
+            i = 3.57;
+            // cf. console.log(내용);
+                    //(콤마)를 통해 여러개 처리 가능
+                    // 변수명 : 변수명 자체를 출력
+                    // typeof(변수명) : 값의 자료형을 확인하는 연산자
+            console.log(i, typeof(i));
+            // 100 "number"
+            // 3.57 "number"
+
+
+            // 3. 문자형 (string)
+            // ""(쌍따음표) 또는 ''(홑따음표)로 감쌈
+            // cf. String과 char를 구분치 않음
+            i = "ㅋㅋㅋ";
+            console.log(i, typeof(i));
+            // ㅋㅋㅋ string
+
+
+            // 4. 논리형 (boolean)
+            i = true;
+            console.log(i, typeof(i));
+            // true "boolean"
+            // 따음표로 감싸면 string취급되므로, 따음표 없이 true/false만 쓴다
+
+
+            // 5. 객체형 (object)
+            // 1) [배열] 
+            // var 변수명 = [값1, 값2, 값3 ...]; -> 생성과 초기화를 동시에
+            i = [1, 2, 3];
+            console.log(i, typeof(i));
+            // (3) [1, 2, 3] "object"
+            // 자바의 List<Object>와 비슷함
+            // 타입 제한 X (모든 자료형을 한 배열안에 섞어 쓸 수 있음)
+            // 크기 제한 X
+            i = [1, 2, 3, '안녕'];
+            console.log(i, typeof(i));
+            // (4) [1, 2, 3, "안녕"] "object"
+            
+            // 2) {속성명 : 속성값}
+            // {}(중괄호) 안에 '속성명:속성값'형식으로 작성
+            // 속성값으로 어떤 것이든 쓸 수 있음 
+            // 콤마로 속성 연결
+            i = {
+                name : '홍길동',
+                age : 30,
+                hobby : ['축구', '농구', '야구']
+            }
+            console.log(i, typeof(i));
+            // {name: "홍길동", age: 30, hobby: Array(3)} "object"
+
+            // JS는 REPL기능을 제공한다 - Console창
+            //  -> 결과 출력 + Console창 내에서 스크립트 실행 (입력하면 결과를 돌려줌)
+            // 연산처리도 가능
+            // a = 10   b = 3;   a/b -> 3.3333335 -> 정수 실수 연산을 구분하지 않고 소수점까지 보여줌
+            // 페이지 내 요소에 접근할 수도 있음
+            
+            // cf. new연산자를 통한 객체 만들기
+            // 날짜 : date타입이 아닌 object타입이 됨
+            console.log(i, typeof(i));
+            i = new Date();
+            // Wed Mar 03 2021 17:30:33 GMT+0900 (대한민국 표준시) "object"
+
+
+            // 6. 함수형 (function)
+            // 변수에 함수 담기
+            //var 변수명 = function([매개변수]){ 처리로직 [return 되돌려줄값;] }
+                // 매개변수
+                // - 자바스크립트 함수 매개변수 선언부 역시 자료형을 선언하지 않는다.
+                // - 호출할 때 넘겨 들어온 값에 따라 자료형이 결정됨
+                // 리턴
+                // - 리턴타입을 정하지 않아도 리턴할 수 있음
+                // - return값을 지정하지 않으면 undefined자료형으로 반환됨
+                // 자바스크립트에서는 함수를 값(리터럴)으로 취급한다.
+            i = function(x, y) {
+                return x + y;
+            }
+            //자바에서는 메소드를 함수에 담을 수 없었으나,
+            //자바스크립트에서는 함수를 변수에 담을 수 있다!
+            console.log(i, typeof(i));
+            //ƒ (x, y) { return x + y; } "function"
+            console.log( i(3,7) );
+            // x에 3을, y에 7을 넣음 -> 10이 리턴됨
+        }
+    </script>
+    
+</body>
+</html>
