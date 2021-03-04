@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - casting</title>
+</head>
+<body>
+    <h1>Casting</h1>
+    <input type="button" value="실행" onclick="test1();">
+    <script>
+        function test1(){
+            console.log(7 + "7");
+            // 77
+            console.log(typeof(7 + "7"));
+            // string
+
+            console.log(3 + 7 + "7");
+            // 107
+            //왼쪽부터 차례대로 연산
+            console.log(typeof(3 + 7 + "7"));
+            // string
+
+            //더하기연산을 제외하고는
+            //나머지 연산자는 모두 숫자가 오길 기대하고 산술연산이 진행됨
+            //문자열로 싸여있어도 알아서 숫자로 형변환
+
+            // 자동형변환
+            console.log(7 - "7");
+            //0
+            console.log(7 * "7");
+            //49
+            console.log(7 / "7");
+            //1            
+            console.log(7 % "4");
+            // 3            
+
+            // 숫자가 아닌 문자가 온다면?
+            console.log(7 % "a");
+            // NaN (Not a Number)
+            // 숫자로 자동형변환이 불가한 우항 때문에 생긴 일
+            console.log(typeof(NaN));
+            // Nan keyword - number type
+            // null keyword - object type
+        }
+    </script>    
+
+    <h2>Number | parseInt | parseDouble </h2>
+    <input type="button" value="실행" onclick="test2()">
+    <script>
+        var test2 = function() {
+            var num = "1234.567";
+            console.log(Number(num)); //1234.567 정수/실수로 변환
+            console.log(parseInt(num)); //1234 정수변환
+            console.log(parseFloat(num)); //1234.567 실수로 변환
+
+            //변환할 수 없는 문자가 껴있을때
+            var num = "1234.567원";
+            console.log(Number(num)); //NaN
+            // 변환불가한 문자가 있으면 NaN 리턴
+            console.log(parseInt(num)); //1234
+            //문자가 있어도 좌측부터 최대한 변환 (숫자 아닌 문자가 나올때까지는 다 변환해줌)
+            console.log(parseFloat(num)); //1234.567
+            //문자가 있어도 좌측부터 최대한 변환(숫자 아닌 문자가 나올때까지는 다 변환해줌)
+        };
+    </script>
+    <br>
+    <input type="number" id="num1" placeholder="숫자1">
+    <input type="number" id="num2" placeholder="숫자2">
+    <input type="button" value="합 계산" onclick="test3();">
+    <script>
+        //input태그의 value는 type속성과 관계없이 모두 string이다
+        // 사용자가 입력한 #num1, #num2를 더해서 출력
+        var test3 = function() {
+            var sum = Number(num1.value) + Number(num2.value);
+            console.log(sum);
+        };
+    </script>
+</body>
+</html>

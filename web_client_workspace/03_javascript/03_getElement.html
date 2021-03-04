@@ -26,11 +26,12 @@
     <!-- class name으로 제어 -->
     <input type="button" value="class name" onclick="test3();">
 
+    <!-- {getElementById} -->
     <script>
     function test1() {
         // getElementById("아이디값") - 단수형 (id - 고유함 -> 하나 또는 0개 리턴)
         // - id값을 문자열로 감싸서 전달 -> 아이디로 요소를 가져옴
-        var li = document.getElementById("myli"); // li = 태그객체
+        var li = document.getElementById("myli1"); // li = 태그객체
         console.log(li);
         // <li id="myli1" class="group">요소1</li>
         // li = 태그객체 (브라우저는 해석할 때 객체로 변환해서 가지고 있음)
@@ -40,16 +41,21 @@
         // accessKey : ""
         // ariaAtomic : null
         // ariaAutoComplete : null ...
+
         // -> 브라우저가 html문서를 해석하면서 자바스크립트 객체로 변환해둠
         //    javascript object = document = DOM(Document Object Model)
         // -> document 객체 안에 html구조를 가지고 있는 js object로 만들어줌
         //    (ex. document --- html > (head > meta) + body > h1)
         //    요소 하나하나가 모두 js 객체고, 그 최상에서 document 객체가 js 객체들을 변환하여 보관하고 있음
         // -> 그러다 getElementById()(~값을 가진 객체가 있니?) 라고 물어보면 찾아서 리턴해줌
-        /* 정리
-        document 객체 : 작성한 html5의 태그를 parsing해서
-                        변환된 js object를 가지고 있는 객체
-        -> 브라우저는 html문서를 document객체로 변환해준다
+
+        /*정리
+        브라우저는 작성한 html5의 태그를 읽어옴
+        → parsing(분해)해서 아주많은 속성을 가진 각각의 js객체들로 변환해둠
+        → 최종적으로 js객체들로 구성된 document객체로 만들어둠
+        ( document 객체 = 변환된 js객체를 가지고 있는 최상위 객체 )
+        -> document.getElementById("myli") - document야, myli라는 id가 있니? 있으면 그 id의 요소를 줘봐!
+        + 단순 태그 변환 뿐 아니라 계층 구조를 그대로 유지해줌 (부모 > 자식 > 후손...)
         */
 
         // 태그객체.객체.속성 = '값';
@@ -63,13 +69,14 @@
 
 
         // 만약 없는 존재하지 않는 아이디를 찾는다면?
-        var li = document.getElementById("myli11111"); 
+        // var li = document.getElementById("myli11111"); 
         // Uncaught TypeError: Cannot read property 'style' of null (null에 style속성이 없음)
         // 콘솔출력 - null = 존재하지 않는 객체
         // null의 자료형 = object  
     }
     </script>
 
+    <!-- {getElementsByTagName} -->
     <script>
         // getElementsByTagName은 복수개의 요소를 가진 배열객체(유사배열)를 리턴한다.
         function test2() {
@@ -106,8 +113,8 @@
         }
     </script>
 
+    <!-- getElementByClassName -->
     <script>
-
     // document.getElementsByClassName("클래스명")
     function test3() {
         var groups = document.getElementsByClassName("group");
@@ -119,26 +126,29 @@
         }
     }
     </script>
-    <fieldset>
+    <fieldset style="margin-top: 30px;">
         <legend>취미</legend>
         <input type="checkbox" name="hobby" id="hobby1" value="음악감상">
         <label for="hobby1">음악감상</label>
         <input type="checkbox" name="hobby" id="hobby2" value="영화시청">
         <label for="hobby2">영화시청</label>
         <input type="checkbox" name="hobby" id="hobby3" value="게임">
-        <label for="hobby3">영화시청</label>
+        <label for="hobby3">게임</label>
         <br>
         <input type="button" value="name" onclick="test4();">
     </fieldset>
 
+    <!-- getElementsByName -->
     <script>
         function test4() {
+            // name속성으로 요소에 접근함
             var hobbies = document.getElementsByName("hobby");
             console.log(hobbies);
 
             for(var i = 0; i <hobbies.length; i++) {
                 var hobby= hobbies[i];
-                // 체크 여부
+                // checked 속성 : 체크 여부
+                // checked : true / false -> boolean형으로 리턴 
                 if(hobby.checked) {
                     console.log(hobby.value); //input태그의 value속성값 가져옴
                 }
@@ -160,20 +170,24 @@
            cf. 요소를 하나만 리턴하는지, 여러개를 리턴하는지 생각해보기
         */
         function test5() {
+            // 태그명으로 접근
+            // var inputs = document.getElementsByTagName("input");
+            // console.log(inputs);
+            // var userEmail = inputs[7];
+            // alert(userEmail.value);
+
+            //아이디로 접근
             // var userEmail = document.getElementById("userEmail");
             // alert(userEmail.value);
 
-            // var inputs = document.getElementsByTagName("input");
-            // console.log(inputs);
-            // alert(inputs[7].value);
+            //name값으로 접근
+            var userEmail = document.getElementsByName("userEmail");
+            console.log(userEmail);
+            alert(userEmail[0].value);
 
-            var userEmails = document.getElementsByName("userEmail");
-            console.log(userEmails);
-            alert(userEmails[0].value); //getter
-
-            //속성은 getter/setter처리 가능
-            userEmails[0].value = 'ㅋㅋㅋ'; //setter
-            userEmails[0].value = ''; //초기화 setter
+            // //속성은 getter/setter처리 가능
+            // userEmails[0].value = 'ㅋㅋㅋ'; //setter
+            // userEmails[0].value = ''; //초기화 setter
         }
     </script>
     <br>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - String | Math | Date</title>
+</head>
+<body>
+    <h1>String</h1>
+    <input type="button" value="실행" onclick="test1()">
+    <input type="button" value="@실습문제" onclick="test2()">
+
+
+    <script>
+        // String 내장객체
+        // : 문자열 관련 메소드를 제공
+        var test1 = function() {
+            var str = "Samsung Apple Xiaomi";
+            // 문자열이기 때문에 스트링 내장객체가 제공하는 여러 내장객체를 사용 가능
+            console.log(str.length);
+            // 20
+            // length 속성 - 자바에서는 length가 메소드이지만, 여기서는 속성임!
+            console.log(str.toUpperCase());
+            // SAMSUNG APPLE XIAOMI
+            console.log(str.toLowerCase());
+            // samsung apple xiaomi
+            console.log(str.indexOf('ms'));
+            // 이 문자열에서 ms의 index
+            // 2 (0 1 2)
+            console.log(str.lastIndexOf('i'));
+            // 19
+            // 뒤에서 부터 i의 인덱스를 찾아줌
+            console.log(str.charAt(8));
+            // A
+            // 특정 인덱스의 문자 하나를 가져옴
+            console.log(str[8]);
+            // A
+            // 문자열을 문자배열 취급하여 사용
+            // 사실 원래 문자열은 내부적으로 문자배열임
+
+            // 문자열 일부를 리턴
+            // 3번지의 ms를 잘라오기
+            //1. substr(start [, end+1]) 
+            // start 인덱스는 포함, end인덱스는 포함x
+            // 2번지에서 4번지 전까지만
+            console.log(str.substring(2, 4));
+            // ms
+            // 두번째 인덱스 생략시 끝까지 가져옴
+            console.log(str.substring(2));
+            // msung Apple Xiaomi
+            //2. substr(start [, length]) //두번째 인자 - 잘라올 길이
+            // 몇번지 부터 몇개
+            console.log(str.substr(2, 2));
+            // ms
+            // 두번째 인덱스 생략시 끝까지 가져옴
+            console.log(str.substr(2));
+            // msung Apple Xiaomi
+
+            // 공백 기준으로 자르기
+            // " " 안에 있는 것을 기준으로 자른다
+            var arr = str.split(" ");
+            console.log(arr);
+            //(3) ["Samsung", "Apple", "Xiaomi"]
+            
+        }; 
+        // 맨 끝에 ; 세미콜론 찍어줘야함 - 값처럼 취급하기 때문에 종료를 명시하는 것!
+        // 선언식의 경우에는 이미 끝으로 명시가 되어있기 때문에 필요없음
+
+        // @실습문제
+        // countChar("hahaha", "a") -> 3 리턴
+        // countChar("abccba", "c") -> 2 리턴
+        // countChar("abcde", "x") -> 0 리턴
+        // 두 개의 인자 문자열과 문자를 입력받고, 문자열에서 문자가 몇번 출현하는지 리턴하는 함수 생성
+        var test2 = function() {
+            console.log(countChar("hahaha", "a"));
+            console.log(countChar("abccba", "c"));
+            console.log(countChar("abcde", "x"));
+        };
+        
+        var countChar = function(str, ch) {
+            var count = 0;
+            for(var i = 0; i < str.length; i++) {
+                if(str[i] == ch)
+                count++;
+            }
+            return count;
+        };
+        // cf. 아무것도 리턴하지 않으면 undefined type,
+        // 리턴값이 있으면 리턴값의 type에 따라 type결정
+
+
+    </script>
+    <h1>Math</h1>
+    <input type="button" value="실행" onclick="test3()">
+    <script>
+        // 올림, 반올림, 버림, 난수
+        // 숫자형은 정수, 실수 구분치 않고 number타입 
+        var test3 = function(){
+            var num = 123.456;
+            // 반올림
+            console.log(Math.round(num));
+            // 123
+            console.log(Math.round(num * 100) / 100);
+            // 123.46
+            // 올림
+            console.log(Math.ceil(num));
+            // 124
+            console.log(Math.ceil(num * 10) / 10);
+            //123.5
+            //내림
+            console.log(Math.floor(num));
+            // 123
+            console.log(Math.floor(num * 10) / 10);
+            //123.4
+            console.log(Math.random()*10 + 1); 
+            // 1.0 ~ 10.99999 (11미포함)
+            console.log(Math.floor(Math.random()*10 + 1)); 
+            console.log(Math.trunc(Math.random()*10 + 1)); 
+            // -> 소수점 이하를 잘라줘야 함
+            // 0.0포함 ~ 1.0(미포함) 사이의 실수
+            // 1과 10 사이의 난수 - < 난수 * 경우의 수 + 최소값>
+        }
+    </script>
+    <input type="button" value="@실습문제" onclick="test4();">
+    <ul id="test-rnd">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>
+        // #test-rnd하위의 li태그에 1~100사이의 난수를 대입하세요
+        // 단, 난수가 짝수라면 글자색을 예쁘게 할것
+        var test4 = function() {
+
+            var liArr = document.querySelectorAll("#test-rnd > li");
+            
+            for(var i = 0; i < liArr.length; i++) {
+                var rnd = Math.trunc(Math.random()*100) + 1;
+                liArr[i].innerHTML= rnd;
+
+                // 컬러초기화
+                liArr[i].style.color = "#000";
+
+                if(rnd%2 == 0) {
+                    liArr[i].style.color = "rgb(130, 220, 200)";
+                }
+            }
+        };
+    </script>
+    
+    <h1>Date</h1>
+    <input type="button" value="실행" onclick="test5();">
+    <!-- Date는 객체생성시점의 날짜/시각정보를 가진 객체 -->
+    <script>
+        var test5 = function() {
+            var now = new Date(); //new 연산자 사용가능
+            console.log(now);
+        }
+
+        var time1 = new Date(2000, 0, 1); //월은 0-based 인덱스
+        console.log(time1);
+        var time2 = new Date(2000, 0, 1, 15, 30, 50);
+        console.log(time2);
+        //시분초정보까지 세팅
+        var time3 = new Date("1999/03/01 15:34:20");
+        // 년월일시분초라고 파악이 되는 날짜형식의 문자열은 알아서 변환됨
+        console.log(time3);
+    </script>
+
+    <input type="button" value="실행" onclick="test6();">
+    <script>
+        function test6() {
+            var now = new Date();
+            displayDateTime(now);
+        }
+        //1999/03/01 15:34:20 형식으로 출력
+        var displayDateTime = function(datetime) {
+        var yy = datetime.getFullYear();
+        var mm = get2digit(1 + datetime.getMonth());
+        var wk = datetime.getDay();
+        var hh = get2digit(datetime.getHours());
+        var mi = get2digit(datetime.getMinutes());
+        var ss = get2digit(datetime.getSeconds());
+        var dd = get2digit(datetime.getDate());
+    
+        var dayArr = ['일', '월', '화', '수', '목', '금', '토'];
+        
+        alert(yy + "/"+ mm + "/" + dd + "(" + dayArr[wk] + ")" + hh + ":" + mi + ":" + ss);
+        };
+    
+        var get2digit = function(n) {
+        return n.toString().padStart(2, '0');
+        // return n < 10 ? '0' + n : n;
+        }
+    </script>
+
+</body>
+</html>
