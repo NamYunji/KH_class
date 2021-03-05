@@ -56,9 +56,13 @@
             console.log(parseFloat(num)); //1234.567 실수로 변환
 
             //변환할 수 없는 문자가 껴있을때
+            // 형변환을 시도했는데 문자가 껴있어서 형변환에 실패
+            // 10/Nan 으로 치환 -> 연산결과는 무조건 NaN
             var num = "1234.567원";
             console.log(Number(num)); //NaN
             // 변환불가한 문자가 있으면 NaN 리턴
+            console.log(typeof(10 / "a")); 
+            // NaN의 타입은 number
             console.log(parseInt(num)); //1234
             //문자가 있어도 좌측부터 최대한 변환 (숫자 아닌 문자가 나올때까지는 다 변환해줌)
             console.log(parseFloat(num)); //1234.567
@@ -77,5 +81,168 @@
             console.log(sum);
         };
     </script>
+
+    <h2>Nan | infinity </h2>
+    <input type="button" value="실행" onclick="test4();">
+    <script>
+        var test4 = function() {
+            console.log(10 / 0); 
+            // Infinity
+            // like 자바's Arithmetic Exception (Cannot divided by zero)
+            // 수를 0으로 나누는 것은 부정(不定)
+            console.log(typeof(10/0));
+            // number
+            // infinity의 type은 number - 하나의 키워드 정도로 이해하기
+
+            var num = prompt("숫자를 입력하세요");
+            // 숫자를 입력했는지 아닌지 체크할때 쓰는 함수
+
+            console.log(typeof(num));
+            // 1,2,3을 입력한다면? -> string why? 숫자를 써도 "123"
+
+            // 이 상태에서 변환을 해봄
+            if(isNaN(num))
+            alert("숫자가 아닙니다.");
+            // 이게 NaN이니? true - Not a Num
+            else
+            alert("숫자입니다."); 
+            // 변환이 잘되면 number 안되면 not a number가 됨
+        }
+    </script>
+
+<!-- 
+    <h2>논리형으로의 형변환</h2>
+    <input type="button" value="실행" onclick="test5();">
+    <script>
+        // js에는 자바에 없는 기능중에
+        // 변수, 값(literal)이든 간에 boolean형으로 형변환 可以 - 자동으로 형변환이 된다
+        // 자바에는 무조건 true, false로 처리될 수 있는 조건식 혹은 true/false를 써야했음
+        // but js에서는 123이라고 쓰면 true/false로 치환됨
+
+        // how?
+        // 값이 존재하는 것은 true로 치환
+        // ex. 123, 3.14, -100, "안녕", "ㅋㅋㅋ", new Date()
+        // 뭐든간에 값이 있으면 true로 치환
+        // 값이 존재하지 않는 것은 false로 치환
+        // ex. 0, 0.0 "", '', undefined, null, NaN
+        var test5 = function(){
+
+                // Boolean 함수
+                // 이 안에 인자로 전달한 것을 논리형으로 변환해줌
+
+                // true
+                console.log(Boolean(123));
+                console.log(Boolean(-100));
+                console.log(Boolean(3.14));
+                console.log(Boolean("abc"));
+                console.log(Boolean('ㅋㅋㅋ'));
+                console.log(Boolean(new Date()));
+
+                // false
+                console.log(Boolean(0));
+                console.log(Boolean(0.0));
+                console.log(Boolean(""));
+                console.log(Boolean(undefined));
+                console.log(Boolean(null));
+                console.log(Boolean(NaN));
+
+
+                // // 사용자에게 물어봄
+                // var name = propt("이름을 입력하세요");
+
+                // // 경우1. "홍길동" 입력하고 확인
+                // // name에 홍길동 담김
+                // // if조건절에 넣으면 true로 치환
+
+                // // 경우2. "" 아무것도 입력안하고 확인
+                // // name에 빈문자열 담김
+                // // if조건절에 넣으면 false로 치환
+
+                // // 경우3. 취소 누름
+                // // name에 null 담김
+                // // if조건절에 넣으면 false로 치환
+
+                // // 제대로 입력했으면 반갑습니다. 홍길동, 아니면 제대로 입력하세요
+                // if(name) {
+                //     alert("반갑습니다. " + name + "님~");
+                // }
+                // else {
+                //     alert("올바른 이름을 입력하시오.");
+                // }
+        };
+        </script>
+
+    <script>
+        var test5 = function(){
+        var name2 = propt("이름을 입력하세요");
+       if(name){
+            // alert("반갑습니다, [" + name + "]님~");
+
+            var result = document.querySelector("#result");
+            if(result){
+                console.log("#reult가 존재!");
+                result.innerHTML = "반갑습니다, [" + name + "]님~";
+            }
+            else{
+                console.log("#result가 존재하지 않음!");
+                document.querySelector("body").innerHTML
+                += "<h1>반갑습니다, [" + name + "]님~ </h1>";
+            }
+        }
+        else{
+            alert("올바른 이름을 입력하세요.");
+        }
+    };
+    </script>
+    
+    <h1 id = "result"></h1> -->
+    <h2>논리형으로의 형변환</h2>
+    <input type="button" value="실행" onclick="test5();">
+    <script>
+    /**
+     * 변수, 리터럴(값)이 boolean형으로 형변환 가능
+     * 
+     * 값이 존재하는 것은 true 치환 : 123, -100 , 3.14, "안녕", 'ㅋㅋㅋ', new Date()
+     * 값이 존재하지 않는 것은 false 치환 : 0, 0.0, "", '', undefined, null, NaN
+     */         
+    var test5 = function(){
+        //true
+        console.log(Boolean(123));
+        console.log(Boolean(-100));
+        console.log(Boolean(3.14));
+        console.log(Boolean("안녕"));
+        console.log(Boolean('ㅋㅋㅋ'));
+        console.log(Boolean(new Date()));
+        //false
+        console.log(Boolean(0));
+        console.log(Boolean(0.0));
+        console.log(Boolean(""));
+        console.log(Boolean(undefined));
+        console.log(Boolean(null));
+        console.log(Boolean(NaN));
+        var name = prompt("이름을 입력하세요.");
+        //1. "홍길동" 치고 확인 누른경우 -> "홍길동" -> true
+        //2. "" 치고 확인 누른경우 -> "" -> false
+        //3. 취소 누른경우 -> null
+        if(name){
+            // alert("반갑습니다, [" + name + "]님~");
+            var result = document.querySelector("#result");
+            console.log(result);
+            if(result){
+                console.log("#reult가 존재!");
+                result.innerHTML = "반갑습니다, [" + name + "]님~";
+            }
+            else{
+                console.log("#result가 존재하지 않음!"); // null
+                document.querySelector("body").innerHTML
+                    += "<h1>반갑습니다, [" + name + "]님~</h1>";
+                    // 복합대입 연산자를 쓰지 않으면 기존의 것이 다 지워짐
+        }
+        else{
+            alert("올바른 이름을 입력하세요.");
+        }
+    }
+    </script>
+    <!-- <h1 id="result"></h1>개발자도구 console에서 #result가 존재!이라고 뜸주석처리하면 개발자도구 console에서 #result가 존재하지 않음!이라고 뜸 -->
 </body>
 </html>

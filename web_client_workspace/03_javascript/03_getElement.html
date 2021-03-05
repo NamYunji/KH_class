@@ -67,7 +67,6 @@
         // 주의 : CSS의 속성은 hypoon을 이용 (background-color)
         //        JS의 속성은 camel-casing을 이용 (backgroundColor)
 
-
         // 만약 없는 존재하지 않는 아이디를 찾는다면?
         // var li = document.getElementById("myli11111"); 
         // Uncaught TypeError: Cannot read property 'style' of null (null에 style속성이 없음)
@@ -184,9 +183,17 @@
             var userEmail = document.getElementsByName("userEmail");
             console.log(userEmail);
             alert(userEmail[0].value);
+            // 리턴된 요소가 한개일지라도 배열객체로 전달되기 때문에,
+            // 무조건 인덱스값으로 접근해야 실제 태그 객체에 접근할 수 있다.
 
-            // //속성은 getter/setter처리 가능
-            // userEmails[0].value = 'ㅋㅋㅋ'; //setter
+            // 속성은 태그객체의 속성으로도 접근 가능
+            // 속성은 getter/setter처리 가능
+
+            // 1. getter : 함수(변수명.value);
+            // alert(userEmail[0].value);
+
+            // 2. setter : 변수명.value = '값';
+            userEmails[0].value = 'ㅋㅋㅋ'; //setter
             // userEmails[0].value = ''; //초기화 setter
         }
     </script>
@@ -195,17 +202,23 @@
     <fieldset>
         <legend>수량</legend>
         <input type="range" name="amount" id="amount" min="1" max="100"
-                oninput="test6()"/>
+                oninput="test6();"/>
+                <!-- 사용자가 슬라이드바를 움직이면 그 즉시 test6 호출, 
+                    test6안에서는 그 값을 읽어다가 표현해줌 -->
         <span id="result"></span>
     </fieldset>
+
     <script>
         function test6() {
-             var amount = document.getElementById("amount");
-             var result = document.getElementById("result");
+            var amount = document.getElementById("amount");
+            // amount라는 id값을 가진 태그를 찾아라
+            var result = document.getElementById("result");
 
-            //  id속성은 변수 선언없이 태그객체에 접근 가능 (비표준)
-            // 시작태그/종료태그사이 내용으로 추가
+            // id속성은 변수 선언없이 태그객체에 접근 가능 (비표준)
+            // innerHTML = 내용 ;
+            // 시작태그/종료태그 사이 내용으로 추가
             result.innerHTML = amount.value;
+                        //  그 태그의 value값을 읽어와서 
             console.log(amount.value);
         }
     </script>
