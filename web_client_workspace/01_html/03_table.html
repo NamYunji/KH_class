@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table</title>              
+    <style>                     
+        /* css작성 */
+        table {
+            /* 테이블 외곽선 만들기 */                                                                                    
+            border: 3px solid black;
+            /* 외곽선으로 굵게 감싸준것 */
+            border-collapse: collapse;
+            /* 각자의 영역을 붕괴시켜주는 것 */
+            border-collapse: separate;
+            /* // td가 각자 외곽선을 가지고 있고 */
+
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        </style>
+        <!-- border : 테두리 너비 | 스타일 | 색 지정가능, 
+            border-collapse : collapse(한줄) | separate 기본값(겹줄) 테두리옵션, 
+            padding : 셀 여백주기 -->
+</head>
+<body>
+    <h1>table</h1>
+
+        <!--
+            table : table관련 최상위태그
+                thead | tbody | tfoot 행타입태그
+                // 없어도 문제없으나, 구별해주는 용도 (semantic)
+                // thead : th
+                // tbody : td
+                // tfoot : 셀병합해서 합계 같은 것 할때
+                    tr : 행(table row)
+                        태그의 목적에 맞게 써야함 (semantic)
+                        th : 제목셀 
+                        td : 내용셀 
+        -->
+
+    <table> 
+        <!-- 나는 테이블 만들거다! 하는 것 -->
+        <!-- <table border="1">표테두리만드는방법 : 옛날스타일이라 안씀 -->
+        <thead>
+            <tr>
+                <!-- th : 굵은글씨체에 가운데정렬이 기본 -->
+                <th>브라우져명</th>
+                <th>제조사</th>
+                <th>홈페이지</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>크롬</td>
+                <td>구글</td>
+                <td><a href="http://google.com">http://google.com</a></td>
+            </tr>
+            <tr>
+                <td>사파리</td>
+                <td>애플</td>
+                <td><a href="http://apple.com">http://apple.com</a></td>
+            </tr>
+            <tr>
+                <td>파이어폭스</td>
+                <td>모질라</td>
+                <td><a href="http://mozilla.org">http://mozilla.org</a></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>총개수</td>
+                <td colspan="2">3</td>
+                <!-- colspan : 열 너비차지 (가로로 합침)-->
+            </tr>
+        </tfoot>            
+    </table>
+
+    <hr>
+
+    <table>
+        <tr>
+            <th colspan="4">이력서</th>
+        </tr>
+        <tr>
+            <!-- 몇행 몇열짜리를 만들지 -> 몇행 몇열을 합칠지 -->
+            <td colspan="2" rowspan="2" style="width:130px; height:150px">사진</td>
+            <td style="width:80px;">이름</td>
+            <td style="width:200px;"></td>
+        </tr>
+        <tr>
+            <td>연락처</td><!-- style="width:80px;" 안써도 윗행과 간격맞춰서 보여줌 -->
+            <td></td><!-- style="width:200px;" 안써도 윗행과 간격맞춰서 보여줌 -->
+        </tr>
+        <tr>
+            <td style="width:70px; height:50px;">주소</td>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td style="height:100px;">자기소개</td>
+            <td colspan="3"></td>
+        </tr>
+    </table>
+    
+    <br>
+
+    <div>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;KH 요가학원</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>담당강사</th>
+                    <th>기간</th>
+                    <th>시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="6">요가</td>
+                    <td rowspan="2">홍길순</td>
+                    <td rowspan="2">1개월권</td>
+                    <td><strong>월,수,금</strong> 2시간씩
+                    <input type="button" value="신청">
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>화,목</strong> 2시간씩
+                        <input type="button" value="신청">
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        <td rowspan="2">김말녀</td>
+                        <td rowspan="2">2개월권</td>
+                        <td><strong>월,수,금</strong> 2시간씩
+                            <input type="button" value="신청"></td>
+                    </td>
+                </tr>
+            
+                
+            </tbody>
+    
+            <tfoot>
+    
+            </tfoot>
+        </table>
+    </div>
+    
+</body>
+</html>

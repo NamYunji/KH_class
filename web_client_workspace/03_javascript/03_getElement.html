@@ -205,7 +205,7 @@
                 oninput="test6();"/>
                 <!-- 사용자가 슬라이드바를 움직이면 그 즉시 test6 호출, 
                     test6안에서는 그 값을 읽어다가 표현해줌 -->
-        <span id="result"></span>
+        <span id="result">0</span>
     </fieldset>
 
     <script>
@@ -214,12 +214,14 @@
             // amount라는 id값을 가진 태그를 찾아라
             var result = document.getElementById("result");
 
-            // id속성은 변수 선언없이 태그객체에 접근 가능 (비표준)
             // innerHTML = 내용 ;
             // 시작태그/종료태그 사이 내용으로 추가
             result.innerHTML = amount.value;
-                        //  그 태그의 value값을 읽어와서 
-            console.log(amount.value);
+            //  amount태그의 value값을 읽어와서 result의 내용으로 넣어라 
+            
+            // cf. amount, result변수를 선언하지 않아도 작동됨
+            // id속성으로 변수 선언없이 태그객체에 접근 가능 (비표준)
+            // why? id속성은 페이지 내 딱 하나만 존재하기 때문에, 생략해도 당연히 id겠거니 판단함
         }
     </script>
 
