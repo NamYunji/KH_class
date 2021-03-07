@@ -8,13 +8,12 @@
     <style>                     
         /* css작성 */
         table {
-            /* 테이블 외곽선 만들기 */                                                                                    
+            /* 테이블 전체 외곽선 만들기 */                                                                                    
             border: 3px solid black;
-            /* 외곽선으로 굵게 감싸준것 */
-            border-collapse: collapse;
+            /* border-collapse: collapse;
             /* 각자의 영역을 붕괴시켜주는 것 */
             border-collapse: separate;
-            /* // td가 각자 외곽선을 가지고 있고 */
+            /* 각각의 셀들에 외곽선을 줌 */ 
 
         }
         th, td {
@@ -35,7 +34,7 @@
                 // 없어도 문제없으나, 구별해주는 용도 (semantic)
                 // thead : th
                 // tbody : td
-                // tfoot : 셀병합해서 합계 같은 것 할때
+                // tfoot : 셀병합이나 총정리
                     tr : 행(table row)
                         태그의 목적에 맞게 써야함 (semantic)
                         th : 제목셀 
@@ -107,16 +106,10 @@
     
     <br>
 
+    <!-- 실습문제 -->
     <div>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;KH 요가학원</p>
         <table>
+            <caption>KH요가학원</caption>
             <thead>
                 <tr>
                     <th></th>
@@ -140,22 +133,32 @@
                         </td>
                 </tr>
                 <tr>
-                    <td>
                         <td rowspan="2">김말녀</td>
                         <td rowspan="2">2개월권</td>
                         <td><strong>월,수,금</strong> 2시간씩
                             <input type="button" value="신청"></td>
-                    </td>
                 </tr>
-            
-                
+                <tr>
+                    <td><strong>화,목</strong>2시간씩
+                    <input type="button" value="신청"></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">강개순</td>
+                    <td rowspan="2">3개월권</td>
+                    <td><strong>월,수,금</strong>3시간씩
+                    <input type="button" value="신청"></td>
+                </tr>
+                <tr>
+                    <td><strong>토,일</strong>3시간씩
+                    <input type="button" value="신청"></td>
+                </tr>
             </tbody>
     
-            <tfoot>
-    
+            <tfoot id="tfoot">
+                <td colspan="4"><strong>곧 모집 마감! 서둘러서 신청해주세요</strong></td>              
             </tfoot>
         </table>
     </div>
-    
+
 </body>
 </html>

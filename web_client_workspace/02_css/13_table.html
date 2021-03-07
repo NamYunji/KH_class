@@ -4,10 +4,124 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>css - table</title>
+    <title>css - table</title>              
+    <style>                     
+        /* css작성 */
+        table {
+            /* 테이블 전체 외곽선 만들기 */                                                                                    
+            border: 3px solid black;
+            
+            /* 각각의 셀들에 대한 외곽선 */ 
+            /* border-collapse : 외곽선속성값;
+               속성값 : collapse(한줄) | separate 기본값(겹줄)   */
+            /* 각각의 셀들에 대한 외곽선 삭제
+               - 각자의 영역을 붕괴시켜주는 것 */
+            /* border-collapse: collapse; */
+            /* 각각의 셀들에 외곽선 주기 */
+            border-collapse: separate;
+
+
+            /* 가운데 배치 */
+            /* cf. table은 block요소 -> margin 사용*/
+            margin: 0 auto;
+
+            /* 셀의 길이, 높이 조절 - tbody에만 적용됨, (thead, tfoot X) */
+            width: 500px;
+            height: 500px;
+
+            /* 컨텐츠 양이 많으면 아래로 길어질 뿐, 너비는 변하지 않음 */
+
+            /* 줄바꿈 없앰 */
+            white-space: nowrap;
+            /* 이 상황에서는 너비를 설정했음에도 불구하고 테이블 너비값이 변함 */
+
+            /* table-layout: fixed; 테이블 너비를 고정*/
+            /* 컨텐츠에 따라 테이블 너비가 변하는 상황 방지 */
+            table-layout: fixed;
+        }
+        th, td {
+            /* 각각의 셀들에 대한 외곽선 */
+            border: 1px solid black;
+            /* padding : 셀 여백주기 */
+            padding: 10px;
+
+            /* th는 text-align : center가 기본값으로 적용되어있음 */
+            /* td는 왼쪽정렬로 되어있음 -> td까지 가운데 정렬 적용*/
+            /* text-align: 정렬속성값;
+               속성값 : left(기본값, 왼쪽 정렬) | center(가운데 정렬) | right(오른쪽 정렬); */
+            text-align: center;
+
+            /* vertical-align : 맞춤속성값;
+               속성값 : top(위쪽 맞춤) | middle(기본값, 중간 맞춤) | botton(아래쪽 맞춤)  */
+            /* table 셀에만 있는 속성 */
+            /* thead, tfoot에는 vertical-align이 적용되지 않음 */
+            vertical-align: bottom;
+
+        }
+        </style>
 </head>
 <body>
+
     <h1>table</h1>
-    
+
+    <table> 
+        <!-- <table border="1">표테두리만드는방법 : 옛날스타일이라 안씀 -->
+        <thead>
+            <tr>
+                <th>브라우져명</th>
+                <th>제조사</th>
+                <th>홈페이지</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, minima quia eum suscipit debitis magnam ipsam odit eveniet voluptatum vel consequatur, aliquid nobis eos repudiandae aut nostrum officiis quisquam? Neque.</td>
+                <!--  -->
+                <td>구글</td>
+                <td><a href="http://google.com">http://google.com</a></td>
+            </tr>
+            <tr>
+                <td>사파리</td>
+                <td>애플</td>
+                <td><a href="http://apple.com">http://apple.com</a></td>
+            </tr>
+            <tr>
+                <td>파이어폭스</td>
+                <td>모질라</td>
+                <td><a href="http://mozilla.org">http://mozilla.org</a></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>총개수</td>
+                <td colspan="2">3</td>
+            </tr>
+        </tfoot>            
+    </table>
+
+    <h2>일반요소의 vertical-align</h2>
+    <div class="test">
+        <span>안녕</span>
+    </div>
+    <style>
+        .test {
+            width: 100px;
+            height: 100px;
+            background-color: steelblue;
+            color: #000;
+            margin: 0 auto;
+
+            /* 부모태그에 display속성을 table로 설정 */
+            display: table;
+            /* cf. inline요소 - 가운데 정렬 : 부모요소에 적용 */
+            text-align: center;
+        }
+        .test span {
+            /* 자식태그에 display속성을 table-cell로 설정 */
+            display : table-cell;
+            /* 테이블처럼 작동하게 해야 함 */
+            vertical-align: middle;
+        }
+    </style>
 </body>
 </html>

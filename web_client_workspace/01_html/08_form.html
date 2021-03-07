@@ -358,12 +358,13 @@
                  +
                  checked="checked" 초기값 세팅, 미리 선택되어 있음
                 -->
-            <!-- 남/여 중 하나만 선택할 수 있음 -> 둘이 하나의 그룹임 - ***name속성값이 같은것끼리 그룹핑됨***
+            <!-- 남/여 중 하나만 선택할 수 있음 -> 둘이 하나의 그룹임
+                 - *** name속성값이 같은것끼리 그룹핑됨 ***
                  + input의 id속성값과 label의 for속성값이 하나의 짝을 이룸 -->
             <!-- cf. 한번 선택하고 나면, 체크해제가 안됨. 무조건 하나는 선택해야 함 -->
             <input type="submit" value="제출">
-            <!-- gender=m - name속성값=value속성값 -->
-            <!-- gender=f - name속성값=value속성값 -->
+            <!-- gender=m - name속성값 = value속성값 -->
+            <!-- gender=f - name속성값 = value속성값 -->
         </fieldset>
         <br>
 
@@ -529,7 +530,7 @@
             <br>
 
             <!-- disabled="disabled" {전송이 안되도록 설정하는 속성} -->
-            <input type="text" name="userId" id="userId" disabled value="honggd">
+            <input type="text" name="userId" id="userId" disabled="disabled" value="honggd">
             <input type="submit" value="전송">
             <!-- 입력/전송 불가 -->
             <!-- cf. readonly의 경우는 입력만 불가할 뿐, 전송은 가능했음 -->
