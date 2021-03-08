@@ -239,16 +239,16 @@
             </td>
         </tr> 
         <tr>
-            <td>
-                <!-- (this용법1) 태그  -->
+            <td class="serious">
+                <!-- (this용법1) 태그 inline이벤트속성에 명시된 this는 태그객체 자신을 가리킨다. -->
                 <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> 
                 <label for="subject0">국어</label>
             </td>
-            <td>
+            <td class="serious">
                 <input type="checkbox" name="subject" id="subject1" onclick="test8(this)">
                 <label for="subject1">영어</label>
             </td>
-            <td>
+            <td class="serious">
                 <input type="checkbox" name="subject" id="subject2" onclick="test8(this)">
                 <label for="subject2">수학</label>
             </td>
@@ -303,8 +303,19 @@
             console.log(checkAll);
 
             for(var i = 0; i < subjects.length; i++) {
-                        subjects[i].checked = checkAll.checked;
-                    }
+                subjects[i].checked = checkAll.checked;
+
+                // test8의 toggle과 함께 추가 부모td요소 클래스값 제어
+                checkAll.checked ?
+                subjects[i].parentNode.classList.add("on") :
+                subjects[i].parentNode.classList.remove("on");
+
+                /* cf. 자바스크립트의 삼항연산자에서는 값 이외에 함수호출, 메소드 작성도 가능 
+                자바의 삼항연산자
+                boolean으로 처리될 식 ? true일때 처리할 '값' : false일때 처리할 '값';
+                - '값'만 올 수 있고, 메소드가 올 수 없음
+                */
+            }
         }
     </script>
     <script>
@@ -324,7 +335,7 @@
         }
         */
         
-        /*
+        
         function test8() {
             //방법2.
             var subjects = document.querySelectorAll("[name=subject]");
@@ -334,8 +345,7 @@
             }
             checkedAll.checked = true;
         }
-        */
-
+    
     </script>
 
     <!-- 체크한 것에 색상 변경 -->
@@ -345,12 +355,111 @@
             background-color: pink;
             color: #fff;
         }
+        /* serious라는 클래스값을 td에 다 붙임 */
+        td.serious {
+            font-family: "궁서", cursive;
+        }
+
     </style>
     <script>
-        // 부모td태그의 class값 제어
-        function test8() {
+        // (this용법1) 태그 inline이벤트속성에 명시된 this는 태그객체 자신을 가리킨다.
+        // test8(this) -> this를 던지고 this를 받아주기 -> test8(chk)
+        function test8(chk) {
+            // test8 호출 시 전달한 this(태그객체)가 chk라는 변수에 담김
+            // console.log(chk); // this로 던져진 tag객체
+            // 국어를 체크하면 무엇때문에 test8이 호출되었는지 알 수 있음
+            // <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> 
+            // 국어를 체크해제할 때도 무엇때문에 test8이 호출되었는지 알 수 있음
+            // <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> 
+            // console.dir(chk); // 객체 구조 확인도 가능
+            
+            // 부모td태그의 class값 제어
+            var parentTd = chk.parentNode; 
+            // parentNode - 부모태그를 찾음
+            console.log(parentTd);
+            /* STEP 1 on클래스 속성
+            if(chk.checked) {
+                // chk가 check되었다면 parentTd의 className이라는 속성을 on속성값으로 바꿔라 
+                // className 속성 : getter인 동시에 setter
+                // The className property sets or returns the class name of an element (the value of an element's class attribute).
+                // getter : HTMLElementObject.className
+                // setter : HTMLElementObject.className = class
+
+                parentTd.className = "on"; //setter로 사용
+            }
+            else
+            // check가 해제되었다면 className속성을 지워라
+            parentTd.className = ""; //setter로 사용
+
+            // 부모 요소인 td의 class속성 값이 on이었다가 지워졌다 함
+            // 국어 체크 시
+            //<td class="on"> <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> </td> 
+            // 국어 체크 해제 시
+            //<td class> <input type="checkbox" name="subject" id="subject0" onclick="test8(this)"> </td> 
+            */
+
+           /* on 스타일 속성 & serious 스타일 속성
+           한번 체크하고 나면, 궁서체 스타일 속성이 날아감 */
+           /* 요소검사 */
+           /* 체크전 : td.serious {font-family: "궁서", cursive;} */
+           /* 체크후 : td.on {background-color: pink; color: #fff;} */
+           /* serious 속성을 없애고 on속성을 적용함  */
+
+           /* STEP 2 on클래스 & serious 클래스
+            if(chk.checked) {
+                parentTd.className = "on serious"; 
+                // 기존 클래스 값이 제거되지 않도록 처리
+            }
+            else
+            parentTd.className = "serious"; 
+            */
+            // 기존 클래스 값이 제거되지 않도록 처리
+            
+            /* 클래스 속성은 여러개의 클래스 속성을 공백으로 나열 가능 */
+            /* -> 기존의 값이 날아가지 않도록
+             parentTd.className = "on"; -> parentTd.className = "on serious";
+             parentTd.className = ""; -> parentTd.className = "serious"; */
+            /* 체크전 : td.serious {font-family: "궁서", cursive;} */
+            /* 체크후 : serious와 on속성이 함께 적용됨 
+             td.serious {font-family: "궁서", cursive;}
+             td.on {background-color: pink; color: #fff;} */
+            
+             /* but 클래스값은 여러개가 적용되는데, 5-6개가 적용되는 경우라면
+               on이 있느냐 없느냐만 따지면 되는데, 다른 클래스값도 전부 나열해 줘야함*/
+
+            // 태그객체의 classList속성을 통해 다음 코드를 개선하라.
+
+            /* classList : 모든 객체가 가지고 있음
+            syntax : element.classList
+            property : length (Returns the number of classes in the list.)
+            methods
+            - add(class1, class2, ...) : 해당요소에 클래스 이름 추가
+            - contains(class) : 요소가 해당 클래스명을 가지고 있는지 boolean형으로 리턴 
+            - item(index) : 해당 클래스명의 index를 number형으로 리턴
+            - remove(class1, class2, ...) : 해당요소에 클래스 제거
+            - toggle(class, true|false) : 클래스 존재시 제거, 존재하지 않을시 추가
+            - replace(oldClass, newClass) : 이전 클래스명을 지우고, 새로운 클래스명으로 교체
+            */
+
+            // STEP3 관심있는 클래스값만 제어
+            /* 1) add메소드 & remove메소드
+            if(chk.checked) {
+                // 다 추가하는 것이 아닌 관심있는 클래스값만 추가해줌
+                // -> 원래 있는 class값들에 add한 on클래스값이 추가됨
+                parentTd.classList.add("on");
+                // parentTd.className = "on serious"; 
+            }
+            else
+            parentTd.classList.remove("on");
+                // parentTd.className = "serious"; 
+                */
+               
+            // 2) toggle 메소드 (없으면 추가, 있으면 삭제)
+            // + test7 처리
+                parentTd.classList.toggle("on");
 
         }
+
     </script>
 </body>
 </html>

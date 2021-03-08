@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - closure</title>
+</head>
+<body>
+    <h1>Function - closure</h1>
+    <!-- closure은 함수의 한 종류 -->
+    <!-- closure : 외부로부터 닫혀있는 함수 -->
+    <!-- 폐쇄회로(closed circuit) : 닫혀있어야 전기가 통함 -->
+    <h2>자유변수</h2>
+    <!-- 자유변수 : 함수 지역범위 내에 정의되지 않은 변수
+         hi가 자유변수
+         (함수 안에서 해결이 안되고, 함수 밖에서 가져다 씀)
+        
+        자유변수는 전역변수와 idea가 다름, 전역변수일 수도 있고 아닐 수도 있음
+        단지 함수 내에 정의되지 않은 변수 -->
+    <script>
+        var hi = "안녕";
+        function greet(name) {
+            var word = "반가워"
+            console.log(hi + name + word); // 안녕철수반가워
+            // 변수 3개 (hi 전역변수, name 매개변수(지역변수), word 지역변수)
+            // 매개변수 또한 지역변수이다.
+            // var name; 과 똑같음
+            // 함수내 name과 word는 정의되어 있고, hi는 정의되어 있음
+        }
+        greet("철수");
+    </script>
+
+    <!-- // 8시 42분 -->
+    <h2>closure</h2>
+    <!-- closure : 함수 실행에 필요한 모든 자원(지역변수, 자유변수 포함)을 가지고 외부로부터 닫혀있는 함수
+        외부로부터 더이상 뭘 안가져다써도 되는 함수 -->
+    <script>
+        function funcX(){
+            var num = 100; 
+            return function(){ 
+                console.log('num=',num); 
+            }
+        }
+        var num = 200; 
+        var myf = funcX(); 
+        myf(); 
+    </script>
+
+    <input type="button" value="globalCounter" onclick="test1();"> 
+    <script>
+        // 전역변수 cnt
+        
+    </script>
+
+    <input type="button" value="closureCounter" onclick="test2();"> 
+    <script>
+        var test2 = makeClosureCounter();
+
+        function makeClosureCounter() {
+            var cnt = 0;
+            return function() {
+                console.log("closureCounter : " + ++cnt);
+            }
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>

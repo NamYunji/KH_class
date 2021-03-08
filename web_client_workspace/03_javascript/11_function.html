@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - function</title>
+</head>
+<body>
+    <h1>Function</h1>
+    <h2>함수 작성</h2>
+    <script>
+        // 호출해서 쓰는 법은 똑같고 작성하는 방법만 다를 뿐
+        // 작성 후 호출코드를 따로 작성해야 함
+        // 1. 함수 선언식
+        function foo(){
+        }
+
+        // 2. 함수 표현식 (변수에 담는 방식)
+        // 우항에 함수이름이 없음 -> 익명함수
+        // 함수명을 쓸 수도 있으나
+        // 결국 bar라는 변수로 담김, 호출은 결국 bar()로 해야 함
+        var bar = function() {
+        };
+        // var bar = function() far {
+        // };
+
+        bar();
+        // far(); ReferenceError : far is nor defined
+
+
+        // 즉시실행함수 (IIFE : Immediately Invoked Function Expression)
+        // 함수 작성(선언)과 호출을 동시에
+        // 페이지 가자마자 바로 실행해야 할 것들은 IIFE를 통해 하면 됨
+        // 익명함수에 속함
+        // 1. (  function(){[}  )(); - 호출코드가 선언코드 밖에서 감싸줌
+        (function() {
+            console.log("hello life!");
+        })();
+
+        // 2. 호출코드를 괄호 안 선언코드와 함께 처리
+        (function() {
+            console.log("bye life!");
+        }());
+
+        // 3. 함수가 인자를 전달할 수도 있음
+        (function(name) {
+            console.log("안녕~" + name);
+        })('철수');
+        
+        // 철수가 name으로 들어가고 name이 console.log에 사용됨
+        // 안녕 ~ 철수 하고 싶으면 호출시 매개인자로 철수를 전달해야 함
+    </script>
+
+    <h2>매개변수 | 매개인자</h2>
+    <input type="button" value="실행" onclick="test1(123);">
+    <input type="button" value="arguments" onclick="test2();">
+
+
+    <!-- test1(); 호출한 곳에서 4시 51분 -->
+    <script>
+        /**
+         * 매개변수 parameter : 함수 선언부의 매개인자가 담길 '공간'(변수) - function test1(x)
+         * 매개인자 argument : 함수 호출부에서 전달될 '값' - test1(123);
+         */
+        // 매개변수 type은 literal에 의해 결정된다.
+        // test1(123) - number | test("안녕") - string
+        // 매개변수와 매개인자의 개수가 달라도 문제되지 않음 
+        // 매개인자가 매개변수보다 많아도 문제되지 않음
+        // test1(1, 2, 3) - test1(x)
+        // 첫번째 값만 들어가고 나머지는 공간이 없으니 버려짐
+        // 그러면 버려지는 값들은..?
+        // 함수 안에는 매개인자 유사배열 arguments라는 참조가 있음 (선언하지 않았지만 숨겨져 있음)
+
+
+        // x로 인자를 받음
+        function test1(x) {
+            console.log("x = " + x);
+
+            //매개인자 유사배열 arguments라는 참조
+            console.log(arguments);
+            for(var i = 0; i< arguments.length; i++)
+            console.log(arguments[i]);
+            // 다시보기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+
+        // 매개인자의 합을 출력하는 가산기 함수 add를 작성
+        function test2() {
+            // 인자로 숫자 전달
+            add(1,2,3,4,5,6,7,8,9,10); // 55
+            add(12.34, 45.67); // 58.010000000000005
+            add('a', 'b', 'c', 'd') // "abcd"
+        }
+
+        function add() {
+            var sum = isNaN(arguments[0]) ? "" : 0;
+            for(var i=0; i< arguments.length; i++) {
+                    sum += arguments[i];
+                }
+                console.log(sum);
+            }
+        // https://boycoding.tistory.com/21
+        // 자바스크립트에서는 함수를 호출할 때 함수 형식에 맟춰 인자를 넘기지 않아도 에러가 발생하지 않는다.
+        // 정의된 인자보다 적게 함수를 호출했을 경우,
+        // 넘겨주지 않은 인자에는 특별한 값 undefined가 할당된다.
+        // 반대로 정의된 인자보다 많게 함수를 호출했을 경우,
+        // 에러가 발생하지 않고 초과된 인수는 무시된다.
+
+        // 1. arguments
+        // 자바스크립트에서는 함수를 호출할 때 인수들과 함께 암묵적으로 arguments 객체가 함수 내부로 전달된다.
+        // arguments 객체는 함수를 호출할 때 넘긴 인자들이 배열 형태로 저장된 객체를 의미한다.
+        // 특이한 점은 실재 배열이 아닌 마치 배열 형태처럼 숫자로 인덱싱된 프로퍼티가 있는 객체다.
+        // 이러한 객체를 배열과 유사하다 하여 앞으로 유사 배열 객체라고 부르겠다.
+
+        // arguments 객체는 세 부분으로 구성되어 있다.
+        // 함수를 호출할 때 넘겨진 인자(배열 형태): 첫 번째 인자는 0, ...  n-1번 인덱스
+        // length 프로퍼티: 호출할 때 넘겨진 인자의 개수
+        // callee 프로퍼티: 현재 실행 중인 함수의 참조값
+        // arguments 유사 배열 객체로써 배열과 유사하게 동작하지만, 배열은 아니므로 배열 메서드를 사용하면 에러가 발생한다.
+    </script>
+
+    <h2>함수 특징</h2>
+    <input type="button" value="return value" onclick="test3();">
+    <input type="button" value="중첩 함수" onclick="test4(10, 5);">
+
+    <script>
+        function test3() {
+            var k = koo();
+            console.log(k);
+            // 100
+            // undefined
+        }
+        // 함수는 리턴값을 가질 수 있음
+        function koo() {
+            // return 100;
+            // 함수의 return구문이 없다면 undefined를 리턴
+        }
+
+        // 함수 안에 함수 선언 가능 (응집도)
+        /**
+         * a^2 + b^2 = c^2
+         * 밑변제곱 + 높이제곱 = 빗변의 제곱
+         */
+        //  test4(10, 5);
+        function test4(a, b) {
+
+            function power(n) {
+                // ** [제곱 연산]
+                return n ** 2;
+            }
+            //power함수는 test4외부 함수 외부에서는 사용불가
+
+            // Math.sqrt() 제곱근 구하는 함수
+            c = Math.sqrt(power(a) + power(b));
+            console.log(c); 
+            // 125(10*10 + 5*5)
+            // 11.180339887498949 
+        }
+    </script>
+
+    <h2>함수 고급</h2>
+    <input type="button" value="매개인자" onclick="test5();">
+    <input type="button" value="리턴값" onclick="test6();">
+
+    <script>
+        /**
+         * 자바스크립트에서 함수는 값으로 취급된다.
+         * 마치 literal처럼 변수에 대입할 수 있고, (함수표현식) 
+         * 1) 함수의 인자로 전달되거나, 2) 리턴값으로 사용될 수 있음 (callback 함수)
+         */
+        //     // 1) 함수의 인자로 전달 
+        // function test5() {
+        //     var f = function() {
+        //         console.log("hello, javascript");
+        //     };
+        //     // f();
+
+        //     // 대신 호출해달라고 함수에 전달
+        //     exec(f);
+        // }
+
+        // // a라는 매개변수에 f라는 매개인자가 전달
+        // function exec(a) {
+        //     // console.log(a);
+        //     console.log(typeof a);
+        //     // 10번 실행
+        //     for(var i = 0; i<10 ; i++) {
+        //         // function
+        //         // 함수 실행 (a라는 변수에 들어있으니까, a호출하면 함수가 실행됨)
+        //         a();
+        //     }
+        // }
+
+        /**
+         * 1 : hello, javascript !
+         * 2 : hello, javascript !
+         * ..........
+         * 9 : hello, javascript !
+         * 10 : hello, javascript !
+         */
+         function test5() {
+            var f = function(n) {
+                console.log(n + ": hello, javascript!");
+            };
+
+            exec(f);
+        
+
+        // 매개인자를 처리할 수 있음
+        function exec(a) {
+            // console.log(a);
+            // ƒ (n) {
+            //     console.log(n + ": hello, javascript!");
+            // }
+            console.log(typeof a);
+            for(var i = 0; i<10 ; i++) {
+                a(i + 1);
+            }
+        }
+
+        
+        // 전역에 names 배열변수 선언
+        // 6시 18분
+        var names = ['html', 'css', 'js', 'jquery', 'java', 'oracle', 
+                    'mybatis', 'maven', 'lombok', 'spring'];
+
+        function hello(n, names) {
+            for(var i = 0; i < names.length; i++) {
+                console.log("hello " + names[n - 1] + "!");
+            }
+        }
+        hello(names);
+    }
+
+    // ***함수를 매개인자에 '값'으로 전달한다!!***
+
+
+    // 2) 함수를 리턴값으로 사용
+        // function test6() {
+    //     var f = makeFunction();
+    //     // f라는 공간에 makeFunction의 실행결과(리턴값)을 담음
+    //     f(); // 'hello js~'
+    //     // f는 함수니까 호출가능 - 실행
+
+    //     //=
+    //     // var f = function makeFunction() {
+    //     // return function() {
+    //     //    console.log('hello js~~');
+    //     //}
+    // }
+
+    // function makeFunction() {
+    //     return function() {
+    //         console.log('hello js~~');            
+    //     }
+    // }
+
+    // function test6() {
+    //     // 방법1. 
+    //     //var f = makeFunction();
+    //     // f라는 공간에 makeFunction의 실행결과(리턴값)을 담음
+    //     //f('js'); // 'hello js~'
+    //     // f는 함수니까 호출가능 - 실행
+
+    //     // 방법2. 즉시실행함수 (함수선언 + 호출)
+    //     (makeFunction())('js');
+
+    // }
+
+    // function makeFunction() {
+    //     return function(name) {
+    //         // console.log('hello js~~');
+    //         console.log('hello' + name + "~");            
+    //     };
+    // }
+
+
+    // 7시 28분
+    function test6() {
+
+        var sayHello = makeFunction('say');
+        var sayGoodbye = makeFunction('good bye');
+
+        sayHello('js');
+        sayGoodbye('js');
+    }
+
+    function makeFunction(say) {
+    
+        return function(name) {
+            // console.log('hello js~~');
+            console.log(say + ' ' + name + "~");            
+        };
+    }
+
+    </script>
+
+<!-- 999를 경고창에 출력 -->
+<input type="button" value="999" onclick="(soo())(999);">
+<!-- 함수를 선언해두고 호출하지 않으면 아무일도 일어나지 않음 -->
+<script>
+        function soo() {
+        // soo호출하면 이 함수를 리턴
+        return function(n){
+            alert(n);
+        }
+    }
+</script>
+
+<!-- @실습문제 : 함수 scope -->
+<script>
+    //1
+    var z = 50; // z : 전역변수
+    // 함수 선언
+    function varTest(){
+        var z = 55; // z : 지역변수 = 55
+        z += 45; // z = 100 (55 + 45)
+        console.log('varTest() : z=',z); // varTest() : z= 100
+    }
+    // 함수 호출
+    varTest();              
+    console.log('z=',z); // z = 50 (전역변수의 z)
+
+    //2
+    var y = 99; // y : 전역변수
+    // 함수 선언& 호출
+    (function varTest2(){
+        var x = 100; // x : 지역변수 = 100
+        var y = 9; // y : 지역변수 = 9
+        z = 1; // 선언없이 값대입만 -> z : 전역변수 = 1
+        console.log('varTest2() : x+y+z=',x+y+z); // varTest2() : x+y+z= 110 (100 + 9 + 1)
+    })();
+    console.log('y+z=',y+z); // y+z= 100
+    //console.log('x+y+z=',x+y+z); // error (x가 지역변수이기 때문에, 함수 밖에서 사용 불가)
+
+    //3
+    //전역에서 실행한 for문의 내부변수 i
+    for (var i=1; i<=10; i++) {
+        console.log(i); // 1~10까지 출력
+    }
+    // 함수 선언
+    function getNum() {
+        console.log('getNum() : i=',i); //getNum() : i= 11 (i++(11이 되면 탈출하므로) -> 10 + 1)
+    }
+    // 함수 호출
+    getNum();
+
+    //4 
+    // 함수 선언
+    function funcX(){
+        var num = 100; // num : 지역변수 = 100
+        return function(){ 
+            console.log('num=',num); 
+        } // 콘솔창 출력 'num = 100' 리턴
+    }
+    var num = 200; // 값대입만 해놓을 뿐, 아무 의미없음 
+    var myf = funcX(); 
+    myf(); // 콘솔창 출력 'num = 100' 
+
+    </script>
+
+
+</body>
+</html>
