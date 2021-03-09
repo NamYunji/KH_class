@@ -13,14 +13,17 @@
 
 
     <script>
-        // String 내장객체
-        // : 문자열 관련 메소드를 제공
+        // String 내장객체 : 문자열 관련 메소드를 제공
         var test1 = function() {
             var str = "Samsung Apple Xiaomi";
             // 문자열이기 때문에 스트링 내장객체가 제공하는 여러 내장객체를 사용 가능
+
+            // 속성
             console.log(str.length);
             // 20
             // length 속성 - 자바에서는 length가 메소드이지만, 여기서는 속성임!
+
+            // 메소드
             console.log(str.toUpperCase());
             // SAMSUNG APPLE XIAOMI
             console.log(str.toLowerCase());
@@ -35,13 +38,14 @@
             // A
             // 특정 인덱스의 문자 하나를 가져옴
             console.log(str[8]);
+            console.log("abcdefghi"[8]);
             // A
             // 문자열을 문자배열 취급하여 사용
             // 사실 원래 문자열은 내부적으로 문자배열임
 
             // 문자열 일부를 리턴
             // 3번지의 ms를 잘라오기
-            //1. substr(start [, end+1]) 
+            //1. substring(start [, end]) 
             // start 인덱스는 포함, end인덱스는 포함x
             // 2번지에서 4번지 전까지만
             console.log(str.substring(2, 4));
@@ -98,28 +102,30 @@
         // 숫자형은 정수, 실수 구분치 않고 number타입 
         var test3 = function(){
             var num = 123.456;
-            // 반올림
+            // 소수점 이하 반올림
             console.log(Math.round(num));
             // 123
             console.log(Math.round(num * 100) / 100);
             // 123.46
-            // 올림
+            // 소수점 이하 올림
             console.log(Math.ceil(num));
             // 124
             console.log(Math.ceil(num * 10) / 10);
             //123.5
-            //내림
+            // 소수점 이하 버림(내림)
             console.log(Math.floor(num));
             // 123
             console.log(Math.floor(num * 10) / 10);
             //123.4
             console.log(Math.random()*10 + 1); 
+            // 0.0포함 ~ 1.0(미포함) 사이의 실수
+            //  < 난수 * 경우의 수 + 최소값>
             // 1.0 ~ 10.99999 (11미포함)
+            
+            // 1과 10 사이의 난수
             console.log(Math.floor(Math.random()*10 + 1)); 
             console.log(Math.trunc(Math.random()*10 + 1)); 
             // -> 소수점 이하를 잘라줘야 함
-            // 0.0포함 ~ 1.0(미포함) 사이의 실수
-            // 1과 10 사이의 난수 - < 난수 * 경우의 수 + 최소값>
         }
     </script>
     <input type="button" value="@실습문제" onclick="test4();">
@@ -253,6 +259,7 @@
         var test5 = function() {
             var now = new Date(); //new 연산자 사용가능
             console.log(now);
+            // Tue Mar 09 2021 12:33:14 GMT+0900 (대한민국 표준시)
         }
 
         var time1 = new Date(2000, 0, 1); //월은 0-based 인덱스
@@ -265,21 +272,21 @@
         console.log(time3);
     </script>
 
+    <!-- 1999/03/01 15:34:20 형식으로 출력 -->
     <input type="button" value="실행" onclick="test6();">
     <script>
         function test6() {
             var now = new Date();
             displayDateTime(now);
         }
-        //1999/03/01 15:34:20 형식으로 출력
         var displayDateTime = function(datetime) {
         var yy = datetime.getFullYear();
         var mm = get2digit(1 + datetime.getMonth());
         var wk = datetime.getDay();
+        var dd = get2digit(datetime.getDate());
         var hh = get2digit(datetime.getHours());
         var mi = get2digit(datetime.getMinutes());
         var ss = get2digit(datetime.getSeconds());
-        var dd = get2digit(datetime.getDate());
     
         var dayArr = ['일', '월', '화', '수', '목', '금', '토'];
         

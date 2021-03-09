@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - 실습문제 - 객체배열</title>
+</head>
+<body>
+    <h1>@실습문제_객체배열</h1>
+    <input type="button" value="실행" onclick="test1();">
+
+    <!-- 
+        첫번째 사진
+        종합평가 테이블의 점수 데이터가 있음
+        이걸 객체배열로 만들어서 점수 데이터를 넣어서 관리
+        두번째 사진
+        점수 데이터 뿐 아니라 총점과 평균이 있음
+        그걸 가지고 총점, 평균까지 구해낸 다음의 toString으로 찍어낸 결과 -->
+
+        <!-- 
+        student 생성자함수를 통해 점수데이터를 관리하세요.
+        - 과목별 점수 속성 필요
+        - java
+        - oracle
+        - html5
+        - css3
+        - javascript
+        + 추가 필요 메소드
+        - getSum
+        - getAvg (반올림 소수점 첫째자리까지)
+        - toString
+        
+        -> 콘솔에 첫번째 사진처럼 출력 -->
+        <script>
+        
+  function test1(){
+    //1.객체배열 생성 및 요소추가
+    var students = [];
+    students.push(new Student('김동현', 90, 56, 56, 44, 34));
+    students.push(new Student('유관순', 76, 23, 56, 44, 34));
+    students.push(new Student('임꺽정', 100, 56, 50, 32, 88));
+
+    //2.반복문을 통해 객체배열 순회. 요소별 toString메소드 호출하기
+    students.forEach(function(student, i){
+      console.log(student.toString());
+    });
+  }
+
+  /**
+   * Student 생성자 함수 선언
+   */ 
+  function Student(name, java, oracle, html5, css3, javascript){
+    this.name = name;
+    this.java = java;
+    this.oracle = oracle;
+    this.html5 = html5;
+    this.css3 = css3;
+    this.javascript = javascript;
+    this.getSum = function(){
+      return this.java + this.oracle + this.html5 + this.css3 + this.javascript;
+    };
+    this.getAvg = function(){
+      return Math.round(this.getSum() / 5 * 10) / 10;
+    };
+    this.toString = function(){
+      return "이름=" + this.name + ", java=" + this.java + ", oracle=" + this.oracle
+           + ", html5=" + this.html5 + ", css3=" + this.css3 + ", javascript=" + this.javascript
+           + ", 총점=" + this.getSum() + ", 평점=" + this.getAvg();
+    }
+  }
+              // 공통된 부분이 뭔지 생각해보기
+            // 그것들을 Student.prototype으로 올려서 참조하게 하기
+    </script>
+</body>
+</html>

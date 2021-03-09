@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - object array</title>
+</head>
+<body>
+    <h1>Object Array</h1>
+    <h2>객체배열</h2>
+    <input type="button" value="실행" onclick="test1();">
+
+    <script>
+        function test1() {
+            // 요소로 객체를 가지고 있는 배열
+            var pets = [
+                {
+                    name : '구리구리',
+                    breed : '푸들',
+                    weight : 4.5
+                },
+                {
+                    name : '까미',
+                    breed : '요크셔테리어',
+                    weight : 3
+                },
+                {
+                    name : '콩돌',
+                    breed : '리트리버',
+                    weight : 25
+                }
+            ];
+
+            console.log(pets);
+            // 0: {name: "구리구리", breed: "푸들", weight: 4.5}
+            // 1: {name: "까미", breed: "요크셔테리어", weight: 3}
+            // 2: {name: "콩돌", breed: "리트리버", weight: 25}
+
+            // 각 번지에서 pet의 name값만 출력
+            // 방법1
+            for (var i = 0; i < pets.length; i++) {
+                console.log(pets[i].name);
+            }
+            // 구리구리
+            // 까미
+            // 콩돌
+            
+            // 방법2
+            for(var i in pets) {
+                console.log(pets[i].name);
+            }
+            // for in문은 배열쓸 때, 객체쓸 때 구분해서 쓰기
+
+            // name이가 멍멍/왈왈 짖는다
+            for(var i in pets) {
+                // 함수명이 같기 때문에 이렇게 쓸 수 있음
+                pets[i].bark = function() {
+                    return this.weight > 10 ? "멍멍" : "왈왈";
+                    // 0: {name: "구리구리", breed: "푸들", weight: 4.5, bark: ƒ}
+                    // 1: {name: "까미", breed: "요크셔테리어", weight: 3, bark: ƒ}
+                    // 2: {name: "콩돌", breed: "리트리버", weight: 25, bark: ƒ}
+                };
+                console.log(pets[i].name + "이/가 " + pets[i].bark() + " 짖는다.");
+                // 구리구리이/가 왈왈 짖는다.
+                // 까미이/가 왈왈 짖는다.
+                // 콩돌이/가 멍멍 짖는다.
+            }
+        }
+    </script>
+
+    <!-- 객체를 literal로 적으면 피곤함, 일일이 적어줘야 하니까 -->
+    <!-- 개선책 : 생성자 함수 이용 -->
+
+    <h2>생성자 함수</h2>
+    <!-- 함수를 통해 객체 만들기 가능
+        this용법4} 생성자함수 안의 this는 현재객체를 가리킨다. -->
+    <!-- 생성자 함수의 첫글자는 대문자로 작성하는 것이 관례 -->
+    <!-- new연산자와 함께 호출해야 함! -->
+    <input type="button" value="실행" onclick="test2();">
+    <script>
+        // 함수명이 대문자로 시작함
+        function Pet(name, breed, weight) {
+            // 우항으로는 매개변수로 받은 애들을 가져다 쓴 것
+            // this는 현재 객체
+            this.name = name;
+            // 인자로 전달받은 name을 현재 객체의 name속성 속성값 설정
+            this.breed = breed;
+            this.weight = weight;
+            
+            // this.bark = function() {
+            //     return this.weight > 10 ? "멍멍" : "왈왈";
+            // };
+            
+            // breed와 name, weight은 객체마다 다른 값이 들어오지만,
+            // bark함수의 내용은 pet객체에 완전히 반복
+            // 다 똑같다면 한 군데에 공통되게 한번만 선언하고, 가져다 쓸수 없을까?
+            // 중복된 것을 모으는 작업
+            // 자바의 상속과 비슷한 아이디어지만
+            // 처리하는 방식이 다름
+            // -> prototype으로 상속 구현!
+            // prototype이라는 객체가 이미 존재함
+            // 그 객체에 공통된 것을 적어주면 나머지들은 그걸 참조해서 사용
+            // 부모클래스처럼 생각해도 됨
+            // prototype에 bark함수 올리기 작업
+
+            // Pet의 prototype객체에 중복된 속성/메소드를 작성한다.
+            Pet.prototype.bark = function() {
+                return this.weight > 10 ? "멍멍" : "왈왈";
+            };
+            // 자바스크립트에서 상속을 구현한 것!
+            // prototype이라는 데에 bark를 올림
+            // 동일하게 작동하나
+            // 열어보면
+            // 0: Pet {name: "구리구리", breed: "푸들", weight: 4.5}
+            // __proto__:
+            // bark: ƒ ()
+            // 1: Pet {name: "까미", breed: "요크셔테리어", weight: 3}
+            // __proto__:
+            // bark: ƒ ()
+            // 2: Pet {name: "콩돌", breed: "리트리버", weight: 25}
+            // __proto__:
+            // bark: ƒ ()
+            // bark가 안보임
+            // Pet의 prtototype이라는 객체에 bark를 올려둠
+            // 다른 것들이 다 이것을 참조하고 있음
+
+            // 상속하고 있는 것 : proto에 있음
+            // 세개에 다 proto로 나오지만, 사실은 하나만 존재하고 참조만 하는 것
+            // 데이터 손실을 줄임
+
+            // 마지막에는 object를 상속
+
+            // pet객체 세개는 공통적으로 Pet.prototype이라는 부모객체를 참조,
+            // pet.prototype은 다시 object를 상속
+            // 객체간에 연결되는 속성 이름 : _proto_
+
+            // 중복된 것들을 위로 끌어올리는 것!!
+            // 상속기능은 prototype을 기반으로 진행!
+            // prototype은 만들지 않아도 이미 존재
+            // Pet.prototype.~~~
+
+
+            // 아래부터 찾고, 거기에 없으면 부모 찾고, 거기에 없으면 object까지 찾고, object에도 없으면 undefined
+        }
+
+        function test2() {
+            // 펫객체 생성
+            // 인자로 전달
+            // var pet = new Pet('구리구리', '푸들', 4.5);
+            // console.log(pet);
+            // Pet {name: "구리구리", breed: "푸들", weight: 4.5}
+            // breed: "푸들"
+            // name: "구리구리"
+            // weight: 4.5
+            // 결국은 동일한 속성을 가진 객체에 지나지 않음
+
+            // test1을 똑같은 결과로 바꿔봄
+            var pets = [
+                new Pet('구리구리', '푸들', 4.5),
+                new Pet('까미', '요크셔테리어', 3),
+                new Pet('콩돌', '리트리버', 25)            
+            ];
+            console.log(pets);
+
+            for(var i in pets){
+                console.log(pets[i].name + "이/가 " + pets[i].bark() + " 짖는다.");
+            }
+            // 구리구리이/가 왈왈 짖는다.
+            // 까미이/가 왈왈 짖는다.
+            // 콩돌이/가 멍멍 짖는다.
+    }
+
+
+    </script>
+</body>
+</html>
