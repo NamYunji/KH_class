@@ -27,11 +27,12 @@
          */
     
         function test1() {
+            // []대괄호 이용
             var arr1 = [];
             // new 연산자 사용가능
-            var arr2 = new Array();
-            var arr3 = new Array(3); //크기지정도 가능, but 무쓸모, 초기 공간을 잡아놓는 것 이외에는 의미없음
-            // 크기가 3으로 지정해도, 3개까지만 입력할 수 있는건 아님, 계속 요소 추가 가능
+            var arr2 = new Array(); // 크기지정 X
+            var arr3 = new Array(3); //크기지정 O, but 무쓸모, 초기 공간을 잡아놓는 것 이외에는 의미없음
+            // 크기를 3으로 지정해도, 3개까지만 입력할 수 있는건 아님, 계속 요소 추가 가능
             console.log(arr1);
             // 요소 넣기전 - Array(0) length : 0            
             console.log(arr2);
@@ -45,24 +46,27 @@
             arr1[2] = 'b'; 
             arr1[3] = 'b'; 
             arr1[4] = 'b'; 
-
             // 0: "a"
-            // 1: "b"
-            // length: 2
-
-            arr3[0] = 'a';
-            arr3[1] = 'b'; 
-            arr3[2] = 'c'; 
-            arr3[3] = 'd';
-            arr3[4] = 'e'; 
-            //0: "a"
             // 1: "b"
             // 2: "b"
             // 3: "b"
             // 4: "b"
             // length: 5
 
+            arr3[0] = 'a';
+            arr3[1] = 'b'; 
+            arr3[2] = 'c'; 
+            arr3[3] = 'd';
+            arr3[4] = 'e'; 
+            // 0: "a"
+            // 1: "b"
+            // 2: "c"
+            // 3: "d"
+            // 4: "e"
+            // length: 5
+
             // 값 가져오기
+            // 배열변수[index]
             console.log(arr3[3]);
             // d
 
@@ -70,17 +74,20 @@
             console.log(arr3[6]);
             // 오류가 아닌, undefined
 
-            // length속성이 있어서 
-            // for 반복문을 통해 요소의 개수만큼만 반복 가능
-            // arr1.length = 2
+            // length속성이 있기 때문에, 반복문 요소의 개수만큼 반복 가능
+
+            // 1. for반복문
+            // arr1.length = 5
             // for (i = 0; i < arr1.length; i++) {
             //     console.log(arr1[i]);
             // }
 
-            // for...in문 사용
+            // 2. for...in문
             // 이 자리에 arr1의 요소가 들어오는 것이 아니라,
-            // 배열 : i변수에는 배열의 인덱스가 대입됨
-            // 객체 : i변수에 속성명이 대입됨.
+            // 배열 : i변수에 배열의 인덱스가 대입됨
+            // cf. 객체 : i변수에 속성명이 대입됨
+            // for(var i in 배열변수) { }
+            // i변수에 인덱스가 대입되어, 배열변수의 길이만큼 반복함
             for(var i in arr1) {
                 console.log(i, arr1[i]);
             }
@@ -89,18 +96,16 @@
             //  console.log(i, arr1[i]);
             // 0 a 1 b 2 b 3 b 4 b
             // for in문은 배열, 또는 객체에 대해 사용
-            
-
         }
     </script>
 
     <!-- 배열 초기화 : 변수 선언, 값대입 동시에 처리 -->
     <script>
         function test2() {
-            // 버전1. 
+            // 버전1. []대괄호를 사용
+            // var 변수명 = [값1, 값2, 값3...];
             var arr1 = [1, 2, 3]; 
-            // 대괄호
-            //자바 : int[] arr = {1, 2, 3}; - 중괄호
+            // cf. 자바 : int[] arr = {1, 2, 3}; - 중괄호
 
             console.log(arr1);
             // 0: 1
@@ -108,7 +113,8 @@
             // 2: 3
             // length: 3
 
-            // 버전2. new연산자를 사용한 버전
+            // 버전2. new연산자 + Array객체 사용
+            // var 변수명 = new Array(값1, 값2, 값3...);
             var arr2 = new Array("철수", "영희", "삼식");
             console.log(arr2);
             // 0: "철수"
@@ -116,22 +122,23 @@
             // 2: "삼식"
             // length: 3
 
-            // 타입제한이 없음
+            // cf. 타입제한이 없음
             var arr3 = [1, 2, 3, "안녕", true, 123.456, {id : "honggd"}, arr2];
             console.log(arr3);
 
-            // 2차원 배열
+            // 2차원 배열 (배열의 값으로 배열이 들어간 경우)
             var arr4 = [1, 2, 3, ['a', 'b', 'c']];
             // console.log(arr4);
-            // //0: "a"
-            // // 1: "b"
-            // // 2: "c"
-            // // length: 3
-            // // length: 4
+            // length: 4
+
+            // 2차원 배열의 요소 찾기
+            // 배열변수명[2차원 배열 전체의 index][2차원 배열 값의 index]
             // console.log(arr4[3][1]);
             // // b
 
-            //모든 요소를 열람
+            // 모든 요소를 열람
+            // 2차원배열을 검사하는 법 : 배열변수[i].length -> true
+            // why? length속성이 있다는 것은 배열이라는 뜻
             for(var i in arr4) {
                 if(arr4[i].length)  {
                     for(var j in arr4[i]) {
@@ -156,7 +163,7 @@
             var arr1 = [1, 2, 3];
             var arr2 = document.getElementsByTagName("input");
             console.log(arr1);
-            //0: 1
+            // 0: 1
             // 1: 2
             // 2: 3
             // length: 3
@@ -175,14 +182,21 @@
             // 유사배열은 객체처럼 작동함. index가 아닌 속성명이 i에 담기게 된다.
             for(var i in arr2) {
                 console.log(i, arr2[i]);
-            }
-            // -> 숨은 속성들이 나옴
+            // 0 <input type="button" value="배열 생성" onclick="test1();">
+            // 1 <input type="button" value="배열 초기화" onclick="test2();">
+            // ....
+            // + 맨 뒤에 숨은 속성들이 붙어서 출력
             // item ƒ item() { [native code] }
             //namedItem ƒ namedItem() { [native code] }
+            }
 
             // -> 일반for문 사용해라!
             for (i = 0; i < arr2.length; i++) {
                 console.log(arr2[i]);
+            // 0 <input type="button" value="배열 생성" onclick="test1();">
+            // 1 <input type="button" value="배열 초기화" onclick="test2();">
+            // ....
+            // (숨은 속성들이 뒤에 붙지 않음)
             }
         }
     </script>
@@ -204,6 +218,7 @@
 
 
     <script>
+        // 배열명.indexOf('값') : 배열에서 요소가 위치한 인덱스 리턴
         var test4 = function() {
             var arr = ['apple', 'melon', 'banana', 'melon', 'melon'];
             // 존재하면 해당 인덱스 번호, 아니면 -1
@@ -217,7 +232,8 @@
             // 마지막 melon의 인덱스 리턴
         };
 
-        // concat : 두배열의 요소를 합쳐서 하나의 배열로 리턴
+        // 배열명1.concat(배열명2) : 두배열의 요소를 합쳐서 하나의 배열로 리턴
+        // cf. 배열1 + 배열2 순서로 붙음
         var test5 = function() {
             var arr1 = ['a', 'b', 'c'];
             var arr2 = [1, 2, 3, 4, 5];

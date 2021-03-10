@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>js - 실습문제 - 객체배열</title>
+    <title>js - 실습문제 - 객체배열 - prototype</title>
 </head>
 <body>
     <h1>@실습문제_객체배열</h1>
@@ -57,19 +57,21 @@
     this.html5 = html5;
     this.css3 = css3;
     this.javascript = javascript;
-    this.getSum = function(){
-      return this.java + this.oracle + this.html5 + this.css3 + this.javascript;
+    Student.prototype.getSum = function(){
+      var sum = this.java + this.oracle + this.html5 + this.css3 + this.javascript;
+      return sum;
     };
-    this.getAvg = function(){
-      return Math.round(this.getSum() / 5 * 10) / 10;
+    Student.prototype.getAvg = function(){
+      var avg = Math.round(this.getSum() / 5 * 10) / 10;
+      return avg;
     };
-    this.toString = function(){
+    Student.prototype.toString = function(){
       return "이름=" + this.name + ", java=" + this.java + ", oracle=" + this.oracle
            + ", html5=" + this.html5 + ", css3=" + this.css3 + ", javascript=" + this.javascript
            + ", 총점=" + this.getSum() + ", 평점=" + this.getAvg();
     }
   }
-              // 공통된 부분이 뭔지 생각해보기
+            // 공통된 부분이 뭔지 생각해보기
             // 그것들을 Student.prototype으로 올려서 참조하게 하기
     </script>
 </body>
