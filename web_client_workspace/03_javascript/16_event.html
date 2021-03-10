@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js - event</title>
+
+    <script>
+        window.onload = function() {
+            // document.querySelector("#btn2").onmouseover = function(){
+            //     alert('123');
+            };
+            // head태그에는 사용 불가
+            // Uncaught TypeError: Cannot set property 'onmouseover' of null
+            // onmouseover속성을 null에게 설정할 수 없다
+            // id btn2가 null이라는 의미
+            // why? 위에서 아래로 처리되는데, btn2태그가 아직 처리되기 전이라
+
+            // 현재 페이지 모든 설정이 끝난 후, load이벤트 발생
+            // 그 때, 이 함수를 실행
+        
+
+    </script>
+</head>
+<body>
+    <h1>Event</h1>
+   <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">W3Schools - HTML DOM Events</a>
+
+   <h2>Event Handler Binding</h2>
+   <!--이벤트 다음에 일어날 행위를 모아서 작성하면 됨 -->
+   <!-- 이 이벤트가 일어나면 이 함수를 실행해 주세요! -->
+   <!-- 여러 이벤트를 걸수 있음 -->
+   
+   <!-- 인라인으로 처리 -->
+   <input type="button" value="inline event속성" onclick="test1();" onmouseover="test1();">
+
+
+   <!-- 스크립트에 적음 -->
+   <input type="button" value="event속성 지정" id="btn2">
+   <input type="button" value="addEventListener" id="btn3">
+   
+   <!-- 8시 5분부터 다시보기! -->
+   <script>
+       function test1() {
+           console.log("이벤트 발생!");
+       }
+    //    요소 하나하나마다 지정해줘야 함
+    //    document.querySelector('#btn2').onclick= function(){
+    //     console.log("#btn2 click event발생!");
+    //    };
+
+       document.querySelector('#btn2').onclick= test1; // 함수 자체를 전달. 호출하지 말것!!
+
+    //    ~이벤트가 일어나면, 두번째 인자로 전달한 함수를 실행해주세요!
+       document.querySelector("#btn3").addEventListener("click", function(){
+        alert('#btn3 clicked');
+       });
+
+   </script>
+
+   <h2>Event | Event Target</h2>
+   <div class="box" onclick="test2(event)"></div>
+   <style>
+       .box {
+           width: 100px;
+           height: 100px;
+           border: 3px solid #000;
+           background-color: tomato;
+           text-align: center;
+           padding : 20px;
+       }
+   </style>
+   <script>
+       /**
+        * event 객체 : 발생한 이벤트관련 모든 정보를 가진 객체
+        * 사용법 : 매개변수 이름을 정하고, 이벤트핸들러 함수의 인자로 전달이 됨
+        * 매개변수를 써줘야 이용가능!!
+        * event target객체 : 이벤트 발생객체. event객체의 target속성값
+        * 해당 이벤트가 어디서 들어와서 발생했는지, 그 좌표를 알려줌
+        * 
+        * 
+        */
+
+        // 인자로 전달
+       document.querySelector(".box").onmouseover = function(e){
+           console.log(e);
+        // MouseEvent {isTrusted: true, screenX: 28, screenY: 393, clientX: 19, clientY: 313, …}
+        // altKey: false (alt key가 눌려있는지 여부)
+        // layerX: 19 현재 윈도우(viewport) left,top기준 (우측)
+        // layerY: 443 현재 윈도우(viewport) left,top기준 (아래쪽)
+        // offsetX: 8 현재 요소 left,top기준 어디에 위치하는지 (우측)
+        // offsetY: 143 현재 요소 left,top기준 어디에 위치하는지 (아래쪽)
+        // timeStamp: 15668.570000001637 발생시간
+        // target : div.box 이벤트 발생객체
+        console.log(e.target == document.querySelector(".box"));
+        // true
+        // -> 굳이 querySelector를 이용하지 않아도 됨!
+
+        e.target.innerHTML = "안녕";
+
+        // <this용법5> event handler안에서 this는 event target객체를 가리킨다.
+        console.log(e.target == this);
+        // true
+
+       };
+
+       
+        // 마우스가 올라왔다가 빠져나갈 때 mouseout이 발생
+        // mouseover <-> mouseout
+       document.querySelector(".box").onmouseout = function(e){
+            // e.target.innerHTML = "잘가";
+            // e.target대신 this로 써줘도 가능
+            this.innerHTML = "잘가";
+        };
+
+        // 첫번째 방법에서 주의할 점
+        // 8시 30분 다시
+        //html태그에 inline속성으로 핸들러를 지정한 경우.
+        // 전달할 때부터
+        function test2() {
+            console.log(e);
+            console.log(e.target == this); //false
+            console.log(this);
+        }
+
+
+   </script>
+</body>
+</html>
