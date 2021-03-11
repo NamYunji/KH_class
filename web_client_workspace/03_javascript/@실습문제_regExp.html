@@ -17,11 +17,42 @@
     <input type="text" id="ssn">
     <button type='button' onclick="testSSN();">실행확인</button>
 
-    // 1. 6자리 숫자 - 6자리 숫자
-    // 2. 3번째 자리 0 또는 1이어야 함
-    // 3. 5번째 자리 0 ~ 3까지
-    // 4. 8번째 자리 1 ~ 4까지
-    
+    <script>
+        // 1. 6자리 숫자 - 7자리 숫자 | 13자리 숫자
+        // 2. 3번째 자리 0 또는 1이어야 함 (일년 : '0'1월 ~ '1'2월)
+        // 3. 5번째 자리 0 ~ 3까지 (한달 : '0'1일 ~ '3'n일)
+        // 4. 8번째 자리 1 ~ 4까지 (남여, 년생)
 
+        function testSSN() {
+            // 1. text태그에 작성한 주민번호 불러오기
+            var ssn = document.querySelector('#ssn').value;
+            // console.log(ssn);
+
+            // 2. 정규표현식 객체 생성
+            // 1) -으로 이어서 입력한 경우
+            var regExp1 = /^\d{2}[01]\d[0-3]\d-[0-4]\d{6}$/;
+            // 2) 숫자만 입력한 경우
+            var regExp2 = /^\d{2}[01]\d[0-3]\d[0-4]\d{6}$/;
+
+
+            // 3. 표현식 검사 + 분기처리
+            if(regExp1.test(ssn)) {
+                alert('당신의 주민등록번호는 [' + ssn + '] 입니다.');
+            }
+
+            else if(regExp2.test(ssn)) {
+                var startNum = ssn.substr(0, 6);
+                var endNum = ssn.substr(6, 13);
+                alert('당신의 주민등록번호는 [' + startNum + '-' + endNum + '] 입니다.');
+            }
+
+            else {
+                alert('주민번호를 다시 입력하세요.');
+                // 페이지 새로고침 -> 다시 입력할 수 있게함
+                location.reload();
+            }
+        }
+    </script>
+    
 </body>
 </html>
