@@ -6,24 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>js - window</title>
 </head>
+<!-- <body onload="함수">
+    로딩과 동시에 함수 처리 -->
 <body onload="test5()">
     <!--
-        일어날 수 있는 모든 것들을 window객체가 관장
+Window Object
+웹 페이지 내 일어날 수 있는 모든 것들을 window객체가 관장
 (웹 페이지내의 최상위 객체)
 
-Html 코드를
-parsing해서 하나하나 객체로 만들어진 형태 : document
+DOM (Document Object Model)
+Html 코드를 parsing해서 하나하나 객체로 만들어진 형태
 
-기타 여러가지 기능을 할 기능을 묶어서 가지고 있음
-그 것들을 묶어서 BOM이라고 함
-(Browser Object Model>
-웹 브라우저 프로그램의 여러가지를 가지고 있음
+BOM (Browser Object Model>
+문서(document) 이외의 모든 것을 제어하기 위해 브라우저가 제공하는 추가 객체
 
-자바스크립트 상속관련해서 최상위 객체는 object
+JavaScript
+자바스크립트 상속관련 최상위 객체는 object
 자바스크립트 객체도 가지고 있음
 자바스크립트를 처리할 수 있는 것들이 자바스크립트 객체에 들어있음
 
-    -->
+-->
+
     <h1>Window</h1>
     <h2>웹페이지 구조</h2>
     <img src="images/windowObjects.png" alt="">
@@ -44,8 +47,8 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
 
     <!-- open 새로운 window생성
     조건에 따라 
-    새탭
-    팝업창
+    1. 새탭
+    2. 팝업창
     으로 만들 수 있음
 
     open(url, name, specs)
@@ -54,14 +57,11 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
     새 윈도우를 열 때의 조건들 -->
 
     <input type="button" value="open" onclick="test1();">
-    <input type="button" value="popup 닫기" onclick="test2();">
+    <input type="button" value="close" onclick="test2();">
     <input type="button" value="setTimeout" onclick="test3();">
     <input type="button" value="실습문제" onclick="test4();">
     <input type="button" value="setInterval" onclick="test5();">
     <input type="button" value="countdown" onclick="test6();">
-
-
-
 
 
     <!-- 현재 윈도우에서 다른 윈도우 제어 -->
@@ -71,24 +71,21 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
             // open("13_object.html", "newWindow");
             // 새 창으로 열림
             // open("13_object.html", "newWindow", "width=500, height=300, top=300, left=300");
+            // open("url", "윈도우 이름", "윈도우 크기, 위치 설정");
             // 팝업창으로 열림
-
-            // 원래 윈도우와
-            // 열린 윈도우는 독립된 것들
+            // cf. 원래의 윈도우와 새로 열린 윈도우는 각자 독립되어 있다
 
             // 새로 만들어진 윈도우 객체를 리턴
-            // open("url", "윈도우 이름", "윈도우 크기, 위치 설정");
             // var w = open("13_object.html", "newWindow", "width=500, height=300, top=300, left=300");
             // var를 날려줘야 w가 전역변수를 가리키게 됨
             w = open("13_object.html", "newWindow", "width=500, height=300, top=300, left=300");
             // 완벽한 윈도우 객체
-            // 단, 팝업으로 열린 그 창의 윈도우 객체
 
             // w = open("13_object.html", "_self", "width=500, height=300, top=300, left=300");
             // 현재창에서 열기
 
             console.log(w);
-            // 찍힌 Window는 현재 윈도우가 아닌 팝업창의 윈도우
+            // 출력된 Window는 현재 윈도우가 아닌 팝업창의 윈도우
             // name 속성값 확인해보기
             console.log(window == w);
             // false
@@ -105,7 +102,6 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
             // 창을 닫는 메소드
             w.close();
         }
-
 
         /**
          * setTimeout(callbackFunction, millis);
@@ -136,10 +132,9 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
         // 팝업창을 열고, <h1>3초 팝업</h1>을 작성
         // 3초뒤에 자동으로 창 닫기
         // cf. url에 공란을 주면 빈 창이 나옴
-
         function test4() {
              var w =  open("", "newWindow", "width=500, height=300, top=300, left=300");
-            //  변수로 넣어주지 않으면 제어할 수 없음
+            //  cf. 변수로 넣어주지 않으면 제어할 수 없음
             //js에 html넣기
              w.document.write("<h1>3초 팝업</h1>");
             //  원래로 치면 !doctype부터 다 써줘야 하지만, 간단히 해줄것만 써줘도 됨
@@ -150,37 +145,52 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
 
         /**
          * setInterval (callbackFunction, millis)
-         * millis초마다 callback함수를 실행
+         * 밀리초 후 밀리초마다 callback함수를 실행
          * 
          */
         // 로딩과 동시에 하려면, 
         // body태그에 onload태그 추가
         function test5() {
-            
-            // var num = 1;
-            // // 1초마다 이 함수를 실행해주세요!
-            // setInterval(function(){
-            //     console.log(num++);
-            // }, 1000);
-            // // 밀리초 이따가 그 다음부터 밀리초 단위로 실행
+            /**
+             * 1초마다 콘솔창에 1부터 증가하게 출력
+             */
+            /**
+             var num = 1;
+             setInterval(function(){
+                 console.log(num++);
+             }, 1000);
+             */
+            // 1초마다 이 함수를 실행해주세요!
 
+            /**
+             * 현재 시간 표시
+             */
             var foo = function() {
+                // 1. 현재 시간을 now변수에 담음
                 var now = new Date();
+                // 2. getTimeFormatStr함수에 now를 인자로 전달
                 var strFormat = getTimeFormatStr(now);
+                // div의 innerHTML로 리턴된 값을 넣음
                 document.querySelector("#clock").innerHTML = strFormat;
             }
-            foo();
+            // foo();
 
+            // 4. foo함수를 1초마다 실행
             setInterval(foo, 1000);
         }
 
+        // 3. 받아온 현재시간을 포맷팅해서 리턴
         function getTimeFormatStr(time) {
+            // 한자리수의 시분초를 두자리수로 변환해주는 함수
             var f = function(n){
                 return n >= 10 ? n : "0" + n;
             };
+            // 두자리수로 변환한 시,분,초를 각각의 변수로 담음  
             var hh = f(time.getHours());
             var mi = f(time.getMinutes());
             var ss = f(time.getSeconds());
+
+            // hh:mm:ss형식으로 포맷팅해서 리턴
             return hh + " : " + mi + " : " + ss;
         }
 
@@ -203,29 +213,36 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
     </style>
 
     <div id="countdown">10</div>
-    <!-- 1씩 감소하게 -->
     <script>
         function test6(){
+            /**
+             * 10부터 1씩 카운트다운
+             */
+            // 1. cnt변수에 10대입
             var cnt = 10;
+            // 2. div객체를 cd변수에 담음
             var cd = document.querySelector("#countdown");
-            // 버튼 누르면 display되도록 (+style태그)
+            // 원래는 보이지 않다가 (CSS - display : none)
+            // 버튼 누르면 display되도록 설정
             cd.style.display = "block";
 
             var f = function(){
+                // 3. div객체의 innerText에 10부터 감소시킴
                 cd.innerText = cnt--;
 
                 if(cnt < 0) {
+                    // 0보다 작아질 경우, interval 중단
                     clearInterval(intervalId);
-                    // interval을 중단시키기
+                    // div객체에 innerText로 "뻥!"" 넣음
                     cd.innerText = "뻥!";
                 }
             };
 
-            f();
+            // 4. 1초마다 f함수 실행
             var intervalId = setInterval(f, 1000);
-            console.log(intervalId);
+            // console.log(intervalId);
+            // 7
             // 돌고있는 setInterval의 key값
-            
         }
     </script>
 
@@ -235,8 +252,6 @@ parsing해서 하나하나 객체로 만들어진 형태 : document
     <input type="button" value="location" onclick="test8();">
     <input type="button" value="history" onclick="test9();">
     <input type="button" value="screen" onclick="test10();">
-
-
 
     <script>
     /**
