@@ -142,7 +142,13 @@
    <!-- 
    key관련 세개의 이벤트 (연달아 일어남)
    keydown - keypress - keyup
-   이 세개중 하나를 골라 사용 -->
+   이 세개중 하나를 골라 사용
+    cf. key이벤트가 일어날 때마다 글자수를 세서, 글자수 제한도 가능 -->
+   <!-- 
+   keydown : 키보드를 눌렀을 때 실행 (키보드를 누르고 있을 때 한번만 실행됨)
+   keypress : 키보드를 눌렀을 때 실행 (키보드를 누르고 있을 때 계속 실행됨)
+   keyup : 키보드에서 손을 땠을 때 실행 -->
+
    <input type="text" id="userInput" placeholder="아무말...">
    <script>
        document.querySelector('#userInput').addEventListener('keyup', function(e){
@@ -160,9 +166,49 @@
         document.querySelector('#userInput').addEventListener('keyup', function(e){
         console.log(e);
 
+        document.querySelector(".text-wrapper").innerHTML = this.value;
        });
    </script>
 
+   <h2>Submit Event</h2>
+   <form action="">
+       <fieldset>
+           <legend>로그인</legend>
+           <table>
+               <tr>
+                   <th>
+                       <label for="userId">아이디</label>
+                   </th>
+                   <td>
+                       <input type="text" name="userId" id="userId">
+                   </td>
+               </tr>
+               <tr>
+                <th>
+                    <label for="pwd">비밀번호</label>
+                </th>
+                <td>
+                    <input type="paswword" name="pwd" id="pwd">
+                </td>
+            </tr>
+            <td colspan="2" style="text-align: center;">
+                <input type="submit" value="로그인">
+            </td>
+           </table>
+       </fieldset>
+   </form>
+
+   <script>
+       // onsubmit 속성
+       document.querySelector("form").onsubmit = function(e){
+        console.log(e);
+        // type: "submit"
+
+        // submit 방지
+        return false;
+        // -> submit 실행되기 직전에 submit 이벤트가 발생함
+       }
+   </script>
 
    <h2>Event Propagation - Bubbling</h2>
    <!-- 이벤트 전파 -->
