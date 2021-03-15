@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery - hello</title>
+    <!-- jQuery 사용법 2가지 -->
+    <!-- 1. 서버컴퓨터에 다운로드 후, 소스 연결시킴
+         -> 현재페이지 loading과 동시에 실행
+    
+        // https://jquery.com/download/
+        // https://jquery.com/download/
+    development용
+    production용 : 공백,개행문자 제거해서 처리코드만 남김-->
+
+    <!-- <script src="js/jquery-3.6.0.js"></script> -->
+    <!-- 파일 내 내용이 다 여기 들어왔다고 보면 됨 -->
+    <!-- 이 스크립트 밑으로 jQuery 사용 가능해짐 -->
+
+    <!-- 2. CDN (Content Delivery Network) 인터넷상의 서버에서 직접 다운로드
+            https://code.jquery.com/
+            jQuery Core 3.6.0
+            uncompressed : development용
+            minified : production용
+            slim : development용 (서버통신 모듈이 빠져있음. 쓰지 않을 것)
+            slim minified : production용
+         -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- 자동으로 최신버전으로 가져와줌 -->
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+    <!-- jQuery의 역사
+    1.x modern browser를 다 지원
+        (표준을 지키지 않는 IE 8 9 10도 포함됨)
+        최신기능 필요없으면 그냥 1버전 쓰는 곳도 많음 (IE지원이 안되면 안되니까..)
+    2.x IE 8 9 10 지원을 제외시킴
+    3.x 2버전 업그레이드
+    3.x compat 1버전 업그레이드 (1버전은 쓰지 말라고 해서, 이 버전은 없어짐)
+    -->
+
+    <!-- https://api.jquery.com/ jQuery API -->
+
+    <script>
+      // jQuery load함수 1
+      $(document).ready(function () {
+        // jQuery(document).ready(function(){
+        // alert("jQuery를 load했습니다.");
+      });
+      // $ is not defined 에러 - jQuery 로드 시 오류
+
+      // jQuery load함수 2
+      // 달러 호출시 콜백함수 전달
+      $(function () {
+        // jQuery(function(){
+        alert("jQuery를 load했습니다.");
+      });
+
+      // cf. 두방법 모두 $대신 jQuery라고 써도 됨
+    </script>
+  </head>
+  <body>
+    <h1>Hello jQuery</h1>
+  </body>
+</html>

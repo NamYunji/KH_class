@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>namyunji</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+
+    <header>
+        <!-- 메뉴바 -->
+        <!-- 회원가입 -->
+        <ul>
+            <li id="register"><a href="04_register.html">register</a></li>
+        </ul>
+
+        <div class="language">
+            <ul>
+                <li class="lang" id="eng" style="text-decoration: line-through;"><a href="#top"> ENG</a></li>
+                <!-- <li class="lang" id="|"><a href="">------</a></li> -->
+                <li class="lang" id="kor" style="font-weight: bold;"><a href="kor_index.html"> KOR</a></li>
+            </ul>
+        </div>
+        <nav>
+            <!-- 메뉴바 -->
+            <div id="menubar">
+                <ul id="menu">
+                        <li class="menubar"><a href="#top"><img src="img/index/logo.png"></a></li>
+                        <br><br><br><br>
+                        <li class="menubar"><a href="01_introduce.html">introduce</a></li>
+                        <li class="menubar"><a href="02_interest.html">interest</a></li>
+                        <li class="menubar" style="margin-right: 0;"><a href="03_roadmap.html">roadmap</a></li>
+                </ul>
+            </div>
+        </nav>   
+    </header>
+
+    <article>
+        <!-- 1. introduce -->
+        <div class="wrapper">
+            <!-- photo -->
+            <img src="img/index/bird_flying.gif">
+            <!-- more -->
+            <a href="01_introduce.html">
+                <img class="more" src="img/index/more_box.png">
+            </a>
+        </div>
+
+        <!-- 2. interest -->
+        <div class="wrapper">
+            <!-- photo -->
+            <img src="img/index/interest_ppt.gif">
+            <!-- more -->
+            <a href="02_interest.html">
+                <img class="more" src="img/index/more_box.png">
+            </a>
+        </div>
+
+        <!-- 3. roadmap -->
+        <div class="wrapper">
+            <!-- photo -->
+            <img src="img/index/roadmap_index.gif">
+            <!-- more -->
+            <a href="03_roadmap.html">
+                <img class="more" src="img/index/more_box.png" >
+            </a>
+        </div>
+    </article>
+
+    <style>
+        /* photo규격 */
+        .wrapper img {
+            display: block;
+            margin: 100px auto 50px;
+            width: 800px;
+        }
+
+        /* more버튼 규격 */
+        img.more {
+            display: block;
+            width: 100px;
+            margin: 0 auto;
+        }
+    </style>
+
+    <footer>
+        <!-- 작성자 인적사항 -->
+        <img src="img/index/footer.png" style="width: 1024px; height: 200px; margin-top: 100px;">
+            <p id="contactMe";>contact me</p>
+            <div id="contact">
+                <a href="https://www.instagram.com/u_u.rung2/"><img src="img/index/instagram.png" style="width : 19px;"></a>
+                <a href="https://www.facebook.com/yoonji.nam.94"><img src="img/index/facebook.png" style="width : 16px;"></a>
+                <a href="http://qr.kakao.com/talk/rfWqp6TYe1_.t6B31XEj71toef4-"><img src="img/index/kakaotalk.png"></a>
+                <a href="mailto:dbs7wl7@naver.com"><img src="img/index/email.png"></a>
+                <a href="tel"><img src="img/index/tel.png" style="width : 17px; margin-right: 0;"></a>
+            </div>
+    </footer>
+    <!-- ul : padding-left값 -> 들여쓰기 효과, 위/아래 margin, 자식태그 width -->
+    <style>
+
+        /* footer */
+        footer {
+            width: 1024px;
+            height: 140px;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        #contactMe {
+            color: rgb(210, 149, 0);
+            font-size: large;
+            font-weight: bold;
+            text-shadow: 0 0 15px #D9CDBC;
+            }
+
+        #contact img{
+            width : 18px;
+            margin-right : 15px;
+        }
+
+    </style>
+</body>
+</html>

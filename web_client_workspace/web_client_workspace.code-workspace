@@ -14,9 +14,12 @@
 		},
 		{
 			"path": "05_html5api"
+		},
+		{
+			"path": "namyunji"
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "03_javascript"
+		"liveServer.settings.multiRootWorkspaceName": "namyunji"
 	}
 }

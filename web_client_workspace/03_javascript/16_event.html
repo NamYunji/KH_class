@@ -199,14 +199,37 @@
    </form>
 
    <script>
+       /**
+        * 사용자 입력값 유효성검사
+        */
        // onsubmit 속성
        document.querySelector("form").onsubmit = function(e){
         console.log(e);
         // type: "submit"
 
-        // submit 방지
-        return false;
-        // -> submit 실행되기 직전에 submit 이벤트가 발생함
+        //1. id검사 (4글자 미만 - 유효X)
+        if(userId.value.length < 4) {
+            alert("유효한 아이디를 입력하세요.");
+            // select() 입력한 텍스트 부분을 블럭처리 해줌
+            userId.select();
+            // focus() 다시 입력할 수 있도록 커서 깜빡임
+            // userId.focus();
+
+            // submit 방지
+            //return false로 제출되지 않게
+            return false;
+            // -> submit 실행되기 직전에 submit 이벤트가 발생함
+        }
+        //2. 비밀번호 검사
+        if(pwd.value.length < 4) {
+            alert("유효한 비밀번호를 입력하세요.");
+            pwd.select();
+            return false;
+        }
+
+        // 유효성 검사 통과시 -> return true -> sumbit
+        // 생략해도 정상적으로 실행됨
+        return true;
        }
    </script>
 
@@ -239,7 +262,7 @@
 
            // 전파방지
            // 1. body와 div에도 event를 인자로 넘김
-           // 2. function에도 e로 매개변수 설저
+           // 2. function에도 e로 매개변수 설정
            // 3. e.stopPropagation();
            e.stopPropagation();
 

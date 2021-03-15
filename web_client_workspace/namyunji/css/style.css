@@ -1,0 +1,80 @@
+    body {
+        padding-top: 20px;
+        width: 1024px;
+        margin: 0px auto;
+        background-color: #FBFAF9;
+        font-family: 'Zilla Slab', sans-serif;
+    }
+    /* 스크롤바 삭제 */
+    body::-webkit-scrollbar{
+        display: none;
+    }
+    /* 회원가입 */
+    #register {
+        list-style-type:none;
+        width : 1024px;
+        text-align: right;
+        transform: translateY(-20px);
+    }
+    #register a {
+        float: right;
+        text-decoration: none;
+        color: grey;
+    }
+    /* 메뉴바 */
+    #menubar {
+        position: fixed;
+        width: 1024px;
+        transform: translateY(-40px);
+    }
+    ul#menu {
+        list-style-type:none;
+        width: 550px;
+        margin : 0 auto;
+    }
+    ul#menu li {
+        float : left;
+        margin-right: 60px;
+        font-size: 20px;
+        width: 50px;
+    }
+
+    ul#menu a {
+        text-decoration: none;
+        color: #91877F;
+    }
+    ul#menu li:hover>a {
+        text-shadow: 0.1px 0.1px 0.1px gray;
+        font-size : 1.01em;
+        color: #91877F;
+        padding : 3px 5px 5px;
+        border: 1px solid #91877F;
+    }
+
+    .language {
+        display: inline;
+    }
+    
+    .lang {
+        list-style-type: none;
+        color: #91877F;
+        margin-right: 50px;
+        transform: translate(-80px, -18px);
+
+    }
+    
+    .lang a {
+        margin-top: -10px;
+        color: #91877F;
+        text-decoration: none;
+    }
+
+
+
+    /* <div class="language">
+    <ul>
+        <li class="lang" id="eng"><a href="#top">ENG</a></li>
+        <li class="lang" id="|"> | </li>
+        <li class="lang" id="kor"><a href="kor_index.html">KOR</a></li>
+    </ul>
+</div> */

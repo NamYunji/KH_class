@@ -20,7 +20,8 @@
     <input type="button" value="escaping" onclick="test10();">
     <input type="button" value="* + ?" onclick="test11();">
     <input type="button" value="{n,m}" onclick="test12();">
-    
+    <input type="button" value="look around" onclick="test13();">
+
     <div id="area"></div>
     <style>
         #area {
@@ -389,8 +390,51 @@
 
         ["100", "1cbㅋㅋㅋ.", "아아아아.", "1가나다abc.", "123abc다나가."].forEach(function(s){
             console.log(re.test(s)); // false
-
         });
+    }
+
+    /**
+     * Look Around : 문자열 검사 후 최종 패턴(결과)에는 포함되지 않는다.
+     * 검사만 해줄 뿐, $&에는 포함시키지 않음
+     * 
+     * 1. look ahead
+     * 
+     *  1) positive
+     *  정규표현식1(?=(정규표현식2))
+     *      정규표현식1 다음 정규표현식2가 일치
+     *  
+     *  2) negative
+     *  정규표현식1(?!(정규표현식2))
+     *      정규표현식1 다음 정규표현식2가 일치하지 않음
+     *
+     * cf. 공백표현 : 공백(space bar) 혹은 \s
+     * 
+     * 2. look behind
+     * 
+     *  1) positive
+     *  (?<=(정규표현식2))정규표현식1
+     *      정규표현식1 이전 정규표현식2가 일치
+     * 
+     *  2) negative
+     *  (?<!(정규표현식2))정규표현식1
+     *      정규표현식1 이전 정규표현식2가 일치하지 않음
+     */
+    function test13(){
+        // 1. look ahead
+        var s = "hello world hello Tom hello Jane";
+
+        area.innerHTML = s.replace(/hello(?=( world))/g, '<mark>$&</mark>');
+        // hello를 찾는데, world가 뒤따르는 것을 찾음
+        area.innerHTML = s.replace(/hello(?!( world))/g, '<mark>$&</mark>');
+        // hello를 찾는데, world가 뒤따르지 않는것을 찾음
+
+        // 2. look behind
+        s = "hello world lotte world t world";
+
+        area.innerHTML = s.replace(/(?<=hello )world/g, '<mark>$&</mark>');
+        // world를 찾는데, hello가 앞서나오는 것 찾기
+        area.innerHTML = s.replace(/(?<!hello )world/g, '<mark>$&</mark>');
+        // world를 찾는데, hello가 앞서나오지 않는 것 찾기
     }
 
 </script>
