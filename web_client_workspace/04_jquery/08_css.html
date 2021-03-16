@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery - css</title>
+    <script src="js/jquery-3.6.0.js"></script>
+    <!-- easing -->
+    <script src="js/jquery.easing.1.3.js"></script>
+    <!-- color -->
+    <script
+      src="https://code.jquery.com/color/jquery.color-2.2.0.js"
+      integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- easing 효과 사이트 -->
+    <!-- https://jqueryui.com/effect/ -->
+    <!-- https://gsgd.co.uk/sandbox/jquery/easing/ -->
+    <!-- https://gsgd.co.uk/sandbox/jquery/easing/ -->
+
+    <h1>CSS</h1>
+    <h2>display</h2>
+    <input type="button" value="show" onclick="test1();" />
+    <input type="button" value="hide" onclick="test2();" />
+    <input type="button" value="toggle" onclick="test3();" />
+
+    <br />
+    <img src="images/river1.PNG" id="img-river" style="display: none" />
+    <hr />
+    <script>
+      // show([duration]) 보이기
+      // callback함수로 해당 show/hide 기간이 끝나고 나서 연이어 발생할 일 설정 가능
+      // $(selector).show(speed,easing,callback)
+      // easing
+      // "swing" - 기본값, moves slower at the beginning/end, but faster in the middle
+      // "linear" - 일정한 속도
+
+      function test1() {
+        $("#img-river").show(1000, function () {
+          alert("show 끝!");
+          $(this).css("border", "3px solid black");
+        });
+      }
+      // hide([duration]) 숨기기
+      function test2() {
+        $("#img-river").hide(4000, function () {
+          alert("show 끝!");
+        });
+      }
+
+      // toggle()
+      // 현재 보이면 hide, 안보이면 show
+      function test3() {
+        $("#img-river").toggle(4000, "easeOutBounce", function () {
+          alert("show 끝!");
+        });
+      }
+
+      // ease 효과
+      // def 블라인드 효과
+    </script>
+
+    <h2>fade</h2>
+    <input type="button" value="fadeIn" onclick="test4();" />
+    <input type="button" value="fadeOut" onclick="test5();" />
+    <input type="button" value="fadeToggle" onclick="test6();" />
+
+    <br /><br />
+
+    <img src="images/flower1.PNG" id="flower" />
+    <hr />
+    <div class="img-wrapper">
+      <img src="images/flower2.PNG" id="flower2" />
+    </div>
+    <!-- 막판에 display none 처리됨 -->
+
+    <style>
+      .img-wrapper {
+        width: 500px;
+        height: 300px;
+        overflow: hidden;
+      }
+
+      .img-wrapper img {
+        width: 100%;
+        transition-duration: 0.5s;
+        opacity: 0.7;
+      }
+    </style>
+    <script>
+      /**
+       * fadeIn
+       */
+      function test4() {
+        $("#flower").fadeIn(1000);
+      }
+      /**
+       * fadeOut
+       */
+      function test5() {
+        $("#flower").fadeOut(1000);
+      }
+      /**
+       * fadeToggle
+       */
+      function test6() {
+        $("#flower").fadeToggle(1000);
+      }
+
+      $("#flower2").hover(
+        function () {
+          //mouseenter
+          $(this)
+            .fadeTo(100, 1) // 선명하게
+            .css("transform", "scale(1.1, 1.1"); //키우기
+        },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(100, 0.7) // 원래값으로 바꾸기
+            .css("transform", "scale(1, 1"); //원래값으로 바꾸기
+        }
+      );
+    </script>
+
+    <h2>animate</h2>
+    <input type="button" value="실행" onclick="test7();" />
+
+    <!-- <div class="box" id="box1"></div> -->
+
+
+    <style>
+      .box {
+        background-color: fuchsia;
+        width: 10px;
+        height: 1px;
+        margin: 0 auto;
+      }
+    </style>
+
+    <script>
+      // 컬러 플러그인
+      // https://code.jquery.com/color/
+      // 2.2.0 uncompressed 사용
+      // head에 추가
+
+      /**
+       * animate(cssProps, duration, easing옵션, callback함수)
+       */
+      function test7() {
+        $("#box1").animate(
+          {
+            // 숫자로 해결할 수 있는 속성들에 대해서만 적용 가능
+            width: "300px",
+            height: "1px",
+            "background-color" : "blue"
+            // 컬러값은 적용이 되지 않음 -> 플러그인 설치
+          },
+          3000,
+          "easeOutBounce",
+          function () {
+            alert("animate완료!");
+          }
+        );
+      }
+    </script>
+
+    <div class="img-container">
+        <img src="images/tour1.jpg">
+    </div>
+    <style>
+        .img-container {
+            width: 155px;
+            height: 105px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 2px solid gray;
+            padding-left : 5px;
+            padding-top : 5px;
+        }
+
+        .img-container img {
+            width: 150px;
+            height: 100px;
+            position: relative;
+            /* offset값을 주려면 relative로 설정해야 한다 */
+        }
+    </style>
+<!-- 
+/* 클릭시 왼쪽으로 이동하게 */
+/* 부모가 overflow가 hidden이라 사라지는 느낌 */ -->
+<script>
+  $(".img-container img").click(function(){
+    $(this).animate({
+      left : '-158px'
+    }, 600, 'swing', function(){
+      $(this)
+        .css("left" , "155px")
+        .delay(1000)
+        .animate({
+          left : "0px"
+        }, 600, 'swing');
+
+    });
+  });
+    </script>
+  </body>
+</html>

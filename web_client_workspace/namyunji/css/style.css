@@ -3,7 +3,7 @@
         width: 1024px;
         margin: 0px auto;
         background-color: #FBFAF9;
-        font-family: 'Zilla Slab', sans-serif;
+
     }
     /* 스크롤바 삭제 */
     body::-webkit-scrollbar{
@@ -34,15 +34,30 @@
     }
     ul#menu li {
         float : left;
-        margin-right: 60px;
+        margin-right: 100px;
         font-size: 20px;
         width: 50px;
+        transform: translate(300px, -33px);
     }
-
+    
     ul#menu a {
+        font-family: 'Zilla Slab', sans-serif;
+        font-size: 21px;
         text-decoration: none;
         color: #91877F;
     }
+
+    li#logo {
+        list-style-type:none;
+        margin: 0;
+        float: left;
+        transform: translate(44px, -52px);
+    }
+
+    #logoImg {
+        width: 200px;
+    }
+
     ul#menu li:hover>a {
         text-shadow: 0.1px 0.1px 0.1px gray;
         font-size : 1.01em;
@@ -60,7 +75,6 @@
         color: #91877F;
         margin-right: 50px;
         transform: translate(-80px, -18px);
-
     }
     
     .lang a {

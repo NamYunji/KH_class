@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery - api</title>
+    <script src="js/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <h1>jQuery Api</h1>
+    <h2>$(selector).each</h2>
+    <ul id="animals">
+        <li>dog</li>
+        <li>cat</li>
+        <li>hyena</li>
+    </ul>
+    <input type="button" value="실행" onclick="test1();">
+    <script>
+        /**
+         * $(selector).each
+         * jquery 객체의 요소를 순회하는 메소드
+         * 
+         * each : 각 요소별로 실행한 콜백함수 전달받음
+         * each(function(index, 요소){})
+         * 
+         * forEach와 비슷함
+         */
+
+        // 대문자로 바꾸기
+        function test1(){
+            var $animals = $("#animals").children(); // li태그
+
+            $animals.each(function(index, li){
+                // console.log(index, li);
+                // 태그객체가 전달됨
+                var $li = $(li);
+                var a = $(li).text();
+                var A = a.toUpperCase();
+                console.log(A);
+                $li.text(A);
+            });
+        }
+    </script>
+
+    <h2>$.each</h2>
+    <input type="button" value="실행" onclick="test2();">
+    <script>
+        /**
+         * $.each(jsObject, callbackFunction)
+         * 자바스크립트 객체를 첫번째로, 두번째로 콜백함수 전달
+         * - 배열 : callback(index, 요소)
+         * - 객체 : callback(key속성명, value속성값)
+         * 
+         * for..in문과 비슷함
+         */
+        function test2(){
+            // 배열
+            var arr = [1, 2, 3, 4, 5];
+            $.each(arr, function(i, n){
+                console.log(i + " : " + n);
+            })
+            // 객체
+            var obj = {
+                name : '홍길동',
+                age : 33
+            };
+            $.each(obj, function(key, value){
+                console.log(key + " : " + value);
+            });
+        }
+    </script>
+
+    <h2>data</h2>
+    <input type="button" value="실행" onclick="test3();">
+    <!-- 정보를 li태그에 명시 -->
+    <ul id="pets">
+        <!-- 대소문자 구분 안됨 
+        data-birthDay -> birthday로 처리됨 , birth-day -> birthDay로 처리됨 -->
+        <li data-birth-day="20030503" data-breed="푸들" data-weight="3.5">구리구리</li>
+        <li data-birth-day="20000101" data-breed="요크셔테리어" data-weight="3">까미</li>
+        <li data-birth-day="20051203" data-breed="코카스패니엘" data-weight="13">사랑이</li>
+    </ul>
+    
+    <script>
+    
+  /**
+   * tag객체.dataset에 저장된 데이터를 get/set 할수 있다.
+   * 
+   */
+  function test3() {
+    var colors = ['흰', '거무스름', '브라운'];
+    
+    var $pets = $("#pets").children(); // li태그
+    $pets.each(function(i, li){
+
+      console.log(li.dataset); // js DOMStringMap
+      console.log($(li).data()); // jquery Ojbect
+      // 1. getter
+      console.log($(li).data('birthDay')); // -(하이픈) 연결 key값은 camel casing으로 참조
+      // 2. setter
+      $(li).data('petColor', colors[i]); // 대문자 -> data-pet-color으로 저장
+    })
+  }
+    </script>
+
+    <h2>is(selector)</h2>
+    <input type="button" value="실행" onclick="test4();">
+
+    <div class="wrapper">
+        <h2>h2</h2>
+        <h3 class="text">h3</h3>
+        <p class="text">p</p>
+        <pre>pre</pre>
+    </div>
+
+    <script>
+        /**
+         * is(selector)
+         * 
+         * 현재 jquery객체가 selector와 일치하는지의 여부를 반환
+         */
+        function test4(){
+            var $children = $(".wrapper").children();
+            $children.each(function(i, elem){
+                console.log($(elem).is("p"));
+                // 하나씩 p태그인지 물어봄, false false true false
+
+                // 분기처리
+                // $(elem)
+                var $elem = $(elem);
+                if($elem.is("p")){
+                    $elem.css("color", "red");
+                }
+                if($elem.is(".text")){
+                    $elem.css("background-color", "springgreen");
+                }
+            });
+        }
+    </script>
+
+    <h2>clone | remove | detach | empty</h2>
+    <input type="button" value="clone" onclick="test10()">
+    <input type="button" value="remove" onclick="test11()">
+    <input type="button" value="detach" onclick="test12()">
+    <input type="button" value="empty" onclick="test13()">
+
+    <div class="original">
+        <div class="item"></div>
+    </div>
+    <div class="result"></div>
+    <style>
+        .original, .result {
+            border: 1px solid gray;
+            padding : 5px;
+            margin : 10px 0;
+            min-height: 100px;
+        }
+        .item {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            border: 1px solid #000;
+        }
+        .lime {
+            background-color: lime;
+        }
+
+    </style>
+    <script>
+        $(".item").hover(function(){
+            //mouseover
+            $(this).addClass("lime");
+        }, function(){
+            // mouseleave
+            $(this).removeClass("lime");
+        });
+                
+        /**
+         * clone(eventHandling)
+         * 요소복제. 이벤트핸들링 복사여부를 인자로 전달.
+         * 기본값 : false (이벤트핸들링을 복사하지 않음)
+         */
+        function test10(){
+            var $itemCopy = $(".original .item").clone(true);
+            $itemCopy.appendTo($(".result"));
+        }
+
+        /**
+         * remove
+         * 요소제거후 제거된 요소를 리턴
+         * 이때 이벤트 핸들러는 제거됨
+         */
+         function test11(){
+            $(".item:eq(0)")
+            .remove()
+            .appendTo($(".result"));
+        }
+
+        /**
+         * detach
+         * 요소제거후 제거된 요소를 리턴
+         * 이벤트핸들러 유지
+         */
+
+         function test12(){
+            $(".item:eq(0)")
+            .detach()
+            .appendTo($(".result"));
+        }
+
+        /**
+         * empty
+         * 자식요소 제거
+         */
+         function test13() {
+             $(".original, .result").empty();
+         }
+    </script>
+
+</body>
+</html>

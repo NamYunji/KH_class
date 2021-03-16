@@ -5,11 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>namyunji</title>
+    <script src="js/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    <!--  font-family: 'Zilla Slab'; -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+
+    <!-- font-family: 'Antic Slab', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap" rel="stylesheet">
+
+    <!-- bgm -->
+    <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
+    <script>
+        document.getElementById("bgm").volume = 0.08;
+    </script>
+
 
     <header>
         <!-- 메뉴바 -->
@@ -28,15 +41,53 @@
         <nav>
             <!-- 메뉴바 -->
             <div id="menubar">
+                <ul>
+                    <li id="logo" class="menubar"><a href="index.html"><img id="logoImg" src="img/index/logo.png"></a></li>
+                </ul>
                 <ul id="menu">
-                        <li class="menubar"><a href="#top"><img src="img/index/logo.png"></a></li>
-                        <br><br><br><br>
                         <li class="menubar"><a href="01_introduce.html">introduce</a></li>
                         <li class="menubar"><a href="02_interest.html">interest</a></li>
-                        <li class="menubar" style="margin-right: 0;"><a href="03_roadmap.html">roadmap</a></li>
+                        <li class="menubar"><a href="03_roadmap.html">roadmap</a></li>
                 </ul>
             </div>
         </nav>   
+
+
+
+        <br>
+        <div class="motto" style="text-align: center;">
+            <img src="img/index/line.png" width="500px" height="1px">
+            <p id="motto">Where there's a will , there's a way.</p>
+            <img src="img/index/line.png" width="500px" height="1px">
+        </div>
+
+        <style>
+            .motto p {
+                margin-bottom: 5px;
+                font-family: 'Antic Slab', serif;
+                font-size:20px;
+                font-weight: 600;
+                color: rgb(190, 173, 150);
+            }
+        </style>
+
+        <script>
+            $(function(){
+                var i = 0;
+                var x = document.querySelector('#motto').innerHTML;
+                var y = "";
+
+                function typeWriter(){
+                    if(i < x.length) {
+                        $("#motto").text(y+=x[i]);
+                        i++;
+                        setTimeout(typeWriter, 150);
+                    }
+                }
+
+                typeWriter();
+            });
+        </script>
     </header>
 
     <article>
@@ -53,7 +104,7 @@
         <!-- 2. interest -->
         <div class="wrapper">
             <!-- photo -->
-            <img src="img/index/interest_ppt.gif">
+            <img src="img/index/interest2.gif">
             <!-- more -->
             <a href="02_interest.html">
                 <img class="more" src="img/index/more_box.png">
@@ -71,12 +122,14 @@
         </div>
     </article>
 
+
     <style>
         /* photo규격 */
         .wrapper img {
             display: block;
-            margin: 100px auto 50px;
+            margin: 130px auto 50px;
             width: 800px;
+
         }
 
         /* more버튼 규격 */
