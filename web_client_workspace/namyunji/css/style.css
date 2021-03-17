@@ -27,31 +27,32 @@
         width: 1024px;
         transform: translateY(-40px);
     }
+
     ul#menu {
         list-style-type:none;
         width: 550px;
         margin : 0 auto;
     }
-    ul#menu li {
-        float : left;
+    #menu li {
+        float : right;
         margin-right: 100px;
         font-size: 20px;
         width: 50px;
-        transform: translate(300px, -33px);
+        transform: translate(169px, -41px);
     }
-    
+
     ul#menu a {
         font-family: 'Zilla Slab', sans-serif;
-        font-size: 21px;
+        font-size: 21.5px;
         text-decoration: none;
-        color: #91877F;
+        color: #6e6a67;
     }
 
     li#logo {
         list-style-type:none;
         margin: 0;
         float: left;
-        transform: translate(44px, -52px);
+        transform: translate(41.5px, -60px);
     }
 
     #logoImg {
@@ -60,7 +61,7 @@
 
     ul#menu li:hover>a {
         text-shadow: 0.1px 0.1px 0.1px gray;
-        font-size : 1.01em;
+        font-size : 1.08em;
         color: #91877F;
         padding : 3px 5px 5px;
         border: 1px solid #91877F;

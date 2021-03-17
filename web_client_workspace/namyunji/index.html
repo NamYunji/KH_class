@@ -1,180 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>namyunji</title>
     <script src="js/jquery-3.6.0.js"></script>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- easing -->
+    <script src="js/jquery.easing.1.3.js"></script>
+    <!-- color -->
+    <script
+      src="https://code.jquery.com/color/jquery.color-2.2.0.js"
+      integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+    /* motto 부분 */
+    #line1 {
+        background-color: rgb(247, 238, 225);
+        width: 0px;
+        height: 0px;
+        margin: 20px auto 0;
+    }
+
+    #line2 {
+        background-color: rgb(247, 238, 225);
+        width: 0px;
+        height: 0px;
+        margin: 0 auto;
+        transform: translateY(15px);
+    }
+
+    .motto p {
+        margin-bottom: 5px;
+        font-family: "Antic Slab", serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: rgb(126, 115, 100);
+    }
+
+    /* 본문 부분 */
+
+    .bg {
+        text-align: center;
+    }
+
+    .index_name {
+        margin: 100px auto 5px;
+        color :rgb(102, 93, 79);
+        font-size: 22px;
+        font-family: "Antic Slab", serif;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .bg .bg-cover {
+        margin: 10px auto 10px;
+    }
+
+    .bg-text {
+        position: absolute;
+        color :rgb(126, 115, 100);
+        padding: 5px 10px;
+        font-family: 'Merriweather', serif;
+        font-weight: bolder;
+    }
+
+    .bg-text1 {
+        transform: translate(140px, -530px);
+        font-size: 50px;
+        opacity: 0.35;
+    }
+
+    .bg-text2 {
+        transform: translate(140px, -400px);
+        font-size: 25px;
+        color: rgb(94, 84, 72);
+        font-weight: 500;
+        opacity: 0.7;
+    }
+
+    img.more {
+        display: block;
+        width: 110px;
+        margin: 0 auto;
+        transform: translateY(30px);
+    }
+
+    /* contact 부분 */
+    .kakao {
+        position: absolute;
+        transform: translate(457px, -70px);
+    }
+
+    .contact-text {
+        position: absolute;
+        color :rgb(210, 149, 0);
+        padding: 5px 10px;
+        font-family: 'Merriweather', serif;
+        font-weight: bolder;
+        font-size: 20px;
+        transform: translate(420px, -190px);
+    }
+
+    #contact-link {
+        position: absolute;
+        transform: translate(407px, -115px);
+    }
+
+    #contact-link img {
+        width: 25px;
+        margin-right: 15px;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    </style>
+  </head>
+
+
+  <body>
     <!--  font-family: 'Zilla Slab'; -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- font-family: 'Antic Slab', serif; -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- font-family: 'Merriweather', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- bgm -->
     <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
+    <script> document.getElementById("bgm").volume = 0.08; </script>
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+    <header>
+      <!-- 회원가입 -->
+      <ul>
+        <li id="register"><a href="04_register.html">register</a></li>
+      </ul>
+
+      <div class="language">
+        <ul>
+          <li class="lang" id="eng" style="text-decoration: line-through">
+            <a href="#top"> ENG</a>
+          </li>
+          <!-- <li class="lang" id="|"><a href="">------</a></li> -->
+          <li class="lang" id="kor" style="font-weight: bold">
+            <a href="kor_index.html"> KOR</a>
+          </li>
+        </ul>
+      </div>
+      <nav>
+
+        <!-- 메뉴바 -->
+        <div id="menubar">
+          <ul>
+            <li id="logo" class="menubar">
+              <a href="index.html"
+                ><img id="logoImg" src="img/index/logo.png"
+              /></a>
+            </li>
+          </ul>
+          <ul id="menu">
+            <li><a id="menu-01" href="01_introduce.html">introduction</a></li>
+            <li><a href="02_interest.html">interest</a></li>
+            <li><a href="03_roadmap.html">roadmap</a></li>
+          </ul>
+        </div>
+      </nav> 
+
+      <!-- 스크롤시 메뉴바 흐릿하게 -->
+      <script>
+          $(window).scroll(function() {
+            if($(this).scrollTop() == 0)
+            $('#menubar').css('opacity','1');
+            else
+            $('#menubar').css('opacity','.5');
+            });
+      </script>
+
+      <!-- 모토 -->
+      <br/>
+      <div id="line1"></div>
+      <div class="motto" style="text-align: center">
+        <p id="motto">Where there's a will , there's a way.</p>
+      </div>
+      <div id="line2"></div>
+
+      <script>
+        // motto line1
+        $(function () {
+          $("#line1")
+            .delay(700)
+            .animate(
+              {
+                width: "400px",
+                height: "0.8px",
+                "background-color": "rgb(145, 132, 116)",
+              },
+              5000,
+              "easeOutExpo"
+            );
+        });
+        // motto line2
+        $(function () {
+          $("#line2")
+            .delay(1500)
+            .animate(
+              {
+                width: "400px",
+                height: "0.8px",
+                "background-color": "rgb(145, 132, 116)",
+              },
+              5000,
+              "easeOutExpo"
+            );
+        });
+        // motto typing
+        $(function () {
+          var i = 0;
+          var x = document.querySelector("#motto").innerHTML;
+          var y = "";
+
+          function typeWriter() {
+            if (i < x.length) {
+              $("#motto").text((y += x[i]));
+              i++;
+              setTimeout(typeWriter, 150);
+            }
+          }
+          typeWriter();
+        });
+      </script>
+    </header>
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+
+
+    <article>
+
+    <!-- 01. introduction -->
+        <div class="bg">
+        <div>
+            <div class="index_name"><p>▲&nbsp; I N T R O D U C T I O N</p></div>
+          <img class="bg-cover" id="bg-cover01" width="800px" height="500px" src="img/index/bird_flying.gif" />
+        </div>
+        <div class="bg-text bg-text1"><p>Yunji Nam</p></div>
+        <div class="bg-text bg-text2"><p>Lorem ipsum dolor sit <br> amet consectetur adipisicing <br>elit. Beatae quam <br>dolorem inventore p</p></div>
+        
+        <div class="more"><a href="01_introduce.html"><img class="more" src="img/index/more_box.png"></a></div>
+    </div>
+    <br><br><br><br>
+
+    <!-- 02. interest -->
+    <div class="bg">
+        <div>
+            <div class="index_name"><p>●&nbsp; I N T E R E S T</p></div>
+          <img class="bg-cover"id="bg-cover02" width="800px" height="500px" src="img/index/interest2.gif" />
+        </div>
+        <div class="bg-text bg-text1"><p>Yunji Nam</p></div>
+        <div class="bg-text bg-text2"><p>Lorem ipsum dolor sit <br> amet consectetur adipisicing <br>elit. Beatae quam <br>dolorem inventore p</p></div>
+        <div class="more"><a href="02_interest.html"><img class="more" src="img/index/more_box.png"></a></div>
+    </div>
+
+    <br><br><br><br>
+
+    <!-- 03. roadmap -->
+    <div class="bg">
+        <div>
+            <div class="index_name"><p>◆&nbsp; R O A D M A P</p></div>
+          <img class="bg-cover" id="bg-cover03" width="800px" height="500px" src="img/index/roadmap_index.gif" />
+        </div>
+        <div class="bg-text bg-text1"><p>Yunji Nam</p></div>
+        <div class="bg-text bg-text2"><p>Lorem ipsum dolor sit <br> amet consectetur adipisicing <br>elit. Beatae quam <br>dolorem inventore p</p></div>
+        <div class="more"><a href="03_roadmap.html"><img class="more" src="img/index/more_box.png"></a></div>
+    </div>
+    <br><br><br><br>
+    </article>
+
     <script>
-        document.getElementById("bgm").volume = 0.08;
+        $(".bg-cover").hover(
+        function () {
+          //mouseenter
+          $(this)
+          .fadeTo(500, 0.6)
+        },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(500, 1)
+        }
+      );
+
+      $(".bg-cover").hover(
+        function () {
+          //mouseenter
+          $('.index_name')
+          .fadeTo(500, 0.7)
+        },
+        function () {
+          // mouseleave
+          $('.index_name')
+            .fadeTo(500, 1)
+        }
+      );
+
+      $(".bg-cover").hover(
+        function () {
+          //mouseenter
+          $('.bg-text')
+          .fadeTo(800, 1)
+        },
+        function () {
+          // mouseleave
+          $('.bg-text')
+            .fadeTo(800, 0.7)
+        }
+      );
     </script>
 
 
-    <header>
-        <!-- 메뉴바 -->
-        <!-- 회원가입 -->
-        <ul>
-            <li id="register"><a href="04_register.html">register</a></li>
-        </ul>
-
-        <div class="language">
-            <ul>
-                <li class="lang" id="eng" style="text-decoration: line-through;"><a href="#top"> ENG</a></li>
-                <!-- <li class="lang" id="|"><a href="">------</a></li> -->
-                <li class="lang" id="kor" style="font-weight: bold;"><a href="kor_index.html"> KOR</a></li>
-            </ul>
-        </div>
-        <nav>
-            <!-- 메뉴바 -->
-            <div id="menubar">
-                <ul>
-                    <li id="logo" class="menubar"><a href="index.html"><img id="logoImg" src="img/index/logo.png"></a></li>
-                </ul>
-                <ul id="menu">
-                        <li class="menubar"><a href="01_introduce.html">introduce</a></li>
-                        <li class="menubar"><a href="02_interest.html">interest</a></li>
-                        <li class="menubar"><a href="03_roadmap.html">roadmap</a></li>
-                </ul>
-            </div>
-        </nav>   
-
-
-
-        <br>
-        <div class="motto" style="text-align: center;">
-            <img src="img/index/line.png" width="500px" height="1px">
-            <p id="motto">Where there's a will , there's a way.</p>
-            <img src="img/index/line.png" width="500px" height="1px">
-        </div>
-
-        <style>
-            .motto p {
-                margin-bottom: 5px;
-                font-family: 'Antic Slab', serif;
-                font-size:20px;
-                font-weight: 600;
-                color: rgb(190, 173, 150);
-            }
-        </style>
-
-        <script>
-            $(function(){
-                var i = 0;
-                var x = document.querySelector('#motto').innerHTML;
-                var y = "";
-
-                function typeWriter(){
-                    if(i < x.length) {
-                        $("#motto").text(y+=x[i]);
-                        i++;
-                        setTimeout(typeWriter, 150);
-                    }
-                }
-
-                typeWriter();
-            });
-        </script>
-    </header>
-
-    <article>
-        <!-- 1. introduce -->
-        <div class="wrapper">
-            <!-- photo -->
-            <img src="img/index/bird_flying.gif">
-            <!-- more -->
-            <a href="01_introduce.html">
-                <img class="more" src="img/index/more_box.png">
-            </a>
-        </div>
-
-        <!-- 2. interest -->
-        <div class="wrapper">
-            <!-- photo -->
-            <img src="img/index/interest2.gif">
-            <!-- more -->
-            <a href="02_interest.html">
-                <img class="more" src="img/index/more_box.png">
-            </a>
-        </div>
-
-        <!-- 3. roadmap -->
-        <div class="wrapper">
-            <!-- photo -->
-            <img src="img/index/roadmap_index.gif">
-            <!-- more -->
-            <a href="03_roadmap.html">
-                <img class="more" src="img/index/more_box.png" >
-            </a>
-        </div>
-    </article>
-
-
-    <style>
-        /* photo규격 */
-        .wrapper img {
-            display: block;
-            margin: 130px auto 50px;
-            width: 800px;
-
-        }
-
-        /* more버튼 규격 */
-        img.more {
-            display: block;
-            width: 100px;
-            margin: 0 auto;
-        }
-    </style>
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
     <footer>
-        <!-- 작성자 인적사항 -->
-        <img src="img/index/footer.png" style="width: 1024px; height: 200px; margin-top: 100px;">
-            <p id="contactMe";>contact me</p>
-            <div id="contact">
-                <a href="https://www.instagram.com/u_u.rung2/"><img src="img/index/instagram.png" style="width : 19px;"></a>
-                <a href="https://www.facebook.com/yoonji.nam.94"><img src="img/index/facebook.png" style="width : 16px;"></a>
-                <a href="http://qr.kakao.com/talk/rfWqp6TYe1_.t6B31XEj71toef4-"><img src="img/index/kakaotalk.png"></a>
-                <a href="mailto:dbs7wl7@naver.com"><img src="img/index/email.png"></a>
-                <a href="tel"><img src="img/index/tel.png" style="width : 17px; margin-right: 0;"></a>
-            </div>
+      <!-- 작성자 인적사항 -->
+      <div class="contact">
+
+        <div class="bg-contact">
+            <img style="width: 1000px; height: 230px; margin-top: 100px" src="img/index/footer.png" />
+        </div>
+
+        <div class="contact-text"><p># CONTACT ME</p></div>
+
+        <div id="contact-link">
+            <a href="https://www.instagram.com/u_u.rung2/"
+              ><img src="img/index/instagram.png" style="width: 26.5px"
+            /></a>
+            <a href="https://www.facebook.com/yoonji.nam.94"
+              ><img src="img/index/facebook.png" style="width: 22px"
+            /></a>
+            <a href="mailto:dbs7wl7@naver.com"><img src="img/index/email.png" style="width: 21.8px"/></a>
+            <a href="sms:01089959705"><img src="img/index/message.png"></a>
+            <a href="tel:01089959705"
+            ><img src="img/index/tel.png" style="width: 22px; margin-right: 0"
+            /></a>
+    </div>
+    <div class="kakao">
+        <div
+        id="kakao-talk-channel-chat-button"
+        data-channel-public-id="_yxbSYK"
+        data-title="consult"
+        data-size="small"
+        data-color="mono"
+        data-shape="pc"
+        data-support-multiple-densities="true"
+      ></div>
+    </div>
+
+
+    <script>
+        // 카카오톡 톡상담
+       window.kakaoAsyncInit = function() {
+    Kakao.Channel.createChatButton({
+      container: '#kakao-talk-channel-chat-button',
+    });
+  };
+
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+    fjs.parentNode.insertBefore(js, fjs);
+     })(document, 'script', 'kakao-js-sdk');
+      </script>
     </footer>
-    <!-- ul : padding-left값 -> 들여쓰기 효과, 위/아래 margin, 자식태그 width -->
-    <style>
 
-        /* footer */
-        footer {
-            width: 1024px;
-            height: 140px;
-            margin: 0px auto;
-            text-align: center;
-        }
-
-        #contactMe {
-            color: rgb(210, 149, 0);
-            font-size: large;
-            font-weight: bold;
-            text-shadow: 0 0 15px #D9CDBC;
-            }
-
-        #contact img{
-            width : 18px;
-            margin-right : 15px;
-        }
-
-    </style>
-</body>
+  </body>
 </html>
