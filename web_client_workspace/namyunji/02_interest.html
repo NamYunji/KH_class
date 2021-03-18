@@ -4,50 +4,463 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>interest</title>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+    <title>introduction</title>
+    <script src="js/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- easing -->
+    <script src="js/jquery.easing.1.3.js"></script>
+    <!-- color -->
+    <script
+      src="https://code.jquery.com/color/jquery.color-2.2.0.js"
+      integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg="
+      crossorigin="anonymous"
+    ></script>
 
-    <header>
-        <!-- 메뉴바 -->
-        <!-- 회원가입 -->
-        <ul>
-            <li id="register"><a href="04_register.html">register</a></li>
-        </ul>
 
-        <div class="language">
-            <ul>
-                <li class="lang" id="eng" style="text-decoration: line-through;"><a href="#top"> ENG</a></li>
-                <!-- <li class="lang" id="|"><a href="">------</a></li> -->
-                <li class="lang" id="kor" style="font-weight: bold;"><a href="kor_index.html"> KOR</a></li>
-            </ul>
-        </div>
-        <nav>
-            <!-- 메뉴바 -->
-            <div id="menubar">
-                <ul id="menu">
-                        <li class="menubar"><a href="index.html">home</a></li>
-                        <li class="menubar"><a href="01_introduce.html">introduce</a></li>
-                        <li class="menubar" id="here"><a href="02_interest.html">interest</a></li>
-                        <li class="menubar" style="margin-right: 0;"><a href="03_roadmap.html">roadmap</a></li>
-                </ul>
-            </div>
-        </nav>   
-    </header>
+    <script>
+        $(window).scroll(function() {
+          if($(this).scrollTop() == 0)
+          $('#menubar').css('opacity','1');
+          else
+          $('#menubar').css('opacity','.5');
+          });
+    </script>
 
     <style>
         #here {
-            text-decoration: line-through;
-            font-weight: bold;
+        text-decoration: line-through;
         }
+        body::-webkit-scrollbar{
+        display:initial;
+    }
     </style>
+</head>
+<body>
+    <!--  font-family: 'Zilla Slab'; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap"
+      rel="stylesheet"
+    />
 
+    <!-- font-family: 'Antic Slab', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- font-family: 'Merriweather', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  <!-- font-family: 'Jua', sans-serif;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Noto Serif KR', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Song Myung', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Noto+Serif+KR:wght@200;300;400;500;600&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Song+Myung&display=swap"
+      rel="stylesheet">
+
+    <!-- bgm -->
+    <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
+    <script> document.getElementById("bgm").volume = 0.08; </script>
+
+    <header>
+
+        <!-- 메뉴바 -->
+        <div id="menubar">
+          <ul>
+            <li id="logo" class="menubar">
+              <a href="index.html"
+                ><img id="logoImg" src="img/index/logo.png"
+              /></a>
+            </li>
+          </ul>
+          <ul id="menu">
+            <li><a id="menu-01" href="01_introduce.html">introduction</a></li>
+            <li id="here"><a href="02_interest.html">interest</a></li>
+            <li><a href="03_roadmap.html">roadmap</a></li>
+          </ul>
+        </div>
+      </nav> 
+    </header>
+    
     <article>
-        <img width="900px" src="img/interest/interest_bg.png" alt="">
-        <div class="wrapper">
+      <div class="wrapper">
+        <div id="interest-header">
+          <img src="img/interest/bird.gif">
+          <p id="header-text">PPT Design</p>
+          <p id="header-desc">발표능력을 키우기 위해 시작한 발표 동아리에서<br>
+            진솔한 이야기와 어우러질 PPT를 제작하는 것에 <br>
+            특히 흥미를 가지게 되었습니다. <br>
+            뛰어난 수준은 아니지만,<br>
+            저만의 것을 만드는 과정이 즐거워 <br>
+            취미로 여러 편집 프로그램들을 배울 예정입니다. <br>
+            </p>
+        </div>
+      </div>
+
+      <style>
+        .wrapper {
+          width: 900px;
+          margin : 0 auto;
+        }
+        
+        #interest-header img{
+          width: 250px;
+          transform: translate(-345px, 36px);
+        }
+        
+        #header-text {
+          display: inline;
+          float: left;
+          transform: translate(460px, 10px);
+          font-family: Merriweather;
+          font-size: 30px;
+          color:rgb(71, 63, 59);
+          text-shadow: 3px 3px 5px rgb(180, 180, 179);
+        }
+
+        #header-desc {
+          display: inline;
+          float: left;
+          transform: translate(291px, 90px);
+          font-family: 'Noto Serif KR', serif;
+          font-size: 16.5px;
+          line-height: 27px;
+          text-shadow: 0.5px 0.5px 0.5px rgb(102, 101, 101);
+          color: rgb(95, 90, 88);
+        }
+
+        .index {
+          margin-top: 100px;
+          position: relative;
+        }
+
+        .bg-img {
+          text-align: center;
+          margin: auto;
+        }
+
+        .ppt-gif {
+          position: absolute;
+          text-align: center;
+          transform: translate(160px, -590px);
+        }
+
+        .ppt-text {
+          position: absolute;
+          text-align: center;
+          transform: translate(350px, -190px);
+          text-shadow: 1px 1px 0 rgb(233, 225, 209);
+          color: rgb(38, 36, 36);
+        }
+
+        .video {
+          transform: translateX(-120px);
+        }
+
+        .index-no {
+          position: absolute;
+          transform: translate(96px, -41px);
+        }
+
+        .index-no a {
+          text-decoration: none;
+          padding-right: 46px;
+          font-family: 'Antic Slab', serif;
+          font-weight: 500;
+          color: rgb(29, 22, 13);
+          text-shadow: 0 0 0.5px rgb(36, 28, 11);
+        }
+
+        .video-desc1 {
+          text-align: center;
+          font-size: 25px;
+          font-family: 'Jua', sans-serif;
+        }
+
+        .video-desc2 {
+          text-align: center;
+          font-size: 20px;
+          font-family: 'Noto Serif KR', serif;
+        }    
+
+        
+
+      </style>
+
+
+      <div class="index">
+        <div class="bg-img">
+          <img width="900px" height="700px" style="text-align: center;" src="img/interest/interest_bg.png">
+        </div>
+        <div class="ppt-gif">
+          <img width="700px" src="img/interest/interest_ppt.gif">
+        </div>
+        <div class="ppt-text">
+          <p style="font-size: 19px; font-family: 'Noto Serif KR', serif;">발표 동아리, 공모전 동아리 활동시 <br>
+            제작한 자료들을 확인하실 수 있습니다. <br>
+            ▼ </p>
+        </div>
+      </div>
+
+      <div class="index-no">
+        <a href="#01">#01</a>
+        <a href="#02">#02</a>
+        <a href="#03">#03</a>
+        <a href="#04">#04</a>
+        <a href="#05">#05</a>
+        <a href="#06">#06</a>
+        <a href="#07">#07</a>
+        <a href="#08">#08</a>
+        <a href="#09">#09</a>
+        <a href="#10">#10</a>
+        <a style="padding-left: 5px;" href="#11">#11</a>
+      </div>
+
+      <div>
+
+        <br><br><br>
+        <div id="01">
+          <div class="line"></div>
+          <br>
+          <p class="video-desc1">#01<br>과거의 좋았던 순간을 그대로 인정하기
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/01.png" controls>
+              <source src="video/01.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">인간관계에서 오는 여러가지 이별을 대할 때<br>
+            함께여서 행복했던 순간들을 인정하고,<br>
+            함께일 때 최선을 다할 것을 강조합니다.</p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+        <div id="02">
+          <br>
+          <p class="video-desc1">#02<br>가장 소중한 사람이 나에 대한 기억을 잃어간다면
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/02.png" controls>
+              <source src="video/02.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">부모님, 조부모님께서 맞이할 수도 있는 치매에 대해 <br>
+            우리가 가져야 할 태도를 제시합니다.
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+        
+        <div id="03">
+          <br>
+          <p class="video-desc1">#03<br>NLP,  상대의 마음을 움직이는 기술
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/03.png" controls>
+              <source src="video/03.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">인간관계를 더욱 효과적으로 할 수 있는 NLP의 의미와 <br>
+            그 기술들을 소개하고 있습니다.
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+        <div id="04">
+          <br>
+          <p class="video-desc1">#04<br>고독에서 고독으로
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/04.png" controls>
+              <source src="video/04.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">독거노인들을 생활상 어려움과 그 문제를 해결할 방안을 제시하여<br>
+            ‘외로울’고, ‘홀로’독에서 ‘존경할’고, ‘도타이할’독으로<br>
+            변할 노인들의 생활을 기대하고 있습니다. 
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+        <div id="05">
+          <br>
+          <p class="video-desc1">#05<br>그대, 사이비종교에 빠지지 말아요.
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/05.png" controls>
+              <source src="video/05.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">사이비 종교의 어두운 부분과 <br>
+            사이비 종교에 빠지게 되는 과정을 설명하며 <br>
+            그들의 접근에 틈조차 주지 말 것을 강조합니다. <br>           
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+        <div id="06">
+          <br>
+          <p class="video-desc1">#06<br>None of the bad, Useful for Skin
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/06.png" controls>
+              <source src="video/06.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">한 회사의 제품시연회를 컨셉으로 <br>
+            비누 제품을 홍보하고 영업합니다.            
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+        <div id="07">
+          <br>
+          <p class="video-desc1">#07<br>당신은 정상 or 비정상
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/07.png" controls>
+              <source src="video/07.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">단지 남들과 ‘다르다’는 이유로 정상과 비정상은 정할 수 없으며, <br>
+            단지 타인에 대해 꼬리표를 붙이고 바라보는 시각에 달린 문제임을 전달합니다.
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+        
+        <div id="08">
+          <br>
+          <p class="video-desc1">#08<br>어디서 마셔도, 누구와 마셔도 끝까지 청량할 TERRA
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/08.png" controls>
+              <source src="video/08.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">2030세대의 홈술/혼술트렌드를 이끌 수 있는 <br>
+            테라의 커뮤니케이션 전략을 제안합니다.            
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+        <div id="09">
+          <br>
+          <p class="video-desc1">#09<br>삼성생명, 젊음의 샘물을 마셔라
+            </p>
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/09.png" controls>
+              <source src="video/09.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">삼성생명이 2030세대에게 관심을 살 수 있도록 <br>
+            MCN기업인 샌드박스와 콜라보하는 유튜브 채널 운영과 컨텐츠 방향을 제안합니다.            
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+
+        <div id="10">
+          <br>
+          <p class="video-desc1">#10-1<br>희망브리지와 함께 막아주세요.
+            </p>
+            <p class="video-desc1">#10-2<br>희망브리지, 당신과 재난 약자를 연결하다.
+            </p>       
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/10.png" controls>
+              <source src="video/10.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">
+            일종의 재난인 폭염의 심각성과 <br>
+            폭염약자들에 대한 관심도를 증진시키기 위한 <br>
+            방안을 담고 있습니다.            
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+        <div id="11">
+          <br>
+          <p class="video-desc1">#11-1<br>뜯고, 보자!
+            </p>
+            <p class="video-desc1">#11-2<br>칠성을 잡아라
+            </p>       
+            <p class="video-desc1">#11-3<br>칠성 그립톡!
+            </p>       
+          <div class="video">
+            <video height="405" width="720" poster="img/interest/11.png" controls>
+              <source src="video/11.mp4" type="video/mp4">
+              </video>
+          </div>
+          <br><br><br><br><br><br>
+          <p class="video-desc2">
+            1525세대들을 타깃층으로 하여 칠성사이다 신제품을 홍보하고 <br>
+            그리고 칠성의 이미지를 보다 영하게 만들 수 있는 방안을 제안한합니다.
+            </p>
+            <br>
+          <div class="line"></div>
+        </div>
+
+
+
+
+
+
+
+
+        <style>
+          .line {
+            margin: 80px auto;
+            width: 750px;
+            height: 0.7px;
+            background-color: rgb(189, 188, 186);
+          }
+        </style>
+
+<!-- 
+        <div class="video" id="02">
+          <video height="405" width="720" poster="img/interest/02.png" controls>
+            <source src="video/02.mp4" type="video/mp4">
+            </video>
+        </div> -->
+
+
+
+
+        <!-- <div class="wrapper">
             <video class="video" poster="img/interest/01.png" src="video/01.mp4" controls></video>
             <p>#hello!!</p>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
@@ -89,7 +502,7 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
                 nspAccusantium impedit eveniet molestias vel </p>
         </div>
-        
+         -->
     </article>
 
     <style>

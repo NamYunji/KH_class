@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-3.6.0.js"></script>
+
+    <title>register</title>
+    <style>
+        table#login{
+            border-spacing:10px;
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            transform: translateY(220px);
+        }
+
+        #logo {
+                position: relative;
+                transform: translateY(215px);
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="logo">
+            <a href="index.html">
+                <img src="img/index/logo.png" style="width: 225px;">
+            </a>
+        </div>
+
+        <form action="javascript:alert('로그인되었습니다.');" name="memberFrm" style="height: 50px;">
+        <table id="login">
+                <tr>
+                    <td>
+                        <input type="text" name="username" id="username" placeholder=" Username" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="password" name="pwd" id="pwd" placeholder=" Password" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="LOGIN" style="width: 308px; height: 42px; letter-spacing: 1.2px; background-color: rgb(199, 195, 185);">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <a href="05_register.html" style="text-decoration: none; color: rgb(168, 168, 14); font-size: 20px;">Register</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    
+</body>
+</html>

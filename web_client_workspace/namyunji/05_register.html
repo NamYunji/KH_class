@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-3.6.0.js"></script>
+    <title>register</title>
+    <style>
+        table#tbl-entry{
+            border-spacing:10px;
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            transform: translate(80px, 75px);
+        }
+        #logo {
+                position: relative;
+                transform: translateY(85px);
+                text-align: center;
+            }
+        td{
+            color:rgb(59, 59, 55);
+            text-align: left;
+        }
+        </style>
+    </head>
+    <script>
+        if (window.localStorage) {
+            console.log("당신의 브라우져는 Web Storage를 사용할수 있습니다.");
+        } else {
+            console.warn("당신의 브라우져는 Web Storage를 사용할수 없습니다. 최신 브라우져로 업데이트 하세요.");
+        }
+    </script>
+    <body>
+        <div id="logo">
+            <a href="index.html">
+                <img src="img/index/logo.png" style="width: 225px;">
+            </a>
+        </div>
+
+        <!-- <form action="javascript:alert('회원가입 완료되었습니다.');" name="memberFrm" style="height: 50px;"> -->
+        <form action="javascript:saveEntry();" name="entryFrm">
+        <table id="tbl-entry">
+                <tr>
+                    <td>아이디</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="username" id="username" placeholder=" Username" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>비밀번호</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="password" name="pwd1" id="pwd1" placeholder=" Password" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+
+                
+                <tr>
+                    <td>비밀번호 재확인</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="password" name="pwd2" id="pwd2" placeholder=" Password Confirm" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+
+                
+                <tr>
+                    <td>이름</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="name" id="name" placeholder=" Name" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+
+                
+                <tr>
+                    <td>휴대폰 번호</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="mobile" id="mobile" placeholder=" Mobile Phone" style="width: 300px; height: 32px; letter-spacing: 0.8px;">
+                    </td>
+                </tr>
+
+                <tr></tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="REGISTER" style="width: 308px; height: 42px; letter-spacing: 1.2px; background-color: rgb(199, 195, 185);">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <a href="05_register.html" style="text-decoration: none; color: rgb(168, 168, 14); font-size: 20px;">Login</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <a href="#admin">관리자모드</a>
+
+        <p onclick="admin();">관리자모드</p>
+
+        <script>
+            function admin(){
+            showEntries();
+            };
+
+        </script>
+
+
+
+        <table id="tbl-entry"></table>
+        <script>
+            function saveEntry(){
+                var $frm = $(document.entryFrm);
+                var entry = {
+                username : $frm.find("[name=username]").val(),
+                pwd1 : $frm.find("[name=pwd1]").val(),
+                pwd2 : $frm.find("[name=pwd2]").val(),
+                name : $frm.find("[name=name]").val(),
+                mobile : $frm.find("[name=mobile]").val()
+            };
+            console.log(entry);
+
+            var entries = JSON.parse(localStorage.getItem("entries")) || [];
+            entries.push(entry);
+
+            var jsonEntries = JSON.stringify(entries);
+            localStorage.setItem("entries", jsonEntries);
+            document.entryFrm.reset();
+            showEntries();
+            }
+
+
+            function showEntries(){
+            // localStorage.entries가 가져와지거나 아니면 []빈 배열 할당
+            // 문자열이 넘어오기 때문에
+            var entries = JSON.parse(localStorage.getItem("entries")) || [];
+            // 없는 경우를 위해 [] 빈배열 추가
+
+            // 테이블을 가져옴
+            var $table = $("#tbl-entry");
+
+            // 헤더 추가
+            $table.html("<tr><th>No</th><th>아이디</th><th>비밀번호1</th><th>비밀번호2</th><th>이름</th><th>휴대폰</th></tr>");
+
+            // entries배열에 무언가 들어있거나, 아무것도 안들어있거나 할텐데
+            // 그것을 분기처리
+
+            // length가 있으면 true
+            // 방명록 요소가 있을 경우
+            // 저장된 entry가 있는 경우
+            // 배열의 요소를 하나씩
+            if(entries.length) {
+                $.each(entries, function(i, entry){
+                    // 한행한행마다 tr태그를 만들고 추가
+                    // var $tr = $("<tr></tr>");
+                    var $tr = $("<tr>");
+                    $tr
+                        .append("<td>" + (i + 1) + "</td>")
+                        .append("<td>" + entry.username + "</td>")
+                        .append("<td>" + entry.pwd1 + "</td>")
+                        .append("<td>" + entry.pwd2 + "</td>")
+                        .append("<td>" + entry.name + "</td>")
+                        .append("<td>" + entry.mobile + "</td>")
+
+                        // 이러면 한 행이 만들어짐
+                        // 한 행을 table에 추가
+                        .appendTo($table);
+                });
+            // length가 0이면 false
+            }
+            else {
+                $table.append("<tr><td colspan='3'>조회된 회원목록이 없습니다.</td></tr>");
+            }
+        }
+        </script>
+    
+</body>
+</html>

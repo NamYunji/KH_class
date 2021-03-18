@@ -4,47 +4,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>roadmap</title>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+    <title>introduction</title>
+    <script src="js/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- easing -->
+    <script src="js/jquery.easing.1.3.js"></script>
+    <!-- color -->
+    <script
+      src="https://code.jquery.com/color/jquery.color-2.2.0.js"
+      integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg="
+      crossorigin="anonymous"
+    ></script>
 
-    <header>
-        <!-- 메뉴바 -->
-        <!-- 회원가입 -->
-        <ul>
-            <li id="register"><a href="04_register.html">register</a></li>
-        </ul>
+    <script>
+        $(window).scroll(function() {
+          if($(this).scrollTop() == 0)
+          $('#menubar').css('opacity','1');
+          else
+          $('#menubar').css('opacity','.5');
+          });
+    </script>
 
-        <div class="language">
-            <ul>
-                <li class="lang" id="eng" style="text-decoration: line-through;"><a href="#top"> ENG</a></li>
-                <!-- <li class="lang" id="|"><a href="">------</a></li> -->
-                <li class="lang" id="kor" style="font-weight: bold;"><a href="kor_index.html"> KOR</a></li>
-            </ul>
-        </div>
-        <nav>
-            <!-- 메뉴바 -->
-            <div id="menubar">
-                <ul id="menu">
-                        <li class="menubar"><a href="index.html">home</a></li>
-                        <li class="menubar"><a href="01_introduce.html">introduce</a></li>
-                        <li class="menubar"><a href="02_interest.html">interest</a></li>
-                        <li class="menubar" id="here" style="margin-right: 0;"><a href="03_roadmap.html">roadmap</a></li>
-                </ul>
-            </div>
-        </nav>   
-    </header>
-
-    <img width="1000px" src="img/roadmap/roadmap_sample.png" alt="">
     <style>
         #here {
-            text-decoration: line-through;
-            font-weight: bold;
+        text-decoration: line-through;
+        }
+        body::-webkit-scrollbar{
+            display: none;
         }
     </style>
+</head>
+<body>
+    <!--  font-family: 'Zilla Slab'; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- font-family: 'Antic Slab', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- font-family: 'Merriweather', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- bgm -->
+    <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
+    <script> document.getElementById("bgm").volume = 0.08; </script>
+
+    <header>
+
+        <!-- 메뉴바 -->
+        <div id="menubar">
+          <ul>
+            <li id="logo" class="menubar">
+              <a href="index.html"
+                ><img id="logoImg" src="img/index/logo.png"
+              /></a>
+            </li>
+          </ul>
+          <ul id="menu">
+            <li><a id="menu-01" href="01_introduce.html">introduction</a></li>
+            <li><a href="02_interest.html">interest</a></li>
+            <li id="here"><a href="03_roadmap.html">roadmap</a></li>
+          </ul>
+        </div>
+      </nav> 
+    </header>
+
+    <style>
+
+    </style>
+    <img width="1000px" src="img/roadmap/roadmap_sample.png" alt="">
 
 
     <article>

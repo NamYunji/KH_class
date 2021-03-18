@@ -1,31 +1,17 @@
     body {
-        padding-top: 20px;
         width: 1024px;
-        margin: 0px auto;
+        margin: 50px auto;
         background-color: #FBFAF9;
 
     }
     /* 스크롤바 삭제 */
-    body::-webkit-scrollbar{
-        display: none;
-    }
-    /* 회원가입 */
-    #register {
-        list-style-type:none;
-        width : 1024px;
-        text-align: right;
-        transform: translateY(-20px);
-    }
-    #register a {
-        float: right;
-        text-decoration: none;
-        color: grey;
-    }
+
+
+
     /* 메뉴바 */
     #menubar {
         position: fixed;
         width: 1024px;
-        transform: translateY(-40px);
     }
 
     ul#menu {
@@ -33,12 +19,11 @@
         width: 550px;
         margin : 0 auto;
     }
-    #menu li {
-        float : right;
-        margin-right: 100px;
+    #menu li {  
+        float : left;
+        margin-right: 60px;
         font-size: 20px;
-        width: 50px;
-        transform: translate(169px, -41px);
+        transform: translate(294px, -37px);
     }
 
     ul#menu a {
@@ -52,7 +37,7 @@
         list-style-type:none;
         margin: 0;
         float: left;
-        transform: translate(41.5px, -60px);
+        transform: translate(41.5px, -56px);
     }
 
     #logoImg {
@@ -84,12 +69,3 @@
         text-decoration: none;
     }
 
-
-
-    /* <div class="language">
-    <ul>
-        <li class="lang" id="eng"><a href="#top">ENG</a></li>
-        <li class="lang" id="|"> | </li>
-        <li class="lang" id="kor"><a href="kor_index.html">KOR</a></li>
-    </ul>
-</div> */

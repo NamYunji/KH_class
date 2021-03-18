@@ -46,10 +46,10 @@
             // IE8바전
          }
 
-         $(function(){
-            //페이지 최초 방문시, entries를 조회한다.        
-             showEntries();
-         });
+         $(function () {
+            //페이지 최초 방문시, entries를 조회한다.
+            showEntries();
+        });
      </script>
 
      <style>
@@ -71,7 +71,7 @@
          <legend>아이템 저장 및 수정</legend>
          <input type="text" id="key1" placeholder="key">
          <input type="text" id="value1" placeholder="value">
-         <input type="button" value="실행" onclick="test1()">
+         <input type="button" value="실행" onclick="test1();">
      </fieldset>
      <script>
          /**
@@ -309,9 +309,12 @@
                      <th>내용</th>
                      <td><input type="text" name="content"></td>
                  </tr>
-                 <td colspan="2" style="text-align: center;">
-                     <input type="submit" value="저장">
-                 </td>
+                 <tr>
+                    <td colspan="2" style="text-align: center;">
+                       <input type="submit" value="저장">
+                   </td>
+                </tr>
+                     
              </table>
          </fieldset>
      </form>
@@ -331,7 +334,7 @@
             // 사용자가 입력한 내용을 바탕으로 entry객체 만들기
             var entry = {
                 name : $frm.find("[name=name]").val(),
-                content : $frm.find("[name=content").val()
+                content : $frm.find("[name=content]").val()
             };
             console.log(entry);
 
@@ -344,7 +347,7 @@
             // -> push가 안됨
             // but 처음입력하려면 null (값이 없으니까...)
             // 처음왔을 때의 처리
-            var entries = JASON.parse(localStorage.getItem("entries")) || [];
+            var entries = JSON.parse(localStorage.getItem("entries")) || [];
             // 값이 있을 때와 없을때의 처리
             
             entries.push(entry);
@@ -370,7 +373,8 @@
             // 자바스크립트 reset() - 폼전체를 초기화
             document.entryFrm.reset();
 
-            
+            // 방명록 최신화
+            showEntries();
 
          }
 
@@ -382,13 +386,13 @@
         function showEntries(){
             // localStorage.entries가 가져와지거나 아니면 []빈 배열 할당
             // 문자열이 넘어오기 때문에
-            var entries = JASON.parse(localStorage.getItem("entries")) || [];
+            var entries = JSON.parse(localStorage.getItem("entries")) || [];
             // 없는 경우를 위해 [] 빈배열 추가
 
             // 테이블을 가져옴
             var $table = $("#tbl-entry");
 
-            // 헤더 추가
+            // 헤더에 추가
             $table.html("<tr><th>No</th><th>이름</th><th>내용</th></tr>");
 
             // entries배열에 무언가 들어있거나, 아무것도 안들어있거나 할텐데
