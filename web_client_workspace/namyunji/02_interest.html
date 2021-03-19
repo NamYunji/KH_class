@@ -68,12 +68,12 @@
 
     <!-- bgm -->
     <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
-    <script> document.getElementById("bgm").volume = 0.08; </script>
+    <script> document.getElementById("bgm").volume = 0.0; </script>
 
     <header>
 
         <!-- 메뉴바 -->
-        <div id="menubar">
+        <div id="menubar" style="z-index: 5;">
           <ul>
             <li id="logo" class="menubar">
               <a href="index.html"
@@ -94,8 +94,8 @@
       <div class="wrapper">
         <div id="interest-header">
           <img src="img/interest/bird.gif">
-          <p id="header-text">PPT Design</p>
-          <p id="header-desc">발표능력을 키우기 위해 시작한 발표 동아리에서<br>
+          <p class="text-transition tt" id="header-text">PPT Design</p>
+          <p class="text-transition" id="header-desc">발표능력을 키우기 위해 시작한 발표 동아리에서<br>
             진솔한 이야기와 어우러질 PPT를 제작하는 것에 <br>
             특히 흥미를 가지게 되었습니다. <br>
             뛰어난 수준은 아니지만,<br>
@@ -105,31 +105,61 @@
         </div>
       </div>
 
+
       <style>
         .wrapper {
           width: 900px;
           margin : 0 auto;
+            color: #fff;
+            overflow: hidden;
+            display: inline-block;
         }
+
+        .wrapper .tt {
+            font-weight: 200;
+            margin: 20px 0 0 0;
+            font-style: italic;
+            transform: translateX(800px);
+            transition-delay: .2s;
+        }
+        .text-transition {
+            opacity: .7;
+            transition: all .6s ease-out;
+        }
+
+        .wrapper:hover .tt{
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .wrapper:hover #header-desc{
+          opacity: 1;
+        }
+
+
         
         #interest-header img{
           width: 250px;
-          transform: translate(-345px, 36px);
+          transform: translate(-500px, 50px);
         }
         
         #header-text {
-          display: inline;
           float: left;
-          transform: translate(460px, 10px);
-          font-family: Merriweather;
-          font-size: 30px;
+          margin-left: 480px;
+          margin-top: 35px;
+          /* transform: translate(480px, -10px); */
+          font-family: Zilla Slab;
+          font-size: 40px;
+          font-weight: 600;
+          text-shadow: 4px 4px 1px rgb(228, 225, 204);
           color:rgb(71, 63, 59);
-          text-shadow: 3px 3px 5px rgb(180, 180, 179);
         }
 
         #header-desc {
-          display: inline;
           float: left;
-          transform: translate(291px, 90px);
+          margin-left: 480px;
+          margin-top: -140px;
+          /* transform: translate(277px, 90px); */
           font-family: 'Noto Serif KR', serif;
           font-size: 16.5px;
           line-height: 27px;
@@ -177,6 +207,8 @@
           font-weight: 500;
           color: rgb(29, 22, 13);
           text-shadow: 0 0 0.5px rgb(36, 28, 11);
+          opacity: 0.6;
+          font-size: 15.9px;
         }
 
         .video-desc1 {
@@ -191,7 +223,6 @@
           font-family: 'Noto Serif KR', serif;
         }    
 
-        
 
       </style>
 
@@ -211,18 +242,156 @@
       </div>
 
       <div class="index-no">
-        <a href="#01">#01</a>
-        <a href="#02">#02</a>
-        <a href="#03">#03</a>
-        <a href="#04">#04</a>
-        <a href="#05">#05</a>
-        <a href="#06">#06</a>
-        <a href="#07">#07</a>
-        <a href="#08">#08</a>
-        <a href="#09">#09</a>
-        <a href="#10">#10</a>
-        <a style="padding-left: 5px;" href="#11">#11</a>
+        <a class="no" href="#01">#01</a>
+        <a class="no" href="#02">#02</a>
+        <a class="no" href="#03">#03</a>
+        <a class="no" href="#04">#04</a>
+        <a class="no" href="#05">#05</a>
+        <a class="no" href="#06">#06</a>
+        <a class="no" href="#07">#07</a>
+        <a class="no" href="#08">#08</a>
+        <a class="no" href="#09">#09</a>
+        <a class="no" href="#10">#10</a>
+        <a class="no" style="padding-left: 5px;" href="#11">#11</a>
       </div>
+
+      <div class="circle-wrapper">
+        <div class="index-circle c01" style="top: 260px; opacity: 0.6;" >
+          <a href="#01">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c02" style="top: 300px; opacity: 0.6;">
+          <a href="#02">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c03" style="top: 340px; opacity: 0.6;">
+          <a href="#03">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c04" style="top: 380px; opacity: 0.6;">
+          <a href="#04">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c05" style="top: 420px; opacity: 0.6;">
+          <a href="#05">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c06" style="top: 460px; opacity: 0.6;">
+          <a href="#06">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c07"  style="top: 500px; opacity: 0.6;">
+          <a href="#07">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c08" style="top: 540px; opacity: 0.6;">
+          <a href="#08">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c09" style="top: 580px; opacity: 0.6;">
+          <a href="#09">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c10" style="top: 620px; opacity: 0.6;">
+          <a href="#10">
+            <div class="circle"></div>
+          </a>
+        </div>
+  
+        <div class="index-circle c11" style="top: 660px; opacity: 0.6;">
+          <a href="#11">
+            <div class="circle"></div>
+          </a>
+        </div>
+      </div>
+
+      <style>
+
+        .circle {
+          width: 25px;
+          height: 25px;
+          border-radius: 30%;
+          position: fixed;
+          transform: translate(-30px, 70px);
+          box-shadow: 2px 2px 2px rgb(240, 201, 128);
+      }
+
+      .index-circle {
+        float: left;
+        border-radius: 50%;
+          position: fixed;
+      }
+
+      </style>
+
+<script>
+  window.onload = function() {
+  var liArr = document.getElementsByClassName("circle");
+  console.log(liArr);
+  var b = 160;
+  
+
+  for(var i = 0; i <liArr.length; i++) {
+    console.log(liArr[i]);
+    liArr[i].style.backgroundColor = "rgb(226, 223," + b + ")";
+                b += 10;
+    }
+}
+
+      $(".index-circle").hover(
+        function () {
+          //mouseenter
+          $(this)
+            .fadeTo(100, 1)
+            .css("transform", "scale(1.1, 1.1)");
+        },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(100, 0.6)
+            .css("transform", "scale(1, 1)"); 
+        }
+      );
+
+      $(".no").hover(
+        function () {
+          //mouseenter
+          $(this)
+            .fadeTo(100, 1) 
+            .css("font-size", "18.8px");
+        },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(100, 0.6) 
+            .css("font-size", "15.9px");
+        }
+      );
+
+
+
+</script>
+
+
+      </style>
 
       <div>
 
@@ -434,13 +603,6 @@
           <div class="line"></div>
         </div>
 
-
-
-
-
-
-
-
         <style>
           .line {
             margin: 80px auto;
@@ -450,59 +612,6 @@
           }
         </style>
 
-<!-- 
-        <div class="video" id="02">
-          <video height="405" width="720" poster="img/interest/02.png" controls>
-            <source src="video/02.mp4" type="video/mp4">
-            </video>
-        </div> -->
-
-
-
-
-        <!-- <div class="wrapper">
-            <video class="video" poster="img/interest/01.png" src="video/01.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/02.png" src="video/02.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/03.png" src="video/03.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/04.png" src="video/04.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/05.png" src="video/05.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/06.png" src="video/06.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/07.png" src="video/07.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/08.png" src="video/08.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/09.png" src="video/09.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-            <video class="video" poster="img/interest/10.png" src="video/10.mp4" controls></video>
-            <p>#hello!!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
-                nspAccusantium impedit eveniet molestias vel </p>
-        </div>
-         -->
     </article>
 
     <style>

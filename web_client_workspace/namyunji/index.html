@@ -21,7 +21,7 @@
       if ($(this).scrollTop() == 0)
         $('#menubar').css('opacity', '1');
       else
-        $('#menubar').css('opacity', '.5');
+        $('#menubar').css('opacity', '.6');
     });
   </script>
 
@@ -91,17 +91,22 @@
     }
 
     .bg-text2 {
-      transform: translate(140px, -400px);
-      font-size: 25px;
-      color: rgb(94, 84, 72);
+      transform: translate(140px, -450px);
+      font-size: 26px;
+      color: rgb(177, 174, 173);
       font-weight: 500;
       opacity: 0.7;
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 900;
+      text-shadow: 0.5px 0.5px 0.1px gray;
     }
 
-    img.more {
-      display: block;
-      width: 110px;
+
+    .more_ {
+      position: absolute;
+      width: 140px;
       margin: 0 auto;
+      left: 702px;
       transform: translateY(30px);
     }
 
@@ -161,14 +166,14 @@
 
   <!-- bgm -->
   <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
-  <script> document.getElementById("bgm").volume = 0.08; </script>
+  <script> document.getElementById("bgm").volume = 0.; </script>
 
   <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
   <header>
 
     <!-- 메뉴바 -->
-    <div id="menubar">
+    <div id="menubar" style="z-index: 5;">
       <ul>
         <li id="logo" class="menubar">
           <a href="index.html"><img id="logoImg" src="img/index/logo.png" /></a>
@@ -262,12 +267,12 @@
         <br><br><br><br><br>
         <p style="margin-bottom: -25px;">광저우한국인상공회 인턴</p>
         <p style="margin-bottom: -25px;">中山大學 교환학생</p>
-        <p style="margin-bottom: -25px;">PT People</p>
-        <p style="margin-bottom: -25px;">PostUniv.</p>
-        <p style="margin-bottom: -25px;">스마트 콘텐츠 융합 응용 SW엔지니어</p>
+        <p style="margin-bottom: -25px;">PT People 발표 동아리</p>
+        <p style="margin-bottom: -25px;">PostUniv. 공모전 동아리</p>
+        <p style="margin-bottom: -25px;">원어희곡학회</p>
       </div>
 
-      <div class="more"><a href="01_introduce.html"><img class="more" src="img/index/more_box.png"></a></div>
+      <div class="more"><a href="01_introduce.html"><img class="more_" src="img/index/more_box.png"></a></div>
     </div>
     <br><br><br><br>
 
@@ -279,13 +284,18 @@
         </div>
         <img class="bg-cover" id="bg-cover02" width="800px" height="500px" src="img/index/interest2.gif" />
       </div>
-      <div class="bg-text bg-text1">
-        <p>Yunji Nam</p>
+      <div class="bg-text bg-text1" style="text-align: left;" >
+        <p style="margin-bottom: -50px;">PPT Design</p>
       </div>
-      <div class="bg-text bg-text2">
-        <p>Lorem ipsum dolor sit <br> amet consectetur adipisicing <br>elit. Beatae quam <br>dolorem inventore p</p>
+      <div class="bg-text bg-text2" style="text-align: left;">
+        <br><br><br><br><br>
+        <p style="margin-bottom: -25px;"># 과거의 좋았던 순간을 그대로 인정하기</p>
+        <p style="margin-bottom: -25px;"># NLP, 상대의 마음을 움직이는 기술</p>
+        <p style="margin-bottom: -25px;"># 고독에서 고독으로</p>
+        <p style="margin-bottom: -25px;"># 당신은 정상 or 비정상</p>
+        <p style="margin-bottom: -25px;"># 희망브리지와 함께 막아주세요.</p>
       </div>
-      <div class="more"><a href="02_interest.html"><img class="more" src="img/index/more_box.png"></a></div>
+      <div class="more"><a href="02_interest.html"><img class="more_" src="img/index/more_box.png"></a></div>
     </div>
 
     <br><br><br><br>
@@ -298,13 +308,17 @@
         </div>
         <img class="bg-cover" id="bg-cover03" width="800px" height="500px" src="img/index/roadmap_index.gif" />
       </div>
-      <div class="bg-text bg-text1">
-        <p>Yunji Nam</p>
+      <div class="bg-text bg-text1" style="text-align: right; left: 480px;">
+        <p style="margin-bottom: -50px;">Developer Roadmap</p>
       </div>
-      <div class="bg-text bg-text2">
-        <p>Lorem ipsum dolor sit <br> amet consectetur adipisicing <br>elit. Beatae quam <br>dolorem inventore p</p>
+      <div class="bg-text bg-text2" style="text-align: right; left: 700px;">
+        <br><br>
+        <p style="margin-bottom: -25px;">차근차근 익히는 시간</p>
+        <p style="margin-bottom: -25px;">신입개발자로의 첫시작</p>
+        <p style="margin-bottom: -25px;">꾸준한 개인공부</p>
+        <p style="margin-bottom: -25px;">개인 웹앱 개발</p>
       </div>
-      <div class="more"><a href="03_roadmap.html"><img class="more" src="img/index/more_box.png"></a></div>
+      <div class="more"><a href="03_roadmap.html"><img class="more_" src="img/index/more_box.png"></a></div>
     </div>
     <br><br><br><br>
   </article>
@@ -335,6 +349,7 @@
           .fadeTo(500, 1)
       }
     );
+
 
     $(".bg-cover").hover(
       function () {
@@ -397,26 +412,26 @@
 
       <!-- register -->
       <div class="register">
-        <a href="04_login.html">Register | Login</a>
+        <a href="04_login.html">
+        <input type="button" value="Register | Login" style="width: 220px; height: 42px; letter-spacing: 1.5px;"></a>
       </div>
 
       <style>
         .register {
-          background-color : rgb(210, 149, 0);
-          width: 200px;
-          height: 50px;
-          font-size: 22.5px;
-          text-align: center;
+          position: relative;
           margin: auto;
-          transform: translateY(-100px);
-          padding: 10px 0px;
-          box-shadow: 0.5px 0.5px 1px gray;
-          font-family: 'Merriweather', serif;
+          top: -80px;
+          left: 390px;
         }
-        .register a {
-          text-decoration: none;
-          color:rgb(241, 238, 231);
-          text-shadow: 0.5px 0.5px 1px gray;
+        .register input {
+          font-family: 'Zilla Slab', serif;
+          font-size: 19px;
+          font-weight: 700;
+          color:rgb(138, 112, 46);
+          text-shadow: 2px 2px 5px rgb(255, 255, 255);
+          background-color: rgb(233, 223, 210);
+          border: none;
+          box-shadow: 0.5px 0.5px 1px rgb(94, 84, 72);
         }
       </style>
   </footer>

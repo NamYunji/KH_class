@@ -73,12 +73,12 @@
 
     <!-- bgm -->
     <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
-    <script> document.getElementById("bgm").volume = 0.08; </script>
+    <script> document.getElementById("bgm").volume = 0.0; </script>
 
     <header>
 
         <!-- 메뉴바 -->
-        <div id="menubar">
+        <div id="menubar" style="z-index: 5;">
             <ul>
                 <li id="logo" class="menubar">
                     <a href="index.html"><img id="logoImg" src="img/index/logo.png" /></a>
@@ -103,8 +103,9 @@
 
         <div>
             <div class="content">
-            <div>
+            <div></div>
                 <p class="text text1">남 윤 지</p>
+            <div>
                 <p class="text text2">1997.05.05</p>
             </div>
 
@@ -137,7 +138,7 @@
             
                 <p class="text list text3">&nbsp;EDUCATION LEVEL&nbsp;</p>
                 <p class="text desc text4">성신여자대학교<br></p>
-                <p class="desc2">
+                <p class="desc2 t1">
                     <span>&nbsp;&nbsp;ㆍ영어영문학과 전공</span><br>
                     <span>&nbsp;&nbsp;ㆍ중어중문학과 복수전공</span>
                 </p>
@@ -168,7 +169,7 @@
     <script>
           $(function () {
           $("#line1")
-            .delay(700)
+            .delay(1200)
             .animate(
               {
                 width: "0.8px",
@@ -182,7 +183,7 @@
 
         $(function () {
           $("#line2")
-            .delay(700)
+            .delay(2400)
             .animate(
               {
                 width: "0.8px",
@@ -196,7 +197,7 @@
 
         $(function () {
           $("#line3")
-            .delay(3000)
+            .delay(3600)
             .animate(
               {
                 width: "450px",
@@ -210,7 +211,7 @@
 
         $(function () {
           $("#line4")
-            .delay(3000)
+            .delay(4800)
             .animate(
               {
                 width: "450px",
@@ -222,10 +223,24 @@
             );
         });
 
+        $(".text").hover(
+        function () {
+          //mouseenter
+          $(this)
+          .fadeTo(100, 1)
+            },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(100, 0.78)
+        }
+      );
+    
     </script>
 
 
     <style>
+
 
         .wrapper {
             position: relative;
@@ -254,6 +269,7 @@
 
         .text {
             position: absolute;
+            opacity: 0.78;;
         }
 
         .text1 {

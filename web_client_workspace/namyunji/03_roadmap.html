@@ -1,97 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>introduction</title>
-    <script src="js/jquery-3.6.0.js"></script>
-    <link rel="stylesheet" href="./css/style.css" />
-    <!-- easing -->
-    <script src="js/jquery.easing.1.3.js"></script>
-    <!-- color -->
-    <script
-      src="https://code.jquery.com/color/jquery.color-2.2.0.js"
-      integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg="
-      crossorigin="anonymous"
-    ></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>introduction</title>
+  <script src="js/jquery-3.6.0.js"></script>
+  <link rel="stylesheet" href="./css/style.css" />
+  <!-- easing -->
+  <script src="js/jquery.easing.1.3.js"></script>
+  <!-- color -->
+  <script src="https://code.jquery.com/color/jquery.color-2.2.0.js"
+    integrity="sha256-gvMJWDHjgDrVSiN6eBI9h7dRfQmsTTsGU/eTT8vpzNg=" crossorigin="anonymous"></script>
+
+  <script>
+    $(window).scroll(function () {
+      if ($(this).scrollTop() == 0)
+        $('#menubar').css('opacity', '1');
+      else
+        $('#menubar').css('opacity', '.5');
+    });
+  </script>
+
+  <style>
+    #here {
+      text-decoration: line-through;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!--  font-family: 'Zilla Slab'; -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet" />
+
+  <!-- font-family: 'Antic Slab', serif; -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap" rel="stylesheet" />
+
+  <!-- font-family: 'Merriweather', serif; -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+    rel="stylesheet" />
+
+  <!-- font-family: 'Abril Fatface', cursive; -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+
+  <!-- font-family: 'Jua', sans-serif;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Noto Serif KR', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Song Myung', serif; -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Noto+Serif+KR:wght@200;300;400;500;600&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Song+Myung&display=swap" rel="stylesheet">
+
+  <!-- bgm -->
+  <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
+  <script> document.getElementById("bgm").volume = 0.0; </script>
+
+  <header>
+
+    <!-- 메뉴바 -->
+    <div id="menubar" style="z-index: 5;">
+      <ul>
+        <li id="logo" class="menubar">
+          <a href="index.html"><img id="logoImg" src="img/index/logo.png" /></a>
+        </li>
+      </ul>
+      <ul id="menu">
+        <li><a id="menu-01" href="01_introduce.html">introduction</a></li>
+        <li><a href="02_interest.html">interest</a></li>
+        <li id="here"><a href="03_roadmap.html">roadmap</a></li>
+      </ul>
+    </div>
+    </nav>
+  </header>
+
+
+
+  <article>
+
+    <div style="width: 900px; height: 1000px; margin: auto; z-index: 2; ">
+      <div id="bg-img" style="background-image: url(img/roadmap/bg-img.png);">
+      </div>
+    </div>
+
+    <div class="spread sp">
+      <img class="spp1" src="img/roadmap/spread.png">
+    </div>
+
+    <div class="spread2 sp">
+      <img class="spp2" src="img/roadmap/spread2.png" style="opacity: 0.55; width: 250px;">
+    </div>
+
+    <div class="spread3 sp">
+      <img class="spp3" src="img/roadmap/spread2.png">
+    </div>
+
+    <div class="roadmap" style="width: 300px;">
+      <span class="text-gradient">Roadmap</span>
+    </div>
 
     <script>
-        $(window).scroll(function() {
-          if($(this).scrollTop() == 0)
-          $('#menubar').css('opacity','1');
-          else
-          $('#menubar').css('opacity','.5');
-          });
+        $(function () {
+        var i = 0;
+        var x = document.querySelector(".text-gradient").innerHTML;
+        var y = "";
+
+        function typeWriter() {
+          if (i < x.length) {
+            $(".text-gradient").text((y += x[i]));
+            i++;
+            setTimeout(typeWriter, 800);
+          }
+        }
+        typeWriter();
+      });
     </script>
 
     <style>
-        #here {
-        text-decoration: line-through;
+
+
+      .spp1 {
+        animation-name: my-first-animation;
+            animation-duration: 10s;
+      }
+
+      @keyframes my-first-animation {
+            25% {
+                transform : translate(50px, 0);
+            }
+            50% {
+                transform: translate(10px, 70px);
+            }
+            75% {
+                transform: translate(50px, 10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
         }
-        body::-webkit-scrollbar{
-            display: none;
+
+        .spp1{
+            animation-name: my-first-animation;
+            animation-duration: 7s;
+            animation-iteration-count: 10;
+            animation-direction: alternate-reverse;
+            animation-timing-function: ease-out;
         }
+
+
+        .spp2 {
+        animation-name: my-second-animation;
+            animation-duration: 10s;
+      }
+
+      @keyframes my-second-animation {
+            25% {
+                transform : translate(0px, 20px);
+            }
+            50% {
+                transform: translate(80px, 20px);
+            }
+            75% {
+                transform: translate(60px, 10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .spp2{
+            animation-name: my-second-animation;
+            animation-duration: 7s;
+            animation-iteration-count: 10;
+            animation-direction: alternate-reverse;
+            animation-timing-function: ease-out;
+        }
+
+        .spp3 {
+        animation-name: my-third-animation;
+            animation-duration: 10s;
+      }
+
+      @keyframes my-third-animation {
+            25% {
+                transform : translate(0px, -50px);
+            }
+            50% {
+                transform: translate(-60px, -70px);
+            }
+            75% {
+                transform: translate(50px, 80px);
+            }
+            100% {
+                transform: translate(00, 0);
+            }
+        }
+
+        .spp3{
+            animation-name: my-third-animation;
+            animation-duration: 7s;
+            animation-iteration-count: 10;
+            animation-direction: alternate-reverse;
+            animation-timing-function: ease-out;
+        }
+
     </style>
-</head>
-<body>
-    <!--  font-family: 'Zilla Slab'; -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap"
-      rel="stylesheet"
-    />
+    <script>
 
-    <!-- font-family: 'Antic Slab', serif; -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap"
-      rel="stylesheet"
-    />
 
-    <!-- font-family: 'Merriweather', serif; -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
+    </script>
 
-    <!-- bgm -->
-    <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
-    <script> document.getElementById("bgm").volume = 0.08; </script>
+    <div class="line">
+      <div class="line_"></div>
+    </div>
 
-    <header>
+    <div class="desc">
+      <p>안녕하십니까. 개발자를 꿈꾸는 남윤지입니다. <br>
+        아직은 발돋움 단계이지만, 꾸준한 노력과 열정으로 <br>
+        발돋움에서 한걸음씩 나아가고, 그것이 도약이 되어<br>
+        훗날에는 새처럼 자유롭게 비행하는<br>
+        훌륭한 개발자가 될 것입니다. </p>
+    </div>
 
-        <!-- 메뉴바 -->
-        <div id="menubar">
-          <ul>
-            <li id="logo" class="menubar">
-              <a href="index.html"
-                ><img id="logoImg" src="img/index/logo.png"
-              /></a>
-            </li>
-          </ul>
-          <ul id="menu">
-            <li><a id="menu-01" href="01_introduce.html">introduction</a></li>
-            <li><a href="02_interest.html">interest</a></li>
-            <li id="here"><a href="03_roadmap.html">roadmap</a></li>
-          </ul>
+    <div class="img-wrapper">
+      <div class="wrapper">
+        <img class="frame-img" src="img/roadmap/01.png">
+        <div>
+          <p class="aim">차근차근 익히는 시간</p>
+          <p class="aim-desc">현재 스마트 콘텐츠 융합 <br>응용 SW 엔지니어 양성 <br> 과정을 수강중이며 <br> 한 언어씩 차근히 익히며 <br>열심히 공부중입니다. </p>
         </div>
-      </nav> 
-    </header>
+      </div>
+      <div class="wrapper">
+        <img class="frame-img" src="img/roadmap/02.png">
+        <div>
+        <p class="aim aim01-1">신입개발자로의 첫시작</p>
+        <p class="aim-desc aim01-2">신입개발자로서 첫발을<br>내딛었습니다. <br>배워야 할 것도 많지만 <br>실무에 오니 설레는 마음<br>이 더 큰 것 같습니다. </p>
+      </div>
+    </div>
+      <div class="wrapper">
+        <img class="frame-img" src="img/roadmap/03.png">
+        <div>
+          <p class="aim aim02-1">꾸준한 개인공부</p>
+          <p class="aim-desc aim02-2">업무에 적응을 하고 <br> 있습니다. 그럼에도, <br> 개인공부를 게을리하지 <br> 않고 더 나은 개발자가 <br> 되기 위해 노력중입니다.</p>
+        </div>
+      </div>
+      <div class="wrapper">
+        <img class="frame-img" src="img/roadmap/04.png">
+        <div>
+          <p class="aim aim03-1">개인 웹앱 개발</p>
+          <p class="aim-desc aim03-2">10년을 실무에서 갈고  <br> 닦은 실력으로 취미삼아 <br>웹앱을 개발해보는 것이 <br> 목표입니다.</p>
+        </div>
+      </div>
+    </div>
 
-    <style>
+    <div class="yrs">
+      <div class="year">
+        <p style="left: 85px; color:rgb(168, 187, 196); text-shadow: 2px 2.5px 0 rgb(199, 216, 223);">2021</p>
+      </div>
+      <div class="year">
+        <p style="left: 351px; color:rgb(220, 209, 194); text-shadow: 2px 2.5px 0 rgb(250, 243, 234);">2022</p>
+      </div>
+      <div class="year">
+        <p style="left: 515px; color:rgb(213, 209, 213); text-shadow: 2px 2.5px 0 rgb(233, 226, 233);">2025</p>
+      </div>
+      <div class="year">
+        <p style="left: 842px; color:rgb(230, 211, 210); text-shadow: 2px 2.5px 0 rgb(243, 230, 229);">2031</p>
+      </div>
+    </div>
 
-    </style>
-    <img width="1000px" src="img/roadmap/roadmap_sample.png" alt="">
+    <div class="footprint img01" >
+      <img class="footprint-img f1" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
 
+    <div class="footprint img02" style="left: 80px;">
+      <img class="footprint-img f2" src="img/roadmap/footprint2.png" style="opacity: 0;">
+    </div>
 
-    <article>
+    <div class="footprint img03" style="left: 160px;">
+      <img class="footprint-img f3" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img04" style="left: 240px;">
+      <img class="footprint-img f4" src="img/roadmap/footprint2.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img05" style="left: 320px;">
+      <img class="footprint-img f5" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img06" style="left: 400px;">
+      <img class="footprint-img f6" src="img/roadmap/footprint2.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img07" style="left: 480px;">
+      <img class="footprint-img f7" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img08" style="left: 560px;">
+      <img class="footprint-img f8" src="img/roadmap/footprint2.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img09" style="left: 640px;">
+      <img class="footprint-img f9" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img10" style="left: 720px;">
+      <img class="footprint-img f10" src="img/roadmap/footprint2.png" style="opacity: 0;">
+    </div>
+
+    <div class="footprint img11" style="left: 800px;">
+      <img class="footprint-img f11" src="img/roadmap/footprint.png" style="opacity: 0;">
+    </div>
+
+    <script>
+        $(document).ready(function(){
+          $(".f1")
+            .delay(4300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1")
+            .delay(1500)
+            .fadeOut(3000, 0)
+        });
+
+        $(document).ready(function(){
+          $(".f2")
+            .delay(6300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        $(document).ready(function(){
+          $(".f3")
+            .delay(8300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1")
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
         
-    </article>
-    <footer>
+        $(document).ready(function(){
+          $(".f4")
+            .delay(10300)
+            .fadeTo(3000, 1)
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
 
-    </footer>
-    
+        $(document).ready(function(){
+          $(".f5")
+            .delay(12300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        
+        $(document).ready(function(){
+          $(".f6")
+            .delay(14300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        $(document).ready(function(){
+          $(".f7")
+            .delay(16300)
+            .fadeTo(3000, 1)
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        $(document).ready(function(){
+          $(".f8")
+            .delay(18300)
+            .fadeTo(3000, 1)
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        $(document).ready(function(){
+          $(".f9")
+            .delay(20300)
+            .fadeTo(3000, 1)
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        
+        $(document).ready(function(){
+          $(".f10")
+            .delay(22300)
+            .fadeTo(3000, 1) 
+            .css("transform", "scale(1.1, 1.1")
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+        $(document).ready(function(){
+          $(".f11")
+            .delay(24300)
+            .fadeTo(3000, 1)
+            .css("transform", "scale(1.1, 1.1") 
+            .delay(1500)
+            .fadeOut(3000, 0);
+        });
+
+    </script>
+
+
+  <style>
+    .yrs {
+      position: relative;
+    }
+    .year p{
+      position: absolute;
+      padding-right: 20px;
+      top: -450px;
+      font-size: 41px;
+      font-family: 'Merriweather', serif;
+      font-weight: 600;
+    }
+
+      .img-wrapper {
+        position:relative;
+        margin: auto;
+        left: 71.5px;
+        top: -326px;
+      }
+
+      .wrapper {
+        display: inline;
+        width: 220px;
+        overflow: hidden;
+      }
+
+      .frame-img {
+        float: left;
+        width: 220px;
+        transition-duration: 0.5s;
+        opacity: 0.7;
+      }
+
+      .footprint {
+        position: relative;
+      }
+
+      /* <!-- font-family: 'Jua', sans-serif;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Noto Serif KR', serif;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Song Myung', serif; --> */
+      .wrapper p {
+        position : absolute;
+        left: 20px;
+        font-family: 'Nanum Gothic', sans-serif;
+        font-size: 17.5px;
+      }
+      
+      .wrapper .aim {
+        font-size: 17.9px;
+        top: 30px;
+        font-weight: 600;
+      }
+
+      .wrapper .aim-desc {
+        top: 70px;
+        text-shadow: 0.1px 0.1px 0 black;
+        line-height: 27px;
+      }
+
+      .wrapper .aim01-1 {
+        left: 237px;
+      }
+
+      .wrapper .aim01-2 {
+        left: 237px;
+      }
+
+      .wrapper .aim02-1 {
+        left: 460px;
+      }
+
+      .wrapper .aim02-2 {
+        left: 460px;
+      }
+
+      .wrapper .aim03-1 {
+        left: 679px;
+      }
+
+      .wrapper .aim03-2 {
+        left: 679px;
+      }
+
+
+
+
+
+
+      .footprint .footprint-img {
+        position: absolute;
+        width: 50px;
+        width: 55px;
+        left: 85px;
+        top: -355px;
+      }
+
+
+      .line {
+        position: absolute;
+        margin: 80px auto;
+        width: 25px;
+        height: 0px;
+        transform: translate(108px, -920px);
+        background: -webkit-gradient(linear, left top, right bottom, color-stop(0, rgb(236, 232, 206)), color-stop(1, rgb(179, 156, 107)));
+      }
+
+      .desc {
+        position: absolute;
+        transform: translate(495px, -725px);
+      }
+
+      .desc p{
+        text-align: right;
+        font-size: 19px;
+        font-family: 'Noto Serif KR', serif;
+        font-weight:500;
+        color: rgb(85, 76, 56);
+        text-shadow: 0.5px 0.5px 0.5px rgb(85, 76, 56);
+        line-height: 40px;
+      }
+    </style>
+
+    <script>
+      $(function () {
+        $(".line")
+          .delay(1000)
+          .animate(
+            {
+              width: "25px",
+              height: "67px",
+            },
+            11000,
+            "easeOutExpo"
+          );
+      });
+    </script>
+
+  </article>
+
+  <style>
+    div#bg-img {
+      height: 980px;
+      width: 900px;
+      margin: 0 auto;
+      transform: translateY(99px);
+    }
+
+    .spread {
+      position: absolute;
+      transform: translate(519px, -808px);
+    }
+
+    .spread img {
+      width: 360px;
+      opacity: 0.6;
+    }
+
+    .spread2 {
+      position: absolute;
+      transform: translate(450px, -682px);
+    }
+
+    .spread2 img {
+      width: 200px;
+      opacity: 0.5;
+    }
+
+    .spread3 {
+      position: absolute;
+      transform: translate(745px, -812px);
+    }
+
+    .spread3 img {
+      width: 200px;
+      opacity: 0.4;
+    }
+
+    .roadmap {
+      position: absolute;
+      transform: translate(162px, -860px);
+    }
+
+    .text-gradient {
+      background: -webkit-linear-gradient(90deg, rgb(189, 165, 118), rgb(236, 232, 206));
+      color: transparent;
+      -webkit-background-clip: text;
+      font-size: 2.5em;
+      font-family: 'Zilla Slab', cursive;
+      font-weight: 900;
+      font-size: 83px;
+    }
+  </style>
+  <footer>
+
+  </footer>
+
+  <script>
+          $(".frame-img").hover(
+        function () {
+          //mouseenter
+          $(this)
+            .fadeTo(100, 1) // 선명하게
+            .css("transform", "scale(1.05, 1.05");
+        },
+        function () {
+          // mouseleave
+          $(this)
+            .fadeTo(100, 0.7) // 원래값으로 바꾸기
+            .css("transform", "scale(1, 1"); //원래값으로 바꾸기
+        }
+      );
+
+      $(".frame-img").hover(
+        function () {
+          //mouseenter
+          $(".year")
+            .fadeTo(100, 1) // 선명하게
+            .css("transform", "scale(1.02, 1.02")
+        },
+        function () {
+          // mouseleave
+          $(".year")
+            .fadeTo(100, 0.7) // 원래값으로 바꾸기
+            .css("transform", "scale(1, 1"); //원래값으로 바꾸기
+        }
+      );
+
+      
+  </script>
+
 </body>
+
 </html>
