@@ -76,6 +76,7 @@
       margin: 10px auto 10px;
     }
 
+
     .bg-text {
       position: absolute;
       color: rgb(126, 115, 100);
@@ -91,14 +92,22 @@
     }
 
     .bg-text2 {
-      transform: translate(140px, -450px);
+      transform: translate(140px, -490px);
       font-size: 26px;
       color: rgb(177, 174, 173);
-      font-weight: 500;
       opacity: 0.7;
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 900;
-      text-shadow: 0.5px 0.5px 0.1px gray;
+      line-height:  42px;
+      font-family: 'Nanum Gothic', serif;
+      font-weight: 600;
+      text-shadow: 0.2px 0.2px 0.1px gray;
+    }
+
+    .roadmap_1 {
+      transform: translate(365px, -530px);
+    }
+
+    .roadmap_2 {
+      transform: translate(605px, -500px);
     }
 
 
@@ -106,8 +115,8 @@
       position: absolute;
       width: 140px;
       margin: 0 auto;
-      left: 702px;
-      transform: translateY(30px);
+      transform: translate(-63px, 30px);
+      text-align: center;
     }
 
     /* contact 부분 */
@@ -166,7 +175,7 @@
 
   <!-- bgm -->
   <video id="bgm" src="audio/bgm.mp3" autoplay volume hidden></video>
-  <script> document.getElementById("bgm").volume = 0.; </script>
+  <script> document.getElementById("bgm").volume = 0.005; </script>
 
   <!-- ////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -308,10 +317,10 @@
         </div>
         <img class="bg-cover" id="bg-cover03" width="800px" height="500px" src="img/index/roadmap_index.gif" />
       </div>
-      <div class="bg-text bg-text1" style="text-align: right; left: 480px;">
+      <div class="bg-text bg-text1 roadmap_1" style="text-align: right;">
         <p style="margin-bottom: -50px;">Developer Roadmap</p>
       </div>
-      <div class="bg-text bg-text2" style="text-align: right; left: 700px;">
+      <div class="bg-text bg-text2 roadmap_2" style="text-align: right;">
         <br><br>
         <p style="margin-bottom: -25px;">차근차근 익히는 시간</p>
         <p style="margin-bottom: -25px;">신입개발자로의 첫시작</p>
