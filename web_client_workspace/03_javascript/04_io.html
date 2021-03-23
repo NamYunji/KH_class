@@ -8,7 +8,7 @@
 <script>
     function init() {
         alert("DOM작업이 완료되었습니다.");
-        document.write("<h1>새로쓰기</h1>");
+        // document.write("<h1>새로쓰기</h1>");
         // document.write("내용");
         // document는 문서객체를 보관하는 최상위 객체 
         // 거기에 내용을 새로 쓰면 html태그들이 다 날라가고 작성한 내용이 들어감
@@ -110,7 +110,7 @@
     SETTER : html태그로 parsing처리 없음, 태그까지 단순 텍스트로 처리
     */
     function test4() {
-        /*
+        
         var str = prompt(".wrapper태그 내용을 입력하세요.");
         // <h1>안녕</h1> 태그가 있는 글자 입력
         console.log(str); 
@@ -122,11 +122,10 @@
         // <h1>안녕</h1> - html태그를 태그로 인정하지 않고, 태그까지 텍스트 처리됨
         // 요소검사를 해보면 <h1>안녕</h1>이 태그가 아닌 텍스트로 들어가 있음
         // <div class="wrapper"><h1>안녕</h1></div>
-        */
+        
 
        // getter로써의 innerText
        // test3의 정상적으로 처리되고 있는 h1태그를 가져와서 읽음
-       var wrapper = document.querySelector(".wrapper");
        console.log(wrapper.innerText);
        // 실제 wrapper 안에는 <h1>안녕</h1>(태그+텍스트)이 들어있음
        // 안녕 - 태그들을 날리고 그 안의 text만 가져옴
@@ -134,8 +133,6 @@
 
     /*
     outerHTML : 컨텐츠 뿐 아니라 태그 자신도 포함
-    GETTER : 
-    SETTER : 
     */
     function test5() {
         // getter로써의 outerHTML

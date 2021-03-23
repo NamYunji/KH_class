@@ -46,16 +46,16 @@
         }
     </script>    
 
-    <h2>Number | parseInt | parseDouble </h2>
+    <h2>Number | parseInt | parseFloat </h2>
     <input type="button" value="실행" onclick="test2()">
     <script>
         var test2 = function() {
             var num = "1234.567";
             console.log(Number(num)); //1234.567 정수/실수로 변환
-            console.log(parseInt(num)); //1234 정수변환
+            console.log(parseInt(num)); //1234 정수로 변환
             console.log(parseFloat(num)); //1234.567 실수로 변환
 
-            //변환할 수 없는 문자가 껴있을때
+            // 변환할 수 없는 문자가 껴있을때
             // 형변환을 시도했는데 문자가 껴있어서 형변환에 실패
             // 10/Nan 으로 치환 -> 연산결과는 무조건 NaN
             var num = "1234.567원";
@@ -82,7 +82,7 @@
         };
     </script>
 
-    <h2>Nan | infinity </h2>
+    <h2>NaN | infinity </h2>
     <input type="button" value="실행" onclick="test4();">
     <script>
         var test4 = function() {
