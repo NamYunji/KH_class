@@ -11,136 +11,204 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
  * Servlet
- * Web Serviceë¥¼ ìœ„í•œ java class
- * ì¼ë°˜ ìë°”í´ë˜ìŠ¤ì¸ë° ì›¹ì„œë¹„ìŠ¤ ìš©ë„ë¡œ ì“°ëŠ” ê²ƒ
- * ê·¸ëŸ¬ë ¤ë©´ ë°˜ë“œì‹œ
- * HttpServletì„ ìƒì†í•´ì•¼ í•¨
+ * webService¸¦ À§ÇÑ java class
+ * ÀÏ¹İ ÀÚ¹ÙÅ¬·¡½ºÀÌ³ª webService¿ëµµ·Î ¾²´Â °Í »Ó
  * 
- * Servletì˜ ìƒëª…ì£¼ê¸°(lifecycle)
- * ì¼ë°˜í´ë˜ìŠ¤ê°€ servletí´ë˜ìŠ¤ê°€ ë˜ëŠ”ê±¸ê¹Œ?
- * HttpServletì— ë­ê°€ ë‹´ê²¨ìˆì„ê¹Œ?
+ * ±×·¯·Á¸é ¹İµå½Ã HttpServletÀ» »ó¼ÓÇØ¾ß ÇÔ
+ * (extends HttpServlet)
+ * import javax.servlet.http.HttpServlet;
  * 
- * 1. ê¸°ë³¸ìƒì„±ìë¥¼ í˜¸ì¶œí•´ì„œ Servletê°ì²´ ìƒì„± - ìµœì´ˆ clientí˜¸ì¶œì‹œ 1íšŒ
- * (ìš°ë¦¬ê°€ í•˜ì§€ ì•Šì•„ë„ tomcatì´ ì•Œì•„ì„œ í•´ì¤Œ)
- * 2. initë©”ì†Œë“œ í˜¸ì¶œ - ìµœì´ˆ clientí˜¸ì¶œì‹œ 1íšŒ
- * 3. HttpServletì˜ serviceë©”ì†Œë“œ í˜¸ì¶œ - client ë§¤ìš”ì²­ë§ˆë‹¤
- * 4. ì „ì†¡ë°©ì‹ì— ë”°ë¼ doGet | doPost í˜¸ì¶œ - client ë§¤ìš”ì²­ë§ˆë‹¤
- * 5. destroyí˜¸ì¶œ (tomcatì¢…ë£Œì‹œ ê°ì²´ ë°˜í™˜) - ë§ˆì§€ë§‰ 1íšŒ
- * 
- * WAS íŠ¹ì§• : wasêµ¬ë™ë‚´ë‚´ ë”± í•˜ë‚˜ì˜ ê°ì²´ë§Œ ë§Œë“¤ì–´ì ¸ì„œ ì²˜ë¦¬ëœë‹¤.
- * = singletoneë°©ì‹
- * 
- * ìš”ì²­ì´ ë“¤ì–´ì˜¬ ë•Œë§ˆë‹¤ ê°ì²´ë¥¼ ë§Œë“¤ê³ , ìš”ì²­ì´ ëë‚˜ë©´ ê°ì²´ë¥¼ ë°˜ë‚©
- * -> ë¹„íš¨ìœ¨ì ì¼ ìˆ˜ë„ ìˆìŒ
- * í•œë²ˆë§Œ ê°ì²´ë¥¼ ë§Œë“¤ê³ , ê·¸ê²ƒì„ ì¬ì‚¬ìš©í•¨
+ * -> »ç¿ëÀÚ°¡ /web/testPerson1.do¸¦ ¿äÃ»ÇßÀ» ¶§ Ã³¸®ÇÒ ¼ö ÀÖ´Â ÀÚ¹ÙÅ¬·¡½º°¡ µÈ °Í!
  *
+ * ÀÚ¹Ù Å¬·¡½º ÀÚÃ¼·Î´Â À¥¿äÃ»À» ¹Ş¾ÆµéÀÏ ¼ö ¾øÀ¸´Ï,
+ * ±×°Í¿¡ ÇÊ¿äÇÑ »çÇ×µéÀ» HttpServlet¿¡ ¹Ì¸® ±¸ÇöÇØµÎ°í
+ * ±×°É »ó¼ÓÇØ¼­ custom servlet class¸¦ ¸¸µé¾î ¾²´Â °Í!
+ * 
+ * 
+ * Servlet »ı¸íÁÖ±â
+ * ÀÏ¹İ Å¬·¡½º¿¡ HttpServletÀ» »ó¼ÓÇÏ°í, doGet()À» ¿À¹ö¶óÀÌµå ÇÏ¸é,
+ * ¾î¶»°Ô ÀÏ¹İ Å¬·¡½º°¡ ºê¶ó¿ìÁ®¿¡¼­ º¸³½ ¿äÃ»À» Ã³¸®ÇÒ ¼ö ÀÖ´Â Servlet Å¬·¡½º°¡ µÉ±î?
+ * 
+ * *** ServletÀÇ Æ¯Â¡ : singletone ¹æ½Ä ***
+ * -> ServletÀº WAS±¸µ¿ ³»³» µü ÇÏ³ªÀÇ °´Ã¼¸¸ ¸¸µé¾îÁ®¼­ Ã³¸®µÈ´Ù.
+ * (¿äÃ»ÀÌ µé¾î¿Ã ¶§¸¶´Ù °´Ã¼¸¦ ¸¸µé°í, ¿äÃ»ÀÌ ³¡³ª¸é °´Ã¼¸¦ ¹İ³³ÇÏ°Ô µÈ´Ù¸é, ºñÈ¿À²Àû)
+ * ±×·¡¼­ ÇÑ¹ø¸¸ servletÀ» ¸¸µé°í, ±×°ÍÀ» Àç»ç¿ëÇÔ
+ * 
+ * - ÃÖÃÊ client È£Ãâ½Ã 1È¸
+ * 1. °´Ã¼ »ı¼º (by Servlet ±âº» »ı¼ºÀÚ È£Ãâ)  
+ * 	  but ¿ì¸®°¡ ÇÏ´Â °Ô ¾Æ´Ñ, tomcatÀÌ ÇØÁØ °Í!
+ * 2. init() ¸Ş¼Òµå È£Ãâ
+ * 
+ * - client ¸Å ¿äÃ»¸¶´Ù Ã³¸®
+ * 3. HttpServlet(ºÎ¸ğÅ¬·¡½º)ÀÇ service() ¸Ş¼Òµå È£Ãâ
+ * 4. Àü¼Û¹æ½Ä¿¡ µû¶ó doGet() | doPost() È£Ãâ
+ * 
+ * - ¸¶Áö¸· 1È¸ (tomcat Á¾·á½Ã)
+ * 5. destroy È£Ãâ (-> tomcatÁ¾·á½Ã °´Ã¼ ¹İÈ¯)
+ *	    ÇÏ³ªÀÇ ¿äÃ»ÀÌ ³¡³ª¸é ¹İÈ¯µÇ´Â °ÍÀÌ ¾Æ´Ñ, tomcat Á¾·á½Ã¿¡ ¹İÈ¯µÇ´Â °Í
  *
- * ë©±ë“±
- * - ì„œë¹„ìŠ¤ ì „í›„ë¡œ databaseì˜ ìƒíƒœê°€ ë°”ë€Œì§€ ì•ŠëŠ” ê²½ìš°
- * select - GET (ë©±ë“± O - ë‹¨ìˆœì¡°íšŒ)
- * insert update delete - POST (ë©±ë“± X - ìˆ˜ì •ì´ ìˆëŠ” ê²½ìš°)
- * login - POST (ID, PWDê°€ URLì— ë…¸ì¶œë˜ì§€ ì•Šê²Œ í•˜ê¸° ìœ„í•´)
+ * ½ÇÁ¦ À¥¾îÇÃ¸®ÄÉÀÌ¼Ç¿¡¼­´Â ¾²·¹µù Ã³¸®°¡ Àß µÇ¾îÀÖÀ½
+ * ¿©·¯ °ÇÀ» µ¿½Ã¿¡ Ã³¸®ÇÏµµ·Ï ÇÏ³ªÀÇ ¿äÃ»Àº ÇÏ³ªÀÇ ¾²·¹µå·Î ¹èÁ¤¹Ş¾Æ¼­ Ã³¸®
+ * 
+ * ÇÏ³ªÀÇ ¼­¹ö¿¡ ¿©·¯ Å¬¶óÀÌ¾ğÆ®°¡ µ¿½ÃÀûÀ¸·Î ¿äÃ»À» º¸³½´Ù¸é
+ * ¼­¹ö°¡ ½Ì±Û¾²·¹µå¶ó¸é 1¹ø ´Ù Ã³¸®ÇÏ°í, 2¹ø ½ÃÀÛ, 2¹ø Ã³¸®ÇÏ°í, 3¹ø ½ÃÀÛ...
+ * ¸ÖÆ¼¾²·¹µå¶ó¸é Å¬¶óÀÌ¾ğÆ® ¿äÃ»¸¶´Ù ÀÀ´ëÇÏ´Â ¾²·¹µå°¡ ÇÏ³ª¾¿ ¹èÁ¤µÊ
+ * -> ±â´Ù¸®Áö ¾Ê°í, ¿äÃ» º¸³½ Áï½Ã ÀÀ´äÀ» ¹ŞÀ½
+ * like 3´ëÀÇ ÀüÈ­, 3¸íÀÇ ÀüÈ­»ó´ã¿ø
+ * 
  */
-public class TestPerson1Servlet extends HttpServlet {
-
-	/**
-	 * ê¸°ë³¸ìƒì„±ì
-	 */
+public class TestPerson1Servlet extends HttpServlet{
+	
+	// Servlet »ı¸íÁÖ±â ¾Ë¾Æº¸±â
+	// 1. ±âº»»ı¼ºÀÚ »ı¼º
 	public TestPerson1Servlet() {
 		super();
-		System.out.println("ê¸°ë³¸ìƒì„±ì TestPerson1Servlet() í˜¸ì¶œ!");
+		System.out.println("±âº»»ı¼ºÀÚ TestPerson1Servlet() È£Ãâ!");
 	}
 	
+	// 2. init() È£Ãâ
 	@Override
 	public void init(ServletConfig config) {
-		System.out.println("init(ServletConfig) í˜¸ì¶œ!");
+		System.out.println("init(ServletConfig) È£Ãâ!");
 	}
 	
+	// 3. service() È£Ãâ
+	// ¿À¹ö¶óÀÌµå ÇÏÁö ¾Ê°í ±×´ë·Î ¾µ °Í!
+	
+	// 5. destroy() È£Ãâ
 	@Override
 	public void destroy() {
-		System.out.println("destroy() í˜¸ì¶œ!");
+		System.out.println("destroy() È£Ãâ!");
 	}
-
+	
+	// [ G E T ¹æ ½Ä ]
+	// 1. doGet() ¸Ş¼Òµå ¿À¹ö¶óÀÌµå
+	// 1-1. ÆÄ¶ó¹ÌÅÍ ÀÛ¼º
+	// cf. ÀÌ ÆÄ¶ó¹ÌÅÍµéµµ javax.servlet ÆĞÅ°Áö¿¡ ÀÖ´Â ÀÎÅÍÆäÀÌ½ºµé
+	// 1-2. ¿¹¿Ü´øÁö±â (IOException, ServletException)
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) 
-		throws IOException, ServletException {
-		//ë§¤ ìš”ì²­ì‹œ ì‚¬ìš©ë˜ëŠ” servletê°ì²´ëŠ” ë™ì¼í•˜ë‹¤.
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		
+		// 4. ¸Å¿äÃ»½Ã »ç¿ëµÇ´Â servlet°´Ã¼´Â µ¿ÀÏÇÏ´Ù.
+		// ¸Å ¿äÃ»½Ã servlet°´Ã¼°¡ µ¿ÀÏÇÑ °´Ã¼ÀÎÁö È®ÀÎ
 		System.out.println(this.hashCode());
 		
-		//1. ì‚¬ìš©ìì…ë ¥ê°’ ê°€ì ¸ì˜¤ê¸°
+		// [http://localhost:9090/web/testPerson1.do?name=È«±æµ¿&color=ÆÄ¶û&animal=°í¾çÀÌ&food=Â¥Àå¸é&food=Â«ºÀ]
+		
+		// [ 1 . R E Q U E S T - »ç¿ëÀÚ ÀÔ·Â°ª °¡Á®¿À±â ]
+		
+		// ÀÔ·Â°ªÀÌ ´Ü¼ö°³ÀÇ °æ¿ì
+		// 1. »ç¿ëÀÚ ÀÔ·Â°ª (formÅÂ±×³» ÀÛ¼ºÇÑ ³»¿ëµé) °¡Á®¿À±â
+		// -> request.getParameter("htmlÅÂ±×ÀÇ ³×ÀÓ°ª")
+		// 1-1. String º¯¼ö¿¡ ´ã±â
 		String name = request.getParameter("name");
 		String color = request.getParameter("color");
 		String animal = request.getParameter("animal");
+		
+		// ÀÔ·Â°ªÀÌ ´Ü¼ö°³ÀÇ °æ¿ì
+		// 1. »ç¿ëÀÚ ÀÔ·Â°ª (formÅÂ±×³» ÀÛ¼ºÇÑ ³»¿ëµé) °¡Á®¿À±â
+		// -> request.getParameterValues("htmlÅÂ±×ÀÇ ³×ÀÓ°ª")
+		// cf. getParameter()¸¦ ¾²¸é Ã¹¹øÂ° °ª ÇÏ³ª¹Û¿¡ ¸ø °¡Á®¿È
+		// 1-1. String ¹è¿­¿¡ ´ã±â
+		// cf. ÀÌ ¸Ş¼Òµå´Â String ¹è¿­À» ¸®ÅÏÇÔ
 		String[] foodArr = request.getParameterValues("food");
 		
+		// »ç¿ëÀÚ ÀÔ·Â°ªÀ» Àß °¡Á®¿Ô´ÂÁö È®ÀÎ
 		System.out.println("name = " + name);
 		System.out.println("color = " + color);
 		System.out.println("animal = " + animal);
 		System.out.println("foodArr = " + Arrays.toString(foodArr));
 		
-		//2. ì‘ë‹µë©”ì„¸ì§€ ì‘ì„± : html
+		// ÀÌ ¼­ºí¸´ÀÌ »ç¿ëÀÚ°¡ ¿äÃ»ÇÑ testPerson1.do¿Í ¸ÅÄªÇÏµµ·Ï µî·ÏÇØ¾ß ÇÔ!
+		// .do¶ó´Â ÆÄÀÏÀº ¾øÀ½. ´ÜÁö È®ÀåÀÚ Çü½ÄÀ» ºô·Á ¾´ °Í »Ó. ÇÏ³ªÀÇ ¹®ÀÚ¿­·Î º¸¸é µÊ
+		
+		
+		// [ 2. R E S P O N S E - ÀÀ´ä¸Ş½ÃÁö ÀÛ¼º ]
+		// html·Î ÀÀ´ä¸Ş½ÃÁö¸¦ ÀÛ¼ºÇÔ
+		
+		// 1. html·Î ÀÛ¼ºÇÒ °ÍÀÌ¶ó°í ÀÀ´ä¿¡ ¹Ì¸® ¼±¾ğÇÔ
+		// text/html - ³ª Áö±İ ¸Ş½ÃÁö ¾µ°Çµ¥ textÆÄÀÏÀÌ°í html Çü½ÄÀ¸·Î ¾µ°Å¾ß!
+		// charset=utf-8 - character´Â utf-8À¸·Î ÀÎÄÚµùÇØ!
 		response.setContentType("text/html; charset=utf-8");
+		// 2. Ãâ·Â½ºÆ®¸² PrintWriter º¯¼ö¿¡ response.getWriter()´ã±â
+		// PrintWriter Å¸ÀÔÀ¸·Î °¡Á®¿È
+		// -> response.getWriter()
 		PrintWriter out = response.getWriter();
+		// 3. out.println("html ÀÛ¼º")
 		out.println("<!DOCTYPE html>");
 		out.println("<html>");
 		out.println("<head>");
-		out.println("<title>ê°œì·¨ ê²€ì‚¬ ê²°ê³¼</title>");
-		out.println("</head>");
+		out.println("<title>°³Ãë °Ë»ç °á°ú</title>");
 		out.println("<body>");
-		out.println("<h1>ê°œì¸ ì·¨í–¥ ê²€ì‚¬ ê²°ê³¼ GET</h1>");
-		out.println("<p>" + name + "ë‹˜ì˜ ê°œì¸ì·¨í–¥ ê²€ì‚¬ ê²°ê³¼ëŠ” </p>");
-		out.println("<p>" + color + "ìƒ‰ì„ ì¢‹ì•„í•©ë‹ˆë‹¤. </p>");
-		out.println("<p>ì¢‹ì•„í•˜ëŠ” ë™ë¬¼ì€ " + animal + "ì…ë‹ˆë‹¤.</p>");
-		out.println("<p>ì¢‹ì•„í•˜ëŠ” ìŒì‹ì€ " + Arrays.toString(foodArr)+ "ì…ë‹ˆë‹¤. </p>");
+		out.println("<h1>°³ÀÎ ÃëÇâ °Ë»ç °á°ú GET</h1>");
+		out.println("<p>" + name + "´ÔÀÇ °³ÀÎ ÃëÇâ °Ë»ç °á°ú´Â </p>");
+		out.println("<p>" + color + "»öÀ» ÁÁ¾ÆÇÕ´Ï´Ù.</p>");
+		out.println("<p>ÁÁ¾ÆÇÏ´Â µ¿¹°Àº" + animal + "ÀÔ´Ï´Ù.</p>");
+		out.println("<p>ÁÁ¾ÆÇÏ´Â À½½ÄÀº" + Arrays.toString(foodArr) + "ÀÔ´Ï´Ù.</p>");
 		out.println("</body>");
+		out.println("</head>");
 		out.println("</html>");
 	}
 	
-	
-	@Override 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	// [ P O S T ¹æ ½Ä ]
+	// ¸Ş¼Òµå¸¸ ´Ù¸£°í, ±¸Á¶´Â get¹æ½Ä°ú µ¿ÀÏ
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
 		
-		// 0. ì¸ì½”ë”© ì„ ì–¸
-		// http message bodyë¶€ë¶„ ì¸ì½”ë”©ì´ ìœ íš¨í•˜ë„ë¡ í•œë‹¤
-		request.setCharacterEncoding("utf-8");
+		// [ 1 . R E Q U E S T - »ç¿ëÀÚ ÀÔ·Â°ª °¡Á®¿À±â ]
 		
-		
-		//1. ì‚¬ìš©ìì…ë ¥ê°’ ê°€ì ¸ì˜¤ê¸°
+		// ÀÔ·Â°ªÀÌ ´Ü¼ö°³ÀÇ °æ¿ì
+		// 1. »ç¿ëÀÚ ÀÔ·Â°ª (formÅÂ±×³» ÀÛ¼ºÇÑ ³»¿ëµé) °¡Á®¿À±â
+		// -> request.getParameter("htmlÅÂ±×ÀÇ ³×ÀÓ°ª")
+		// 1-1. String º¯¼ö¿¡ ´ã±â
 		String name = request.getParameter("name");
 		String color = request.getParameter("color");
 		String animal = request.getParameter("animal");
+		
+		// ÀÔ·Â°ªÀÌ ´Ü¼ö°³ÀÇ °æ¿ì
+		// 1. »ç¿ëÀÚ ÀÔ·Â°ª (formÅÂ±×³» ÀÛ¼ºÇÑ ³»¿ëµé) °¡Á®¿À±â
+		// -> request.getParameterValues("htmlÅÂ±×ÀÇ ³×ÀÓ°ª")
+		// cf. getParameter()¸¦ ¾²¸é Ã¹¹øÂ° °ª ÇÏ³ª¹Û¿¡ ¸ø °¡Á®¿È
+		// 1-1. String ¹è¿­¿¡ ´ã±â
+		// cf. ÀÌ ¸Ş¼Òµå´Â String ¹è¿­À» ¸®ÅÏÇÔ
 		String[] foodArr = request.getParameterValues("food");
 		
+		// »ç¿ëÀÚ ÀÔ·Â°ªÀ» Àß °¡Á®¿Ô´ÂÁö È®ÀÎ
 		System.out.println("name = " + name);
 		System.out.println("color = " + color);
 		System.out.println("animal = " + animal);
 		System.out.println("foodArr = " + Arrays.toString(foodArr));
 		
-		//2. ì‘ë‹µë©”ì„¸ì§€ ì‘ì„± : html
+		// ÀÌ ¼­ºí¸´ÀÌ »ç¿ëÀÚ°¡ ¿äÃ»ÇÑ testPerson1.do¿Í ¸ÅÄªÇÏµµ·Ï µî·ÏÇØ¾ß ÇÔ!
+		// .do¶ó´Â ÆÄÀÏÀº ¾øÀ½. ´ÜÁö È®ÀåÀÚ Çü½ÄÀ» ºô·Á ¾´ °Í »Ó. ÇÏ³ªÀÇ ¹®ÀÚ¿­·Î º¸¸é µÊ
+		
+		
+		// [ 2. R E S P O N S E - ÀÀ´ä¸Ş½ÃÁö ÀÛ¼º ]
+		// html·Î ÀÀ´ä¸Ş½ÃÁö¸¦ ÀÛ¼ºÇÔ
+		
+		// 1. html·Î ÀÛ¼ºÇÒ °ÍÀÌ¶ó°í ÀÀ´ä¿¡ ¹Ì¸® ¼±¾ğÇÔ
+		// text/html - ³ª Áö±İ ¸Ş½ÃÁö ¾µ°Çµ¥ textÆÄÀÏÀÌ°í html Çü½ÄÀ¸·Î ¾µ°Å¾ß!
+		// charset=utf-8 - character´Â utf-8À¸·Î ÀÎÄÚµùÇØ!
 		response.setContentType("text/html; charset=utf-8");
+		// 2. Ãâ·Â½ºÆ®¸² PrintWriter º¯¼ö¿¡ response.getWriter()´ã±â
+		// PrintWriter Å¸ÀÔÀ¸·Î °¡Á®¿È
+		// -> response.getWriter()
 		PrintWriter out = response.getWriter();
+		// 3. out.println("html ÀÛ¼º")
 		out.println("<!DOCTYPE html>");
 		out.println("<html>");
 		out.println("<head>");
-		out.println("<title>ê°œì·¨ ê²€ì‚¬ ê²°ê³¼</title>");
-		out.println("</head>");
+		out.println("<title>°³Ãë °Ë»ç °á°ú</title>");
 		out.println("<body>");
-		out.println("<h1>ê°œì¸ ì·¨í–¥ ê²€ì‚¬ ê²°ê³¼ POST</h1>");
-		out.println("<p>" + name + "ë‹˜ì˜ ê°œì¸ì·¨í–¥ ê²€ì‚¬ ê²°ê³¼ëŠ” </p>");
-		out.println("<p>" + color + "ìƒ‰ì„ ì¢‹ì•„í•©ë‹ˆë‹¤. </p>");
-		out.println("<p>ì¢‹ì•„í•˜ëŠ” ë™ë¬¼ì€ " + animal + "ì…ë‹ˆë‹¤.</p>");
-		out.println("<p>ì¢‹ì•„í•˜ëŠ” ìŒì‹ì€ " + Arrays.toString(foodArr)+ "ì…ë‹ˆë‹¤. </p>");
+		out.println("<h1>°³ÀÎ ÃëÇâ °Ë»ç °á°ú POST</h1>");
+		out.println("<p>" + name + "´ÔÀÇ °³ÀÎ ÃëÇâ °Ë»ç °á°ú´Â </p>");
+		out.println("<p>" + color + "»öÀ» ÁÁ¾ÆÇÕ´Ï´Ù.</p>");
+		out.println("<p>ÁÁ¾ÆÇÏ´Â µ¿¹°Àº" + animal + "ÀÔ´Ï´Ù.</p>");
+		out.println("<p>ÁÁ¾ÆÇÏ´Â À½½ÄÀº" + Arrays.toString(foodArr) + "ÀÔ´Ï´Ù.</p>");
 		out.println("</body>");
+		out.println("</head>");
 		out.println("</html>");
 	}
-	
-	
 }
-
-
-
-	
-	

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <!-- deployment descriptor 배포서술자
-  		tomcat안에 project를 이동시키는 일
-  		프로젝트를 제일 먼저 설명하는 문서
-   -->
+<!-- deployment descriptor -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>01_helloweb</display-name>
   <welcome-file-list>
@@ -10,12 +7,21 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  <!-- servlet과 servlet-mapping이 servlet-name으로 짝을 이룸 -->
   <servlet>
+  	<!-- 1-1. 서블릿 이름 등록 : 보통은 클래스명으로 하는데, 그렇지 않아도 ok -->
+  	<!-- (3) 해당 servlet태그를 찾음 -->
   	<servlet-name>TestPerson1Servlet</servlet-name>
+  	<!-- (4) 그 태그에 작성된 servlet-class 태그를 찾아가라 -->
   	<servlet-class>com.kh.web.servlet.TestPerson1Servlet</servlet-class>
+  	<!-- Ctrl 호버시 링크가 걸림 -> TestPerson1Servlet.java 로 이동 -->
   </servlet>
   <servlet-mapping>
+    <!-- 1-2. 서블릿 이름 등록 : 보통은 클래스명으로 하는데, 그렇지 않아도 ok -->
+    <!-- (2) 이 이름을 가진servlet 태그를 찾아라 -->
   	<servlet-name>TestPerson1Servlet</servlet-name>
+  	<!-- 2. /로 시작 + 사용자가 요청한 .do URL  -->
+  	<!-- (1) 사용자가 url-pattern 내의 내용으로 요청했다면 -->
   	<url-pattern>/testPerson1.do</url-pattern>
   </servlet-mapping>
 </web-app>
