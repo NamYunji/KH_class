@@ -7,6 +7,7 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  <!-- get|post 방식 -->
   <!-- servlet과 servlet-mapping이 servlet-name으로 짝을 이룸 -->
   <servlet>
   	<!-- 1-1. 서블릿 이름 등록 : 보통은 클래스명으로 하는데, 그렇지 않아도 ok -->
@@ -24,4 +25,24 @@
   	<!-- (1) 사용자가 url-pattern 내의 내용으로 요청했다면 -->
   	<url-pattern>/testPerson1.do</url-pattern>
   </servlet-mapping>
+  
+  <!-- jsp 방식 -->
+  <servlet>
+  	<servlet-name>TestPerson2Servlet</servlet-name>
+  	<servlet-class>com.kh.web.servlet.TestPerson2Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TestPerson2Servlet</servlet-name>
+  	<url-pattern>/testPerson2.do</url-pattern>
+  </servlet-mapping>
+<!-- 하나의 servlet클래스가 여러 url 패턴 처리도 가능
+  <servlet-mapping>
+  	<servlet-name>TestPerson2Servlet</servlet-name>
+  	<url-pattern>/testPerson3.do</url-pattern>
+  </servlet-mapping>  <servlet-mapping>
+  	<servlet-name>TestPerson2Servlet</servlet-name>
+  	<url-pattern>/testPerson4.do</url-pattern>
+  </servlet-mapping> -->
+  
+
 </web-app>
