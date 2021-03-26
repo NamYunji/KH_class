@@ -50,12 +50,10 @@ public class TestPerson2Servlet extends HttpServlet{
 		// 직접 jsp에 담아두지 못하니까, request에 담아두는 것
 		
 		// 3. 응답메시지 처리 html 
-		// html코드는 jsp 파일에서 작업할 것
-		// html작성을 jsp에 위임
-		// RequestDispatcher 객체
-		// dispatching = send 
+		// html코드는 jsp 파일에서 작업 -> html작성을 jsp에 위임
+		// RequestDispatcher 객체 : 보내는 역할 (dispatching = send)
 		// request.getRequestDispatcher("jsp의 위치")
-		// 경로지정시, /로 시작한다면 /WebContent에서 바로 조회함
+		// 경로지정시, 슬래시로 시작한다면 /WebContent에서 바로 조회함
 		
 		// 객체를 가져옴
 		RequestDispatcher reqDispatcher
@@ -80,6 +78,7 @@ public class TestPerson2Servlet extends HttpServlet{
 //		out.println("<style>");		
 //		out.println(".recommendation { font-size: 2em; color: lime; text-decoration: underline; }");		
 //		out.println("</style>");		
+//		out.println("</head>");
 //
 //		out.println("<body>");
 //		out.println("<h1>개인 취향 검사 결과 jsp</h1>");
@@ -92,7 +91,6 @@ public class TestPerson2Servlet extends HttpServlet{
 //		out.print("<p class='recommendation'>오늘은 "+ recommendation + "어떠세요?</p>");
 //		out.println("</body>");
 //		
-//		out.println("</head>");
 //		out.println("</html>");
 			
 	}

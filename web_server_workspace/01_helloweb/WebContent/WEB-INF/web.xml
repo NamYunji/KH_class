@@ -44,5 +44,16 @@
   	<url-pattern>/testPerson4.do</url-pattern>
   </servlet-mapping> -->
   
+  <!-- 실습문제_menu -->
+   <servlet>
+  	<servlet-name>menuOrderServlet</servlet-name>
+  	<servlet-class>com.kh.web.menu.MenuOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>menuOrderServlet</servlet-name>
+  	<url-pattern>/menuOrder.do</url-pattern>
+  </servlet-mapping>
+  
+  
 
 </web-app>

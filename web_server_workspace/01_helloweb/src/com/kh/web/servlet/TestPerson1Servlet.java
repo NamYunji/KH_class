@@ -158,6 +158,7 @@ public class TestPerson1Servlet extends HttpServlet{
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<title>개취 검사 결과</title>");
+		out.println("</head>");
 		out.println("<body>");
 		out.println("<h1>개인 취향 검사 결과 GET</h1>");
 		out.println("<p>" + name + "님의 개인 취향 검사 결과는 </p>");
@@ -165,7 +166,6 @@ public class TestPerson1Servlet extends HttpServlet{
 		out.println("<p>좋아하는 동물은" + animal + "입니다.</p>");
 		out.println("<p>좋아하는 음식은" + Arrays.toString(foodArr) + "입니다.</p>");
 		out.println("</body>");
-		out.println("</head>");
 		out.println("</html>");
 	}
 	
