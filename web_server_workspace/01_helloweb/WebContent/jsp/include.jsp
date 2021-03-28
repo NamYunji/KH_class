@@ -4,7 +4,7 @@
 	 file="jsp의 주소"
 	  이 jsp를 가져와주세요! 하는 것
  --%>
-<%@ include file="/jsp/header.jsp" %>
+<%@ include file="/jsp/header.jsp" %>s
 		<h1>Content1</h1>
 		<p><%= name %>님, 반갑습니다.</p>
 		<a href="/web/jsp/another.jsp">another.jsp</a>
@@ -19,4 +19,8 @@
 		});
 		</script>
 <%@ include file="/jsp/footer.jsp" %>
+ s
  
+ 
+ 
+ s
