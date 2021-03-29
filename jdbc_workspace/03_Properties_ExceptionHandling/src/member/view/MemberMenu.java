@@ -239,8 +239,8 @@ public class MemberMenu {
 	 * 사용자에게 오류메시지 출력하기
 	 */
 	public void displayError(String errorMsg) {
-		System.out.println(errorMsg);
+		//System.err - 오류메시지가 빨갛게 찍힘
+		System.err.println(errorMsg); 
 	}
-
 }
 

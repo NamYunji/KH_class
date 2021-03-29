@@ -40,7 +40,6 @@ public class MemberDao {
 			e.printStackTrace();
 		}
 	}
-	
 
 	/**
 	 *  Dao
@@ -81,10 +80,12 @@ public class MemberDao {
 				Member member = new Member(memberId, password, memberName, gender, age, email, phone, address, hobby, enrollDate);
 				list.add(member);
 			}
-			
 		} catch (SQLException e) {
-			//e.printStackTrace();
-			//예외를 전환 : RuntimeException, 의미분명한 커스텀 예외객체로 전환
+			// e.printStackTrace();
+			// 예외를 전환해서 던짐 :
+			// 수월하도록 - RuntimeException으로 전환
+			// 의미분명하도록 - 커스텀 예외객체로 전환
+			// ex. Member 패키지에서 발생한 오류 => MemberException("메시지", 최초 발생한 오류)
 			throw new MemberException("회원 전체 조회", e);
 			
 		} finally {
@@ -154,8 +155,6 @@ public class MemberDao {
 				m.setHobby(rset.getString("hobby"));
 				m.setEnrollDate(rset.getDate("enroll_date"));
 			}
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -165,17 +164,12 @@ public class MemberDao {
 		}
 		
 //		System.out.println("member@dao="+m);
-		
 		return m;
 	}
-	
 	
 
 	/**
 	 * 아이디를 가지고 회원정보조회
-	 * 
-	 * @param memberId
-	 * @return
 	 */
 	public Member selectOne(Connection conn, String memberId){
 		Member m = null;
@@ -304,10 +298,7 @@ public class MemberDao {
 		} finally {
 			close(pstmt);
 		}
-		
 		return result;
 	}	
-
-
 
 }

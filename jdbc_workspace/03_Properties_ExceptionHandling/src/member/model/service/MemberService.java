@@ -34,8 +34,7 @@ import static common.JDBCTemplate.*;
  */
 
 /*
- * 
- * Dao의 역할
+ * Service
  * 1. DriverClass등록 (최초1회)
  * 2. Connection객체 생성 (url, user, password)
  * 2.1. 자동커밋 false설정
@@ -72,7 +71,7 @@ import static common.JDBCTemplate.*;
  */
 
 /*
-* Dao의 역할
+* Service
 * 1. DriverClass등록 (최초1회)
 * 2. Connection객체 생성 (url, user, password)
 * 2.1. 자동커밋 false설정
@@ -129,18 +128,6 @@ public class MemberService {
 			close(conn);
 			return list;
 		}
-
-	/**
-	 *  
-	 * 1. DriverClass등록(최초1회)
-	 * 2. Connection객체생성 url, user, password
-	 * 2.1 자동커밋 false설정
-	 * ------Dao 요청 -------
-	 * 6. 트랜잭션처리(DML) commit/rollback
-	 * 7. 자원반납(conn) 
-	 * @return
-	 * 
-	 */
 	
 	public List<Member> selectAll_() {
 		String driverClass = "oracle.jdbc.OracleDriver";
