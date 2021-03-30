@@ -19,7 +19,7 @@ public class Member {
 	private String phone;
 	private String address;
 	private String hobby;
-	private Date enrolldate;
+	private Date enrollDate;
 	// 시분초 정보가 필요 없을 때는 sql.Date
 	// 시분초 정보가 필요할 때는 timeStamp
 	// 한글자 짜리라도 String으로 함
@@ -30,7 +30,7 @@ public class Member {
 		super();
 	}	
 	public Member(String memberId, String password, String memberName, String memberRole, String gender, Date birthday,
-			String email, String phone, String address, String hobby, Date enrolldate) {
+			String email, String phone, String address, String hobby, Date enrollDate) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
@@ -42,7 +42,7 @@ public class Member {
 		this.phone = phone;
 		this.address = address;
 		this.hobby = hobby;
-		this.enrolldate = enrolldate;
+		this.enrollDate = enrollDate;
 	}
 
 	// getter / setter
@@ -107,10 +107,10 @@ public class Member {
 		this.hobby = hobby;
 	}
 	public Date getEnrolldate() {
-		return enrolldate;
+		return enrollDate;
 	}
-	public void setEnrolldate(Date enrolldate) {
-		this.enrolldate = enrolldate;
+	public void setEnrollDate(Date enrolldate) {
+		this.enrollDate = enrolldate;
 	}
 
 	// toString
@@ -118,6 +118,6 @@ public class Member {
 	public String toString() {
 		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName
 				+ ", memberRole=" + memberRole + ", gender=" + gender + ", birthday=" + birthday + ", email=" + email
-				+ ", phone=" + phone + ", address=" + address + ", hobby=" + hobby + ", enrolldate=" + enrolldate + "]";
+				+ ", phone=" + phone + ", address=" + address + ", hobby=" + hobby + ", enrolldate=" + enrollDate + "]";
 	}
 }

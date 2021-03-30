@@ -1,5 +1,14 @@
+<%@page import="member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	// 사용자 알림메시지
+	// return타입이 object이므로 다운캐스팅 필요
+	String msg = (String)request.getAttribute("msg");
+	String loc = (String)request.getAttribute("loc");	
+	System.out.println("msg@header.jsp = " + msg);
+	Member loginMember = (Member)session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +23,18 @@ request.getContextPath() -> 어플리케이션의 context루트를 가져옴
  --%>
 <script src="<%=request.getContextPath()%>/js/jquery-3.6.0.js"></script>
 <script>
+/* msg를 페이지 실행하자마자 보여줌 */
+/* alert(< % = msg % >); */
+/* alert(로그인에 성공했습니다.); -> alert("로그인에 성공했습니다.");*/
+/* null이 아닌 경우에만 alert하도록 */
+<% if(msg != null) { %>
+	alert("<%= msg %>"); 
+<% } %>
+
+<%-- location.href - 페이지 이동명령 --%>
+<% if(loc != null) { %>
+	location.href = "<%= loc %>";
+<% } %>
 /* 로그인 폼 유효성 검사 */
 $(function(){
 	$("#loginFrm").submit(function(){
@@ -40,8 +61,9 @@ $(function(){
 		<header>
 			<h1>Hello MVC</h1>
 
-			<!-- 로그인폼 시작 -->
 			<div class="login-container">
+			<% if(loginMember == null) {%>
+				<!-- 로그인폼 시작 -->
 				<!-- 비밀번호가 URL에 드러나지 않도록, POST로 처리 -->
 				<form id="loginFrm" action="<%= request.getContextPath() %>/member/login" method="POST">
 					<table>
@@ -60,8 +82,22 @@ $(function(){
 						</tr>
 					</table>
 				</form>
-			</div>
 			<!-- 로그인폼 끝-->
+			<% } else { %>
+			<%-- 로그인 성공시 --%>
+			<table id="login">
+				<tr>
+					<td><%= loginMember.getMemberName() %>님, 안녕하세요.</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="button" value="내정보보기" />
+						<input type="button" value="로그아웃" />
+					</td>
+				</tr>
+			</table>
+			<% } %>
+			</div>
 			<!-- 메인메뉴 시작 -->
 			<nav>
 				<ul class="main-nav">

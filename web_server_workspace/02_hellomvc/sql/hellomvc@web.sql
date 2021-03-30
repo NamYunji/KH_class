@@ -39,7 +39,7 @@ values (
     'honggd@naver.com', '01012341234', '서울시 강남구', '운동,등산,독서', default
 );
 insert into member
-values ('''''''''''''''''''''''''''''''''''''''''''''''
+values (
     'qwerty', '1234', '쿠어티', 'U', 'F', to_date('19900215','yyyymmdd'),
     'qwerty@naver.com', '01012341234', '서울시 송파구', '운동,등산', default
 );

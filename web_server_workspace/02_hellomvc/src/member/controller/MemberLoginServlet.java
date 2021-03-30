@@ -1,11 +1,14 @@
 package member.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
@@ -55,10 +58,40 @@ public class MemberLoginServlet extends HttpServlet {
 		// 사용자가 honggd, 1234라고 보냈을 때 로그인 성공, 실패 여부를 확인
 		// db에서 사용자 정보를 가져와야 함 -> service에 위임
 		
-		// MemberService의 selectOne메소드 호출
-		Member member = new memberService.selectOne(memberId);
+		Member member = memberService.selectOne(memberId);
 		System.out.println("member@servlet = " + member);
 		
-		// 4. 응답메시지 처리 - jsp위임 또는 redirect처리
+		// memberId로 조회했을 때 아이디가 없다면 null
+		// 로그인 성공/실패여부 판단
+		// 1. 로그인 성공 : member != null && password.equals(member.getPassword())
+		// 2. 로그인 실패 :
+		// 		아이디 존재하지 않음 member == null
+		// 		아이디가 존재하나 비번이 틀릴 경우 member != null && !password.equals(member.getPassword())
+		if(member != null && password.equals(member.getPassword())) {
+			// 로그인 성공
+			request.setAttribute("msg", "로그인에 성공했습니다.");
+			// session을 가져옴
+			HttpSession session = request.getSession();
+			// session에 담기
+			session.setAttribute("loginMember", member);
+			// 로그인한 사용자 정보 - 조회해온 member객체를 담아둠 - jsp에서도 사용가능
+			// request.setAttribute("loginMember", member);
+			
+			// 리다이렉트 : url변경 목적
+			// response.sendRedirect("이동주소")
+			response.sendRedirect(request.getContextPath());
+		}
+		else {
+			// 로그인 실패
+			request.setAttribute("msg", "로그인에 실패했습니다.");
+			// 로그인 실패시 페이지 이동을 위함
+			// request.getContextPath() -> /mvc를 문자열로 리턴 
+			request.setAttribute("loc", request.getContextPath());
+			
+			// 4. 응답메시지 처리 - html
+			RequestDispatcher reqDispatcher =
+					request.getRequestDispatcher("/index.jsp");
+			reqDispatcher.forward(request, response);
+		}
 	}
 }

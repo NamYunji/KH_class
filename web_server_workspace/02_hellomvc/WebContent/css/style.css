@@ -36,6 +36,10 @@ header div.login-container {
 	empty-cells: hide;
 }
 
+/* 로그인성공후 */
+div.login-container table#login{border-spacing:10px;}
+div.login-container table#login input[type=button]{border-radius:3px;}
+
 #loginFrm input[type=submit] {
 	width: 60px;
 	height: 50px;

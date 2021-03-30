@@ -119,7 +119,7 @@ public class MemberService {
 	
 	private MemberDao memberDao = new MemberDao();
 
-		public List<Member> selectAll() {
+	public List<Member> selectAll() {
 			//static메소드는 이태릭체
 			//Connection conn = JDBCTemplate.getConnection();
 			Connection conn = getConnection();
@@ -127,7 +127,7 @@ public class MemberService {
 			//JDBCTemplate.close(conn);
 			close(conn);
 			return list;
-		}
+	}
 	
 	public List<Member> selectAll_() {
 		String driverClass = "oracle.jdbc.OracleDriver";
@@ -165,8 +165,6 @@ public class MemberService {
 		return list;
 	}
 	
-
-
 	//매번 중복되는 부분을 처리하려면..?
 	//공통된 코드를 미리 구현해두고, 간편하게 가져다 쓸 수 있도록!
 	public int insertMember(Member member) {
