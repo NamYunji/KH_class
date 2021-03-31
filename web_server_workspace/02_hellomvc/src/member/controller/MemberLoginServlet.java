@@ -70,10 +70,17 @@ public class MemberLoginServlet extends HttpServlet {
 		if(member != null && password.equals(member.getPassword())) {
 			// 로그인 성공
 			request.setAttribute("msg", "로그인에 성공했습니다.");
-			// session을 가져옴
+			// request.getSession() - session을 가져옴
+			// request.getSession(create true(생략)/false) - create여부를 Boolean형으로 전달할 수 있음 : 새로 생성여부
+			// -> 만약 존재하지 않는다면 새로 생성해서 가져와라 (기본값 : true)
+			// true - 처음 접속 - session객체가 없음 -> 새로 만들어서라도 가져와라
 			HttpSession session = request.getSession();
 			// session에 담기
 			session.setAttribute("loginMember", member);
+			// 필요한 정보를 가져올 수도 있음
+			// session.getId() - JSESSIONID
+			System.out.println("JSESSIONID = " + session.getId());
+			
 			// 로그인한 사용자 정보 - 조회해온 member객체를 담아둠 - jsp에서도 사용가능
 			// request.setAttribute("loginMember", member);
 			

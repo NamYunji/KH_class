@@ -31,7 +31,7 @@ request.getContextPath() -> 어플리케이션의 context루트를 가져옴
 	alert("<%= msg %>"); 
 <% } %>
 
-<%-- location.href - 페이지 이동명령 --%>
+<%-- 로그인 실패시 -> location.href - 페이지 이동명령 --%>
 <% if(loc != null) { %>
 	location.href = "<%= loc %>";
 <% } %>
@@ -92,7 +92,9 @@ $(function(){
 				<tr>
 					<td>
 						<input type="button" value="내정보보기" />
-						<input type="button" value="로그아웃" />
+						<%-- 클릭시 로그아웃 페이지로 이동 --%>
+						<input type="button" value="로그아웃"
+							onclick="location.href='<%= request.getContextPath() %>/member/logout';"/>
 					</td>
 				</tr>
 			</table>

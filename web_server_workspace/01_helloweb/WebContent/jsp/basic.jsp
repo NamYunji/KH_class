@@ -38,7 +38,7 @@ window.onload = function() {
 </head>
 <body>
 	<h1>Basic</h1>
-	<%-- hsp 주석은 java파일 변환시 제거된다. --%>
+	<%-- jsp 주석은 java파일 변환시 제거된다. --%>
 	<!-- html 주석은 client까지 전달된다.-->
 	<%-- jsp 스크립팅 요소 : 출력식
 	출력식은 세미콜론을 찍지 않음
@@ -51,7 +51,8 @@ window.onload = function() {
 		 => 자바로 계산된 결과 = server측에서 처리되었다 --%>
 		 
 	<p>client-side : javascript로 계산된 결과 : <span id="sum"></span></p>
-
+	<%-- 페이지 소스보기 - 계산식이 있음
+		   ⇒ 브라우져에 넘어와서 계산됨 --%>
 	<p>server-side : 현재시각 <%= now %>(<%= now.getTime() %>)</p>
 	<p>clident-side : 현재시각 <span id="now"></span></p>
 	
