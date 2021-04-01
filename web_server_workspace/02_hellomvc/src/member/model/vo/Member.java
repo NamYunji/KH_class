@@ -2,13 +2,16 @@ package member.model.vo;
 
 import java.sql.Date;
 
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 /**
  * VO(Value Object) 클래스
  * VO객체는 DB테이블의 한 행의 정보를 가지고 있는 객체
  * DB 테이블과 같은 구조여야 함
  *
  */
-public class Member {
+public class Member implements HttpSessionBindingListener{
 	private String memberId;
 	private String password;
 	private String memberName;
@@ -119,5 +122,19 @@ public class Member {
 		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName
 				+ ", memberRole=" + memberRole + ", gender=" + gender + ", birthday=" + birthday + ", email=" + email
 				+ ", phone=" + phone + ", address=" + address + ", hobby=" + hobby + ", enrolldate=" + enrollDate + "]";
+	}
+		
+	// session객체에 현재객체가 속성으로 등록될 때 호출되는 event listener
+	// member객체가 session에 속성으로 저장될 때 - 로그인 시 loginMember로 저장됨
+	// 사용자 로그인관련 정보에 대한 로그를 남길 때 사용 (로그인 내역 관리)
+	@Override
+	public void valueBound(HttpSessionBindingEvent ev) {
+		System.out.println(memberName + "[" + memberId + "]님이 로그인 했습니다.");
+	}
+	// session객체에 현재객체가 속성에서 해제될 때 호출되는 event listener
+	// session이 무효화될 때도 호출됨 - 로그아웃시 value가 속성에서 제거됨
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent ev) {
+		System.out.println(memberName + "[" + memberId + "]님이 로그아웃 했습니다.");
 	}
 }

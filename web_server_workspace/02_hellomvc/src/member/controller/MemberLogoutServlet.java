@@ -34,7 +34,7 @@ public class MemberLogoutServlet extends HttpServlet {
 		// 사실 session객체는 폐기되지 않고, 재사용되는데
 		// 그 재사용하기 위한 과정임
 		// 현재 있는 session만 무효화해서 속성들만 제거하고 다음 사용자가 오면 재사용하는 것
-		// (물론 session id는 새로 발급됨)
+		// (물론 session id는 새로 발급됨)ㄴ
 		
 		// 세션처리가 잘 되었으면, 다시 sendRedirect처리 -> 인덱스페이지로 보냄
 		response.sendRedirect(request.getContextPath());

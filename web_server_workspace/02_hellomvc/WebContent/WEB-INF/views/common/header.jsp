@@ -4,10 +4,32 @@
 <%
 	// 사용자 알림메시지
 	// return타입이 object이므로 다운캐스팅 필요
-	String msg = (String)request.getAttribute("msg");
+	String msg = (String)session.getAttribute("msg");
+	// 한번 읽어내고, 메시지 변수에 담은 후에는 세션에서 바로 지워버리기 -> 일회용 msg만들기
+	if(msg != null) session.removeAttribute("msg");
 	String loc = (String)request.getAttribute("loc");	
 	System.out.println("msg@header.jsp = " + msg);
 	Member loginMember = (Member)session.getAttribute("loginMember");
+	
+	// 사용자 쿠키처리
+	String saveId = null;
+	// 헤더에서 이 처리 - 모든 jsp에서 header.jsp를 포함 - 모든 요청에서 이걸 검사하겠다는 것
+	// 쿠키 가져오기 - getCookies() -> cookie 배열 리턴
+	Cookie[] cookies = request.getCookies();
+	// 쿠키 열람
+	// 처음 접속했을 때는 cookie가 null이기 때문에, null이 아닐 때만 검사
+	if(cookies != null){
+		for(Cookie c : cookies){
+			// key, value형식 (name, value)
+			String name = c.getName();
+			String value = c.getValue();
+			System.out.println(name + " : " + value);
+			
+			// saveId라는 name값이 있다면 saveId에 value(사용자 아이디)를 저장
+			if("saveId".equals(name))
+				saveId = value;
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -68,7 +90,10 @@ $(function(){
 				<form id="loginFrm" action="<%= request.getContextPath() %>/member/login" method="POST">
 					<table>
 						<tr>
-							<td><input type="text" name="memberId" id="memberId" placeholder="아이디" tabindex="1"></td>
+							<td><input type="text" name="memberId" id="memberId"
+										placeholder="아이디" tabindex="1"
+										value="<%= saveId != null ? saveId : "" %>"></td>
+									<%-- 쿠키값이 있다면, saveId 출력, 아니면  빈문자열 --%>
 							<td><input type="submit" value="로그인" tabindex="3"></td>
 						</tr>
 						<tr>
@@ -76,9 +101,11 @@ $(function(){
 							<td></td>
 						</tr>
 						<tr>
-							<td colspan="2"><input type="checkbox" name="saveId" id="saveId" />
+							<td colspan="2"><input type="checkbox" name="saveId" id="saveId"
+							<%= saveId != null ? "checked" : ""%>/>
+							<%-- saveId가 null이 아니면 checked 아니면 빈문자열 --%> 
 							<label for="saveId">아이디저장</label>&nbsp;&nbsp;
-							<input type="button" value="회원가입"></td>
+							<input type="button" value="회원가입" onclick="location.href='<%= request.getContextPath()%>/member/memberEnroll';"></td>
 						</tr>
 					</table>
 				</form>
@@ -109,7 +136,5 @@ $(function(){
 				</ul>
 			</nav>
 			<!-- 메인메뉴 끝-->
-
 		</header>
-
 		<section id="content">

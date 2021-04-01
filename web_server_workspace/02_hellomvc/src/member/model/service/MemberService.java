@@ -22,6 +22,10 @@ public class MemberService {
 	// Dao 객체 생성
 	private MemberDao memberDao = new MemberDao();
 	
+	// 이 상수를 가져와서 사용할 것
+	public static final String MEMBER_ROLE = "U";
+	public static final String ADMIN_ROLE = "A";
+	
 	public Member selectOne(String memberId) {
 		// 1. DriverClass등록 (최초1회) -> JDBCTemplate에서 진행함
 		
@@ -37,5 +41,16 @@ public class MemberService {
 		
 		// Member 객체 리턴
 		return member;
+	}
+
+	public int insertMember(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.insertMember(conn, member);
+		
+		if(result > 0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		
+		return result;
 	}
 }

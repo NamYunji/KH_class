@@ -5,4 +5,9 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- session timeout(min), 이 서버에서 관리하는 session객체는 min분동안만 유효함을 설정 -->
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
 </web-app>
