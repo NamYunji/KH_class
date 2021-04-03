@@ -89,6 +89,13 @@
 </section>
 <script>
 /**
+ * 중복검사 이후 다시 아이디를 변경하는 것을 방지
+ */
+$("#memberId_").change(function(){
+	// 변경되었다면 또 중복검사하도록, idValid를 0으로 만들어줌
+	$("#idValid").val(0);
+});
+/**
  * 아이디 중복검사 함수
  * 팝업창으로 [name=checkIdDuplicateFrm]을 제출
  * 현재페이지에 머물면서 서버와 통신하기 위함
