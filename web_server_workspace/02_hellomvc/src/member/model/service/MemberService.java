@@ -28,17 +28,13 @@ public class MemberService {
 	
 	public Member selectOne(String memberId) {
 		// 1. DriverClass등록 (최초1회) -> JDBCTemplate에서 진행함
-		
 		// 2. connection 객체 생성
 		Connection conn = getConnection();
-		
 		// ----------Dao 요청-----------
 		// dao에 Connection객체, memberId를 전달해서 Member객체를 리턴받음.
 		Member member = memberDao.selectOne(conn, memberId);
-		
 		// 6. Connection 자원반납
 		close(conn);
-		
 		// Member 객체 리턴
 		return member;
 	}

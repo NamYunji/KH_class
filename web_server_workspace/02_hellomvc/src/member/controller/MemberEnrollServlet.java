@@ -47,7 +47,6 @@ public class MemberEnrollServlet extends HttpServlet {
 		// name값으로 입력값을 가져와서 자바변수에 옮겨담기
 		String memberId = request.getParameter("memberId");
 		String password = request.getParameter("password");
-		String password2 = request.getParameter("password2");
 		String memberName = request.getParameter("memberName");
 		String _birthday = request.getParameter("birthday");
 		String email = request.getParameter("email");

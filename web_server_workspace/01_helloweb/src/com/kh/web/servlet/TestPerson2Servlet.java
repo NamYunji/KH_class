@@ -63,6 +63,9 @@ public class TestPerson2Servlet extends HttpServlet{
 		// request객체와 response객체를 같이 넘겨줘야 함
 		reqDispatcher.forward(request, response);
 		
+		
+		
+		
 		// -> 바톤터치 완료! forward이후로 코드 작성하면 오류남
 		// jsp에게 응답할 html은 너가 작성해! 하고 넘겨버리는 것
 		// WAS는 testPersonEnd.jsp에 가서 작업함

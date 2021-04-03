@@ -61,7 +61,6 @@ public class MemberLoginServlet extends HttpServlet {
 		// 3. 업무로직 : memberId로 회원객체를 조회
 		// 사용자가 honggd, 1234라고 보냈을 때 로그인 성공, 실패 여부를 확인
 		// db에서 사용자 정보를 가져와야 함 -> service에 위임
-		
 		Member member = memberService.selectOne(memberId);
 		System.out.println("member@servlet = " + member);
 		

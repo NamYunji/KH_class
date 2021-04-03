@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%-- 사용자에게 보이는 폼은 아님 --%>
+<form name="checkIdDuplicateFrm">
+	<input type="hidden" name="memberId" />
+</form>
 <section id=enroll-container>
 	<h2>회원 가입 정보 입력</h2>
 	<form name="memberEnrollFrm" action="" method="post">
@@ -9,6 +13,12 @@
 				<th>아이디<sup>*</sup></th>
 				<td>
 					<input type="text" placeholder="4글자이상" name="memberId" id="memberId_" required>
+					<input type="button" value="중복검사" onclick="checkIdDuplicate();" />
+					<input type="hidden" id="idValid" value="0" />
+					<%-- id중복검사 했는지 체크하는 용도의 input 태그
+					idValid가 1이면 사용가능한 아이디이고 중복검사함, 0이면 중복검사 전 
+					-> value가 0인 상태에서는 제출이 되면 안됨 
+					-> 중복검사를 해서, idValid값이 1로 바뀌어야 폼이 최종적으로 제출 --%>
 				</td>
 			</tr>
 			<tr>
@@ -78,11 +88,52 @@
 	</form>
 </section>
 <script>
+/**
+ * 아이디 중복검사 함수
+ * 팝업창으로 [name=checkIdDuplicateFrm]을 제출
+ * 현재페이지에 머물면서 서버와 통신하기 위함
+ * cf. location.href, 폼제출, a태그 같은 경우 페이지가 이동해버림 -> 회원가입 페이지가 날아감
+ */
+function checkIdDuplicate(){
+	var $memberId = $("#memberId_");
+	if(/^[a-z0-9_]{4,}/g.test($memberId.val()) == false) {
+		alert("유효한 아이디를 입력해주세요.");
+		$memberId.select();
+		return;
+	}
+	// 1. 팝업생성 
+	// popup window객체의 name 속성 : checkIdDuplicatePopup
+	var title = "checkIdDuplicatePopup";
+	// [window.]open(‘url’, ‘name|open방식’, ‘specs’);
+	open("", // cf. url은 비워둠, form의 action값으로 해결할 것
+		title, 
+		"width=300px, height=200px, left=200px, top=200px"
+		);
+	
+	// 2. 폼제출 
+	$frm = $(document.checkIdDuplicateFrm); // cf. name값과 id값은 직접적으로 호출 가능
+	$frm.find("[name=memberId]").val($memberId.val()); // 사용자 입력 id 세팅
+	console.log($memberId.val());
+	// $(selector).attr(attribute,value)
+	$frm.attr("action", "<%= request.getContextPath() %>/member/checkIdDuplicate")
+		.attr("method", "POST")
+		.attr("target", title) // popup과 form을 연결
+		.submit();
+}
+/**
+ * 회원가입 유효성 검사
+ */
 $(document.memberEnrollFrm).submit(function(){
 	var $memberId = $("#memberId_");
-	if(/^[a-z0-9!@#$$%^&*()]{4,}/g.test($memberId.val()) == false) {
+	if(/^[a-z0-9]{4,}/g.test($memberId.val()) == false) {
 		alert("아이디는 최소 4자리이상이어야 합니다.");	
 		$memberId.select();
+		return false;
+	}
+	var $idValid = $("#idValid");
+	if($idValid.val() == 0){
+		alert("아이디 중복검사 해주세요.");
+		$idValid.prev().focus();
 		return false;
 	}
 	var $p1 = $("#password_");

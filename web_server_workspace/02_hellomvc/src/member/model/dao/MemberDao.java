@@ -83,11 +83,11 @@ public class MemberDao {
 	public int insertMember(Connection conn, Member member) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertMember");
+		String query = prop.getProperty("insertMember");
 		
 		try {
 			//PreparedStatment객체 생성, 미완성 쿼리 값대입
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,member.getMemberId());
 			pstmt.setString(2,member.getPassword());
 			pstmt.setString(3,member.getMemberName());
