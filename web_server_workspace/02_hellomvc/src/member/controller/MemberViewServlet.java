@@ -1,4 +1,4 @@
-package member.controlloer;
+package member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -24,15 +24,16 @@ public class MemberViewServlet extends HttpServlet {
 		// 회원정보를 가져와서 jsp를 통해 뿌리기
 		// 회원정보를 가진 객체는 session의 loginMember에 있음
 		// 1. 업무로직 : 회원객체 가져오기
-		HttpSession session = request.getSession();
-		Member member = null;
-		if(session != null)
-			member = (Member)session.getAttribute("loginMember");
-		if(member == null) {
-			session.setAttribute("msg", "로그인 후 사용할 수 있습니다.");
-			response.sendRedirect(request.getContextPath());
-			return;
-		}
+		// cf. LoginFilter에서 처리
+//		HttpSession session = request.getSession();
+//		Member member = null;
+//		if(session != null)
+//			member = (Member)session.getAttribute("loginMember");
+//		if(member == null) {
+//			session.setAttribute("msg", "로그인 후 사용할 수 있습니다.");
+//			response.sendRedirect(request.getContextPath());
+//			return;
+//		}
 		
 		// 2. jsp 위임처리
 		// jsp에서도 session에 접근할 수 있기 때문에 member객체를 따로 담지는 않음

@@ -10,4 +10,22 @@
   <session-config>
   	<session-timeout>30</session-timeout>
   </session-config>
+  
+  <!-- 필터 클래스 등록
+  	   filter태그, filter-mapping태그가 한 쌍,
+  	   filter-name태그를 공유 - 이걸로 연결됨 -->
+  <filter>
+  	<!-- 3. filter 이름을 찾아서 -->
+  	<filter-name>LoggerFilter</filter-name>
+  	<!-- 4. 해당 필터 클래스 실행 -->
+  	<!-- 필터 클래스 주소 -->
+  	<filter-class>common.filter.LoggerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<!-- 2. 이 filter 이름을 찾음 -->
+  	<filter-name>LoggerFilter</filter-name>
+  	<!-- 1. 이 url 요청이 있으면 -->
+  	<!-- 어떤 요청에 이 필터를 작동시킬지 -->
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

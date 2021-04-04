@@ -14,37 +14,17 @@ import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberEnrollServlet
+ * Servlet implementation class MemberUpdateServlet
  */
-// 어차피 mvc라는 공간에 있으므로 /mvc(context path)를 쓰면 안됨
-@WebServlet("/member/memberEnroll")
-public class MemberEnrollServlet extends HttpServlet {
-	
+@WebServlet("/member/memberUpdate")
+public class MemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberService memberService = new MemberService();
 
-	
-	/**
-	 * GET방식 - 회원가입 페이지
-	 * 회원가입 페이지를 요청하는 건 DB의 상태가 변하지 않는 멱등요청
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 여기서는 forwarding처리만 해줌
-		request.getRequestDispatcher("/WEB-INF/views/member/memberEnroll.jsp")
-				.forward(request, response);
-	}
-
-	/**
-	 * POST방식 - 회원가입 처리
-	 * -> DB에 저장
-	 * 회원가입 처리를 요청하는 건 DB의 상태가 변함
-	 * (DML요청은 다 POST로 처리하기)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1. encoding
-		// cf. encoding filter에서 처리
+		request.setCharacterEncoding("UTF-8");
 		// 2. 사용자 입력값 처리
-		// name값으로 입력값을 가져와서 자바변수에 옮겨담기
 		String memberId = request.getParameter("memberId");
 		String password = request.getParameter("password");
 		String memberName = request.getParameter("memberName");
@@ -55,7 +35,7 @@ public class MemberEnrollServlet extends HttpServlet {
 		String gender = request.getParameter("gender");
 		//체크박스같은 경우 선택된 복수의 값이 배열로 전달된다.
 		String[] hobbyArr = request.getParameterValues("hobby");
-
+		
 		// 파라미터로 전달한 문자열배열이 null이면, NullPointerException유발.
 		String hobby = "";
 		// String배열을 ,콤마를 이용해서 하나로 합치기
@@ -69,27 +49,25 @@ public class MemberEnrollServlet extends HttpServlet {
 			birthday = Date.valueOf(_birthday);
 		
 		// member객체
+		// update구문에서 사용하지 않는 것들은 자리만 null로 채워둠 (memberRole, enrollDate)
 		Member member = new Member(memberId, password, memberName, 
-				MemberService.MEMBER_ROLE, gender, birthday, email, phone, address, hobby, null);
-		
+				null, gender, birthday, email, phone, address, hobby, null);
 		System.out.println("입력한 회원정보 : " + member);
+		// 3. 업무로직
+		int result = memberService.updateMember(member);
 		
-		// 3. 서비스로직 호출 (업무로직)
-		int result = memberService.insertMember(member);
-
-		// 4. 사용자 피드백 및 페이지 리다이렉트
-		// 세션에 피드백 msg를 담음 
+		// 4. 사용자 피드백 및 리다이렉트 처리
+		// DML의 성격을 가진 서비스 뒤에는 반드시 리다이렉트 처리 !!
+		HttpSession session = request.getSession();
 		String msg = "";
-		if (result > 0) {
-			msg = "회원가입에 성공했습니다.";
-		} else {
-			msg = "회원가입에 실패했습니다.";
+		if(result > 0) {
+			msg = "성공적으로 회원정보를 수정했습니다.";
+			// 회원정보 수정 -> session의 정보도 갱신
+			session.setAttribute("loginMember", memberService.selectOne(memberId));
 		}
-		// msg를 속성으로 저장
-		request.getSession().setAttribute("msg", msg);
-		
-		// sendRedirect를 통해 url 변경
-		// dml후에는 반드시 url 변경 !!!
-		response.sendRedirect(request.getContextPath());
+		else
+			msg = "회원정보수정에 실패했습니다.";
+		session.setAttribute("msg", msg);
+		response.sendRedirect(request.getContextPath() + "/member/memberView");
 	}
 }

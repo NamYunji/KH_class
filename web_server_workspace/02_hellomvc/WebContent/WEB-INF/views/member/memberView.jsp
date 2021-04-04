@@ -105,6 +105,63 @@ if(hobby != null){
         <input type="button" onclick="deleteMember();" value="탈퇴"/>
 	</form>
 </section>
+<form name="memberDelFrm" action="<%= request.getContextPath() %>/member/memberDelete" method="POST">
+	<input type="hidden" name="memberId" value="<%= loginMember.getMemberId() %>"/>
+</form>
+<script>
+$("#password2").blur(function(){
+	var $p1 = $("#password_");
+	var $p2 = $("#password2");
+	if($p1.val() != $p2.val())
+		alert("패스워드가 일치하지 않습니다.");
+	$p1.select();
+});
+/**
+ * 유효성 검사
+ * memberId를 제외하고, 회원가입의 유효성검사와 동일하다.
+ */
+$("#memberUpdateFrm").submit(function(){
+	var $p1 = $("#password_");
+	if(/^[a-z0-9!@#$$%^&*()]{4,}/g.test($p1.val()) == false) {
+		alert("유효한 패스워드를 입력하세요.");			
+		$p1.select();
+		return false;
+	}
+	var $p2 = $("#password2");
+	if($p1.val() != $p2.val()) {
+		alert("패스워드가 일치하지 않습니다.");			
+		$p2.select();
+		return false;
+	}	
+	var $memberName = $("#memberName");
+	if(/^[가-힣]{2,}/.test($memberName.val()) == false) {
+		alert("이름은 한글 두글자 이상이어야 합니다.");	
+		$memberName.select();
+		return false;
+	}
+	var $phone = $("#phone");
+	$phone.val($phone.val().replace(/[^0-9]/g, "")); // 숫자아닌 문자(복수개)제거하기
+	if(/^010[0-9]{8}$/.test($phone.val()) == false) {
+		alert("유효한 휴대폰번호를 입력하세요.");
+		$phone.select();
+		return false;
+	}
+	return true;
+});
+/*
+ * 수정, 탈퇴 처리 함수
+ */
+function updateMember(){
+	$("#memberUpdateFrm")
+	.attr("action","<%=request.getContextPath() %>/member/memberUpdate")
+	.submit();
+}
+function deleteMember(){
+    if(confirm("정말로 탈퇴하시겠습니까?")){
+    	$(document.memberDelFrm).submit();
+    }
+}
+</script>
 <%!
 	// jsp에서만 쓸 수 있는 메소드 선언문
 	public String hobbyChecked(List<String> hobbyList, String hobby){
