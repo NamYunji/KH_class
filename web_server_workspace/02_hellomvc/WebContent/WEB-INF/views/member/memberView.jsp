@@ -8,7 +8,7 @@
 <%
 // header.jsp에 이미 loginMember가 있으니, 그냥 가져다 쓰면 됨
 String memberId = loginMember.getMemberId();
-String password = loginMember.getPassword();
+/* String password = loginMember.getPassword(); */
 String memberName = loginMember.getMemberName();
 Date birthday = loginMember.getBirthday();
 String email = loginMember.getEmail() != null ? loginMember.getEmail() : "";
@@ -18,12 +18,13 @@ String gender = loginMember.getGender() != null ? loginMember.getGender() : "";
 String hobby = loginMember.getHobby(); // 문자열로 되어있음 (등산, 게임...)
 
 List<String> hobbyList = null;
-// hobby가 하나도 체크되지 않으면 hobbyList는 null일 수도 있음
+// hobby가 하나도 체크되지 않으면 hobbyList는 null일 수도 있음/
 if(hobby != null){
 	// 문자열 배열
 	String[] arr = hobby.split(",");
 	// 문자열 리스트 (Arrays.asList(문자열 배열))
 	hobbyList = Arrays.asList(arr); // String[] -> List<String>
+	
 }
 %>
 <section id=enroll-container>
@@ -36,7 +37,7 @@ if(hobby != null){
 					<input type="text" name="memberId" id="memberId_" value="<%= memberId %>" readonly>
 				</td>
 			</tr>
-			<tr>
+<%-- 			<tr>
 				<th>패스워드</th>
 				<td>
 					<input type="password" name="password" id="password_" value="<%= password %>" required>
@@ -47,7 +48,7 @@ if(hobby != null){
 				<td>	
 					<input type="password" id="password2" value="<%= password %>" required><br>
 				</td>
-			</tr> 
+			</tr>  --%>
 			<tr>
 				<th>이름</th>
 				<td>	
@@ -102,6 +103,7 @@ if(hobby != null){
 			</tr>
 		</table>
         <input type="button" onclick="updateMember();" value="정보수정"/>
+        <input type="button" onclick="updatePassword();" value="비밀번호 변경"/>
         <input type="button" onclick="deleteMember();" value="탈퇴"/>
 	</form>
 </section>
@@ -109,19 +111,22 @@ if(hobby != null){
 	<input type="hidden" name="memberId" value="<%= loginMember.getMemberId() %>"/>
 </form>
 <script>
-$("#password2").blur(function(){
+function updatePassword(){
+	location.href = "<%= request.getContextPath() %>/member/updatePassword";
+}
+/* $("#password2").blur(function(){
 	var $p1 = $("#password_");
 	var $p2 = $("#password2");
 	if($p1.val() != $p2.val())
 		alert("패스워드가 일치하지 않습니다.");
 	$p1.select();
-});
+}); */
 /**
  * 유효성 검사
  * memberId를 제외하고, 회원가입의 유효성검사와 동일하다.
  */
 $("#memberUpdateFrm").submit(function(){
-	var $p1 = $("#password_");
+/* 	var $p1 = $("#password_");
 	if(/^[a-z0-9!@#$$%^&*()]{4,}/g.test($p1.val()) == false) {
 		alert("유효한 패스워드를 입력하세요.");			
 		$p1.select();
@@ -132,7 +137,7 @@ $("#memberUpdateFrm").submit(function(){
 		alert("패스워드가 일치하지 않습니다.");			
 		$p2.select();
 		return false;
-	}	
+	}	 */
 	var $memberName = $("#memberName");
 	if(/^[가-힣]{2,}/.test($memberName.val()) == false) {
 		alert("이름은 한글 두글자 이상이어야 합니다.");	

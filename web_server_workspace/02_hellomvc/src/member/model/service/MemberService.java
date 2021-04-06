@@ -1,6 +1,8 @@
 package member.model.service;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
@@ -64,5 +66,45 @@ public class MemberService {
 		else rollback(conn);
 		close(conn);
 		return result;
+	}
+
+	public int updatePassword(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.updatePassword(conn, member);
+		if(result > 0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public List<Member> selectList() {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.selectList(conn);
+		close(conn);
+		return list;
+	}
+
+	// 오버로딩
+	public List<Member> selectList(int start, int end) {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.selectList(conn, start, end);
+		close(conn);
+		return list;
+	}
+
+	public int updateMemberRole(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.updateMemberRole(conn, member);
+		if(result > 0) commit(conn);
+		else rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	public List<Member> searchMember(Map<String, String> param) {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.searchMember(conn, param);
+		close(conn);
+		return list;
 	}
 }

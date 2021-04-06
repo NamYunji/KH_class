@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -23,7 +24,6 @@ public class MemberEnrollServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberService memberService = new MemberService();
 
-	
 	/**
 	 * GET방식 - 회원가입 페이지
 	 * 회원가입 페이지를 요청하는 건 DB의 상태가 변하지 않는 멱등요청
@@ -46,7 +46,7 @@ public class MemberEnrollServlet extends HttpServlet {
 		// 2. 사용자 입력값 처리
 		// name값으로 입력값을 가져와서 자바변수에 옮겨담기
 		String memberId = request.getParameter("memberId");
-		String password = request.getParameter("password");
+		String password = MvcUtils.getSha512(request.getParameter("password"));
 		String memberName = request.getParameter("memberName");
 		String _birthday = request.getParameter("birthday");
 		String email = request.getParameter("email");

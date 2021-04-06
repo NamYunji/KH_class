@@ -109,7 +109,7 @@ public class Member implements HttpSessionBindingListener{
 	public void setHobby(String hobby) {
 		this.hobby = hobby;
 	}
-	public Date getEnrolldate() {
+	public Date getEnrollDate() {
 		return enrollDate;
 	}
 	public void setEnrollDate(Date enrolldate) {
