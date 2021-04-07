@@ -104,8 +104,12 @@ div#search-gender{display: <%= "gender".equals(type) ? "inline-block" : "none" %
 			} %>
 		</tbody>
 	</table>
+	 <!-- PAGE BAR -->
+	<div id="pageBar">
+		<%= request.getAttribute("pageBar") %>
+	</div>
 </section>
-<!--  업데이트니까 폼을 만들어야 함 -->
+<!--  memberRole 변경 - 업데이트니까 폼을 만들어야 함 -->
 <form action="<%= request.getContextPath() %>/admin/memberRoleUpdate"
 	  name="memberRoleUpdateFrm"
 	  method="POST" >

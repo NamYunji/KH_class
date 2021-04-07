@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -57,8 +58,23 @@ public class AdminMemberListServlet extends HttpServlet {
 		// selectList에 start와 end를 함께 넘기기
 		List<Member> list = memberService.selectList(start, end);
 		System.out.println("list@servlet = " + list);
-		// 3. jsp에 html응답메세지 작성 위임
+		
+		int totalContents = memberService.selectMemberCount();
+		
+		// 3. pageBar 영역 작업
+		// getRequestURI() - port번호 뒤 path를 가져옴
+		String url = request.getRequestURI(); // /mvc/admin/memberList
+		String pageBar = MvcUtils.getPageBar(
+				cPage,
+				numPerPage,
+				totalContents,
+				url
+				// 페이지바 - html을 만드는 작업 필요, 그 html은 링크 - url 필요
+				);
+		
+		// 4. jsp에 html응답메세지 작성 위임
 		// 리다이렉트 안하고, 한 요청 안에서 일어나니까 session이 아닌 request에 담기
+		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/views/admin/memberList.jsp")
 				.forward(request, response);

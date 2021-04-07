@@ -133,7 +133,7 @@ $(function(){
 				<ul class="main-nav">
 					<li class="home"><a href="<%=request.getContextPath()%>">Home</a></li>
 					<li class="notice"><a href="#">공지사항</a></li>
-					<li class="board"><a href="#">게시판</a></li>
+					<li class="board"><a href="<%=request.getContextPath()%>/board/boardList">게시판</a></li>
 					<%-- 관리자 로그인 시에만 관리자메뉴 노출
 						 header.jsp는 로그인하지 않고도 볼 수 있기 대문에, loginMember가 null인 경우는 null pointer exception --%>
 					<% if(loginMember != null && MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())){ %>

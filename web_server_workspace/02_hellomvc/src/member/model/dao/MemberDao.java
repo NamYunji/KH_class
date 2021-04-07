@@ -293,22 +293,20 @@ public class MemberDao {
 		List<Member> list = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String  query = prop.getProperty("searchMember");
+		String  query = prop.getProperty("searchPagedMember");
 		// select * from member where member_id like %a%
 		// select * from member where member_name like %동%
 		// select * from member where gender = 'M'
 		// -> 검색 키워드 외에도 검색 타입별로 쿼리가 달라짐 - SQL문을 동적으로 만들기
 		// query문에 일치하는 부분까지만 써두고 (select * from member where), 나머지는 DAO와서 만들기
-		switch(param.get("searchType")) {
-		case "memberId" : query += " member_id like '%" + param.get("searchKeyword") + "%'"; break;
-		case "memberName" : query += " member_name like '%" + param.get("searchKeyword") + "%'"; break;
-		case "gender" : query += " gender = '" + param.get("searchKeyword") + "'"; break;
-		}
+		query = setQuery(query, param.get("searchType"), param.get("searchKeyword"));
 		System.out.println("query@dao = " + query);
 		
 		try {
 			// 3. PreparedStatement객체 생성(미완성쿼리)
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, param.get("start"));
+			pstmt.setString(2, param.get("end"));
 			// 4. 쿼리문 실행
 			rset = pstmt.executeQuery();
 			// 4.1 ResultSet -> Java객체 옮겨담기
@@ -337,5 +335,65 @@ public class MemberDao {
 			close(pstmt);
 		}
 		return list;
+	}
+
+	public int selectMemberCount(Connection conn) {
+		int totalContents = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String  query = prop.getProperty("selectMemberCount");
+		try {
+			// 3. PreparedStatement객체 생성(미완성쿼리)
+			pstmt = conn.prepareStatement(query);
+			// 4. 쿼리문 실행
+			rset = pstmt.executeQuery();
+			// 4.1 ResultSet -> Java객체 옮겨담기
+			if(rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// 5. 자원반납(생성역순 rset - pstmt) 
+			close(rset);
+			close(pstmt);
+		}
+		return totalContents;
+	}
+
+	public int searchMemberCount(Connection conn, Map<String, String> param) {
+		int totalContents = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String query = prop.getProperty("searchMemberCount");
+		//select count(*) cnt from member M where #
+		query = setQuery(query, param.get("searchType"), param.get("searchKeyword"));
+		System.out.println("query@dao = " + query);
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			// 쿼리문실행
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return totalContents;
+	}
+	public String setQuery(String query, String searchType, String searchKeyword) {
+		switch(searchType) {
+		case "memberId" 	: query = query.replace("#", " member_id like '%" + searchKeyword + "%'"); break;
+		case "memberName" 	: query = query.replace("#", " member_name like '%" + searchKeyword + "%'"); break;
+		case "gender" 		: query = query.replace("#", " gender = '" + searchKeyword + "'"); break;
+		}
+		return query;
 	}
 }

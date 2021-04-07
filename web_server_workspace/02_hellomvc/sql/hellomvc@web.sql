@@ -51,4 +51,46 @@ values (
 
 commit;
 
+-- 페이징
+-- 방법 1. rownum : 행추가시 자동으로 부여되는 넘버
+--select rownum, M.*
+--from member M
+--order by enroll_date desc;
+
+-- enroll_date로 정렬된 순서대로 1~10건을 처리 -> rownum 새로 부여 (INLINE 뷰)
+-- but 1부터가 아니라 11부터 20을 요청하면 안나옴
+-- why? where절이 끝나야 rownum을 완성하기 때문에
+-- -> 3단으로 만들기
+select *
+from (
+        select rownum rnum, M.*
+        from (
+                select M.*
+                from member M
+                order by enroll_date desc
+                ) M
+        ) M
+where rnum between 11 and 20;
+
+--방법2. window함수 row_number
+--2단으로 처리 가능
+--105건의 경우
+--cPage = 1 : 1 ~ 10
+--cPage = 2 : 11 ~ 20
+--cPage = 3 : 21 ~ 30
+--...
+--cPage = 10 : 91 ~ 100
+--cPage = 11 : 101 ~ 105
+--현재페이지를 가지고 start rownum, end rownum을 계산해내야함
+
+select *
+from (
+        select row_number() over(order by enroll_date desc) rnum,
+                    M.*
+        from member M
+        ) M
+where rnum between 11 and 20;
+
 select * from member;
+
+select count(*) from member;

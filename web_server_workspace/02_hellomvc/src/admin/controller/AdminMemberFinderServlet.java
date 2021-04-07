@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -24,9 +25,19 @@ public class AdminMemberFinderServlet extends HttpServlet {
 		// 1. 사용자 입력값 처리
 		String searchType = request.getParameter("searchType");
 		String searchKeyword = request.getParameter("searchKeyword");
+		final int numPerPage = 10;
+		int cPage = 1;
+		try {
+			cPage =	Integer.parseInt(request.getParameter("cPage"));
+		} catch (NumberFormatException e) {
+			// 처리 코드 없음. 기본값 1 유지.
+		}
 		Map<String, String> param = new HashMap<>();
 		param.put("searchType", searchType);
 		param.put("searchKeyword", searchKeyword);
+		// searchType, searchKeyword가 유지되면서, 거기서 몇번째 페이지인지 알아야 하므로 모두 필요함
+		param.put("start", String.valueOf((cPage -1) * numPerPage + 1));
+		param.put("end", String.valueOf(cPage * numPerPage));
 		System.out.println("param@servlet = " + param);
 		
 		// 2. 업무로직 : 사용자입력값을 가지고 DB에 조회
@@ -34,7 +45,22 @@ public class AdminMemberFinderServlet extends HttpServlet {
 		List<Member> list = memberService.searchMember(param);
 		System.out.println("list@servlet = " + list);
 		
-		// 3. JSP에 HTML 응답메세지 작성 위임
+		int totalContents = memberService.searchMemberCount(param);
+		System.out.println("totalContents@servlet = " + totalContents);
+		
+		//3. pageBar영역 작업
+		// 검색조건이 같은 상태에서 다음페이지로 넘어가야 하니까, searchType과 searchKeyword를 url에 붙여줌
+		String url = request.getRequestURI() + "?searchType=" + searchType + "&searchKeyword=" + searchKeyword ; 
+		// /mvc/admin/memberFinder?searchType=gender&serarchKeyword=M
+		String pageBar = MvcUtils.getPageBar(
+					cPage,
+					numPerPage,
+					totalContents,
+					url
+				);
+		
+		// 4. JSP에 HTML 응답메세지 작성 위임
+		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("list", list); // list를 속성으로 지정해서 html 만들 때 활용하도록
 		request.getRequestDispatcher("/WEB-INF/views/admin/memberList.jsp")
 				.forward(request, response);
