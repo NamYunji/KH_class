@@ -37,6 +37,7 @@ Board board = (Board)request.getAttribute("board");
 			</td>
 		</tr>
 		<tr>
+		
 			<th>내 용</th>
 			<td><%= board.getContent() %></td>
 		</tr>
