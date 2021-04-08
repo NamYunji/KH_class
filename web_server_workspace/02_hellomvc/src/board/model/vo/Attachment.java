@@ -56,8 +56,4 @@ public class Attachment {
 		return "Attachment [no=" + no + ", boardNo=" + boardNo + ", originalFileName=" + originalFileName
 				+ ", renamedFileName=" + renamedFileName + ", status=" + status + "]";
 	}
-	
-	
-	
-	
 }

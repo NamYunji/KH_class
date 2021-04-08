@@ -142,4 +142,14 @@ public class MvcUtils {
 		*/
 		return pageBar.toString();
 	}
+	public static String convertLineFeedToBr(String content) {
+		// \\n - \n의 이스케이핑 처리
+		// \n을 찾아서 <br/>로 바꾸기
+		return content.replaceAll("\\n", "<br/>");
+	}
+	public static String escapeHtml(String str) {
+		// 시작 꺽쇠, 닫는 꺽쇠만 처리해줘도 태그로서 작동할 수 없게됨
+		return str.replaceAll("<", "&lt;")
+				.replaceAll(">", "&gt;");
+	}
 }

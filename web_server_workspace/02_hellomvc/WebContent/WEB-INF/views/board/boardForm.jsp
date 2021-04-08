@@ -33,7 +33,13 @@ function boardValidate(){
 <form
 	name="boardEnrollFrm"
 	action="<%=request.getContextPath() %>/board/boardEnroll" 
-	method="post">
+	method="post"
+	enctype="multipart/form-data"
+	>
+	<!-- 파일 업로드
+	- 파일 업로드는 반드시 post방식
+	- enctype="multipart/form-data" - 메시지 작성 방식
+	- 파일 업로드의 시작점 : form태그에서 enctype 작성 -->
 	<table id="tbl-board-view">
 	<tr>
 		<th>제 목</th>

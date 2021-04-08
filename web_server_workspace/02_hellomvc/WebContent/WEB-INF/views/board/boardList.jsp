@@ -36,7 +36,10 @@ List<Board> list = (List<Board>) request.getAttribute("list");
 		%>
 				<tr>
 					<td><%= b.getNo() %></td>
-					<td><%= b.getTitle() %></td>
+					<td>
+						<!-- 링크 클릭시, boardNo로 넘어가야 함 -->
+						<a href="<%= request.getContextPath()%>/board/boardView?no=<%= b.getNo() %>"><%= b.getTitle() %></a>
+					</td>
 					<td><%= b.getWriter() %></td>
 					<td><%= b.getRegDate() %></td>
 					<td>
