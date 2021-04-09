@@ -218,6 +218,7 @@ public class BoardDao {
 		return board;		
 	}
 
+	// board no로 attachment 조회
 	public Attachment selectOneAttachment(Connection conn, int no) {
 		Attachment attach = null;
 		PreparedStatement pstmt = null;
@@ -250,5 +251,23 @@ public class BoardDao {
 		}
 		return attach;	
 	}
-	
+
+	public int deleteBoard(Connection conn, int no) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deletBoard");
+		try {
+			//PreparedStatment객체 생성, 미완성 쿼리 값대입
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			//DML은 executeUpdate()
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("게시물 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

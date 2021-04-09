@@ -73,6 +73,7 @@ public class BoardService {
 		return result;
 	}
 
+	// board no로 board 조회 (첨부파일도 함께 조회)
 	public Board selectOne(int no) {
 		Connection conn = getConnection();
 		Board board = boardDao.selectOne(conn, no);
@@ -81,6 +82,43 @@ public class BoardService {
 		board.setAttach(attach);
 		close(conn);
 		return board;
+	}
+
+	// board no로 attachment 행 조회
+	public Attachment selectOneAttachment(int no) {
+		Connection conn = getConnection();
+		Board board = boardDao.selectOne(conn, no);
+		Attachment attach = boardDao.selectOneAttachment(conn, no);
+		// 조회된 board에 attach 세팅
+		board.setAttach(attach);
+		close(conn);
+		return attach;
+	}
+
+	// 게시물 삭제, baord를 삭제하면 attachment도 함께 삭제됨 (on delete cascade)
+	public int deleteBoard(int no) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.deleteBoard(conn, no);
+			// 존재하지 않는 no가 아닌 다른 번호가 들어온다면? 
+			// 존재하지 않는 글을 삭제한다면, result는 0
+			// delete from board where no = 300 -> 0개 행이 삭제되었습니다. -> 0 리턴
+			// result == 0 -> 예외 던지기
+			if(result == 0) {
+				throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다. : " + no);
+			}
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e; // controller가 예외처리를 결정할 수 있도록 넘김
+		} finally {
+		// if(result > 0) commit(conn);
+		// else rollback(conn);
+		// -> try, catch로 바꾸기 
+		close(conn);
+		}
+		return result;
 	}
 
 }

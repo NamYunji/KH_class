@@ -28,4 +28,10 @@
   	<!-- 어떤 요청에 이 필터를 작동시킬지 -->
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  <error-page>
+  <!-- 발생한 예외 타입별로 에러페이지를 정할 수 있음 -->
+  <exception-type>java.lang.Exception</exception-type>
+  <!-- error 페이지의 위치 -->
+  <location>/WEB-INF/views/common/error.jsp</location>
+  </error-page>
 </web-app>

@@ -47,7 +47,7 @@ public class BoardListServlet extends HttpServlet {
 		// 3. 응답 html처리 - jsp에 위임
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp")
+		request.getRequestDispatcher("WEB-INF/views/board/boardList.jsp")
 				.forward(request, response);
 	}
 }
