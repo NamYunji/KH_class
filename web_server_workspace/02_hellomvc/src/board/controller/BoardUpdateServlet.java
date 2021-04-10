@@ -1,4 +1,5 @@
 package board.controller;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 import board.model.service.BoardService;
@@ -16,34 +16,31 @@ import board.model.vo.Attachment;
 import board.model.vo.Board;
 import common.MvcFileRenamePolicy;
 
-@WebServlet("/board/boardEnroll")
-public class BoardEnrollServlet extends HttpServlet {
+/**
+ * 게시글 수정 서블릿
+ */
+@WebServlet("/board/boardUpdate")
+public class BoardUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BoardService boardService = new BoardService();
 
 	/**
-	 * cos.jar 파일 업로드
-	 * 0. form의 속성 enctype="multipart/form-data"추가
-	 * 1. MultipartRequest객체 생성
-	 * 		- request 객체
-	 * 		- 파일을 저장할 경로
-	 * 		- 인코딩
-	 * 		- 최대허용크기
-	 * 		- 파일명 변경정책 객체
-	 * 		  (같은 이름의 파일이라도 덮어쓰지 않도록 변경해주는 룰을 정한 객체
-	 * 			ex. 그림.png -> 그림(1).png )
-	 * 		-> 서버컴퓨터에 파일 저장 완료
-	 * 2. db에 파일정보를 저장
-	 * 		- 사용자가 저장한 파일명 (original_filename)
-	 * 		- 실제 저장된 파일명 (renamed_filename)
-	 * 
-	 * 주의
-	 * MultipartRequest객체를 사용하면,
-	 * 기존 HttpServletRequest에서는 사용자입력값에 접근 불가
-	 * -> MultipartRequest를 사용해서 사용자 입력값까지 꺼내야 함
+	 * jsp 연결
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1. 사용자 입력값
+		int no = Integer.parseInt(request.getParameter("no"));
+		// 2. 업무로직
+		Board board = boardService.selectOne(no);
+		// 3. jsp포워딩
+		request.setAttribute("board", board); // board객체와 첨부파일까지
+		request.getRequestDispatcher("/WEB-INF/views/board/boardUpdateForm.jsp")
+				.forward(request, response);
+	}
+
+	/**
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		// [파일 업로드]
 		// 1. MultipartRequest객체 생성
 		
@@ -97,6 +94,7 @@ public class BoardEnrollServlet extends HttpServlet {
 		
 		// 2-1. 사용자 입력값처리
 		// cf. request가 아닌, multipartRequest에서 꺼낼 것
+		int no = Integer.parseInt(multipartRequest.getParameter("no"));
 		String title = multipartRequest.getParameter("title");
 		String writer = multipartRequest.getParameter("writer");
 		String content = multipartRequest.getParameter("content");	
@@ -107,6 +105,7 @@ public class BoardEnrollServlet extends HttpServlet {
 		
 		// Board board = new Board(0, title, writer, content, null, 0, null);
 		Board board = new Board();
+		board.setNo(no);
 		board.setTitle(title);
 		board.setWriter(writer);
 		board.setContent(content);
@@ -116,6 +115,8 @@ public class BoardEnrollServlet extends HttpServlet {
 		if(originalFileName != null) {
 			// attachment 객체 생성
 			Attachment attach = new Attachment();
+			// 첨부파일을 새로 추가했다면 no가 이미 있으니까 바로 세팅 가능 (insert와의 차이점)
+			attach.setBoardNo(no);
 			attach.setOriginalFileName(originalFileName);
 			attach.setRenamedFileName(renamedFileName);
 			// board에 attach를 세팅
@@ -123,13 +124,12 @@ public class BoardEnrollServlet extends HttpServlet {
 		}
 		
 		// 2 - 2. 업무로직 : db에 insert처리
-		int result = boardService.insertBoard(board); // 이때의 board는 boardNo가 없음, insertBoard를 완료하고 나면 board에 boardNo가 세팅됨
+		int result = boardService.updateBoard(board);
 		String msg = (result > 0) ? 
-			"게시물을 등록하였습니다." : "게시물 등록에 실패했습니다.";
-		String location = request.getContextPath();
-		location += (result > 0) ?
-						"/board/boardView?no=" + board.getNo() : // 이때의 board는 boardNo가 있음
-							"/board/boardList";
+			"게시물 수정 성공!" : "게시물 수정 실패!";
+		String location = request.getContextPath()
+					+ "/board/boardView?no=" + board.getNo();
+		// 성공이든 아니든 게시물 상세보기페이지로 이동
 		
 		// 3. DML요청 : 리다이렉트 & 사용자피드백 (alert)
 		// /mvc/board/boardList
@@ -139,6 +139,6 @@ public class BoardEnrollServlet extends HttpServlet {
 	} catch(Exception e) {
 		e.printStackTrace();
 		throw e;
+	  }
 	}
-}
 }

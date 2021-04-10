@@ -12,6 +12,7 @@
 	<h1>이용에 불편을 드려 죄송합니다.</h1>
 	<%-- exception.getMessage() - 게시글 삭제오류 메시지가 여기에 찍힘 --%>
 	<p style="color: red;"><%= exception.getMessage() %></p>
+	<p><a href="<%= request.getContextPath() %>">메인페이지로 돌아가기</a></p>
 
 </body>
 </html>

@@ -27,6 +27,7 @@ public class BoardViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1. 사용자 입력값 : no
+		try {
 		int no  = 0; 
 		try {
 			no = Integer.parseInt(request.getParameter("no"));
@@ -53,6 +54,13 @@ public class BoardViewServlet extends HttpServlet {
 		request.setAttribute("board", board);
 		request.getRequestDispatcher("/WEB-INF/views/board/boardView.jsp")
 			   .forward(request, response);
+		} catch(Exception e) {
+			// 로깅
+			e.printStackTrace();
+			// 관리자 이메일 알림
+			// 다시 예외를 던져서 WAS가 정한 에러페이지에서 응답메시지 작성
+			throw e;
+		}
 	}
 
 }

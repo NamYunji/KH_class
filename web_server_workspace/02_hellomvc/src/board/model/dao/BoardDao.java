@@ -210,6 +210,7 @@ public class BoardDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new BoardException("게시글 조회 오류", e);
 		} finally {
 			// 5. 자원반납(생성역순 rset - pstmt) 
 			close(rset);
@@ -243,7 +244,12 @@ public class BoardDao {
 				attach.setStatus("Y".equals(rset.getString("status")) ?  true : false);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
+			// catch절에서 예외를 출력하고 끝내버리면 컨트롤러에서는 예외가 발생한지 모르니까 예외를 던져줌
+			// Dao -> Service -> Controller로 예외 전달
+			// checked 예외는 throws exception을 해야하니까,
+			// 간결하게 BoardException을 만들어 애초에 발생한 예외를 함께 던진 것
+			throw new BoardException("첨부파일 조회 오류", e);
 		} finally {
 			// 5. 자원반납(생성역순 rset - pstmt) 
 			close(rset);
@@ -255,7 +261,7 @@ public class BoardDao {
 	public int deleteBoard(Connection conn, int no) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String query = prop.getProperty("deletBoard");
+		String query = prop.getProperty("deleteBoard");
 		try {
 			//PreparedStatment객체 생성, 미완성 쿼리 값대입
 			pstmt = conn.prepareStatement(query);
@@ -265,6 +271,28 @@ public class BoardDao {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new BoardException("게시물 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	// 게시글 수정
+	public int updateBoard(Connection conn, Board board) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateBoard");
+		try {
+			//PreparedStatment객체 생성, 미완성 쿼리 값대입
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getContent());
+			pstmt.setInt(3, board.getNo());
+			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			//DML은 executeUpdate()
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("게시물 수정 오류", e);
 		} finally {
 			close(pstmt);
 		}

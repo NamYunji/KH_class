@@ -73,6 +73,10 @@ function deleteBoard(){
 		$(document.boardDelFrm).submit();
 	}
 }
+/* 업데이트 폼을 요청 - 페이지 이동 */
+function updateBoard(){
+	location.href = "<%= request.getContextPath() %>/board/boardUpdate?no=<%= board.getNo()%>";
+}
 </script>
 <% } %>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

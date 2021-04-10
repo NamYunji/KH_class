@@ -60,11 +60,12 @@ public class BoardService {
 			// 예외가 발생하지 않으면 무조건 commit
 			commit(conn);
 		} catch(Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			// 예외가 발생하면 selectLastBoardNo(), insertAttachment()가 같이 롤백됨
 			// insertBoard()마저 취소시킴
 			rollback(conn);
-			result = 0;
+			// result = 0;
+			throw e;
 		} finally {
 			close(conn);			
 		}
@@ -74,6 +75,8 @@ public class BoardService {
 	}
 
 	// board no로 board 조회 (첨부파일도 함께 조회)
+	// 트랜잭션 처리할 부분이 아니고, 런타임 예외로 전환해서 던졌기 때문에 throws 필요 없음
+	// 메소드 호출하다가 예외가 던져짐 -> selectOne 호출한 쪽으로 다시 예외가 던져짐
 	public Board selectOne(int no) {
 		Connection conn = getConnection();
 		Board board = boardDao.selectOne(conn, no);
@@ -117,6 +120,25 @@ public class BoardService {
 		// else rollback(conn);
 		// -> try, catch로 바꾸기 
 		close(conn);
+		}
+		return result;
+	}
+
+	public int updateBoard(Board board) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			// 1. board update
+			// 원래 있던 것들을 수정하는거니까 update
+			result = boardDao.updateBoard(conn, board);
+			// 2. attachment insert
+			// 첨부파일이 애초에 없었으니 insert
+			if(board.getAttach() != null)
+				result = boardDao.insertAttachment(conn, board.getAttach());
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
 		}
 		return result;
 	}
