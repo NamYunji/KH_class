@@ -43,7 +43,7 @@ public class BoardService {
 		try {
 			result = boardDao.insertBoard(conn, board);
 			// 아직 여기에는 no가 없음. seq_board_no.nextVal해야만 발급되는 번호가 db에 들어감
-			// board가 insert될 때 생성된 board고유번호가 attachment의 boardno에 세팅되어야만 attachment테이블에 추가 가능
+			// board가 insert될 때 생성된 board고유번호가 attachment의 boardno에 세팅되어야만, attachment테이블에 추가 가능
 			// -> 생성된 board_no 가져오기
 			int boardNo = boardDao.selectLastBoardNo(conn);
 			//redirect location설정
