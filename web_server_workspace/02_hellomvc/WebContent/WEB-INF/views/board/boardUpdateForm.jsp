@@ -49,7 +49,7 @@
 	</tr>
 	<tr>
 		<th>내 용</th>
-		<!-- textarea는 value속성이 아니라 시작태그와 종료태그 사이에 작성 -->
+		<!-- textarea는 value속성이 아니라 시작태그와 종료태그 사이에 작성. -->
 		<td><textarea rows="5" cols="50" name="content"><%= board.getContent() %></textarea></td>
 	</tr>
 	<tr>
