@@ -66,11 +66,20 @@
 $("[name=upFile]").change(function(){
 	console.log($(this).val()); // 파일 선택 - 파일명, 선택 x - 빈문자열
 	if($(this).val() != ""){
-		// 파일 선택 -> 체크
-		$('#delFile').prop("checked", true);
+		// 파일 변경 -> 체크
+		$('#delFile')
+			.prop("checked", true)
+			// 파일이 변경된다면, check박스를 누르지 못하도록
+			// 클릭했을 때 함수로 return false를 걸어주면 클릭이 작동하지 않게 비활성화
+			.on('click', function(){
+				return false;
+			});
 	} else {
-		// 파일 선택 취소 -> 체크 해제
-		$('#delFile').prop("checked", false);
+		// 파일을 변경하려다가 다시 파일 선택 취소 -> 체크 해제
+		$('#delFile').prop("checked", false)
+			// 취소하면 다시 정상적으로 작동할 수 있도록 click했을 때의 이벤트핸들러 제거
+			// cf. on (이벤트 핸들러를 추가) <-> off (이벤트 핸들러 제거)
+			.off('click');
 	}
 });
 $(document.boardUpdateFrm).submit(function (){
