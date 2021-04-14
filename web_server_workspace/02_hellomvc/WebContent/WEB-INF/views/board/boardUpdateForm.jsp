@@ -41,7 +41,10 @@
 				<%= board.getAttach().getOriginalFileName() %>
 				<!-- 삭제 체크박스
 					체크했다면 value로 attachment의 고유번호 -->
-				<input type="checkbox" name="delFile" id="delFile" value="<%= board.getAttach().getNo()%>"/>
+				<input type="checkbox"
+				name="delFile"
+				id="delFile"
+				value="<%= board.getAttach().getNo()%>"/>
 				<label for="delFile">삭제</label>
 			</p>
 			<% } %>

@@ -31,3 +31,6 @@ table#tbl-board-view td {
 	padding: 5px 0 5px 15px; 
 	text-align:left;
 }
+
+/* 댓글 작성 */
+div.comment-container #btn-insert{width:60px; height:50px; color:white; background:#3300ff; position:relative; top:-20px;}

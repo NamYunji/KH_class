@@ -143,4 +143,18 @@ public class BoardService {
 		return result;
 	}
 
+	// 첨부파일 삭제 - delete의 내용이지만 update로 진행한다
+	public int deleteAttachment(String attachNo) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.deleteAttachment(conn, attachNo);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+
 }

@@ -298,4 +298,23 @@ public class BoardDao {
 		}
 		return result;
 	}
+
+	// 첨부파일 삭제 - delete의 내용이지만 update로 진행한다
+	public int deleteAttachment(Connection conn, String attachNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		// deleteAttachment = update attachment set status = 'N' where no = ?
+		String sql = prop.getProperty("deleteAttachment");
+		try {
+			//PreparedStatment객체 생성, 미완성 쿼리 값대입
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, attachNo); // where절에 no = '2' -> 컬럼타입인 숫자에 맞게 자동형변환됨
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("첨부파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

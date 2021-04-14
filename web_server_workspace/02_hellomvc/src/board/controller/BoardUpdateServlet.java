@@ -103,6 +103,12 @@ public class BoardUpdateServlet extends HttpServlet {
 		String originalFileName = multipartRequest.getOriginalFileName("upFile"); // 사용자가 업로드한 파일명
 		String renamedFileName = multipartRequest.getFilesystemName("upFile"); // 실제 저장된 파일명
 		
+		// 수정하기 - 기존 첨부파일이 삭제되는 경우
+		// Board객체를 만들기 전 체크박스의 value값인 첨부파일 고유번호를 가져옴
+		String attachNo = multipartRequest.getParameter("delFile"); // 삭제할 파일번호
+		System.out.println("attachNo@servlet = " + attachNo);
+		// query에서 자동형변환 처리되므로 그냥 String그대로 놔둠
+		
 		// Board board = new Board(0, title, writer, content, null, 0, null);
 		Board board = new Board();
 		board.setNo(no);
@@ -123,13 +129,25 @@ public class BoardUpdateServlet extends HttpServlet {
 			board.setAttach(attach);
 		}
 		
-		// 2 - 2. 업무로직 : db에 insert처리
-		int result = boardService.updateBoard(board);
+		// 2 - 2. 업무로직
+		// 첨부파일 삭제
+		// delete이긴 하나, 실제 쿼리는 update로 진행
+		int result = 0;
+		// 체크박스가 선택될 경우에만 value값이 들어옴 -> attachNo가 null이 아닌 경우 -> 삭제하기가 체크된 경우
+		if(attachNo != null)
+			// 파일 고유번호를 가지고 service단의 메소드 실행
+			result = boardService.deleteAttachment(attachNo);
+
+		// db에 update처리
+		result = boardService.updateBoard(board);
 		String msg = (result > 0) ? 
 			"게시물 수정 성공!" : "게시물 수정 실패!";
 		String location = request.getContextPath()
 					+ "/board/boardView?no=" + board.getNo();
 		// 성공이든 아니든 게시물 상세보기페이지로 이동
+		
+		
+			
 		
 		// 3. DML요청 : 리다이렉트 & 사용자피드백 (alert)
 		// /mvc/board/boardList
