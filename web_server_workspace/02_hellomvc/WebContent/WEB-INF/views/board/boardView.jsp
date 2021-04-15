@@ -11,6 +11,7 @@ boolean editable =
 		 	|| MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())
 		);
 %>
+
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/board.css" />
 <section id="board-container">
 	<h2>게시판</h2>
