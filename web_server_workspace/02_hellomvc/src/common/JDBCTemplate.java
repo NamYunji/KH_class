@@ -12,6 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 //매번 중복되는 부분을 처리하려면..?
 //공통된 코드를 미리 구현해두고, 간편하게 가져다 쓸 수 있도록!
 
@@ -30,64 +35,85 @@ public class JDBCTemplate {
 	//static자원에서는 instance변수를 참조를 할 수 없음	
 	//값대입을 하지 않은 상태로 바꿈
 	
-		static String driverClass;
-		static String url;
-		static String user;
-		static String password;
-		
-		static {
-			//java.util.Properties
-			//data-source.properties의 내용을 읽어서 변수에 대입함
-			Properties prop = new Properties();
-			//data-source.properties 파일경로를 변수로 만들어줌
-			// (x) String fileName = "resources/data-source.properties";
-			// class객체를 통해 가져옴,
-			// getResource메소드 - / (루트경로)
-			// getPath메소드 - 절대경로로 가져오기
-			String fileName = JDBCTemplate.class // 클래스 객체
-								.getResource("/data-source.properties") // Url 객체
-								.getPath(); // String객체 : 절대경로
-			System.out.println("fileName@JDBCTemplate = " + fileName);
-			try {
-				//prop객체에 읽어옴
-				prop.load(new FileReader(fileName));
-				//잘 읽어왔는지 출력
-				System.out.println(prop);
-				//출력 : {driverClass=oracle.jdbc.OracleDriver, user=student, password=student, 
-						//url=jdbc:oracle:thin:@localhost:1521:xe}
-				//값대입
-				driverClass = prop.getProperty("driverClass");
-				url = prop.getProperty("url");
-				user = prop.getProperty("user");
-				password = prop.getProperty("password");
-			} 
-			  //prop.load에 대한 catch
-			  catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				//1. DriverClass등록(최초1회)
-				Class.forName(driverClass);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+//		static String driverClass;
+//		static String url;
+//		static String user;
+//		static String password;
+//		
+//		static {
+//			//java.util.Properties
+//			//data-source.properties의 내용을 읽어서 변수에 대입함
+//			Properties prop = new Properties();
+//			//data-source.properties 파일경로를 변수로 만들어줌
+//			// (x) String fileName = "resources/data-source.properties";
+//			// class객체를 통해 가져옴,
+//			// getResource메소드 - / (루트경로)
+//			// getPath메소드 - 절대경로로 가져오기
+//			String fileName = JDBCTemplate.class // 클래스 객체
+//								.getResource("/data-source.properties") // Url 객체
+//								.getPath(); // String객체 : 절대경로
+//			System.out.println("fileName@JDBCTemplate = " + fileName);
+//			try {
+//				//prop객체에 읽어옴
+//				prop.load(new FileReader(fileName));
+//				//잘 읽어왔는지 출력
+//				System.out.println(prop);
+//				//출력 : {driverClass=oracle.jdbc.OracleDriver, user=student, password=student, 
+//						//url=jdbc:oracle:thin:@localhost:1521:xe}
+//				//값대입
+//				driverClass = prop.getProperty("driverClass");
+//				url = prop.getProperty("url");
+//				user = prop.getProperty("user");
+//				password = prop.getProperty("password");
+//			} 
+//			  //prop.load에 대한 catch
+//			  catch (FileNotFoundException e1) {
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//			try {
+//				//1. DriverClass등록(최초1회)
+//				Class.forName(driverClass);
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
+		/**
+		 * DBCP 이용버전
+		 * resource 등록 - jndi를 통한 참조
+		 */
 		public static Connection getConnection() {
 			Connection conn = null;
 			try {
-				//2. Connection객체생성 url, user, password
-				conn = DriverManager.getConnection(url, user, password);
-				//2.1 자동커밋 false설정
+				Context ctx = new InitialContext();
+				// data source객체 찾기
+				/**
+				 * JNDI 구조
+				 * java:/comp/env/ + jdbc/myoracle
+				 */
+				DataSource dataSource = (DataSource)ctx.lookup("java:comp/env/jdbc/myoracle"); // 여기서 connection을 꺼냄
+				conn = dataSource.getConnection();
 				conn.setAutoCommit(false);
-			} catch (SQLException e) {
+			} catch (NamingException | SQLException e) {
 				e.printStackTrace();
 			}
-			
 			return conn;
 		}
+//		public static Connection getConnection() {
+//			Connection conn = null;
+//			try {
+//				//2. Connection객체생성 url, user, password
+//				conn = DriverManager.getConnection(url, user, password);
+//				//2.1 자동커밋 false설정
+//				conn.setAutoCommit(false);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return conn;
+//		}
 		
 		public static void close(Connection conn) {
 			//7. 자원반납(conn) 

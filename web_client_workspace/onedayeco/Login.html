@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="css/Login.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <!--Alert 문구 디자인 추가 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="js/Login.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="slide-menu">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <a href="index.html"><img src="image/하루에코(메인로고).png" alt=""></a>
+
+                </div>
+                <ul>
+                    <li><a href="#">
+                            <i class="fas fa-search"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="index.html">
+                        <span class="icon"><i class="fas fa-bell"></i></span>
+                        <span class="title">메인페이지</span></a></li>
+                <li><a href="Login.html">
+                        <span class="icon"><i class="fas fa-address-card"></i></span>
+                        <span class="title">로그인</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <span class="title">랭킹</span>
+                    </a></li>
+
+                <li><a href="MyPage(April).html">
+                        <span class="icon"><i class="far fa-calendar"></i></span>
+                        <span class="title">마이페이지</span>
+                    </a></li>
+                <li><a href="Community.html">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <span class="title">커뮤니티</span>
+                    </a></li>
+                <li class="sidebar-menu"><a href="index.html">
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="title">뒤로가기</span>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="Container-bar">
+            <ul>
+                <li class="Container-bar-li-left" style="font-size: 30px;"><a href="#"><span
+                            class="title">로그인</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="Login">
+            <h2 class="Login-h2">
+                Login </h2>
+            <div class="Board">
+                <span class="Board-icon"><i class="far fa-id-badge" style="font-size: 100px;"></i></span>
+
+                <div class="form">
+                    <input type="text" id="userName" placeholder="ID">
+                </div>
+            </div>
+            <div class="Board-Pw">
+                <span class="Board-icon1"><i class="fas fa-key" style="font-size: 100px;"></i> </span>
+                <div class="form-Pw">
+                    <input type="text" id="userPassword" placeholder="●●●●">
+                </div>
+                <div class="Board-chk">
+                    <label><input type="checkbox" name="submit" value=" Board-chk"><span
+                            class="Board-chk-span">아이디저장(Save ID)</span></label>
+                </div>
+                <div class="SNS-h3">
+                    <h2 class="SNS">소셜로그인</h2>
+                    <div class="SNS-img">
+                        <img src="image/로그인/Google.png" alt="">
+                        <img src="image/로그인/Naver.png" alt="">
+                        <a href="javascript:kakaoLogin()"><img src="image/로그인/KakaoTalk.png" alt=""></a>
+                    </div>
+                    <h4 class="Find-Id">아이디 찾기(Find Id)</h4>
+                    <h4>비밀번호 찾기(Find Pw)</h4>
+                </div>
+                <div class="btn">
+                    <input type="button" name="Login" id="Login" onclick="Sing_UP();" value="로그인">
+                </div>
+                <div class="btn1">
+                    <a href="Member_Sing_Up.html">
+                        <input type="button" name="Member" id="Member" value="회원가입">
+                    </a>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+</body>
+
+</html>

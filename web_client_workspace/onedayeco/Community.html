@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>커뮤니티</title>
+    <link rel="stylesheet" href="css/Community.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script>
+        // 움직이는 효과   toggleclass  이벤트효과 
+        $(document).ready(function () {
+            $(".slide-menu").click(function () {
+                $(".wrapper").toggleClass("collapse");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="slide-menu">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <a href="index.html"><img src="image/하루에코(메인로고).png" alt=""></a>
+
+                </div>
+                <ul>
+                    <li><a href="#">
+                            <i class="fas fa-search"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="index.html">
+                        <span class="icon"><i class="fas fa-bell"></i></span>
+                        <span class="title">메인페이지</span></a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-address-card"></i></span>
+                        <span class="title">로그인</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <span class="title">랭킹</span>
+                    </a></li>
+
+                <li><a href="#">
+                        <span class="icon"><i class="far fa-calendar"></i></span>
+                        <span class="title">마이페이지</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <span class="title">커뮤니티</span>
+                    </a></li>
+                <li class="sidebar-menu"><a href="index.html">
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="title">뒤로가기</span>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="Container-bar">
+            <ul>
+                <li class="Container-bar-li-left"><a href="Community.html"><span class="title">환경정보</span></a>
+                </li>
+                <li><a href="Community Board.html"> <span class="title">커뮤니티</span></a></li>
+                <li><a href="Memberboard.html"> <span class="title">팀원찾기</span></a></li>
+                <li><a href="TeamMemberBoard.html"> <span class="title">팀게시판</span></a></li>
+                <li class="Container-bar-li-Right"><a href="Certification Board.html"><span
+                            class="title">인증게시판</span></a></li>
+            </ul>
+        </div>
+        <div class="VEGAN">
+            <a href="enviorment(list1).html"> <img src="image/커뮤니티/GO VEGAN.png" alt=""></a>
+            <h1 style="font-style: italic; color: #00008B;">비건? 비건!</h1>
+        </div>
+        <div class="WATE">
+            <a href="enviorment(list1).html">
+                <img src="image/커뮤니티/Zero WATE.jpg" alt="">
+            </a>
+            <br>
+            <h1 style="font-style: italic;">제로웨이스트</h1>
+        </div>
+        <div class="img"></div>
+        <div class="Paging">
+            <a href="#">
+                <i class="fas fa-chevron-circle-left" style="font-size: 30px; color: #00008B;"></i></a>
+            <a href="enviorment(list1).html">
+                <h3>1</h3>
+            </a>
+            <a href="index.html">
+                <h3>2</h3>
+            </a>
+            <a href="index.html">
+                <h3>3</h3>
+            </a>
+            <a href="index.html">
+                <h3>4</h3>
+            </a>
+            <a href="index.html">
+                <h3>5</h3>
+            </a>
+            <a href="#"><i class="fas fa-chevron-circle-right" style="font-size: 30px; color: #00008B;;"></i></a>
+        </div>
+    </div>
+
+
+    </div>
+
+</body>
+
+</html>

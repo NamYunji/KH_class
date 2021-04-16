@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>회원정보수정</title>
+    <link rel="stylesheet" href="css/Member_Sing_Up.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <!--Alert 문구 디자인 추가 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="js/Sing_Up.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="slide-menu">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <a href="index.html"><img src="image/하루에코(메인로고).png" alt=""></a>
+
+                </div>
+                <ul>
+                    <li><a href="#">
+                            <i class="fas fa-search"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="index.html">
+                        <span class="icon"><i class="fas fa-bell"></i></span>
+                        <span class="title">메인페이지</span></a></li>
+                <li><a href="Login.html">
+                        <span class="icon"><i class="fas fa-address-card"></i></span>
+                        <span class="title">로그인</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <span class="title">랭킹</span>
+                    </a></li>
+
+                <li><a href="MyPage(April).html">
+                        <span class="icon"><i class="far fa-calendar"></i></span>
+                        <span class="title">마이페이지</span>
+                    </a></li>
+                <li><a href="Community.html">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <span class="title">커뮤니티</span>
+                    </a></li>
+                <li class="sidebar-menu"><a href="Login.html">
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="title">뒤로가기</span>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="Container-bar">
+            <ul>
+                <li class="Container-bar-li-left" style="font-size: 30px;"><a href="#"><span class="title">회원 정보
+                            수정</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="img">
+            <img src="image/회원가입/회원가입.png" alt="">
+            <h2 class="img-h2">Join</h2>
+        </div>
+    </div>
+    <div class="Board">
+        <hr class="Board-h3">
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="Board-Name">이름</span></a></li>
+        </ul>
+        <div class="form">
+            <input type="text" id="userName" placeholder="성명">
+        </div>
+    </div>
+    <!-- 아이디 -->
+    <div class="Board-1">
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="BoardId">아이디(변경불가)</span></a></li>
+        </ul>
+        <div class="form1">
+            <!--readonly  속성 추가-->
+            <input type="text" id="userId" placeholder="ID" readonly>
+        </div>
+    </div>
+    <!-- 비밀번호-->
+    <div class="Board-2">
+
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="BoardPassword">비밀번호</span></a></li>
+        </ul>
+        <div class="form2">
+            <input type="text" id="userPassword" placeholder="PW">
+        </div>
+    </div>
+    <!-- 닉네임-->
+    <div class="Board-3">
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="BoardName">닉네임(변경불가)</span></a></li>
+        </ul>
+        <div class="form3">
+            <!--readonly  속성 추가-->
+            <input type="text" id="userName" placeholder="닉네임" readonly>
+        </div>
+    </div>
+    <!-- 이메일-->
+    <div class="Board-4">
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="BoardEmail">이메일</span></a></li>
+        </ul>
+        <div class="form4">
+            <input type="text" id="userEmail" placeholder="example@page.com">
+        </div>
+    </div>
+    <!-- 전화번호-->
+    <div class="Board-5">
+
+        <ul>
+            <!--유효성 검사-->
+            <li><a href=""> <span class="BoardEmail">전화번호</span></a></li>
+        </ul>
+        <div class="form5">
+            <input type="text" id="userEmail" placeholder="ex)010-0000-0000">
+        </div>
+        <hr class="Board5-h3">
+    </div>
+    <!--회원탈퇴,회원수정 버튼 추가 -->
+    <div class="btn">
+        <input type="button" value="가입" onclick="button2_click();" id="Modify">
+    </div>
+    <div class="btn1">
+        <input type="button" value="취소" onclick="button1_click();" id="Delete">
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>

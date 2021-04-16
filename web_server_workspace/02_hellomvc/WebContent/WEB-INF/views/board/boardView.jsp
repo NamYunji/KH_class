@@ -87,24 +87,6 @@ boolean editable =
 	method="POST">
 <input type="hidden" name="no" value="<%= board.getNo() %>" />
 </form>
-<!-- 댓글 작성시 로그인 알림용 스크립트 -->
-<script>
-/* content에 포커스가 갈때 함수 실행 */
-$("[name=content]").focus(function(){
-	/* 로그인 여부 검사 */
-	<% if(loginMember == null){ %>
-	/* 로그인을 하지 않았다면, loginAlert()함수 호출 */
-	loginAlert();
-	<% } %>
-});
-function loginAlert(){
-	/* 경고창을 띄우고 */
-	alert("로그인 이후 이용할 수 있습니다.");
-	/* memberId 입력부분을 포커스해줌 -> 로그인 유도 */
-	$("#memberId").focus();
-}
-</script>
-<% } %>
 <!-- 게시글 수정에 대한 스크립트 -->
 <script>
 function deleteBoard(){
@@ -118,4 +100,44 @@ function updateBoard(){
 	location.href = "<%= request.getContextPath() %>/board/boardUpdate?no=<%= board.getNo()%>";
 }
 </script>
+<% } %>
+<!-- 댓글 작성시 로그인 알림용 스크립트 -->
+<script>  
+/* content에 포커스가 갈때 함수 실행 */
+$("[name=content]").focus(function(){
+	/* 로그인 여부 검사 */
+	<% if(loginMember == null){ %>
+	/* 로그인을 하지 않았다면, loginAlert()함수 호출 */
+	loginAlert();
+	<% } %>
+});
+/* 버튼을 먼저 누를경우, 유효성 검사 */
+$(document.boardCommentFrm).submit(function(){
+	/* 로그인 여부 검사 */
+	<% if(loginMember == null){ %>
+	/* 로그인을 하지 않았다면, loginAlert()함수 호출 */
+	loginAlert();
+	/* 제출되지 않도록 처리 */
+	return false;
+	<% } %>
+	// 댓글내용
+	var $content = $("[name=content]");
+	/* 아무문자나 개행문자까지도 하나라도 있는지 검사 */
+	if(/^(.|\n)+$/.test($content.val()) == false){
+		/* 알림창 띄우기 */
+		alert("댓글내용을 작성하세요.");
+		/* content부분에 커서 포커스 처리 */
+		$content.focus();
+		/* 제출되지 않도록 처리 */
+		return false;
+	}
+});
+function loginAlert(){
+	/* 경고창을 띄우고 */
+	alert("로그인 이후 이용할 수 있습니다.");
+	/* memberId 입력부분을 커서포커스해줌 -> 로그인 유도 */
+	$("#memberId").focus();
+}
+</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

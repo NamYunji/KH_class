@@ -1,0 +1,339 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #23E3C9;
+  }
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+  
+  *{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  }
+  body{
+  background: #e1ecf2;
+  }
+  .wrapper{
+  margin: 10px;
+
+  }
+  /*상단바 지정 */
+  .wrapper .top_navbar{
+  width: calc(100% - 20px);
+  height: 60px;
+  display: flex;
+  position: fixed;
+  top: 10px;
+  margin-left: -4.4vw;
+  }
+  
+  
+  .wrapper .top_navbar .slide-menu{
+  width: 70px;
+  height: 115%;
+  /*약한 그린색  */
+  background: #79CF9F;
+  padding: 15px 17px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+  }
+  
+  .wrapper .top_navbar .slide-menu div{
+  width: 35px;
+  height: 4px;
+  /*약한 블루색 */
+  background: #00008B;
+  margin: 5px 0;
+  border-radius: 5px;
+  }
+  
+  .wrapper .top_navbar .top_menu{
+  width: calc(100% - 70px);
+  height: 112%;
+  background: #fff;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  }
+  
+  .wrapper .top_navbar .top_menu .logo{
+  color: #2e4ead;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  }
+  
+  .wrapper .top_navbar .top_menu ul{
+  display: flex;
+  }
+  
+  .wrapper .top_navbar .top_menu ul li a{
+  display: block;
+  margin: 0 10px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: 1px solid #2e4ead;
+  border-radius: 50%;
+  color: #2e4ead;
+  }
+  
+  .wrapper .top_navbar .top_menu ul li a:hover{
+  background: #4360b5;
+  color: #fff;
+  }
+  
+  .wrapper .top_navbar .top_menu ul li a:hover i{
+  color: #fff;
+  }
+  
+  .wrapper .sidebar{
+  position: fixed;
+  top: 79px;
+  left: 10px;
+  background: #79CF9F;
+  width: 190px;
+  height: calc(100% - 80px);
+  border-bottom-left-radius: 20px;
+  transition: all 0.3s ease;
+  }
+  .sidebar-menu{
+    margin-top: 21vw;
+  
+  }
+  
+  .wrapper .sidebar ul li a{
+    display: block;
+    padding: 20px;
+    color: #fff;
+    position: relative;
+    margin-bottom: 1px;
+    color: #00008B;
+    white-space: nowrap;
+  }
+  
+  .wrapper .sidebar ul li a:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #92a6e2;
+  display: none;
+  }
+  
+  .wrapper .sidebar ul li a span.icon{
+  margin-right: 10px;
+  display: inline-block;
+  }
+  
+  .wrapper .sidebar ul li a span.title{
+  display: inline-block;
+  }
+  
+  .wrapper .sidebar ul li a:hover,
+  .wrapper .sidebar ul li a.active{
+  background: #4360b5;
+  color: #fff;
+  }
+  
+  .wrapper .sidebar ul li a:hover:before,
+  .wrapper .sidebar ul li a.active:before{
+  display: block;
+  }
+  
+  .wrapper .main_container{
+  width: (100% - 200px);
+  margin-top: 70px;
+  margin-left: 200px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  }
+  
+  .wrapper .main_container .item{
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 22px;
+  }
+  
+  .wrapper.collapse .sidebar{
+  width: 70px;
+  }
+  
+  .wrapper.collapse .sidebar ul li a{
+  text-align: center; 
+  }
+  
+  .wrapper.collapse .sidebar ul li a span.icon{
+  margin: 0;
+  }
+  
+  .wrapper.collapse .sidebar ul li a span.title{
+  display: none;
+  }
+  
+  .wrapper.collapse .main_container{
+  width: (100% - 70px);
+  margin-left: 70px;
+  }
+  /*Container-bar start */
+  .Container-bar{
+    transform: translateY(-6.3vw);
+  
+  }
+  /* border효과 한쪽 left */
+  .Container-bar-li-left{
+  border-radius:  20px 20px 20px 20px;
+  }
+  
+  .Container-bar ul {
+  display: flex;
+  }
+  .Container-bar ul li{
+    transform: translateX(99px);
+    background: #00008B;
+    display: block;
+    padding: 0.0425vw 36.8vw;
+    margin-top: 7vw;
+  }
+  
+  .Container-bar .title{
+    font-weight: bold;
+    font-size: 30px;
+  }
+  
+  .Container-bar ul li a{
+  display: block;
+    padding: 17px;
+    color: #fff;
+    position: relative;
+    transform: translateX(125px);
+    margin-right: 11vw;
+    color: #fff;
+    white-space: nowrap;
+  }
+  /*Container-bar end */
+
+  /*Login start*/
+  .Login{
+    background-color: white;
+    width: 1000px;
+    height: 700px;
+    transform: translateY(-2vw);
+    margin-left: 26vw;
+    display: inline-block;
+  }
+  .Login-h2{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10px;
+  }
+  .Board{
+      display:flex;
+  }
+ .Board-icon{
+     color: #23E3C9;
+    margin-top: 3vw;
+    margin-left: 17vw;
+ }
+ .form{
+    margin-top: 74px;
+    margin-left: 11px;
+}
+.form input{
+    width: 100%;
+    padding: 31px;
+    padding-right: 11vw;
+}
+.Board-Pw{
+    margin-top: -12px;
+    display:flex;
+}
+.Board-icon1{
+    color: #23E3C9;
+    margin-top: 2.4vw;
+    margin-left: 16vw;
+}
+.form-Pw{
+    margin-top: 62px;
+    margin-left: 3px
+}
+.form-Pw input{
+  width: 100%;
+  padding: 31px;
+  padding-right: 11vw;
+}
+.Board-chk{
+    margin-top: 8.5vw;
+    margin-left: -24vw;
+    font-weight: bold;
+    font-size: 20px;
+}
+.Board-chk-span{
+  margin-left: -53px;
+}
+.Board-chk input{
+    width: 150px;
+    height: 30px;
+    margin-left: -3vw;
+}
+.SNS-h3{
+  margin-top: 222px;
+  margin-left: -8vw;
+}
+
+.SNS-img img{
+    width: 60px;
+    margin-left: 30px;
+}
+.Find-Id{
+    margin-top: 5px;
+}
+.btn{
+    margin-top: 17.5vw;
+    margin-left: -15vw;
+   
+}
+
+.btn input:hover{
+    background-color: #2e4ead;
+    color: white;
+}
+.btn input{
+  font-weight: bold;
+  border-radius: 8px;
+  width: 150px;
+  height: 70px;
+  background-color: #e1ecf2;
+  font-size: 22px;
+}
+.btn1{
+    margin-top: 17.5vw;
+    margin-left: 4vw;
+}
+.btn1 input:hover{
+    background-color: #2e4ead;
+    color: white;
+}
+.btn1 input{
+  border-radius: 10px;
+  font-size: 23px;
+  font-weight: bold;
+  width: 150px;
+  height: 70px;
+}
+  /*Login end*/

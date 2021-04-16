@@ -16,6 +16,7 @@ import java.util.Properties;
 import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
 
@@ -309,6 +310,31 @@ public class BoardDao {
 			//PreparedStatment객체 생성, 미완성 쿼리 값대입
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, attachNo); // where절에 no = '2' -> 컬럼타입인 숫자에 맞게 자동형변환됨
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("첨부파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		// insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+		// values(seq_board_comment_no.nextval, ?, ?, ?, ?, ?)
+		String sql = prop.getProperty("insertBoardComment");
+		try {
+			//PreparedStatment객체 생성, 미완성 쿼리 값대입
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bc.getCommentLevel()); 
+			pstmt.setString(2, bc.getWriter());
+			pstmt.setString(3, bc.getContent());
+			pstmt.setInt(4, bc.getBoardNo()); 
+			pstmt.setInt(5, bc.getCommentRef());
+			// 댓글의 경우, 0으로 고정해놨는데, fk가 걸려있음
+			// comment_pk가 0번이 있어야 하는데, 0번이 없으니 작동 안함 -> null
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new BoardException("첨부파일 삭제 오류", e);

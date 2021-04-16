@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>메인 페이지 </title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        // 움직이는 효과   toggleclass  이벤트효과 
+        $(document).ready(function () {
+            $(".slide-menu").click(function () {
+                $(".wrapper").toggleClass("collapse");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="slide-menu">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo"><img src="image/하루에코(메인로고).png" alt=""></div>
+                <ul>
+                    <li><a href="#">
+                            <i class="fas fa-search"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a></li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-bell"></i></span>
+                        <span class="title">도전 챌린지</span></a></li>
+                <li><a href="Login.html">
+                        <span class="icon"><i class="fas fa-address-card"></i></span>
+                        <span class="title">로그인</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <span class="title">랭킹</span>
+                    </a></li>
+
+                <li><a href="MyPage(April).html">
+                        <span class="icon"><i class="far fa-calendar"></i></span>
+                        <span class="title">마이페이지</span>
+                    </a></li>
+                <li><a href="Community.html">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <span class="title">커뮤니티</span>
+                    </a></li>
+            </ul>
+        </div>
+
+        <!--image slider start-->
+        <div class="slider">
+            <div class="slides">
+                <!--radio buttons start-->
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
+                <!--radio buttons end-->
+                <!--slide images start-->
+                <div class="slide first">
+                    <img src="image/환경1.jpg" alt="">
+                </div>
+                <div class="slide">
+                    <img src="image/환경2.jpg" alt="">
+                </div>
+                <div class="slide">
+                    <img src="image/환경3.jpg" alt="">
+                </div>
+                <div class="slide">
+                    <img src="image/환경4.jpg" alt="">
+                </div>
+                <!--slide images end-->
+                <!--automatic navigation start-->
+                <div class="navigation-auto">
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn2"></div>
+                    <div class="auto-btn3"></div>
+                    <div class="auto-btn4"></div>
+                </div>
+                <!--automatic navigation end-->
+            </div>
+            <!--manual navigation start-->
+            <div class="navigation-manual">
+                <label for="radio1" class="manual-btn"></label>
+                <label for="radio2" class="manual-btn"></label>
+                <label for="radio3" class="manual-btn"></label>
+                <label for="radio4" class="manual-btn"></label>
+            </div>
+            <!--manual navigation end-->
+        </div>
+        <!--image slider end-->
+
+        <script type="text/javascript">
+            var counter = 1;
+            setInterval(function () {
+                document.getElementById('radio' + counter).checked = true;
+                counter++;
+                if (counter > 4) {
+                    counter = 1;
+                }
+            }, 5000);
+        </script>
+
+</body>
+
+</html>

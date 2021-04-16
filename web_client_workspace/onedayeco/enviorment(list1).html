@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>환경(거북이)</title>
+    <link rel="stylesheet" href="css/enviorment(list1).css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script>
+        // 움직이는 효과   toggleclass  이벤트효과 
+        $(document).ready(function () {
+            $(".slide-menu").click(function () {
+                $(".wrapper").toggleClass("collapse");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="top_navbar">
+            <div class="slide-menu">
+                <div class="one"></div>
+                <div class="two"></div>
+                <div class="three"></div>
+            </div>
+            <div class="top_menu">
+                <div class="logo">
+                    <a href="index.html"><img src="image/하루에코(메인로고).png" alt=""></a>
+
+                </div>
+                <ul>
+                    <li><a href="#">
+                            <i class="fas fa-search"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="index.html">
+                        <span class="icon"><i class="fas fa-bell"></i></span>
+                        <span class="title">메인페이지</span></a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-address-card"></i></span>
+                        <span class="title">로그인</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-child"></i></span>
+                        <span class="title">랭킹</span>
+                    </a></li>
+
+                <li><a href="#">
+                        <span class="icon"><i class="far fa-calendar"></i></span>
+                        <span class="title">마이페이지</span>
+                    </a></li>
+                <li><a href="#">
+                        <span class="icon"><i class="fas fa-book-reader"></i></span>
+                        <span class="title">커뮤니티</span>
+                    </a></li>
+                <li class="sidebar-menu"><a href="Community.html">
+                        <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="title">뒤로가기</span>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="main_container">
+            <h1 class="main_container-h1">
+                [환경일보] "바닷속 거북이를 살려라"</h1>
+            <hr class="main_container-hr">
+            <br>
+            <p class="text">
+                <img src="image/환경/거북이 빨대.jpg" alt="">
+                <br><br>
+                <h1>
+                    우리가 편하게 사용했던<mark style="background-color: aquamarine;"> 빨대가 </mark>바다 속 친구들에겐 가장
+                    <mark style=background-color:aquamarine;>무서운흉기</mark>가 되어 버렸던것입니다.</h1>
+                <hr class="main_container-hr"> <br>
+                <h4>환경문제에 관심을가져야할 필요성이있다 우리가 일회용품과 관련해서 접근할 때 일회용품이 재질이 무엇인가 하는 것은 부차적인 문제입니다.
+                    굳이 여러번 사용하지 않거나 다회용기를 쓸 수가
+                    있음에도 불구하고 편리하다는 이유만으로 한 번 쓰고 버리는 일회용 문화 자체가 자원을 낭비하고 폐기물 발생량을 증가시키는 문제가 있습니다.
+                    그렇기에 일회용 사용을 줄이자, 규제하자 라고
+                    하는 것인데 종이니까 괜찮다라고 하는 것은 일회용품 사용의 본질을 왜곡시키는 문제가 있다라고 생각합니다
+            </p>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -11,6 +11,7 @@ import java.util.List;
 import board.model.dao.BoardDao;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 
 public class BoardService {
 	private BoardDao boardDao = new BoardDao();
@@ -153,6 +154,21 @@ public class BoardService {
 		} catch(Exception e) {
 			rollback(conn);
 			throw e;
+		}
+		return result;
+	}
+
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.insertBoardComment(conn, bc);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e; // controller가 예외처리를 결정할 수 있도록 넘김
+		} finally {
+		close(conn);
 		}
 		return result;
 	}

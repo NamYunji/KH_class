@@ -1,0 +1,102 @@
+body{
+    margin: 0;
+
+}
+
+.Date li{
+    width: 200px;
+}
+.hr3{
+    border: 0;
+    height: 3px;
+    background: #ccc;
+}
+.header{
+  transform: translateY(3vw);
+    font-size: 37px;
+    font-weight: bold;
+    list-style: none;
+    /* overflow: hidden; */
+    display: -webkit-box;
+    overflow: scroll;
+    overflow-y: hidden;
+}
+.Date .header ul li{
+  overflow: scroll;
+}
+.scroll{
+  display: table-caption;
+    margin-left: 30px;
+}
+.scroll span{
+  display: flex;
+  white-space: nowrap;
+  margin-top: -2vw;
+  margin-left: 3vw;
+  font-size: 25px;
+  font-weight: bold;
+}
+.scroll img{
+  margin-top: 1vw;
+}
+.scroll ul {
+  font-size: 19px;
+    width: 45vw;
+    height: 27.5vw;
+    /* transform: translateY(0vw); */
+    margin-top: 1vw;
+    margin-right: -20vw;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: inline-block;
+}
+.scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  
+.Date .header .mark-color{
+    background-color: peachpuff;
+}
+.Date .scroll .span{
+    margin-left: -1vw;
+    list-style: none;
+}
+.Date .img{
+  height: 400px;
+  margin-right: 0.5vw;
+  margin-top: -32.5vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.Date .img li{
+  font-size: 50px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin-left: -22vw;
+  color: #00bfff;
+  margin-top: 6vw;
+}
+  
+
+.Date .header ul ::-webkit-scrollbar {
+  width: 10px;
+}
+.Date .header  ::-webkit-scrollbar-thumb {
+  background-color: #23E3C9;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+} 
+
+.Date .img ul{
+  text-align: center;
+  margin-top: -7vw;
+  list-style: none;
+  font-size: 30px;
+  transform: translateX(85vw);
+}
+.img img{
+  float: right;
+  transform: translateX(-10vw);
+}
+ 

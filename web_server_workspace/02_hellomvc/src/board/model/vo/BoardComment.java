@@ -5,7 +5,7 @@ import java.util.Date;
 public class BoardComment {
 
 	private int no; // pk
-	private int commnetLevel; // 기본값 : 1 / 댓글 1, 대댓글 2
+	private int commentLevel; // 기본값 : 1 / 댓글 1, 대댓글 2
 	private String writer; // member의 memberId참조
 	private String content;
 	private int boardNo; // board의 no참조
@@ -16,11 +16,11 @@ public class BoardComment {
 		super();
 	}
 	
-	public BoardComment(int no, int commnetLevel, String writer, String content, int boardNo, int commentRef,
+	public BoardComment(int no, int commentLevel, String writer, String content, int boardNo, int commentRef,
 			Date regDate) {
 		super();
 		this.no = no;
-		this.commnetLevel = commnetLevel;
+		this.commentLevel = commentLevel;
 		this.writer = writer;
 		this.content = content;
 		this.boardNo = boardNo;
@@ -34,11 +34,11 @@ public class BoardComment {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public int getCommnetLevel() {
-		return commnetLevel;
+	public int getCommentLevel() {
+		return commentLevel;
 	}
-	public void setCommnetLevel(int commnetLevel) {
-		this.commnetLevel = commnetLevel;
+	public void setCommentLevel(int commnetLevel) {
+		this.commentLevel = commnetLevel;
 	}
 	public String getWriter() {
 		return writer;
@@ -73,7 +73,7 @@ public class BoardComment {
 	
 	@Override
 	public String toString() {
-		return "BoardComment [no=" + no + ", commnetLevel=" + commnetLevel + ", writer=" + writer + ", content="
+		return "BoardComment [no=" + no + ", commnetLevel=" + commentLevel + ", writer=" + writer + ", content="
 				+ content + ", boardNo=" + boardNo + ", commentRef=" + commentRef + ", regDate=" + regDate + "]";
 	}
 }

@@ -1,0 +1,498 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #23E3C9;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background: #e1ecf2;
+}
+
+.wrapper {
+  margin: 10px;
+}
+
+/*상단바 지정 */
+.wrapper .top_navbar {
+  width: calc(100% - 20px);
+  height: 60px;
+  display: flex;
+  position: fixed;
+  top: 10px;
+  margin-left: 10.7vw;
+}
+
+
+.wrapper .top_navbar .slide-menu {
+  width: 70px;
+  height: 115%;
+  /*약한 그린색  */
+  background: #79CF9F;
+  padding: 15px 17px;
+  border-top-left-radius: 20px;
+  cursor: pointer;
+}
+
+.wrapper .top_navbar .slide-menu div {
+  width: 35px;
+  height: 4px;
+  /*약한 블루색 */
+  background: #00008B;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.wrapper .top_navbar .top_menu {
+  width: calc(100% - 70px);
+  height: 112%;
+  background: #fff;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .top_navbar .top_menu .logo {
+  color: #2e4ead;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.wrapper .top_navbar .top_menu ul {
+  display: flex;
+}
+
+.wrapper .top_navbar .top_menu ul li a {
+  display: block;
+  margin: 0 10px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: 1px solid #2e4ead;
+  border-radius: 50%;
+  color: #2e4ead;
+}
+
+.wrapper .top_navbar .top_menu ul li a:hover {
+  background: #4360b5;
+  color: #fff;
+}
+
+.wrapper .top_navbar .top_menu ul li a:hover i {
+  color: #fff;
+}
+
+.wrapper .sidebar {
+  position: fixed;
+  top: 79px;
+  left: 10px;
+  background: #79CF9F;
+  width: 190px;
+  height: calc(100% - 80px);
+  border-bottom-left-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu {
+  margin-top: 21vw;
+
+}
+
+.wrapper .sidebar ul li a {
+  display: block;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  margin-bottom: 1px;
+  color: #00008B;
+  white-space: nowrap;
+}
+
+.wrapper .sidebar ul li a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #92a6e2;
+  display: none;
+}
+
+.wrapper .sidebar ul li a span.icon {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.wrapper .sidebar ul li a span.title {
+  display: inline-block;
+}
+
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active {
+  background: #4360b5;
+  color: #fff;
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before {
+  display: block;
+}
+
+.wrapper .main_container {
+  width: (100% - 200px);
+  margin-top: 70px;
+  margin-left: 200px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.wrapper .main_container .item {
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.wrapper.collapse .sidebar {
+  width: 70px;
+}
+
+.wrapper.collapse .sidebar ul li a {
+  text-align: center;
+}
+
+.wrapper.collapse .sidebar ul li a span.icon {
+  margin: 0;
+}
+
+.wrapper.collapse .sidebar ul li a span.title {
+  display: none;
+}
+
+.wrapper.collapse .main_container {
+  width: (100% - 70px);
+  margin-left: 70px;
+}
+
+/*Container-bar start */
+.Container-bar {
+  transform: translateY(-18vw);
+
+}
+
+/* border효과 한쪽 left */
+.Container-bar-li-left {
+  border-radius: 20px 20px 20px 20px;
+}
+
+.Container-bar ul {
+  display: flex;
+}
+
+.Container-bar ul li {
+  transform: translateX(43.5vw);
+  background: #00008B;
+  display: block;
+  padding: 0.2vw 11vw;
+  margin-top: -2vw;
+}
+
+.Container-bar .title {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.Container-bar ul li a {
+  display: block;
+  padding: 17px;
+  color: #fff;
+  position: relative;
+  transform: translateX(125px);
+  margin-right: 11vw;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/*Container-bar end */
+/* Calendar start */
+.note {
+  font-size: calc(0.5vw + 0.75rem);
+  text-align: center;
+  opacity: 0.5;
+}
+
+.Previous {
+  padding: 1em 4em;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.6875em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+  background-color: #37474F;
+  border-radius: 1.5em;
+  margin-bottom: -6vw;
+
+}
+
+.next {
+  padding: 1em 4em;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.6875em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+  background-color: #37474F;
+  border-radius: 1.5em;
+  margin-left: 14vw;
+}
+
+.calendar-wrap {
+  padding: 6.5vw 20vw;
+  background-color: #fff;
+  border-radius: 1.5em;
+  user-select: none;
+  box-shadow: 0 0.0625em 0.25em rgb(0 20 50 / 20%), 0 0.5em 0.5em 0.125em rgb(0 20 50 / 10%);
+  transform: translateX(2.8vw);
+  margin-top: 1.2vw;
+  white-space: nowrap;
+}
+
+@media (min-width: 500px) {
+  .calendar-wrap {
+    width: 450px;
+    font-size: 1.25rem;
+  }
+}
+
+.month-year {
+  font-weight: normal;
+  font-size: 3.25em;
+  text-align: center;
+  margin-left: -11vw;
+  transform: translateY(-4vw);
+}
+
+.calendar {
+  transform: translateX(-11vw);
+  table-layout: fixed;
+  width: 100%;
+  margin-bottom: 0.75em;
+  overflow: hidden;
+  border-collapse: collapse;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.day-title {
+  width: 4em;
+  height: 4em;
+  vertical-align: top;
+  font-weight: bold;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.0625em;
+  box-shadow:
+    inset 0 -0.875em #fff,
+    inset 0 -1em rgba(0, 20, 50, 0.1);
+}
+
+.day {
+  position: relative;
+  font-size: 1.1em;
+}
+
+.day:focus {
+  outline: none;
+}
+
+.day:focus .day-number::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  border: 0.25em solid #0288d1;
+  border-radius: 50%;
+}
+
+.day.active-a:focus .day-number::after,
+.day.active-b:focus .day-number::after {
+  width: 100%;
+  height: 100%;
+}
+
+.day.today:focus .day-number::after {
+  width: 102%;
+  height: 102%;
+}
+
+.day:hover span.day-number {
+  color: #0288d1;
+}
+
+.day:first-child,
+.day:last-child {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.day.range {
+  color: #0288d1;
+  background-color: #e1f5fe;
+}
+
+.day.range.active-a,
+.day:not(.range)+.day.range.active-b {
+  background-color: transparent;
+  box-shadow: inset -1.5em 0 #e1f5fe;
+}
+
+.day.range.active-b,
+.day.range+.day.range.active-a {
+  background-color: transparent;
+  box-shadow: inset 1.5em 0 #e1f5fe;
+}
+
+.day.range.active-a:first-child,
+.day.range.active-b:first-child {
+  box-shadow: none;
+}
+
+.day.range.active-a:first-child+.day.range,
+.day.range.active-b:first-child+.day.range {
+  box-shadow: -1.5em 0 #e1f5fe;
+}
+
+.day.range.active-a:first-child+.day:not(.range),
+.day.range.active-b:first-child+.day:not(.range) {
+  box-shadow: -4.5em 0 #e1f5fe;
+}
+
+.day.range.active-a:first-child+.day.range.active-b {
+  box-shadow:
+    -1.5em 0 #e1f5fe,
+    inset 1.5em 0 #e1f5fe;
+}
+
+.day-number {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+  border-radius: 50%;
+}
+
+.day-img {
+  margin-left: 8px;
+}
+
+.day.active-a span.day-number,
+.day.active-b span.day-number {
+  color: #fff;
+  background-color: #03A9F4;
+}
+
+.day.prev-mon .day-number,
+.day.next-mon .day-number {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.day.prev-mon[class*="active"] .day-number,
+.day.next-mon[class*="active"] .day-number {
+  color: rgba(255, 255, 255, 0.5);
+  background-color: #81D4FA;
+}
+
+.day.today span.day-number {
+  color: #fff;
+  border: 0.25em solid transparent;
+  box-shadow: inset 0 0 0 2em #37474F;
+}
+
+/* ex) 3월  이후버튼 */
+.calendar-wrap .btn {
+  text-decoration: auto;
+  display: block;
+  transform: translateX(-19vw);
+}
+
+/* ex) 3월  이전버튼 */
+.calendar-wrap .btn1 {
+  text-decoration: auto;
+  display: block;
+  transform: translateY(3vw);
+}
+
+/*회원정보 보기 수정 버튼 */
+.Member-li {
+  transform: translateX(-26vw);
+  margin-top: 40vw;
+}
+
+.Member-li ul {
+  display: inline-flex;
+}
+
+.Member-li ul li {
+  background: #79CF9F;
+  display: block;
+
+}
+
+.Member-li ul li a {
+  display: block;
+  position: relative;
+  transform: translateX(125px);
+  margin-right: 11vw;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.Member-change {
+  transform: translateX(-45.7vw);
+  margin-top: 45vw;
+}
+
+.Member-change ul {
+  display: inline;
+}
+
+.Member-change ul li {
+  background: #79CF9F;
+  display: block;
+}
+
+.Member-change ul li a {
+  display: block;
+  position: relative;
+  transform: translateX(125px);
+  margin-right: 11vw;
+  color: #fff;
+  white-space: nowrap;
+}
