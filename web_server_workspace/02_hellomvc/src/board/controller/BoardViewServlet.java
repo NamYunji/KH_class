@@ -1,6 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.exception.BoardException;
 import board.model.service.BoardService;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 import common.MvcUtils;
 
 @WebServlet("/board/boardView")
@@ -35,7 +37,8 @@ public class BoardViewServlet extends HttpServlet {
 			throw new BoardException("유효한 게시글 번호가 아닙니다.", e);
 		}
 		
-		//2. 업무로직 : board객체 조회(첨부파일 조회)
+		//2. 업무로직 : board객체 조회 (+첨부파일 조회)
+		// 1. 게시글 자체 가져오기
 		Board board = boardService.selectOne(no);
 		if(board == null) {
 			throw new BoardException("해당 게시글이 존재하지 않습니다.");
@@ -50,8 +53,14 @@ public class BoardViewServlet extends HttpServlet {
 		// board의 content를 가져와서 바꾸고 리턴된 값을 다시 content로 세팅
 		board.setContent(MvcUtils.convertLineFeedToBr(board.getContent()));
 		
+		// 2. 해당 게시글의 댓글 가져오기
+		// 여러개의 댓글이 달릴 수 있어서 list로 가져오기
+		// no를 parameter로 전달해서 해당 게시글을 가져오는 것
+		List<BoardComment> commentList = BoardService.selectBoardCommentList(no);
+		System.out.println("commentList@servlet = " + commentList);
 		//3. jsp forwarding
 		request.setAttribute("board", board);
+		request.setAttribute("commentList", commentList);
 		request.getRequestDispatcher("/WEB-INF/views/board/boardView.jsp")
 			   .forward(request, response);
 		} catch(Exception e) {
@@ -62,5 +71,4 @@ public class BoardViewServlet extends HttpServlet {
 			throw e;
 		}
 	}
-
 }

@@ -173,4 +173,10 @@ public class BoardService {
 		return result;
 	}
 
+	public List<BoardComment> selectBoardCommentList(int no) {
+		Connection conn = getConnection();
+		List<BoardComment> commentList = boardDao.selectBoardCommentList(conn, no);
+		close(conn);
+		return commentList;
+	}
 }

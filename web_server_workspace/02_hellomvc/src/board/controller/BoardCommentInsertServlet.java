@@ -38,7 +38,7 @@ public class BoardCommentInsertServlet extends HttpServlet {
 		// cf. catch절로 떨어지지 않으면 무조건 댓글등록 성공, result가 0인지 1인지 여부 불필요
 		request.getSession().setAttribute("msg", "댓글등록성공!");
 		// 현재페이지로 이동, 그러려면 게시글 번호 필요
-		response.sendRedirect(request.getContextPath() + "board/boardView?no=" + boardNo);
+		response.sendRedirect(request.getContextPath() + "/board/boardView?no=" + boardNo);
 	  } catch(Exception e) {
 		 e.printStackTrace();
 		 throw e;

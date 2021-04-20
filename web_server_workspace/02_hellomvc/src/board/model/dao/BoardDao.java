@@ -332,15 +332,43 @@ public class BoardDao {
 			pstmt.setString(2, bc.getWriter());
 			pstmt.setString(3, bc.getContent());
 			pstmt.setInt(4, bc.getBoardNo()); 
-			pstmt.setInt(5, bc.getCommentRef());
-			// 댓글의 경우, 0으로 고정해놨는데, fk가 걸려있음
-			// comment_pk가 0번이 있어야 하는데, 0번이 없으니 작동 안함 -> null
+			// pstmt.setInt(5, bc.getCommentRef());
+			// 1) 댓글의 경우, 0으로 고정해둠
+			// 댓글은 fk가 걸려있음 -> comment_pk가 0번이 있어야 하는데, 0번이 없으니 작동 안함 -> null
+			// pstmt.setInt(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			// 2) null을 넣을 수도 없음
+			// why? setInt인데 null값을 넣을 수 없음
+			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			// 3) null값을 허용하는 setObject 사용해서 object타입으로 변환하기
+			// setObject는 모든 타입 대입 가능
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new BoardException("첨부파일 삭제 오류", e);
+			throw new BoardException("댓글등록 오류", e);
 		} finally {
 			close(pstmt);
 		}
 		return result;
 	}
-}
+
+	public List<BoardComment> selectBoardCommentList(Connection conn, int no) {
+		List<BoardComment> commentList = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String  sql = prop.getProperty("selectBoardCommentList");
+		
+		try {
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, no);
+		rset = pstmt.executeQuery();
+		commentList = new ArrayList<>();			
+		while(rset.next()) {
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		close(rset);
+		close(pstmt);
+	}
+	return commentList;
+	}
+} 
