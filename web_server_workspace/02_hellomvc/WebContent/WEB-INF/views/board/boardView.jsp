@@ -39,7 +39,7 @@ boolean editable =
 				<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
 				<img alt="첨부파일" src="<%=request.getContextPath() %>/images/file.png" width=16px>
 				<%-- board no로 요청 - db조회--%>
-				<a href="<%= request.getContextPath()%>/board/fileDownload?no=<%= board.getNo()%>"><%= board.getAttach().getOriginalFileName() %></a>
+				<a href="/*/board/fileDownload?no=<%= board.getNo()%>"><%= board.getAttach().getOriginalFileName() %></a>
 				<% } %>
 			</td>
 		</tr>

@@ -181,3 +181,17 @@ start with comment_level = 1
 -- 부모행인 no가 자식행인 comment_ref와 동일하다면 연결해라
 connect by prior no = comment_ref
 order siblings by reg_date desc;
+
+-- 특정 게시글에 대한 댓글목록을 가져오는 쿼리
+select bc.*
+from board_comment bc
+where board_no = 110
+-- board_no가 110번인 댓글을 모아라
+start with comment_level = 1
+-- comment_level이 댓글(1)인걸 최상위(부모)로 해라
+connect by prior no = comment_ref
+-- 부모행의 no를 자식행의 comment_ref가 참조하고 있다면 관계를 맺어라
+order siblings by reg_date asc;
+
+-- cf. ctrl + j 하면 한줄로 만들수 있음
+-- select bc.* from board_comment bc where board_no = ? start with comment_level = 1 connect by prior no = comment_ref order siblings by reg_date asc

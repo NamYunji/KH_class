@@ -144,10 +144,7 @@ public class BoardUpdateServlet extends HttpServlet {
 			"게시물 수정 성공!" : "게시물 수정 실패!";
 		String location = request.getContextPath()
 					+ "/board/boardView?no=" + board.getNo();
-		// 성공이든 아니든 게시물 상세보기페이지로 이동
-		
-		
-			
+		// 성공이든 아니든 게시물 상세보기페이지로 이동	
 		
 		// 3. DML요청 : 리다이렉트 & 사용자피드백 (alert)
 		// /mvc/board/boardList
