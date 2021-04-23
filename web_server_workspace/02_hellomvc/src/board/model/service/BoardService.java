@@ -179,4 +179,17 @@ public class BoardService {
 		close(conn);
 		return commentList;
 	}
+
+	public int deleteBoardComment(int no) {
+		Connection conn = getConnection(); 
+		int result = 0;
+		try {
+			result = boardDao.deleteBoardComment(conn, no);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
 }

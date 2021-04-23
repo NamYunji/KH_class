@@ -136,6 +136,15 @@ public class MemberLoginServlet extends HttpServlet {
 //					request.getRequestDispatcher("/index.jsp");
 //			reqDispatcher.forward(request, response);
 		} 
-		response.sendRedirect(request.getContextPath());
+		// response.sendRedirect(request.getContextPath()); // mvc로 넘김
+		// response.sendRedirect(http://localhost:9090/mvc); // full url값을 줘도 ok
+		
+		// 이전 페이지로 redirect 처리
+		// header에서 referer가져오기
+		// header에게 물어본다. header에서 key값이 referer라는 애가 있다면 가져와라
+		String referer = request.getHeader("Referer");
+		System.out.println("referer@servlet = " + referer);
+		// 가져온 referer를 sendRedirect로 전달
+		response.sendRedirect(referer);
 	}
 }

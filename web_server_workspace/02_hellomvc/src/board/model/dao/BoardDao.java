@@ -17,6 +17,7 @@ import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
 import board.model.vo.BoardComment;
+import board.model.vo.BoardExt;
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
 
@@ -61,13 +62,15 @@ public class BoardDao {
 		list = new ArrayList<>();			
 		// rset.next() 결과집합이 여러행일 때 다음행 있니? -> 행을 가리키는 포인터를 다음행으로 옮겨주는 역할
 		while(rset.next()) {
-			Board board = new Board();
+			// Board board = new Board();
+			BoardExt board = new BoardExt();
 			board.setNo(rset.getInt("no"));
 			board.setTitle(rset.getString("title"));
 			board.setWriter(rset.getString("writer"));
 			board.setContent(rset.getString("content"));
 			board.setRegDate(rset.getDate("reg_date"));
 			board.setReadCount(rset.getInt("read_count"));
+			board.setCommentCnt(rset.getInt("comment_cnt"));
 			
 			System.out.println(rset.getInt("attach_no"));
 			// rset.getInt("attach_no") != 0 -> 첨부파일이 있는 경우
@@ -351,17 +354,29 @@ public class BoardDao {
 	}
 
 	public List<BoardComment> selectBoardCommentList(Connection conn, int no) {
-		List<BoardComment> commentList = null;
+		List<BoardComment> commentList = null; 
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		// selectBoardCommentList = select bc.* from board_comment bc where board_no = ?
+		// start with comment_level = 1 connect by prior no = comment_ref order siblings by reg_date asc
 		String  sql = prop.getProperty("selectBoardCommentList");
 		
 		try {
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, no);
-		rset = pstmt.executeQuery();
-		commentList = new ArrayList<>();			
-		while(rset.next()) {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no); // 게시글번호로 조회
+			rset = pstmt.executeQuery();
+			commentList = new ArrayList<>();			
+			while(rset.next()) {
+				// 한행 한행 boardComment객체로 바꿔서 commentList에 담기
+				BoardComment bc = new BoardComment();
+				bc.setNo(rset.getInt("no"));
+				bc.setCommentLevel(rset.getInt("comment_level"));
+				bc.setWriter(rset.getString("writer"));
+				bc.setContent(rset.getString("content"));
+				bc.setBoardNo(rset.getInt("board_no"));
+				bc.setCommentRef(rset.getInt("comment_ref"));
+				bc.setRegDate(rset.getDate("reg_date"));
+				commentList.add(bc); // list에 boardComment객체 추가
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -370,5 +385,21 @@ public class BoardDao {
 		close(pstmt);
 	}
 	return commentList;
+	}
+
+	public int deleteBoardComment(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteBoardComment");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("댓글 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 } 

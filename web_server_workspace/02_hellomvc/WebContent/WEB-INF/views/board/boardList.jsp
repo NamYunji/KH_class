@@ -1,3 +1,4 @@
+<%@page import="board.model.vo.BoardExt"%>
 <%@page import="board.model.vo.Board"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -32,13 +33,17 @@ List<Board> list = (List<Board>) request.getAttribute("list");
 			 option값들에 대한 null처리 --%>
 		<% }
 			else { 
-				for(Board b : list){
+				for(Board board : list){
+					BoardExt b = (BoardExt) board; 
 		%>
 				<tr>
 					<td><%= b.getNo() %></td>
 					<td>
 						<!-- 링크 클릭시, boardNo로 넘어가야 함 -->
-						<a href="<%= request.getContextPath()%>/board/boardView?no=<%= b.getNo() %>"><%= b.getTitle() %></a>
+						<a href="
+						<%= request.getContextPath()%>/board/boardView?no=<%= b.getNo() %>">
+						<%= b.getTitle() %>
+						<%= b.getCommentCnt() > 0 ? "(" + b.getCommentCnt() + ")" : "" %></a>
 					</td>
 					<td><%= b.getWriter() %></td>
 					<td><%= b.getRegDate() %></td>

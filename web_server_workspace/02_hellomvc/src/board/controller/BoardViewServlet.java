@@ -56,7 +56,7 @@ public class BoardViewServlet extends HttpServlet {
 		// 2. 해당 게시글의 댓글 가져오기
 		// 여러개의 댓글이 달릴 수 있어서 list로 가져오기
 		// no를 parameter로 전달해서 해당 게시글을 가져오는 것
-		List<BoardComment> commentList = BoardService.selectBoardCommentList(no);
+		List<BoardComment> commentList = boardService.selectBoardCommentList(no);
 		System.out.println("commentList@servlet = " + commentList);
 		//3. jsp forwarding
 		request.setAttribute("board", board);

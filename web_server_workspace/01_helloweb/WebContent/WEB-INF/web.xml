@@ -51,9 +51,11 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>menuOrderServlet</servlet-name>
-  	<url-pattern>/menuOrder.do</url-pattern>
+  	<url-pattern>menuOrder.do</url-pattern>
   </servlet-mapping>
   
   
 
 </web-app>
+
+  
