@@ -17,6 +17,8 @@ CREATE TABLE challenge (
     constraint ck_challenge_level check(challenge_level in (1,2,3))         -- challenge 강도 구분(1-하 / 2-중/ 3-상)
 );
 
+select * from a_search_team;
+
 --유저
 CREATE TABLE member (
 	member_id varchar2(15)		NOT NULL,
