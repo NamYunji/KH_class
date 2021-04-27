@@ -29,6 +29,7 @@ public class BoardCommentInsertServlet extends HttpServlet {
 		String writer = request.getParameter("writer");
 		// textArea태그
 		String content = request.getParameter("content");
+		// BoardComment(int no, int commentLevel, String writer, String content, int boardNo, int commentRef, Date regDate)
 		BoardComment bc = new BoardComment(0, commentLevel, writer, content, boardNo, commentRef, null);
 		System.out.println("boardComment@servlet = " + bc);
 		// [no=0, commnetLevel=1, writer=admin, content=c, boardNo=113, commentRef=0, regDate=null]

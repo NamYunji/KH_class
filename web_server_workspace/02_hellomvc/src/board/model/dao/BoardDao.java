@@ -55,8 +55,7 @@ public class BoardDao {
 		// 3. PreparedStatement객체 생성(미완성쿼리)
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, start);
-		
-		h
+
 		pstmt.setInt(2, end);
 		// 4. 쿼리문 실행
 		rset = pstmt.executeQuery();
