@@ -2,6 +2,11 @@ select * from a_search_team;
 
 update a_search_team set a_read_count = a_read_count+1 where a_id = 184;
 
+select * from member;
+
+
+
+
 rollback;
 commit;
 select * from a_search_team;
@@ -10,7 +15,7 @@ update a_search_team set a_like = a_like +1 where a_id = 184;
 update a_search_team set a_like = a_like +1 where a_id = 184;
 
 select * from (select row_number() over(order by b.a_id desc) rnum, b.*,  a.attachment_id, a.original_filename, a.renamed_filename, a.attachment_status from a_team b left join a_team_attachment a on b.a_id = a.team_a_id and a.attachment_status = 'Y') b where rnum between 1 and 5;
-
+commit;
 delete from team_comment where comment_id = 3;
 select * from (select row_number() over(order by b.team_a_id desc) rnum, b.*,  a.attachment_id, a.original_filename, a.renamed_filename, a.attachment_status from a_team b left join a_team_attachment a on b.a_id = a.team_a_id and a.attachment_status = 'Y') b where rnum between 1 and 5;
 select * from team_comment;
@@ -108,7 +113,10 @@ select * from challenge_join;
  insert into challenge_join values ('bbbbb', 44, sysdate, sysdate);
  insert into challenge_join values ('ccccc', 45, sysdate, sysdate);
  insert into challenge_join values ('ddddd', 46, sysdate, sysdate);
- insert into challenge_join values ('ddddd', 47, sysdate, sysdate);
+ insert into challenge_join values ('white', 48, sysdate, sysdate);
+ 
+
+ 
  
  set serveroutput on;
  exec proc_ranking;
@@ -209,11 +217,33 @@ select * from a_search_team where member_id = 'qwerty';
 
 select seq_a_team_id.currval a_id from dual;
 
+select * from request_team;
+
+select * from team_point;
+select * from a_search_team;
+insert into team_point values(34, 'e1111', 139, 1300, sysdate, 14);
+insert into team_point values(35, 'f1111', 139, 1900, sysdate, 14);
+insert into team_point values(36, 'g1111', 139, 2500, sysdate, 14);
+insert into team_point values(37, 'cccc1', 139, 500, sysdate, 14);
+insert into team_point values(38, 'white', 139, 500, sysdate, 14);
+
+select * from (select member_id, sum(point) sum, row_number() over(order by sum(point) desc) rnum from personal_point group by member_id) where rnum between 1 and 5;
+
+
+select t.*, a.a_title from (select a_id, sum(point) sum, row_number() over(order by sum(point) desc)rnum from team_point group by a_id) t left join a_search_team a on a.a_id = t.a_id where rnum between 1 and 5;
+commit;
+
 
 insert into a_team_attachment(attachment_id, team_a_id, original_filename, renamed_filename) values (seq_team_attachment_id.nextVal, ?, ?, ?);
 insert into a_team_attachment(attachment_id, team_a_id, original_filename, renamed_filename) values (seq_team_attachment_id.nextVal, 43, 'gd', 'gd');
 
+select * from a_search_team;
+delete from a_search_team where a_id = 24;
 
+select * from member;
+
+select * from request_team;
+insert into request_team values (seq_attachment_id.nextVal, 'white', 122);
 
 insert into a_team(team_a_id, member_id, a_id, a_title, a_content, a_read_count, a_like)values (seq_a_team_id.nextVal, ?, ?, ?, ?, 0, 0);
 

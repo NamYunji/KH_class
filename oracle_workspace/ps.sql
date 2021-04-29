@@ -1,5 +1,6 @@
 select * from tab;
 
+commit;
 --총 19개 테이블
 select * from tabs;
 --챌린지
