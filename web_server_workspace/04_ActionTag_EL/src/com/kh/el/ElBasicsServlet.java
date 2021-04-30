@@ -44,5 +44,4 @@ public class ElBasicsServlet extends HttpServlet {
 		request.getRequestDispatcher("/el/elBasics.jsp")
 				.forward(request, response);
 	}
-
 }

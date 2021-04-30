@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.person.model.vo.Person;
 
+//index.jsp
 @WebServlet("/standard/useBean.do")
 public class UseBeanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// index.jsp
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1. 업무로직에 의해 생성된 데이터
 		// request속성에 여러 데이터를 담아두고, jsp에서 가져다 쓸것
@@ -32,5 +32,4 @@ public class UseBeanServlet extends HttpServlet {
 		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/standard/useBean.jsp");
 		reqDispatcher.forward(request, response); // request가 아닌 reqDispatcher가 forward하는 것
 	}
-
 }

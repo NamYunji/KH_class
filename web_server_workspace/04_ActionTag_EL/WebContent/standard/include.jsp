@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!-- jsp의 include를 이용한 페이지 재사용  -->
 <!-- include할 때 값을 전달하는 것 -->
+	<!-- title이라는 이름으로 include라는 값을 전달 -->
 <jsp:include page="/standard/header.jsp">
 	<jsp:param value="INCLUDE" name="title"/>
 </jsp:include>
