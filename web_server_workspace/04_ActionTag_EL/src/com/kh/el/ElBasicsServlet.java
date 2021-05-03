@@ -23,10 +23,12 @@ public class ElBasicsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 데이터를 만들고 jsp에 전달
+		/* [REQUEST] */
 		request.setAttribute("coffee", "안티구아");
 		request.setAttribute("serverTime", System.currentTimeMillis());
 		request.setAttribute("honngd", new Person("honngd", "혼길동", '남', 35, true));
-		// 요소들을 arraylist로 만들어주는 메소드
+		
+		// asList - 전달한 요소들을 arraylist로 만들어주는 메소드
 		List<Object> list = Arrays.asList("abc", 1234, new Date());
 		request.setAttribute("list", list);
 		
@@ -35,9 +37,11 @@ public class ElBasicsServlet extends HttpServlet {
 		map.put("Dr.zang", new Person("zangys", "장영실", '남', 45, false));
 		request.setAttribute("map", map);
 		
+		/* [SESSION] */
 		HttpSession session = request.getSession();
 		session.setAttribute("book", "디지털 미니멀리즘");
-		
+				
+		/* [APPLICATION] */
 		ServletContext application = request.getServletContext();
 		application.setAttribute("movie", "귀멸의 칼날 - 무한열차");
 
