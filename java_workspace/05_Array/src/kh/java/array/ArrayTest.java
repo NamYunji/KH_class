@@ -105,9 +105,9 @@ public class ArrayTest {
 		 * jvm은 os에 요청을 하면, 이 공간에서 프로그램 돌려!하고 램에 메모리 공간을 할당받음
 		 * 할당 받은 공간을 3공간으로 나눔
 		 * 1. call stack : method call stack
+		 * 		메모리가 실행되는 공간   
 		 * 		메소드를 호출하면 이 공간에서 그 일을 진행
 		 * 		stack은 뭔가 쌓이는 걸 의미함. 밑에서부터 위로 차곡차곡  쌓임
-		 * 		[밑] main method - test0 - test1 - test2 [위]
 		 * 		밑에서부터 쌓이고 위에 있는것부터 실행, 다 실행되면 메소드를 반납하고 다시 main으로 돌아옴
 		 * 		메소드 안에 선언한 변수들은 다 이 call stack안에 선언한 것
 		 * 		이 call stack내의 call stack frame안에  변수 공간을 마련한 것
@@ -115,10 +115,29 @@ public class ArrayTest {
 		 * 
 		 * 		double[] arr;
 		 * 		-> method2라는 call stack frame안에 double[] 자료형의 공간을 만들고 그 공간의 이름을 arr이라고 지정함
-		 * 		arr = new double[3];
-		 * 		
+
 		 * 2. heap
-		 * 3. static
+		 * 		arr = new double[3];
+		 * 		배열을 할당해서 그 결과를 arr에 담아라
+		 * 		new의 역할 : 메모리 heap영역에 객체를 만듦
+		 * 		객체 : 메모리 조각
+		 * 		heap에 double값을 세개 저장할 수 있는 연속된 공간을 할당, 타입별 초기값으로 세팅.  임의의 주소가 할당됨
+		 * 		그 주소값을 callstack의 arr변수에 담음
+		 * 
+		 * -> call stack
+		 * 		double[] arr
+		 * 			0x123이라는 곳에 가봐 거기에 double배열이 있을거야
+		 * 			double배열이 있는 위치값을 가지고 있음
+		 * 	  heap
+		 * 		arr = new double[3];
+		 * 			0x123위치에 double[]배열이 있음
+		 * 			초기값이 세팅된 3개의 공간이 만들어짐
+		 * 		arr[0] = 1.1;
+		 * 			0x123위치에 가서 0번지를 찾고 1.1이라고 새로 적음
+		 * 		arr[1] = 2.2;
+		 * 			0x123위치에 가서 첫번째공간(8byte)만큼 건너뛰고 그 다음 공간에 2.2를 새로씀
+		 * 			=> index : 건너뛰어야 할 크기
+		 *  ( 3. static )
 		 */
 	}
 }
