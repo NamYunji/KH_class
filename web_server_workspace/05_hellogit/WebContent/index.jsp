@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>Hello Git</h1>
+	<a href="${pageContext.request.contextPath}/hellogit.do"></a>
 </body>
 </html>
