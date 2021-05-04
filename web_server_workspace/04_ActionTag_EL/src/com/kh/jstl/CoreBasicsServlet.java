@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.person.model.vo.Person;
 
-/**
- * Servlet implementation class CoreBasicsServlet
- */
 @WebServlet("/jstl/coreBasics.do")
 public class CoreBasicsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +23,7 @@ public class CoreBasicsServlet extends HttpServlet {
 		List<Person> list = Arrays.asList(
 				new Person("honggd", "홍길동", '남', 35, true),
 				new Person("sinsa", "신사임당", '여', 58, true),
-				new Person("ygs123", "유관순", '여', 16, true)
+				new Person("ygs123", "유관순", '여', 16, false)
 			);
 		request.setAttribute("personList", list);
 		

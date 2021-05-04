@@ -51,7 +51,8 @@ th, td {
 	<c:if test="${Integer.parseInt(no1) > Integer.parseInt(no2)}"> 
 	<!-- Missing required attribute "test" -->
 	${no1} > ${no2}
-	</c:if> <!-- false -> 실행되지 않음 -->
+	</c:if> 
+	<!-- false -> 실행되지 않음 -->
 	<c:if test="${Integer.parseInt(no1) < Integer.parseInt(no2)}">
 	${no1} &lt; ${no2}
 	</c:if>
@@ -125,7 +126,7 @@ th, td {
 	<!-- 홍길동, 신사임당, 이순신 -->
 	<p>
 	<c:forEach items="${list}" var="name" varStatus="vs">
-		<%-- ${name}${vs.count != list.size() ? "," : ""} --%>
+		${name}${vs.count != list.size() ? "," : ""}
 		<%-- ${name}${vs.first} --%>
 		<%-- ${name}${vs.last} --%>
 		<!-- first, last는 boolean형 리턴 -->

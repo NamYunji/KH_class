@@ -12,7 +12,7 @@
 	<h1>fn basics</h1>
 	<c:set var="str1" value="Hello world, Hello JSTL"/>
 	<c:set var="str2" value="Hello EL"/>
-	<p>${fn:toUpperCase(str1)}</p>
+	<p>${fn:toUpperCase(str1)}</p> <!-- HELLO WORLD, HELLO JSTL -->
 	<p>${fn:toLowerCase(str2)}</p> <!-- hello el -->
 	<p>${fn:length(str2)}</p>
 	<p>${str1.length()}</p> <!-- 23 -->
@@ -24,7 +24,7 @@
 		world 없다.
 	</c:if>
 	<!-- world 있다. -->
-	<p>${fn:indexOf(str1, 'world')}</p>
+	<p>${fn:indexOf(str1, 'world')}</p> 
 	<p>${fn:indexOf(str1, 'water')}</p>
 	<c:if test="${fn:indexOf(str1, 'world') > -1}">
 		world 있다.
