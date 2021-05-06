@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="student">
+	<!-- 값전달시 #{getter에서 get을 제외하고, 소문자로 시작하는 이름} OGNL방식 -->
+	<insert id="insertStudent" parameterType="student">
+		insert into
+			student (no, name, tel)
+		values(
+			seq_student_no.nextval,
+			#{name},
+			#{tel}
+		)
+	</insert>
+</mapper>
