@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6</title>
+</head>
+<body>
+    <h1>arrow function</h1>
+    <button onclick="foo();">foo</button>
+    <button onclick="console.log(koo(100));">koo</button>
+    <input type="text" id="userName" placeholder="이름...">
+    <script>
+        var foo = () => {
+            console.log("foo");
+        };
+        // var foo = function(){
+        //     console.log("foo");
+        // }
+        // var koo = (a) => {
+        //     return a * a;
+        //     console.log(a);
+        // };
+        // return절만 존재한다면, {return} 생략가능
+        var koo = (a) => a * a;
+        // 실행구문이 한줄인 경우도 {} 생략가능
+        // parameter가 하나라면 () 생략가능
+        var joo = x => alert(x);
+        var hoo = (a, b) => a + b;
+
+        // this를 가지지 않는다.
+        // this를 부모 context로부터 가져온다. 보통은 window를 가리킨다
+        // event 핸들러로 사용되는 경우, this는 event.target을 가리키지 않는다
+        document.querySelector("#userName").addEventListener("keyup", e => {
+            console.log(this);
+            console.log(e.target);
+        });
+
+        // 화살표 함수를 메소드로 사용하는 경우, this로 현재객체를 참조할 수 없다
+        // 메소드 단축표현식을 사용할 것
+        var obj = {
+            id = "abcde",
+            run = function(){
+                console.log(this.id); // abcde
+            },
+            fly: () => {
+                console.log(this.id);
+            },
+            walk(){
+                console.log(this.id);
+            }
+        }
+        obj.run();
+        obj.fly();
+        obj.walk();
+    </script>
+</body>
+</html>

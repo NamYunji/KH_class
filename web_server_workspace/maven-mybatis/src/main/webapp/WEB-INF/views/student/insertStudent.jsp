@@ -49,6 +49,30 @@ table#tbl-student tr:last-of-type td{text-align:center;}
 				</tr>
 			</table>
 		</form>
+		<hr />
+		<h2>회원등록(Map)</h2>
+		<form method="post" 
+			  action="${pageContext.request.contextPath}/student/insertStudentMap.do">
+			<table id="tbl-student">
+				<tr>
+					<th>학생이름</th>
+					<td>
+						<input type="text" name="name" required/>
+					</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td>
+						<input type="tel" name="tel" maxlength="11" required/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" value="등록" />
+					</td>
+				</tr>
+			</table>
+		</form>
 	</div>
 
 </body>

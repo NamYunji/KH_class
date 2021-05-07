@@ -40,6 +40,7 @@ public class DispatcherServlet extends HttpServlet {
 		String fileName = DispatcherServlet.class
 											.getResource("/url-command.properties") // 절대경로로 읽어옴
 											.getPath(); // 문자열을 읽어옴
+		// java reflection 
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (IOException e) {
