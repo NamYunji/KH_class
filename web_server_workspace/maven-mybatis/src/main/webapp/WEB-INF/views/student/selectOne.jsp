@@ -124,7 +124,6 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 				},
 				error: (xhr, statusText, err) => {
 					console.log(xhr, statusText, err);
-					console.
 				}
 			});
 		});
