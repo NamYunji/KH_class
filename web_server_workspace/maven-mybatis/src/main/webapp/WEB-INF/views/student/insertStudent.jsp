@@ -74,6 +74,5 @@ table#tbl-student tr:last-of-type td{text-align:center;}
 			</table>
 		</form>
 	</div>
-
 </body>
 </html>

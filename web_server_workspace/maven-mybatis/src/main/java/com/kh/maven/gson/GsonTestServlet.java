@@ -21,8 +21,10 @@ public class GsonTestServlet extends HttpServlet {
 		map.put("name", "gson maker");
 		map.put("server-time", System.currentTimeMillis());
 		map.put("num", 123456);
+		// 응답헤더 작성
 		response.setContentType("application/json; charset=utf-8");
 		Gson gson = new Gson();
+		// 첫번째 인자인 map을 자바객체로 변환해서 응답객체로 써라
 		gson.toJson(map, response.getWriter());
 		// {num: 123456, name: "gson maker", server-time: 1620287932359}
 	}

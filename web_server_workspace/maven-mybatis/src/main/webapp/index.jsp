@@ -32,6 +32,10 @@ $(() => {
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/student/insertStudent.do">/student/insertStudent.do</a></li>
 		<li><a href="${pageContext.request.contextPath}/student/selectOne.do">/student/selectOne.do</a></li>
+		<li><a href="${pageContext.request.contextPath}/student/selectList.do">/student/selectList.do</a></li>
 	</ul>
+	<h2>employee</h2>
+		<li><a href="${pageContext.request.contextPath}/emp/search1.do">/emp/search1.do</a></li>
+		<li><a href="${pageContext.request.contextPath}/emp/search2.do">/emp/search2.do</a></li>
 </body>
 </html>

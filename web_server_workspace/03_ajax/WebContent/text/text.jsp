@@ -87,22 +87,44 @@ $(btn1).click(function(){
 $(btn2).click(function(){
 	$.ajax({
 		url:"<%=request.getContextPath()%>/csv",
-
+		// method: "GET",
+		// 비동기요청은 어차피 백그라운드에서 호출되기 때문에 URL에 노출되지 않음 -> METHOD가 중요치 않음
+		// dataType: "text", 
+		// 응답메시지를 보고 dataType을 알아서 처리
 		success:function(data){
 			console.log(data);
+			/*
+			hwangj, 황제성, hwang.jpg
+			jjj, 쥴리아 로버츠, juliaRoberts.jpg
+			gone, 김고은, 김고은.jpg
+			dfpk, 다프트펑크, daftpunk.jpg
+			-> 필드 간에는 콤마, 멤버 객체 간에는 \n으로 구분되어 있음
+			--> 1) \n으로 쪼개면 회원 정보 하나씩
+			--> 2) 다시 ,로 쪼개면 각각 필드의 정보에 접근 가능
+			*/
 			var $table = $("<table></table>");
 			var members = data.split("\n");
 			members=members.slice(0, members.length-1);
 			console.log(members);
+			/*
+			0: "hwangj, 황제성, hwang.jpg\r"
+			1: "jjj, 쥴리아 로버츠, juliaRoberts.jpg\r"
+			2: "gone, 김고은, 김고은.jpg\r"
+			3: "dfpk, 다프트펑크, daftpunk.jpg\r"
+			4: ""
+			*/
 			
+			// $.each (제이쿼리의 순환함수)
 			$.each(members, function(index, member){
-				console.log(index,member);
-				var arr=member.split(",");
+				console.log(index, member);
+				// 0 "hwangj, 황제성, hwang.jpg\r"
+				// ...
+				var arr = member.split(","); 
 				
 				var tr = "<tr>";
-				tr+="<td>"+arr[0]+"</td>";
-				tr+="<td>"+arr[1]+"</td>";
-				tr+="<td><img src='<%= request.getContextPath()%>/images/"+arr[2]+"'/></td>";
+				tr+="<td>"+arr[0]+"</td>"; // 아이디
+				tr+="<td>"+arr[1]+"</td>"; // 이름
+				tr+="<td><img src='<%= request.getContextPath()%>/images/"+arr[2]+"'/></td>"; // 이미지 경로
 				tr+="</tr>";
 				$table.append(tr);
 			});

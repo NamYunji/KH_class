@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="emp">
+	<select id="selectAllEmp" resultType="map">
+	select
+		*
+	from
+		emp
+	order by
+		emp_id
+	</select>
+	<!--
+	${} 테이블명, 컬럼명의 식별자를 표현
+	#{} 데이터를 표현 -> 문자열이면 '문자열' 숫자형이면 숫자그대로, 날짜형이면 날짜형으로 바꿔줌 -->
+	<select id="search1" resultType="map">
+	select
+		*
+	from
+		emp
+	where
+		${searchType} like '%' || #{searchKeyword} || '%'
+	</select>
+	<select id="search2" resultType="map">
+	select *
+	from (
+		select
+			e.*,
+			decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender
+		from
+			emp e
+		) e
+	<!-- where태그 내부에 and/or가 먼저오면 제거, 
+		 where태그 몸통이 비어있다면 where키워드 자체를 제거 -->
+	<where>
+		<if test="gender != null and gender != ''">
+			gender = #{gender}
+		</if>
+		<if test="searchType != null and searchType != ''">
+		and
+			${searchType} like '%' || #{searchKeyword} || '%'
+		</if>
+	</where>
+	</select>
+</mapper>

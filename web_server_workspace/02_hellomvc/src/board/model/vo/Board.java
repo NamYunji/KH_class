@@ -92,4 +92,8 @@ public class Board {
 		return "Board [no=" + no + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
 				+ regDate + ", readCount=" + readCount + ", attach=" + attach + "]";
 	}
+
+
+	
+	
 }

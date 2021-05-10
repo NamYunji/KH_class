@@ -1,5 +1,6 @@
 package com.kh.mybatis.student.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -11,7 +12,10 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	// 인자로 vo 전달
 	public int insertStudent(SqlSession session, Student student) {
-		// statement : "namespace.queryTagId"
+		// insert(String statement, Object parameter)
+		// statement : "namespace.queryTagId" 쿼리를 찾는 key값
+		// mybatis-config에서 mapper파일을 등록해놨기 때문에, 
+		// mapper파일에 가서 student라는 namespace에서 insertStudent라는 태그의 아이디값을 찾음
 		return session.insert("student.insertStudent", student);
 	}
 
@@ -43,5 +47,25 @@ public class StudentDaoImpl implements StudentDao {
 		return session.selectOne("student.selectOneStudentMap", no);
 	}
 
+	@Override
+	public int updateStudent(SqlSession session, Student student) {
+		return session.update("student.updateStudent", student);
+	}
 
+	@Override
+	public int deleteStudent(SqlSession session, int no) {
+		return session.delete("student.deleteStudent", no);
+	}
+	/*
+	 * 조회된 행이 없는 경우, 빈 ArrayList객체가 리턴된다.
+	 */
+	@Override
+	public List<Student> selectStudentList(SqlSession session) {
+		return session.selectList("student.selectStudentList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectStudentMapList(SqlSession session) {
+		return session.selectList("student.selectStudentMapList");
+	}
 }

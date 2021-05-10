@@ -10,8 +10,10 @@ public class Student implements Serializable {
 	private int no;
 	private String name;
 	private String tel;
-	private Date regDate; // java.util.Date가 기본값, util.Date는 시분초정보도 주고받을 수 있음
-
+	private Date regDate; 
+	// 그동안은 java.sql.Date를 사용했었음
+	// Mybatis에서는 날짜형에서 java.util.Date가 기본값, util.Date는 시분초정보도 주고받을 수 있음
+	
 	public Student() {
 		super();
 	}

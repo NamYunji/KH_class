@@ -130,7 +130,6 @@ public class BoardEnrollServlet extends HttpServlet {
 		location += (result > 0) ?
 						"/board/boardView?no=" + board.getNo() : // 이때의 board는 boardNo가 있음
 							"/board/boardList";
-		
 		// 3. DML요청 : 리다이렉트 & 사용자피드백 (alert)
 		// /mvc/board/boardList
 		HttpSession session = request.getSession();
