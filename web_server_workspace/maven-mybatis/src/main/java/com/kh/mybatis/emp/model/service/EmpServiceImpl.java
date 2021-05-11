@@ -35,6 +35,30 @@ public class EmpServiceImpl implements EmpService {
 		session.close();
 		return list;
 	}
+
+	@Override
+	public List<Map<String, String>> selectJobList() {
+		SqlSession session = getSqlSession();
+		List<Map<String, String>> jobList = empDao.selectJobList(session);
+		session.close();
+		return jobList;
+	}
+
+	@Override
+	public List<Map<String, Object>> search3(Map<String, Object> param) {
+		SqlSession session = getSqlSession();
+		List<Map<String, Object>> list = empDao.search3(session, param);
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<Map<String, String>> selectDeptList() {
+		SqlSession session = getSqlSession();
+		List<Map<String, String>> deptList = empDao.selectDeptList(session);
+		session.close();
+		return deptList;
+	}
 	
 	
 }

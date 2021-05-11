@@ -41,6 +41,99 @@
 		and
 			${searchType} like '%' || #{searchKeyword} || '%'
 		</if>
+		<!--
+			CDATA Section태그
+			xml의 entity문자 (예약문자) < > & 등을 문자그대로 사용하고자 할 때 사용
+			<![CDATA[문자그대로 처리]]>
+		 -->
+		<if test="salary != null and salary != 0">
+			<if test="salaryCompare != null and salaryCompare != 0">
+				<choose>
+					<when test="salaryComapre == 'ge'">
+						and salary <![CDATA[>=]]> #{salary}
+					</when>
+					<when test="salaryComapre == 'le'">
+						and salary <![CDATA[<=]]> #{salary}
+					</when>
+				</choose>
+			</if>
+		</if>
+		<!-- 1. hire_date 문자열로 처리-->
+<!-- 		<if test="hire_date != null and hire_date != ''">
+			<if test="hiredateCompare != null and hiredateCompare != ''">
+				<choose>
+					<when test="hiredateCompare eq 'ge'">
+					 	and hire_date <![CDATA[>=]]> to_date(#{hire_date}, 'yyyy-mm-dd')
+					</when>
+					<when test="hiredateCompare eq 'le'">
+					 	and hire_date <![CDATA[<=]]> to_date(#{hire_date}, 'yyyy-mm-dd')
+					</when>
+				</choose>
+			</if>
+		</if> -->
+		<!-- 2. hireDate 날짜형으로 처리 -->
+		<if test="hireDate != null">
+			<if test="hiredateCompare != null and hiredateCompare != ''">
+				<choose>
+					<when test="hiredateCompare eq 'ge'">
+					 	and hire_date <![CDATA[>=]]> #{hireDate}
+					</when>
+					<when test="hiredateCompare eq 'le'">
+					 	and hire_date <![CDATA[<=]]> #{hireDate}
+					</when>
+				</choose>
+			</if>
+		</if>
 	</where>
+	</select>
+	<select id="selectJobList" resultType="map">
+	select
+		job_code "jobCode",
+		job_name "jobName"
+	from
+		job
+	</select>
+	<select id="selectDeptList" resultType="map">
+	select
+		dept_id "deptId",
+		dept_title "deptTitle"
+	from
+		dept
+	</select>
+	<select id="search3" resultType="map">
+		select
+			*
+		from (
+			select
+				e.*,
+				decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender,
+				d.dept_title,
+				j.job_name
+		from
+			emp e
+				left join dept d
+					on e.dept_code = d.dept_id
+				left join job j
+					on e.job_code = j.job_code
+			) e
+		<where>
+			<if test="jobCodeArr != null">
+			job_code in
+				<foreach 
+					collection="jobCodeArr" item="jobCode" 
+					open="(" close=")" separator=",">
+					#{jobCode}
+				</foreach>
+			</if>
+		<if test="deptIdList != null">
+			and nvl(dept_code, 'D0') in
+				<foreach
+					collection="deptIdList" item="deptId"
+					open="(" close=")" separator=",">
+					#{deptId}
+				</foreach>
+		</if>
+		</where>
+		
 	</select>
 </mapper>
