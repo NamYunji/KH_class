@@ -30,7 +30,10 @@ alert("${msg}");
 	<div id="student-container">
 		<h2>학생정보 검색</h2>
 		<p>총 학생수는 ${requestScope.total}명입니다.</p>
-		<!-- action생략시 현재 페이지로 다시 제출 , method생략시 GET -->
+		<!--
+			action속성 생략시 현재 페이지로 다시 제출, 
+			(maven-mybatis/student/selectOne.do)
+		  	method생략시 기본값 GET -->
 		<form>
 			<table class="tbl-student">
 				<tr>
@@ -114,13 +117,17 @@ alert("${msg}");
 		<script>
 		$(document.ajaxStudentSearchFrm).submit((e) => {
 			e.preventDefault(); // 폼제출방지
-			//화살표함수 안에서는 this가 event.target객체가 아니다.
+			// 화살표함수 안에서는 this가 event.target객체가 아니다.
+			// 두번째로 e.target을 써주면 현재 이벤트타겟(현재폼)을 가리킴
+			// "[name=no]", e.target -> 현재폼 하위에 있는 "[name=no]"를 찾아라
 			var no = $("[name=no]", e.target).val();
 			console.log(no);
 			
 			$.ajax({
 				url: "${pageContext.request.contextPath}/student/selectOneStudentMap.do",
-				data: {no}, // {no: 3}
+				data: {no}, // {no: no} -> {no: 3}
+				// success:function(data){
+				// (data) : 인자가 하나일때는 괄호 생략 가능
 				success: data => {
 					console.log(data);
 					
@@ -138,14 +145,13 @@ alert("${msg}");
 					}
 					
 				},
+				// error:function(xhr, status, error){
 				error: (xhr, statusText, err) => {
 					console.log(xhr, statusText, err);
 				}
 			});
 		});
 		</script>
-		
-		
 	</div>
 </body>
 </html>

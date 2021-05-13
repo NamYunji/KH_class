@@ -14,7 +14,7 @@
     <script>
         var foo = () => {
             console.log("foo");
-        };
+        }
         // var foo = function(){
         //     console.log("foo");
         // }
@@ -22,33 +22,40 @@
         //     return a * a;
         //     console.log(a);
         // };
-        // return절만 존재한다면, {return} 생략가능
+        // return절만 존재한다면, 바깥 블럭 {} 과 return 키워드 생략가능
         var koo = (a) => a * a;
         // 실행구문이 한줄인 경우도 {} 생략가능
         // parameter가 하나라면 () 생략가능
+        // var joo = (x) => {
+        //     alert(x);
+        // }
         var joo = x => alert(x);
         var hoo = (a, b) => a + b;
 
-        // this를 가지지 않는다.
+        // 화살표함수는 this를 가지지 않는다.
         // this를 부모 context로부터 가져온다. 보통은 window를 가리킨다
-        // event 핸들러로 사용되는 경우, this는 event.target을 가리키지 않는다
+        // 주의 : event 핸들러로 사용되는 경우, this는 event.target을 가리키지 않는다
         document.querySelector("#userName").addEventListener("keyup", e => {
             console.log(this);
             console.log(e.target);
         });
 
-        // 화살표 함수를 메소드로 사용하는 경우, this로 현재객체를 참조할 수 없다
-        // 메소드 단축표현식을 사용할 것
+        // 화살표 함수를 객체의 메소드로 사용하는 경우, this로 현재객체를 참조할 수 없다
+        // why? this가 현재객체가 아닌 window를 가리키기 때문
+        // 해결법 : 메소드 단축표현식을 사용할 것
         var obj = {
             id = "abcde",
-            run = function(){
+            // 익명함수 사용
+            run: function(){
                 console.log(this.id); // abcde
             },
+            // 화살표함수 사용
             fly: () => {
-                console.log(this.id);
+                console.log(this.id); // undefined
             },
+            // 메소드 단축표현식
             walk(){
-                console.log(this.id);
+                console.log(this.id); // abcde
             }
         }
         obj.run();

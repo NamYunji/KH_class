@@ -57,6 +57,8 @@ public class StudentServiceImpl implements StudentService {
 		return result;
 	}
 
+	// 단순 조회 -> 트랜잭션 처리 x -> try,catch 생략 가능
+	// but Controller에서의 try, catch는 무조건 필수
 	@Override
 	public int selectStudentCount() {
 		SqlSession session = getSqlSession();

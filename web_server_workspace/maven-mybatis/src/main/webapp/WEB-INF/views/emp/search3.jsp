@@ -130,7 +130,9 @@ table#tbl-search td {text-align:left;}
 		<c:forEach items="${list}" var="emp" varStatus="vs">
 		<tr>
 			<td>${vs.count}</td>
-			<td>${emp['EMP_ID']}</td>
+			<td>
+				<a href="${pageContext.request.contextPath}/emp/updateEmp.do?empId=${emp['EMP_ID']}">${emp['EMP_ID']}</a>
+			</td>
 			<td>${emp['EMP_NAME']}</td>
 			<td>${fn:substring(emp['EMP_NO'], 0, 8)}******</td>
 			<td>${emp['GENDER']}</td>

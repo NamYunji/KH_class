@@ -26,11 +26,11 @@ public class SelectOneStudentMapController extends AbstractController {
 		System.out.println("student@controller = " + student);
 		// 3. json문자열로 변환후 응답메세지에 출력
 		response.setContentType("application/json; charset=utf-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-		gson.toJson(student, response.getWriter());
-		
-		// 응답메시지에 json문자열을 직접 출력
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create(); // Date형식 설정
+		gson.toJson(student, response.getWriter()); // response.getWriter() - 응답메시지에 json문자열을 직접 출력
+
 		return null;
+		// DispatcherServlet의 viewName에 null이 담김
+		// -> jsp forwarding되지 않음
 	}
-	
 }

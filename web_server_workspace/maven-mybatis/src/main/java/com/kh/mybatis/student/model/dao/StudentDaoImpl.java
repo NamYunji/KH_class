@@ -29,6 +29,7 @@ public class StudentDaoImpl implements StudentDao {
 	public int selectStudentCount(SqlSession session) {
 		// 단순 조회 -> 두번째 인자는 없음
 		// 한 행을 리턴하는데 그 결과값이 int
+		// 한 행만 리턴되는 쿼리의 경우, selectOne(), 여러행을 리턴하는 쿼리의 경우 selectList()
 		return session.selectOne("student.selectStudentCount");
 	}
 	
