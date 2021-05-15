@@ -4,8 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <!-- namespace - 여러개의 mapper클래스들을 구분하는 구분자
  	  namespace로부터 태그들을 찾아들어가게 됨 -->
-<mapper namespace="student">
-<!-- =============================[회원등록 (Vo)]============================= -->
+<mapper namespace="student"> 
 	<!-- 추가할 쿼리의 키워드를 태그로 만들고, 그 ID값과 속성 지정
 		 parameterType="" 어떤 타입의 파라미터를 전달하는지 -->
 	<!-- vo객체  : 값전달시 #{getter에서 get을 제외하고, 소문자로 시작하는 이름} OGNL방식
@@ -150,7 +149,7 @@
 		<result column="tel" property="tel"/> 
 		<result column="reg_date" property="regDate"/>
 	</resultMap>
-<!-- =============================[회원조회 (Map)]============================= -->
+<!-- =============================[회원수정]============================= -->
 	<update id="updateStudent">
 		update
 			student
@@ -160,12 +159,14 @@
 		where
 			no = #{no}
 	</update>
+<!-- =============================[회원삭제]============================= -->
 	<delete id="deleteStudent">
 		delete from
 			student
 		where
 			no = #{no}
 	</delete>
+<!-- =============================[전체회원조회 (List)]============================= -->
 	<!-- 여러행이라도 resultType은 한 행의 타입을 적음 -->
 	<!-- mybatis-config에 mapUnderscoreToCamelcase 설정했기 때문에, reg_date -> regDate로 잘 담김 -->
 	<select id="selectStudentList" resultType="student">
@@ -176,8 +177,13 @@
 		order by
 			no desc
 	</select>
+<!-- =============================[전체회원조회 (MapList)]============================= -->
 	<!-- <select id="selectStudentMapList" resultType="map"> -->
+	<!-- resultType이 map의 경우, db컬럼명을 대문자로 처리됨
+		 cf. mapUnderscoreToCamelcase 설정은 vo에 한해서 처리됨 -->
 	<!-- mapList@controller = [{NO=23, REG_DATE=2021-05-07 18:07:15.0, TEL=01011111111, NAME=히히} ... ] -->
+	<!-- [해결법1.] alias 사용 -->
+	<!-- [해결법2.] resultMap 사용-->
 	<select id="selectStudentMapList" resultMap="studentMap">
 	<!-- mapList@controller = [{no=23, name=히히, regDate=2021-05-07 18:07:15.0, tel=01011111111} ... ] -->
 		select

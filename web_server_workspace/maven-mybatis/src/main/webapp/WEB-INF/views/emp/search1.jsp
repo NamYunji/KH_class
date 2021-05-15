@@ -91,6 +91,5 @@ div#search-container{
 		</c:if>
 	</table>
 </div>
-
 </body>
 </html>

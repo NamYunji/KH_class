@@ -19,6 +19,7 @@ public class UpdateStudentController extends AbstractController {
 	@Override
 	public String doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// 리다이렉트할 때 no를 보낼 수 있도록 try절 밖으로 빼줌
 		int no = 0;
 		try {
 			// 1. 사용자 입력값 처리
@@ -31,6 +32,7 @@ public class UpdateStudentController extends AbstractController {
 			student.setTel(tel);
 			System.out.println("student@controller = " + student);
 			// 2. 업무로직
+			// result로 몇개의 행이 수정되었는지 넘어옴
 			int result = studentService.updateStudent(student);
 			if(result == 0)
 				throw new NoMatchingStudentException(String.valueOf(no));

@@ -33,4 +33,4 @@ public class DeleteStudentController extends AbstractController {
 		}
 		return "redirect:/student/selectOne.do";
 	}
-}
+} 

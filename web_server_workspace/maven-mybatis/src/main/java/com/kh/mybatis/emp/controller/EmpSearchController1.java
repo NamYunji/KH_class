@@ -24,7 +24,7 @@ public class EmpSearchController1 extends AbstractController {
 			// 검색어 처리
 			String searchType = request.getParameter("searchType");
 			String searchKeyword = request.getParameter("searchKeyword");
-			
+			// 전달할 값이 searchType, searchKeyword 두개이므로 하나로 만들기 위해 map에 담아둠
 			Map<String, Object> param = new HashMap<>();
 			param.put("searchType", searchType);
 			param.put("searchKeyword", searchKeyword);
@@ -35,8 +35,10 @@ public class EmpSearchController1 extends AbstractController {
 			// kh.employee테이블의 모든 행 조회
 			List<Map<String, Object>> list = null;
 			if(searchType == null || searchKeyword == null)
+				// searchType이나 searchKeyword가 null일 경우에만 전체직원 조회
 				list = empService.selectAllEmp();
 			else
+				// 검색조건이 있다면 search1호출
 				list = empService.search1(param);
 			
 			System.out.println("list@controller = " + list);
