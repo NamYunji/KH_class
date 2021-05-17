@@ -2,22 +2,39 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<!-- 기본 namespace는 beans -->
-	
+	<!-- 
+		xmlns="http://www.springframework.org/schema/beans
+		-> 기본 namespace는 beans
+		-> namespace로 아무것도 선택하지 않아도 기본값이기 때문에 beans가 들어옴
+		-> beans namespace의 태그들을 쓸 수 있다는 의미!
+	-->
 	<!-- 
 		bean 등록
+		(스프링에게 관리해달라고 bean을 등록하는 과정)
 		id속성 : bean 이름 (고유값)
-		 		 보통은 클래스명을 소문자로 시작하게 바꿔서 아이디로 사용
-		class속성 : bean의 타입 
-		scope : singletone(기본값) | prototype | request
-		lazy-init : default(기본값) | true
+		 		보통은 소문자로 시작하는 클래스명을 아이디로 사용
+		class속성 : bean의 타입 (클래스의 경우, 풀네임으로)
+		scope : (객체 생성 개수와 관련)
+				singletone(기본값) | prototype | request | session
+				singletone) 하나의 객체로 운영됨.
+				prototype) 요청(getBean)할 때마다 새로 객체 생성
+				request) 하나의 요청마다 하나의 객체 생성
+				session) 하나의 세션마다 하나의 객체 생성
+		lazy-init : (객체 생성 시기와 관련)
+					default(기본값) | true
+					deafult) 호출 전에 미리 만들어둠
+					true) 처음에 만들지 않고 달라는 요청이 들어왔을 때 객체를 생성함
 		property[name=remocon] <- setRemocon 
 		constructor-arg <- 파라미터 생성자를 이용해서 객체생성 (ref필수) 
 		 -->
 	<bean id="lgTv" class="com.kh.spring.tv.model.vo.LgTv" scope="prototype"> 
+		<!-- name속성 : setter에서 set을 제외한 나머지 이름
+			 ref속성 : 구현객체 bean의 id와 동일하게 작성 -->
 		<!-- <property name="remocon" ref="lgRemocon"/> -->
 		<constructor-arg ref="lgRemocon"/>
 	</bean>
+	<!-- 의존객체를 가져오기 위한 bean.
+		 class로는 인터페이스를 적는 게 아니라, 실제 구현객체를 적음 -->
 	<bean id="lgRemocon" class="com.kh.spring.tv.model.vo.LgRemoteControl"/>
 	
 	<bean id="samsungTv" class="com.kh.spring.tv.model.vo.SamsungTv" lazy-init="true">
