@@ -1,17 +1,28 @@
 package com.kh.spring.demo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.demo.model.service.DemoService;
+import com.kh.spring.demo.model.validator.DevValidator;
 import com.kh.spring.demo.model.vo.Dev;
 
 /**
@@ -47,6 +58,7 @@ import com.kh.spring.demo.model.vo.Dev;
 *
 */
 @Controller
+@RequestMapping("/demo")
 public class DemoController {
 	
 	/**
@@ -59,7 +71,7 @@ public class DemoController {
 	
 	// 사용자 요청을 처리하는 handler
 	// handler로 사용하기 위해서는 rquestMapping 어노테이션 반드시 필요
-	@RequestMapping("/demo/devForm.do")
+	@RequestMapping("/devForm.do")
 	public String devForm() {
 		log.info("/demo/devForm.do 요청!"); // INFO : com.kh.spring.demo.controller.DemoController - /demo/devForm.do 요청!
 		System.out.println("demo/devForm.do 요청!"); // demo/devForm.do 요청!
@@ -67,7 +79,7 @@ public class DemoController {
 		return "demo/devForm";
 	}
 	
-	@RequestMapping("/demo/dev1.do")
+	@RequestMapping("/dev1.do")
 	public String dev1(HttpServletRequest request, HttpServletResponse response) {
 		//1. 사용자 입력값 처리
 		String name = request.getParameter("name");
@@ -91,18 +103,10 @@ public class DemoController {
 	 * name값과 일치하는 매개변수에 전달.
 	 * 1. name값(userName)이 매개변수(name)와 일치하지 않는다면, name="userName" 지정
 	 * 	(name속성값이 매개변수명보다 우선순위가 높음)
-	 * 
 	 * 2. required="true" (기본값) 사용자가 선택적으로 입력하는 필드는 false로 명시할 것
 	 * 3. defaultValue를 지정한 경우, 값이 없거나, 형변환 오류가 발생해도 기본값으로 정상처리된다.
-	 * @param name
-	 * @param career
-	 * @param email
-	 * @param gender
-	 * @param lang
-	 * @param model
-	 * @return
 	 */
-	@RequestMapping("/demo/dev2.do")
+	@RequestMapping("/dev2.do")
 	public String dev2(
 			// @RequestParam(name="userName") String name,
 			@RequestParam String name,
@@ -119,10 +123,82 @@ public class DemoController {
 		
 		// jsp에 위임
 		model.addAttribute("dev", dev); // jsp에서 scope="request"에 저장되어 있음.
+		// request.setAttribute()와 같은 효과
 		return "demo/devResult";
 		
-		// 기본값을 지젖아혀 해결 가능
+		// 기본값을 지정해야 해결 가능
 		// 값이 없거나 문제가 생기면 기본값은 1
 		// WARN : org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: ""]
 	}
+	
+	/**
+	 * 매개변수 Dev객체를 command객체라고 부름
+	 * cf. command pattern : 하나씩 짝지어주는 패턴
+	 *     ex. ctrl + c -> copy, ctrl + v -> paste, ctrl + x -> cut
+	 * 	   이걸 누르면 이걸 실행해라 -> mapping 하나씩 찾아서 연결시킨 것
+	 * 	   이걸 command pattern이라고 부름
+	 * 
+	 * Dev의 구조
+	 * int no
+	 * String name
+	 * int career
+	 * String email
+	 * String[] lang
+	 * 
+	 * 이번 요청은 form을 제출했는데,
+	 * name = 홍길동
+	 * career = 10
+	 * email = hgd@naver.com
+	 * lang = java & lang = python
+	 * 
+	 * 동일한 이름을 가진 필드에 홍길동은 name필드, 10은 career필드 이렇게 각각의 값을 짝지어줌
+	 * -> command 객체
+	 * 
+	 * @ModelAttribute 모델에 등록된 속성을 가져오는 애노테이션
+	 * Dev객체는 handler도착 전에 model에 등록되어 있음을 의미
+	 * command객체 앞 @ModelAttributes는 생략이 가능하다
+	 * 
+	 * @Valid 커맨드객체 유효성 검사용
+	 * Error, BindingResult : Command객체에 저장결과, Command객체 바로 다음 위치 시킬것
+	 */
+	@RequestMapping(value = "/dev3.do", method = {RequestMethod.POST})
+	public String dev3(Dev dev) {
+	// public String dev3(@ModelAttribute Dev dev) {
+		log.info("dev = {}", dev);
+		return "demo/devResult";
+	}
+	
+	@RequestMapping(value = "/dev4.do", method = RequestMethod.POST)
+	public String dev4(@Valid Dev dev, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			String errors = "";
+			List<ObjectError> errorList = bindingResult.getAllErrors();
+			for(ObjectError err : errorList) {
+				errors += "{" + err.getCode() + ":" + err.getDefaultMessage() + "} ";
+			}
+			throw new IllegalArgumentException(errors);
+		}
+		
+		return "demo/devResult";
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.setValidator(new DevValidator());
+	}
+	
+	@RequestMapping(value = "insertDev.do", method = RequestMethod.POST)
+	public String insertDev(@ModelAttribute Dev dev, RedirectAttributes redirectAttr) {
+		log.info("dev = {}", dev);
+		
+		// 1. 업무로직
+		int result = demoService.insertDev(dev);
+		
+		
+		// 2. 사용자 피드백 & 리다이렉트
+		
+		return "redirect:/demo/devForm.do";
+	}
+	
 }
