@@ -192,13 +192,29 @@ public class DemoController {
 	public String insertDev(@ModelAttribute Dev dev, RedirectAttributes redirectAttr) {
 		log.info("dev = {}", dev);
 		
-		// 1. 업무로직
-		int result = demoService.insertDev(dev);
-		
-		
-		// 2. 사용자 피드백 & 리다이렉트
-		
-		return "redirect:/demo/devForm.do";
+		try {
+			// 1. 업무로직
+			int result = demoService.insertDev(dev);
+			
+			// 2. 사용자 피드백 & 리다이렉트
+			// session scope에 저장 후 한번 쓰고 지워주는 기능까지 처리해줌
+			redirectAttr.addFlashAttribute("msg", "dev 등록 성공!");
+		} catch(Exception e) {
+			log.error("dev 등록 오류!", e);
+			throw e;
+		}
+		return "redirect:/demo/devList.do";
+	}
+	
+	@RequestMapping(value = "/devList.do", method = RequestMethod.GET)
+	public String devList(Model model) {
+		//1. 업무로직
+		List<Dev> list = demoService.selectDevList();
+		log.info("list = {}", list);
+		log.info("1234567890");		
+		//2. jsp위임
+		model.addAttribute("list", list);
+		return "demo/devList";
 	}
 	
 }

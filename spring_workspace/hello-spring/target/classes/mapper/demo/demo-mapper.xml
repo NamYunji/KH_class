@@ -15,4 +15,18 @@
 			#{lang}
 		)
 	</insert>
+	
+	<select id="selectDevList" resultMap="devVoMap">
+		select
+			*
+		from
+			dev
+		order by
+			no desc
+	</select>
+	
+	<!-- typehandler 생략가능 : @MappedTypes, @MappedJdbcType 어노테이션을 지정한 경우 -->
+	<resultMap type="dev" id="devVoMap">
+		<result column="lang" property="lang" typeHandler="stringArrayTypeHandler"/>
+	</resultMap>
 </mapper>
