@@ -22,8 +22,12 @@ public class EmpSearchController3 extends AbstractController {
 	public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			//1. 사용자입력값
+			// 사용자가 복수개를 선택할 수 있으므로 배열로 처리
+			// + 복수개이므로 getParameterValues사용
 			String[] jobCodeArr = request.getParameterValues("jobCode");
 			String[] deptIdArr = request.getParameterValues("deptId");
+			// 꼭 배열이어야만 하는 건 아님, 반복 접근할 수 있다면 다 가능(arr, map, list, set)
+			// list로 바꿔서 해보기
 			List<String> deptIdList = null;
 			if(deptIdArr != null)
 				deptIdList = Arrays.asList(deptIdArr);
@@ -36,14 +40,15 @@ public class EmpSearchController3 extends AbstractController {
 			
 			
 			//2. 업무로직
-			//jobList조회(job_code, job_name)
+			// checkbox제공을 위한 jobList조회(job_code, job_name)
 			List<Map<String, String>> jobList = empService.selectJobList();
 			System.out.println("jobList@controller = " + jobList);
 
-			//deptList조회(dept_code, dept_title)
+			// deptList조회(dept_code, dept_title)
 			List<Map<String, String>> deptList = empService.selectDeptList();
 			System.out.println("deptList@controller = " + deptList);
 			
+			// 검색에 따른 조회
 			List<Map<String, Object>> list = empService.search3(param);
 			System.out.println("list@controller = " + list);
 

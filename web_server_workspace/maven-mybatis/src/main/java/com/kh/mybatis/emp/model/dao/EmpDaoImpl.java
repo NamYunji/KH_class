@@ -36,8 +36,6 @@ public class EmpDaoImpl implements EmpDao {
 	public List<Map<String, String>> selectDeptList(SqlSession session) {
 		return session.selectList("emp.selectDeptList");
 	}
-	
-	
 }
 
 

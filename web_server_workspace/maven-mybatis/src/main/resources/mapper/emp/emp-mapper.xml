@@ -13,6 +13,7 @@
 	order by
 		emp_id
 	</select>
+<!-- =============================[검색에 따른 직원조회 (1)]=========================== -->
 	<!--
 	${} 테이블명, 컬럼명의 식별자를 표현
 	#{} 데이터를 표현 -> 문자열이면 '문자열' 숫자형이면 숫자그대로, 날짜형이면 날짜형으로 바꿔줌
@@ -34,6 +35,7 @@
 	where
 		${searchType} like '%' || #{searchKeyword} || '%'
 	</select>
+<!-- =============================[검색에 따른 직원조회 (2)]=========================== -->
 	<select id="search2" resultType="map">
 	select *
 	from (
@@ -43,23 +45,47 @@
 		from
 			emp e
 		) e
-	<!-- where태그 내부에 and/or가 먼저오면 제거, 
-		 where태그 몸통이 비어있다면 where키워드 자체를 제거 -->
+	<!-- 
+		사용자가 검색조건을 설정하지 않은 경우, 단순히 where절을 쓰면 쿼리에 오류가 생김 
+		-> mybatis용 if, choose>when 태그 이용해서 조건을 걸어주기
+		-> 조건식이 true일 때만 쿼리에 출력됨
+	-->
+	<!--
+		1) 아무 조건도 주지 않고 검색하면, 쿼리에 오류가 생김
+		why? where키워드만 덩그러니 있고, where절 안의 내용이 없기 때문 
+		ex. select ~ from ~ where;
+		2) gender를 설정하지 않고 서치타입, 키워드만 설정하면, 쿼리에 오류가 생김
+		why? gender부분이 없기 때문에 and부터 시작함
+		ex. ~ where and emp_name like %동%;
+		-> mybatis용 where태그 이용
+		[where 태그]
+		1) where태그 몸통이 비어있다면 where키워드 자체를 제거
+		2) where태그 내부에 and/or가 먼저오면 제거
+		-> 
+		1) where절에 아무것도 해당되지 않으면 전체조회됨  
+		2) 검색조건에 따라 검색 가능
+	-->
 	<where>
+		<!-- ========== 성별 부분 ==========-->
 		<if test="gender != null and gender != ''">
 			gender = #{gender}
 		</if>
+		<!-- ========== 서치타입, 키워드 부분 ========== -->
 		<if test="searchType != null and searchType != ''">
 		and
 			${searchType} like '%' || #{searchKeyword} || '%'
 		</if>
+		<!-- ========== 급여 부분 ========== -->
 		<!--
-			CDATA Section태그
-			xml의 entity문자 (예약문자) < > & 등을 문자그대로 사용하고자 할 때 사용
-			<![CDATA[문자그대로 처리]]>
+			<, >, & : 예약문자
+			ex. < : 그냥 쓴다면 태그의 시작으로 이해함
+			[CDATA Section태그]
+			xml의 entity문자 (예약문자)등을 문자그대로 사용하고자 할 때 사용 (escaping 처리)
+			사용방법 : <![CDATA[문자그대로 처리]]>
 		 -->
 		<if test="salary != null and salary != 0">
 			<if test="salaryCompare != null and salaryCompare != 0">
+			<!-- choose태그>whem태그를 이용한 분기처리 -->
 				<choose>
 					<when test="salaryComapre == 'ge'">
 						and salary <![CDATA[>=]]> #{salary}
@@ -70,8 +96,12 @@
 				</choose>
 			</if>
 		</if>
-		<!-- 1. hire_date 문자열로 처리-->
-<!-- 		<if test="hire_date != null and hire_date != ''">
+		<!-- ========== 입사일 부분 ========== -->
+		<!-- 1. hire_date 문자열로 처리 -->
+		<!-- ex. and hire_date >= '2020-01-01' 
+			자동형변환이 되긴 하지만, 명시적으로 to_date()함수 써주기 -->
+		<!-- 		
+		<if test="hire_date != null and hire_date != ''">
 			<if test="hiredateCompare != null and hiredateCompare != ''">
 				<choose>
 					<when test="hiredateCompare eq 'ge'">
@@ -82,8 +112,12 @@
 					</when>
 				</choose>
 			</if>
-		</if> -->
+		</if>
+		-->
 		<!-- 2. hireDate 날짜형으로 처리 -->
+		<!-- hireDate가 애초에 날짜형으로 넘어옴
+			-> 형변환처리를 하지 않고, 날짜형과 날짜형을 직접적으로 비교 가능 -->
+		<!-- 문자형이 아니기 때문에 if절에서  hire_date != '' 검사하면 오류 -->
 		<if test="hireDate != null">
 			<if test="hiredateCompare != null and hiredateCompare != ''">
 				<choose>
@@ -98,6 +132,9 @@
 		</if>
 	</where>
 	</select>
+<!-- =============================[검색에 따른 직원조회 (2)]=========================== -->
+	<!-- ========== [jobList 조회] ========== -->
+	<!-- map의 key값으로 쓰기 위해 camel casing처리 -->
 	<select id="selectJobList" resultType="map">
 	select
 		job_code "jobCode",
@@ -105,6 +142,8 @@
 	from
 		job
 	</select>
+
+	<!-- ========== [deptList 조회] ========== -->
 	<select id="selectDeptList" resultType="map">
 	select
 		dept_id "deptId",
@@ -112,6 +151,8 @@
 	from
 		dept
 	</select>
+	<!-- ========== [검색에 따른 조회] ========== -->
+	<!-- job_name, dept_title이 필요하므로 join해줌 -->
 	<select id="search3" resultType="map">
 		select
 			*
@@ -129,6 +170,21 @@
 					on e.job_code = j.job_code
 			) e
 		<where>
+			<!-- ========== 직급 부분 ========== -->
+			<!-- 
+				1. 아무 직급도 선택하지 않은 경우
+				-> if태그를 통해 jobCodeArr이 null이 아닌 경우에만 실행
+				-> where키워드가 덩그러니 남지 않도록 where태그 사용
+				2. 검색 조건에 따른 처리
+				[foreach 태그]
+				collection속성 : 순회할 요소
+				item속성 : jobCodeArr의 요소를 꺼내서 담아줄 변수명
+				open속성 : 무엇으로 시작할지
+				close속성 : 무엇으로 끝낼지
+				seperator속성 : 데이터간 구분자
+				몸통부분 : (item속성의 속성값과 동일) 변수이름
+				-> ex. job_code in ('J1','J2','J3' ) 
+			 -->
 			<if test="jobCodeArr != null">
 			job_code in
 				<foreach 
@@ -137,6 +193,7 @@
 					#{jobCode}
 				</foreach>
 			</if>
+		<!-- ========== 부서 부분 ========== -->
 		<if test="deptIdList != null">
 			and nvl(dept_code, 'D0') in
 				<foreach
@@ -146,6 +203,5 @@
 				</foreach>
 		</if>
 		</where>
-		
 	</select>
 </mapper>

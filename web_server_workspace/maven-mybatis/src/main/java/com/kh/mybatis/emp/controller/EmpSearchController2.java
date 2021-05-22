@@ -53,7 +53,6 @@ public class EmpSearchController2 extends AbstractController {
 			param.put("hiredateCompare", hiredateCompare);			
 			System.out.println("param@controller = " + param);
 			
-			
 			// 2. 업무로직
 			// kh.employee테이블의 모든 행 조회
 			List<Map<String, Object>> list = empService.search2(param);

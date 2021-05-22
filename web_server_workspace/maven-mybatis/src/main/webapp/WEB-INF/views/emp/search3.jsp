@@ -6,8 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
-	//사용자 요청값(String[])을 contains메소드사용을 위해 List로 변환.
-	String[] jobCodeArr = request.getParameterValues("jobCode");
+	// 사용자 요청값(String[])을 contains메소드사용을 위해 List로 변환.
+	String[] jobCodeArr  = request.getParameterValues("jobCode");
 	List<String> jobCodeList = 
 				jobCodeArr != null ? 
 						Arrays.asList(jobCodeArr) : 
@@ -70,7 +70,6 @@ table#tbl-search td {text-align:left;}
 				</tr>
 				<!-- @실습문제 : 부서 조회(직급조회와 모두 일치하는 사원) 
 					input:checkbox+label 는 3개마다 개행할 것.
-					
 					(심화)인턴사원(D0)도 조회될 수 있도록 할것.
 				-->
 				<tr>
@@ -88,7 +87,6 @@ table#tbl-search td {text-align:left;}
 						<label for="D0">인턴</label>
 					</td>
 				</tr>
-							
 				<tr>
 					<th colspan="2">
 						<input type="submit" id="btn-search" value="검색"  />
