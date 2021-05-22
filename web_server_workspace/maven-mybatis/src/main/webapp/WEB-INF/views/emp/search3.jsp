@@ -145,7 +145,7 @@ table#tbl-search td {text-align:left;}
 			<td><fmt:formatDate value="${emp['HIRE_DATE']}" pattern="yyyy/MM/dd"/></td>
 			<td>${emp['QUIT_YN']}</td>
 		</tr>
-		</c:forEach>
+		</c:forEach> 
 		</c:if>
 		
 	</table>

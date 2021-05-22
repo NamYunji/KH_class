@@ -17,4 +17,8 @@ public interface EmpService {
 
 	List<Map<String, String>> selectDeptList();
 
+	Map<String, Object> selectOneEmp(String empId);
+
+	int updateEmp(Map<String, String> param);
+
 }

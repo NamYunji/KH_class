@@ -132,7 +132,7 @@
 		</if>
 	</where>
 	</select>
-<!-- =============================[검색에 따른 직원조회 (2)]=========================== -->
+<!-- =============================[검색에 따른 직원조회 (3)]=========================== -->
 	<!-- ========== [jobList 조회] ========== -->
 	<!-- map의 key값으로 쓰기 위해 camel casing처리 -->
 	<select id="selectJobList" resultType="map">
@@ -194,6 +194,11 @@
 				</foreach>
 			</if>
 		<!-- ========== 부서 부분 ========== -->
+		<!-- 
+			인턴처리
+			인턴 : dept_code가 null 
+			null은 비교연산 불가 -> null이라면 특정값으로 바꿔서 처리해야 함 
+			-->
 		<if test="deptIdList != null">
 			and nvl(dept_code, 'D0') in
 				<foreach
@@ -204,4 +209,75 @@
 		</if>
 		</where>
 	</select>
+<!-- =============================[직원  정보 수정]=========================== -->
+	<!-- ========== 직원 정보 가져오기 ========== -->
+	<!-- 
+		부서코드, 직급코드를 부서명, 직급명으로 가져오기
+		스칼라 서브쿼리 사용
+		메인쿼리의 값을 가져다가 그 값과 일치하는 부서의 부서명을 가져오기
+	-->
+	<select id="selectOneEmp" resultType="map">
+		select
+			e.*,
+			(select dept_title from dept where dept_id = e.dept_code) dept_title,
+			(select job_name from job where job_code = e.job_code) job_name
+		from
+			emp e
+		where
+			emp_id = #{empId}
+	</select>
+	<!-- ========== 직원 정보 수정 ========== -->
+	<!--
+		하나만 수정할 수도 있음
+		ex. job_code만 수정한다면
+		1) 빈문자열로 수정되지 못하도록 처리
+		update emp set job_code = 'J1', dept_code = '' where emp_id = 222;
+		-> 원래 있던 dept_code가 빈 문자열로 바뀌어버림
+		-> if태그 사용 - 각각이 null이거나 빈문자열일 때는 실행되지 않도록
+		2) 콤마 처리
+		update emp set job_code = 'J1', where emp_id = 222;
+		-> 이때는 또 콤마 때문에 오류가 생김
+		-> set태그 사용
+		[set 태그]
+		1. 동적으로 set키워드를 붙임
+		2. 필요없는 콤마 제거
+		cf. update의 set구문은 필수이기 때문에 set 태그 안이 모두 비어있을 수는 없음
+			-> jsp에서는 둘 다 선택하지 않았을 때는 preventDefault - 폼제출 방지 처리한 것!
+	 -->
+	<!--
+	<update id="updateEmp">
+	update
+		emp
+	<set>
+		<if test="jobCode != null and jobCode != ''">
+		job_code = #{jobCode},
+		</if>
+		<if test="deptCode != null and deptCode != ''">
+		dept_code = #{deptCode}
+		</if>
+	</set> 
+	where
+		emp_id = #{empId}
+	</update>
+	-->
+	<!-- 
+		[trim 태그]
+		where태그나 set태그를 대체하여 사용 가능
+		prefix속성 : 어떤 태그를 사용할지
+		suffixOverride속성 : 어떤 접미어를 제거할지
+	 -->
+	<update id="updateEmp">
+	update
+		emp
+	<trim prefix="set" suffixOverrides=",">
+		<if test="jobCode != null and jobCode != ''">
+		job_code = #{jobCode},
+		</if>
+		<if test="deptCode != null and deptCode != ''">
+		dept_code = #{deptCode}
+		</if>
+	</trim>
+	where
+		emp_id = #{empId}
+	</update>
 </mapper>
