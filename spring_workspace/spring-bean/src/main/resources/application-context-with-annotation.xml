@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- beans태그에 xmlns:context가 추가됨 -> context namespace를 사용할 수 있는 문서가 됨 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -6,9 +7,13 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 
-		base-package 하위의 클래스들의 어노테이션을 처리 
-		- @Componenet : 해당클래스를 bean등록
-		- @Autowired : 의존주입 DI처리 (필드, SETTER, 생성자 레벨에서 사용)
+		componenet-scan : base-package 하위의 모든 클래스를 스캔(검사)함
+		-> base-package 하위의 클래스들의 어노테이션을 처리 
+		어노테이션은 각각의 역할을 함. 그 각각의 처리를 할 수 있도록 스캔을 해줘야 함
+		어노테이션의 종류
+		- @Componenet : 해당클래스를 bean으로 등록
+		- @Autowired(자동연결) : 의존주입 DI처리 (필드, SETTER, 생성자 레벨에서 사용)
+		- ...
 		-->
 	<context:component-scan base-package="com.kh.spring"/>
 </beans>

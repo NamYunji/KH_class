@@ -82,7 +82,7 @@ div#demo-container{
 <script>
 function submitDev(id){
 	var $devFrm = $("#devFrm");
-	$devFrm
+	$devFrm 
 		.attr("action", `${pageContext.request.contextPath}/demo/\${id}.do`)
 		.attr("method", "POST")
 		.submit();

@@ -2,8 +2,9 @@ package com.kh.spring.user.service;
 
 import org.springframework.stereotype.Component;
 
-@Component
-public class UserServiceImple implements UserService {
+// 주의 : 인터페이스가 아닌 실제 구현클래스에 component 어노테이션 등록
+@Component // bean으로 등록
+public class UserServiceImpl implements UserService {
 
 	@Override
 	public void getUserDetail(String id) {

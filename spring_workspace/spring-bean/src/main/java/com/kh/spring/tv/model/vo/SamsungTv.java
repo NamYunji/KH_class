@@ -3,8 +3,8 @@ package com.kh.spring.tv.model.vo;
 public class SamsungTv implements Tv {
 	
 	private RemoteControl remocon;
-
-	public void setRemocon() {
+	
+	public void setRemocon(RemoteControl remocon) {
 		System.out.println("setRemocon : " + remocon);
 		this.remocon = remocon;
 	}
