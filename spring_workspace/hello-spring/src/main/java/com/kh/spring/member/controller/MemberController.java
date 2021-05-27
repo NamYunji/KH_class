@@ -128,6 +128,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	
 	/**
 	 * @SessionAttributes를 통해서 등록한 session속성은
 	 * SessionStatus객체에 대해서 사용완료(complete) 처리해야 한다.
