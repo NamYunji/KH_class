@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j // log기능을 이용할 수 있는 어노테이션 (lombok)
 @RequestMapping("/member")
-@SessionAttributes({"loginMember"}) // 여러개 적을수 있음
+@SessionAttributes({"loginMember", "next"}) // 여러개 적을수 있음
 public class MemberController {
 
 	// 클래스레벨에 @Slf4j 어노테이션으로 사용
@@ -99,12 +101,27 @@ public class MemberController {
 	}
 	
 	@GetMapping("/memberLogin.do")
-	public void memberLogin() {}
+	// @RequestHeader를 통해 Referer를 가져옴, referer가 없는 경우를 대비해 required는 false로 설정
+	public void memberLogin
+		(
+			@RequestHeader(name= "Referer", required = false)
+			String referer, Model model
+		) {
+		log.info("referer = {}", referer);
+		// dev목록에서 로그인 시
+		// INFO : com.kh.spring.member.controller.MemberController - referer = http://localhost:9090/spring/demo/devList.do
+		// url로 직접접근 시
+		// INFO : com.kh.spring.member.controller.MemberController - referer = null
+		if(referer != null)
+		model.addAttribute("next", referer); // sessionScope에 저장
+		
+	}
 	
 	@PostMapping("/memberLogin.do")
 	public String memberLogin(
 			@RequestParam String id, 
 			@RequestParam String password, 
+			@SessionAttribute(required = false) String next,// 세션에 있는 속성을 가져오는 어노테이션
 			Model model, 
 			RedirectAttributes redirectAttr
 		) {
@@ -125,7 +142,10 @@ public class MemberController {
 			// 로그인 실패
 			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀립니다.");
 		}
-		return "redirect:/";
+		// 사용한 next값은 제거
+		model.addAttribute("next", null);
+		// return "redirect:/";
+		return "redirect:" + (next != null? next : "/");
 	}
 	
 	
