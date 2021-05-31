@@ -49,4 +49,25 @@ xmlns:~~~="" - 그 외의 namespace -->
 		base-package 하위의 어노테이션을 검색/처리
 		@Component, @Autowired, @Controller, @Service, @Required, @Autowired ... -->
 	<context:component-scan base-package="com.kh.spring" />
+	<!-- #9. interceptor 등록 -->
+	<interceptors>
+		<interceptor>
+			<!-- 어떤 요청에 interceptor를 사용할지
+				 /** : 모든 요청 -->
+			<mapping path="/**"/>
+			<!-- 어떤 bean을 사용할지 bean 등록 -->
+			<beans:bean 
+				id="LoggerInterceptor" 
+				class="com.kh.spring.common.interceptor.LoggerInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- /member/로 시작하는 모든 것에 적용하되 -->
+			<mapping path="/member/**"/>
+			<!-- /member/memberLogin.do는 제외하라
+				why? 로그인하기도 전에 return false하면 안되니까 -->
+			<exclude-mapping path="/member/memberLogin.do"/>
+			<exclude-mapping path="/member/memberEnroll.do"/>
+			<beans:bean id="LoginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>

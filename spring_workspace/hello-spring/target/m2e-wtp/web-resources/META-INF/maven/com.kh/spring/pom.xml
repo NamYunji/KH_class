@@ -83,7 +83,9 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!-- scope가 runtime이면 실행시에만 사용하겠다는 의미,
+				 기본값인 compile로 변경 : compile할 때부터 실행시까지 모두 사용하겠다는 의미 -->
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- @Inject -->
@@ -199,7 +201,15 @@
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-test</artifactId>
         <version>${org.springframework.security-version}</version>		
-    </dependency>		
+    </dependency>	
+    
+    <!-- #10.query와 resultSet을 logging할 수 있는 log4jdbc-remix 라이브러리추가 -->
+		<!-- https://mvnrepository.com/artifact/org.lazyluke/log4jdbc-remix/0.2.7 -->
+	<dependency>
+		<groupId>org.lazyluke</groupId>
+		<artifactId>log4jdbc-remix</artifactId>
+		<version>0.2.7</version>
+	</dependency>	
 	</dependencies>
 
     <build>

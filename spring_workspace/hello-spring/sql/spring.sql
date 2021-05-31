@@ -50,3 +50,12 @@ select * from dev;
 		*
 	from
 		member;
+    update
+        member
+    set
+        password = '$2a$10$LXOrjw.8isc.QyntuaUFL.MnLXsCiYkIo6ULNLxG.dLZv.0TS0mnu'
+    where
+        id = 'abcde';
+    
+    commit;
+        
