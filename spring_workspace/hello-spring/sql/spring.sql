@@ -49,7 +49,9 @@ select * from dev;
 	select
 		*
 	from
-		member;
+		member
+    where
+        id = 'honggd';
     update
         member
     set
@@ -58,4 +60,17 @@ select * from dev;
         id = 'abcde';
     
     commit;
+    
+    select * from member
+    where id like 'honggd';
+    
+--memo 테이블 생성
+create table memo(
+    no number,
+    memo varchar2(2000),
+    reg_date date default sysdate,
+    constraint pk_memo_no primary key(no)
+);
+
+create sequence seq_memo_no;
         
