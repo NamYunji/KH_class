@@ -6,9 +6,11 @@ xmlns:~~~="" - 그 외의 namespace -->
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	<!-- 기본 namespace는 mvc이다. (기본 namespace는 beans가 아님)-->
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -63,11 +65,57 @@ xmlns:~~~="" - 그 외의 namespace -->
 		<interceptor>
 			<!-- /member/로 시작하는 모든 것에 적용하되 -->
 			<mapping path="/member/**"/>
+			<mapping path="/board/**"/>
 			<!-- /member/memberLogin.do는 제외하라
 				why? 로그인하기도 전에 return false하면 안되니까 -->
 			<exclude-mapping path="/member/memberLogin.do"/>
 			<exclude-mapping path="/member/memberEnroll.do"/>
+			<exclude-mapping path="/board/boardList.do"/>
 			<beans:bean id="LoginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
+	
+	<!-- #11.1 aop 관련 -->
+	<!-- xml방식 -->
+	<!-- bean등록 : 만들어둔 aspect 클래스를 등록함 -->
+<!-- 	
+	<beans:bean id="loggerAspect" class="com.kh.spring.common.aop.LoggerAspect"/>
+	해당 bean을 aop 보조업무로 사용할 것임을 선언
+	<aop:config>
+		bean을 가져다 aspect로 등록
+		ref로 위에 만들어둔 bean의 id를 연결
+		<aop:aspect id="loggerAspect" ref="loggerAspect">
+			pointCut설정 : advice를 어떤 조인포인트에 사용할 것인가에 대한 표현식
+			expression에 메소드 시그니쳐를 적어줌
+				 리턴타입 * : 아무거나
+				 패키지.클래스명.메소드명(매개변수)
+				 (..) : 매개변수가 뭐가됐든지간에
+				 .. : memo하위 어떤 패키지 어떤 클래스 하위의 insertMemo메소드
+				 
+			<aop:pointcut expression="execution(* com.kh.spring.memo..insertMemo(..))" id="loggerPointcut"/>
+			그 안의 logger 메소드를 가져와서 around로 사용하겠다!
+			pointcut-ref로 pointcut태그의 id를 연결
+			<aop:around method="logger" pointcut-ref="loggerPointcut"></aop:around>
+		</aop:aspect>
+	</aop:config> 
+	-->
+	<!-- annotation 방식 -->
+	<!-- aop:aspectj-autoproxy 태그 
+		 aop관련 annotation을 등록
+		 root-context의 aop설정을 servlet-context에 적용
+		 root-context에 aop관련 설정이 있다면, servlet-context에 가져와서 적용 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- #12.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->
+	<!-- 실제 업로드를 처리할 bean 객체 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
+		<!--
+			multipart/form-data 요청당 최대 파일 크기는 50MB(50 * 1024 * 1024)이다. 
+			default: -1(제한없음)-->
+		<beans:property name="maxUploadSize" value="52428800" /> 
+		<!-- 파일하나당 최대용량은 10MB(10 * 1024 * 1024)이다. 기본값: -1(제한없음) -->
+		<beans:property name="maxUploadSizePerFile" value="10485760" /> 
+		<!-- 메모리 사용최대용량. 기본값 10240(10KB). 이값을 넘어가면, 내부적으로 임시파일로 저장함. -->
+		<beans:property name="maxInMemorySize" value="10240" /> 
+	</beans:bean>
 </beans:beans>

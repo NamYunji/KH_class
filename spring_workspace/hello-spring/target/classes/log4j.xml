@@ -59,25 +59,6 @@
 			<param name="ConversionPattern" value="%-5p:[%d{ISO8601}] %F:%L - %m%n"/>
 		</layout>
 	</appender>
-	
-	<!-- #10.2.log4jdbc-remix 로그 출력 appender 추가 -->
-	<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %m%n" />
-		</layout>
-	</appender>
-    <!-- #10.3.log4jdbc-remix 관련 logger 시작 -->
-    <!-- additivity : 부모 logger로 전파 여부 (기본값 : true) -->
-	<!-- Query Loggers  -->
-	<logger name="jdbc.sqlonly" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="sqlLogger"/>
-	</logger>
-	<logger name="jdbc.resultsettable" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="sqlLogger"/>
-	</logger>
-	
 	<!--
 		logging message 수집용
 		패키지를 적으면 해당 패키지 이하의 로깅메시지를 모두 수집

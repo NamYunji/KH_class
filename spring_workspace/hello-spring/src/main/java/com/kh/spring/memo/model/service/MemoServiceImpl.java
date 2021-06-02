@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.memo.model.dao.MemoDao;
 import com.kh.spring.memo.model.vo.Memo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MemoServiceImpl implements MemoService {
 
 	@Autowired
@@ -21,6 +24,8 @@ public class MemoServiceImpl implements MemoService {
 
 	@Override
 	public List<Memo> selectMemoList() {
+		log.debug("memoDao = {}", memoDao.getClass());
+		// memoDao = class com.sun.proxy.$Proxy39
 		return memoDao.selectMemoList();
 	}
 }
