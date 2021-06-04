@@ -122,7 +122,7 @@ public class BoardController {
 				
 				// 파일명 변경
 				String renamedFilename 
-					= HelloSpringUtils.getRenamedFileName(upFile.getOriginalFilename());
+					= HelloSpringUtils.getRenamedFilename(upFile.getOriginalFilename());
 				
 				// a. 서버컴퓨터에 저장
 				// file 객체 생성(부모디렉토리, 파일명)
@@ -131,8 +131,8 @@ public class BoardController {
 				
 				// b. 저장된 데이터를 Attachment객체에 저장 및 list에 추가
 				Attachment attach = new Attachment();
-				attach.setOriginalFileName(upFile.getOriginalFilename());
-				attach.setRenamedFileName(renamedFilename);
+				attach.setOriginalFilename(upFile.getOriginalFilename());
+				attach.setRenamedFilename(renamedFilename);
 				// attachList에 차곡차곡 담기
 				attachList.add(attach);
 			}
@@ -156,7 +156,9 @@ public class BoardController {
 			log.error("게시글 등록 오류!", e);
 			throw e;
 		}
-		return "redirect:/board/boardList.do";
+		// 상세보기 페이지로 이동
+		// 이동시 등록한 board의 고유번호를 함께 가지고 감
+		return "redirect:/board/boardDetail.do?no=" + board.getNo();
 		
 //		for(MultipartFile upFile : upFiles) {
 //			log.debug("upFile = {}", upFile); // upFile = org.springframework.web.multipart.commons.CommonsMultipartFile@29d679e6
@@ -164,6 +166,10 @@ public class BoardController {
 //			log.debug("upFile.size = {}", upFile.getSize()); // upFile.size = 106833
 //			log.debug("-------------------------------------");
 //		}
+	}
+	
+	@GetMapping("/boardDetail.do")
+	public void selectOneBoard(@RequestParam int no, Model model) {
 	}
 }
 	

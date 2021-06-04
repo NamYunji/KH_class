@@ -9,6 +9,9 @@
 <style>
 /*글쓰기버튼*/
 input#btn-add{float:right; margin: 0 0 15px;}
+tr[data-no]{
+	cursor : pointer;
+}
 </style>
 <script>
 function goBoardForm(){
@@ -27,7 +30,7 @@ function goBoardForm(){
 			<th>조회수</th>
 		</tr>
 		<c:forEach items="${list}" var="board">
-		<tr>
+		<tr data-no="${board.no}">
 			<td>${board.no}</td>
 			<td>${board.title}</td>
 			<td>${board.memberId}</td>

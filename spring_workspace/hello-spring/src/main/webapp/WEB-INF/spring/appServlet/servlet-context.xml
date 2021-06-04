@@ -75,7 +75,7 @@ xmlns:~~~="" - 그 외의 namespace -->
 		</interceptor>
 	</interceptors>
 	
-	<!-- #11.1 aop 관련 -->
+	<!-- #11.1 aop 관련 (트랜잭션 포함) -->
 	<!-- xml방식 -->
 	<!-- bean등록 : 만들어둔 aspect 클래스를 등록함 -->
 <!-- 	
@@ -103,7 +103,8 @@ xmlns:~~~="" - 그 외의 namespace -->
 	<!-- aop:aspectj-autoproxy 태그 
 		 aop관련 annotation을 등록
 		 root-context의 aop설정을 servlet-context에 적용
-		 root-context에 aop관련 설정이 있다면, servlet-context에 가져와서 적용 -->
+		 root-context에 aop관련 설정이 있다면, servlet-context에 가져와서 적용
+		 이 aop설정에 트랜잭션 처리도 포함됨 -->
 	<aop:aspectj-autoproxy/>
 	
 	<!-- #12.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->

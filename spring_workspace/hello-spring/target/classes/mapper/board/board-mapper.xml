@@ -25,8 +25,7 @@
 	from
 		board
 </select>
-<!-- =========
-========= 게시글 추가 ================== -->
+<!-- ================== 게시글 추가 ================== -->
 <insert id="insertBoard">
 	insert into
 		board(
@@ -41,6 +40,22 @@
 		#{memberId},
 		#{content}
 	)
+	<!-- 
+		insertBooard에서 발급받은 no를 가져와야 함
+		insert태그 안에 selectKey태그로 예비로 하나 더 실행할 수 있는 쿼리 작성 가능
+	 -->
+	 <!--
+	 	keyProperty - 발급받은 board pk no값을
+	 			이번 insert태그에 전달된 parameter board객체의 
+	 			no property(필드)에 저장한다
+	 	resultType - 어떤 타입이 리턴될지,
+	 	order : after - insert태그를 실행 후에 가져온다 -->
+	 <selectKey keyProperty="no" resultType="_int" order="AFTER">
+	 	select
+	 		seq_board_no.currval
+	 	from
+	 		dual
+	 </selectKey>
 </insert>
 <!-- ================== 첨부파일 추가 ================== -->
 <insert id="insertAttachment">
@@ -53,7 +68,7 @@
 		)
 	values(
 		seq_attachment_no.nextval,
-		#{boardNo}
+		#{boardNo},
 		#{originalFilename},
 		#{renamedFilename}		
 	)

@@ -12,7 +12,7 @@ public class HelloSpringUtils {
 	 * -> beginIndex : 4
 	 * -> ext : .jpg
 	 */
-	public static String getRenamedFileName(String originalFilename) {
+	public static String getRenamedFilename(String originalFilename) {
 		// 1. 확장자 추출
 		// 확장자 시작 인덱스
 		int beginIndex = originalFilename.lastIndexOf(".");

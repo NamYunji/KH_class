@@ -13,8 +13,8 @@ public class Attachment {
 
 	private int no;
 	private int boardNo;
-	private String originalFileName;
-	private String renamedFileName;
+	private String originalFilename;
+	private String renamedFilename;
 	private Date uploadDate;
 	private int downloadCount;
 	private boolean status; // status --- 'Y', 'N'

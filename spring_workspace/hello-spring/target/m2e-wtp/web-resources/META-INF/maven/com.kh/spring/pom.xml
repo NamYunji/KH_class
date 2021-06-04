@@ -36,7 +36,9 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 				
-		<!-- #11. aop처리를 위한 aspectjweaver 추가하기 -->
+		<!-- #11. aop처리를 위한 aspectjweaver 추가하기
+			 #13. 트랜잭션 처리에 필요한 의존
+			 -> aspect advice를 만들지 않더라도 트랜잭션은 필요하므로 이 의존 꼭 추가해두기! -->
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
