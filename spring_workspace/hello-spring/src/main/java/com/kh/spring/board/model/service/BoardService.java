@@ -19,4 +19,10 @@ public interface BoardService {
 	
 	int insertAttachment(Attachment attach);
 
+	BoardExt selectOneBoard(int no);
+
+	BoardExt selectOneBoardCollection(int no);
+
+	Attachment selectOneAttachment(int no);
+
 }

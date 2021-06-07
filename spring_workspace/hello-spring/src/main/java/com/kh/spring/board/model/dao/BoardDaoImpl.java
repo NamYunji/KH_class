@@ -50,5 +50,25 @@ public class BoardDaoImpl implements BoardDao {
 	public int insertAttachment(Attachment attach) {
 		return session.insert("board.insertAttachment", attach);
 	}
-	
+
+	@Override
+	public BoardExt selectOneBoard(int no) {
+		return session.selectOne("board.selectOneBoard", no);
+	}
+
+	@Override
+	public List<Attachment> selectAttachList(int boardNo) {
+		return session.selectList("board.selectAttachList", boardNo);
+	}
+
+	@Override
+	public BoardExt selectOneBoardCollection(int no) {
+		// 중요 : selectOne으로 하기!
+		return session.selectOne("board.selectOneBoardCollection", no);
+	}
+
+	@Override
+	public Attachment selectOneAttachment(int no) {
+		return session.selectOne("board.selectOneAttachment", no);
+	}	
 }

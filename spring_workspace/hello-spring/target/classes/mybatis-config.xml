@@ -15,6 +15,7 @@
 </typeAliases>
 <typeHandlers>
 	<!-- <typeHandler handler="com.kh.spring.common.typehandler.StringArrayTypeHandler"/> -->
+	<typeHandler handler="com.kh.spring.common.typehandler.BooleanYnTypeHandler" javaType="boolean" jdbcType="CHAR"/>
 	<package name="com.kh.spring.common.typehandler"/>
 </typeHandlers>
 </configuration>

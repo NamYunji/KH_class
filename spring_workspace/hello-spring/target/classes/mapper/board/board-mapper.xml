@@ -73,4 +73,79 @@
 		#{renamedFilename}		
 	)
 </insert>
+<!-- ================== 게시글 조회 (상세보기) ================== -->
+<select id="selectOneBoard" resultMap="boardExtMap">
+	select
+		*
+	from
+		board
+	where
+		no = #{no}
+</select>
+<!-- ================== 첨부파일 조회 (상세보기) ================== -->
+<select id="selectAttachList" resultMap="attachVoMap">
+	select
+		*
+	from
+		attachment
+	where
+		board_no = #{boardNo}
+</select>
+<resultMap type="attachment" id="attachVoMap">
+	<!-- status의 'Y', 'N' (charType)을 boolean으로 변환해줘야 함 -->
+	<result column="status" property="status" typeHandler="booleanYnTypeHandler"/>
+	<!-- <result column="status" property="status" javaType="_boolean" jdbcType="CHAR"/>	 -->
+</resultMap>
+<!-- ================== [조인] 게시글, 첨부파일 조회 (상세보기) ================== -->
+<!-- board의 pk(no)를 통한 조회 -->
+<!-- b의 no와 column명이 같은 것을 구분짓기 위해 a를 바꿔줌 -->
+<select id="selectOneBoardCollection" resultMap="boardCollectionMap">
+	select
+		b.*, 
+		a.no "attach_no",
+		a.board_no, 
+		a.original_filename, 
+		a.renamed_filename, 
+		a.upload_date, 
+		a.download_count,
+		a.status
+	from
+		board b
+	left join
+		attachment a
+			on b.no = a.board_no
+	where
+		b.no = #{no}
+</select>
+<resultMap type="boardExt" id="boardCollectionMap">
+	<!-- collection태그 사용할 때는 생략없이 모든 컬럼을 매칭시켜야 한다. -->
+	<!-- 공통된 컬럼들 -->
+ 	<id column="no" property="no"/>
+ 	<result column="member_id" property="memberId"/>
+ 	<result column="title" property="title"/>
+ 	<result column="content" property="content"/>
+ 	<result column="reg_date" property="regDate"/>
+ 	<result column="read_count" property="readCount"/>
+ 	<!-- 행마다 달라지는 컬럼들 : list로 모여질 attachment에 대한 부분들 -->
+ 	<!-- property : vo클래스의 필드명, ofType : 실제 타입 -->
+ 	<collection property="attachList" ofType="attachment">
+ 		<id column="attach_no" property="no"/>
+ 		<result column="board_no" property="boardNo"/>
+ 		<result column="original_filename" property="originalFilename"/>
+ 		<result column="renamed_filename" property="renamedFilename"/>
+ 		<result column="upload_date" property="uploadDate"/>
+ 		<result column="download_count" property="downloadCount"/>
+ 		<result column="stauts" property="stauts" typeHandler="booleanYnTypeHandler"/>
+ 	</collection>
+</resultMap>
+<!-- ================== 첨부파일 조회 (다운로드) ================== -->
+<!-- attachment의 pk(no)를 통한 조회 -->
+<select id="selectOneAttachment" resultMap="attachVoMap">
+	select
+		*
+	from
+		attachment
+	where
+		no = #{no}
+</select>
 </mapper>

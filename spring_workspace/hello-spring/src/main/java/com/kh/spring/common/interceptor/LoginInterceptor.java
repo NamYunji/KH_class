@@ -46,10 +46,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			manager.saveOutputFlashMap(flashMap, request, response);
 			
 			// 로그인 후 최종이동할 url을 session속성 next로 저장
-			String url = request.getRequestURL().toString();
 			// getRequestURL() - http로 시작하는 값이 들어옴
-			// //http://localhost:9090/spring/member/memberDetail.do
-			session.setAttribute("next", url);
+			// http://localhost:9090/spring/board/boardDetail.do?no=60&q=abc
+			// requestURL은 물음표 앞의 부분까지만 가져올 수 있음
+			String url = request.getRequestURL().toString(); // http://localhost:9090/spring/board/boardDetail.do
+			// queryString으로 물음표 뒤의 부분 가져오기
+			String queryString = request.getQueryString(); // no=60&q=abc
+			session.setAttribute("next", url + "?" + queryString);
 			
 			// 로그인 페이지로 이동
 			response.sendRedirect(request.getContextPath() + "/member/memberLogin.do");

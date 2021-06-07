@@ -17,6 +17,21 @@ tr[data-no]{
 function goBoardForm(){
 	location.href = "${pageContext.request.contextPath}/board/boardForm.do";
 }
+
+$(() => {
+	$("tr[data-no]").click(e => {
+		// 화살표 함수안에서는 this가 이벤트 타겟객체(e.targer)가 아니다.
+		// 기본적으로는 윈도를 가리킴
+		// e.targer으로 접근해야 하는데, e.target이 tr태그가 아니라 클릭한 td태그를 가리킴
+		// 실제 클릭이 일어난 건 td태그, 이벤트가 부모(tr)로 전파된 것! - bubbling
+		console.log(e.target);
+		// tr에 적혀있는 data-no를 가져오기
+		var $tr = $(e.target).parent();
+		var no = $tr.data("no");
+
+		location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
+	});
+});
 </script>
 <section id="board-container" class="container">
 	<input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success" onclick="goBoardForm();"/>

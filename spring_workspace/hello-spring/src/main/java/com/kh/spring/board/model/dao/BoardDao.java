@@ -19,4 +19,12 @@ public interface BoardDao {
 
 	int insertAttachment(Attachment attach);
 
+	BoardExt selectOneBoard(int no);
+
+	List<Attachment> selectAttachList(int no);
+
+	BoardExt selectOneBoardCollection(int no);
+
+	Attachment selectOneAttachment(int no);
+
 }

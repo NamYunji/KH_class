@@ -40,6 +40,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	
+    <servlet>
+        <servlet-name>CaptchaServlet</servlet-name>
+        <servlet-class>zzetc.captcha.CaptchaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>CaptchaServlet</servlet-name>
+      <url-pattern>/captcha</url-pattern>
+   </servlet-mapping>
+	
 	<!-- post방식 인코딩 설정 UTF-8 필터 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
