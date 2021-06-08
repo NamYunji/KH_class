@@ -1,0 +1,83 @@
+/* 보드 전체 */
+.board-container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.nav-container {
+    width: 1154px;
+}
+
+.nav-li {
+    width: 100%;
+    margin: 10px;
+    height: 50px;
+    line-height: 35px;
+}
+.notice-nav {
+    background-color: rgb(182, 144, 166);
+}
+
+.notice-nav:hover {
+    background-color: rgb(185, 137, 164);
+}
+
+.fan-board-nav {
+    background-color: rgb(226, 226, 226);
+}
+.fan-board-nav:hover {
+    background-color: rgb(175, 174, 174);
+}
+.nav-link  {
+    color: black;
+    text-align: center;
+}
+
+.nav-link:hover{
+    color: white;
+}
+
+/* 테이블 */
+.title {
+    text-align: left;
+}
+
+.title:hover {
+    cursor : pointer;
+}
+
+tr {
+    text-align: center;
+}
+
+tr:hover {
+    background-color: rgb(240, 234, 240);
+}
+
+.table {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* 페이징바 */
+.paging-bar {
+    margin: 20px;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.page-link {
+    color: rgb(39, 37, 39);
+}
+
+.page-link:hover {
+    color: rgb(124, 85, 116);
+}
+
+/* 글쓰기 버튼 */
+.enroll-btn {
+    text-align: right;
+
+}

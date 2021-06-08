@@ -1,0 +1,88 @@
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<!-- bootstrap js: jquery load 이후에 작성할것.-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- bootstrap css -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<!-- 사용자작성 css -->
+<link rel="stylesheet" href="css/fanBoardNoticeList.css" />
+
+<div class="board-container">
+  <!-- 공지사항, 팬게시판 nav -->
+  <div class="nav-container">
+  <ul class="nav">
+      <li class="nav-li notice-nav col-5">
+        <a class="nav-link" href="#">공지사항</a>
+      </li>
+      <li class="nav-li fan-board-nav col-5">
+        <a class="nav-link" href="#">팬게시판</a>
+      </li>
+    </ul>
+  </div>
+  <!-- 글쓰기 버튼 -->
+  <div class="enroll-btn">
+  <button type="button" class="btn btn-outline-secondary">글쓰기</button>
+  </div>
+  <!-- 공지사항 list 테이블 -->
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col" class="col-1">번호</th>
+        <th scope="col" class="col-6">제목</th>
+        <th scope="col" class="col-2">작성자</th>
+        <th scope="col" class="col-2">날짜</th>
+        <th scope="col" class="col-1">조회수</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td class="title">Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td class="title">Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td class="title">Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+        <td>@mdo</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- 페이징 바 -->
+  <div class="paging-bar">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

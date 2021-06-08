@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6 - destructuring assignment</title>
+</head>
+<body>
+    <h1>구조분해할당 destructuring assignment</h1>
+    <h2>배열 구조분해할당</h2>
+    배열 안의 요소를 쉽게 변수에 할당
+    <button onclick="koo()">실행</button>
+    <script>
+        function koo(){
+            // 1. 배열안의 요소를 각각 변수에 대입하려면?
+            const arr = [1,2,3,4,5];
+            const a = arr[0];
+            const b = arr[1];
+            const c = arr[2];
+            const d = arr[3];
+            const e = arr[4];
+            console.log(a,b,c,d,e); // 1 2 3 4 5
+            
+            // 구조분해할당 이용
+            const [k,f,x,y,z] = arr;
+            // 이렇게만 해두면 각각의 변수에 각 인덱스값이 담김
+            console.log(k,f,x,y,z); // 1 2 3 4 5
+
+            // 0번지부터 n번지까지 선택해서 담을 수도 있음
+            // (but 건너뛰고 담을 수는 없음)
+            const [g,h] = arr;
+            console.log(g,h); // 1 2
+
+            // 건너뛰고 싶다면 콤마로 건너뛰기
+            let[,,xoo] = [1,2,3];
+            console.log(xoo); // 3
+
+            // 5번지에 해당하는 m의 값이 없다면?
+            // 오류가 나지 않고 undefined가 담김
+            // const [k,f,x,y,z,m] = arr;
+            // console.log(k,f,x,y,z,m); // 1 2 3 4 5 undefined
+
+            // 해당자리의 값이 undefined인 경우 : 기본값 지정 가능
+            // 할당된 값이 없다면, 기본값을 사용하라
+            // 할당된 값이 있는 경우는 기본값이 무시됨
+            // const [k = 11111,f,x,y,z,m = 123] = arr;
+            // console.log(k,f,x,y,z,m); // 1 2 3 4 5 123
+
+            // 2. 값교환을 하고 싶다면? 
+            // ex. n에 20, i에 10을 넣고 싶다면?
+            // let n = 10, i = 20;
+            // let temp = n;
+            // n = i;
+            // i = temp;
+            // console.log(n, i); // 20 10
+
+            // 구조분해할당 이용
+            let n = 10, i = 20;
+            [n, i] = [i, n];
+            console.log(n, i); // 20 10
+
+            // 3. 나머지 파라미터 rest parameter
+            // 원하는 만큼만 가져오고 나머지는 배열로 담아둘 수 있음
+            const [j, l, ...rest] = ['홍길동', '신사임당', '윤봉준', '세종대왕', '유관순'];
+            console.log(j, l, rest); // 홍길동 신사임당 (3) ["윤봉준", "세종대왕", "유관순"]
+            // j, l자리 이후의 값들은 rest에 배열형태로 담겨있음
+
+            // 함수 호출되는 순간 바로 변수에 담기기 때문에 따로 꺼내는 작업 불필요
+            foo(['x', 'y', 'z']);
+            function foo([v, w, ...rest]){
+                console.log("v = ", v); // v =  x
+                console.log("w = ", w); // w =  y
+                console.log("rest = ", rest); // rest =  ["z"]
+            }
+        }
+    </script>
+
+    <h2>객체 구조분해할당</h2>
+    객체 안의 요소를 쉽게 변수에 할당
+    <button onclick="zoo();">실행</button>
+    <script>
+        function zoo(){
+            // user 객체
+            const user = {
+                id : 'honggd',
+                name : '홍길동',
+                items : {
+                    weapon : 'k2',
+                    car : {
+                        name : '소나타',
+                        color : 'black'
+                    },
+                    phone : {
+                        number : '01012341234'
+                    }
+                },
+                hobby : ['축구', '당구', '볼링']
+            }
+            // user안의 number를 가져오려면?
+            console.log(user.items.phone.number); // 01012341234
+
+            // 객체구조분해할당 이용
+            // user객체 다음 레벨의 해당 요소들을 찾아서 변수로 만들어줌
+            // cf. user의 바로 다음 레벨(자식속성)에만 접근 가능
+            const {id, name, hobby} = user; 
+            // -> 꺼내쓸 때는 .으로 접근하지 않아도 변수 자체로 꺼내쓰기
+            console.log(id, name, hobby); // honggd 홍길동 (3) ["축구", "당구", "볼링"]
+
+            // 속성안의 속성 가져오기 (user객체의 자식의 자식)
+            const {items:{weapon}} = user; 
+            console.log(weapon); // k2
+
+            // 속성안의 속성안의 속성 가져오기
+            const {items:{phone:{number}}} = user; 
+            console.log(number); // 01012341234
+            // 이때 item과 phone은 찾아들어갈 때 이용한 것 뿐 변수로 선언된 건 아님
+            // console.log(items); // items is not defined
+            // console.log(phone); // phone is not defined
+
+            // 할당된 변수명 바꾸기
+            // const {id} = user; // id라는 변수가 자동 생성된 상태
+            const {id: userId} = user; // 새로운 변수명 부여
+            console.log(userId); // honggd - 접근할 때도 새로 부여한 변수명으로 접근해야 함
+
+            // 기본값
+            // profile이라는 속성이 없는 상태 -> undefined
+            // const {profile} = user;
+            // console.log(profile); // undefined
+            // 기본값을 할당할 수 있음
+            const {profile = 'default.jpg'} = user;
+            console.log(profile); // default.jpg
+
+            // 함수 호출했을 때 객체가 전달되는 경우라면 유용함
+            (function printUserHobby({name, hobby, favoriteFood = '떡볶이', ...rest}){
+                console.log(hobby, name, favoriteFood, rest); // 앞서 뽑아낸 속성들 제외하고 나머지가 객체로 전달됨
+            })(user);
+        }
+</script>
+</body>
+</html>

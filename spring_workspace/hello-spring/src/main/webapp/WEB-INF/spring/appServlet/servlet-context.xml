@@ -70,7 +70,9 @@ xmlns:~~~="" - 그 외의 namespace -->
 				why? 로그인하기도 전에 return false하면 안되니까 -->
 			<exclude-mapping path="/member/memberLogin.do"/>
 			<exclude-mapping path="/member/memberEnroll.do"/>
+			<exclude-mapping path="/member/checkIdDuplicate*.do"/>
 			<exclude-mapping path="/board/boardList.do"/>
+			<exclude-mapping path="/board/searchTitle.do"/>
 			<beans:bean id="LoginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
@@ -119,4 +121,37 @@ xmlns:~~~="" - 그 외의 namespace -->
 		<!-- 메모리 사용최대용량. 기본값 10240(10KB). 이값을 넘어가면, 내부적으로 임시파일로 저장함. -->
 		<beans:property name="maxInMemorySize" value="10240" /> 
 	</beans:bean>
+	
+	<!-- #14.1 jsonView Bean 및 viewResolver 등록 -->
+	<!-- 요청한 viewName과 실제bean이름을 매핑해주는 BeanNameViewResolver를 사용함. -->
+    <!-- bean아이디는 viewResolver로 반드시 지정. 처리순서를 1로 우선처리되도록함. -->
+    <!-- viewResolver라는 빈을 하나 더 등록함
+    	 BeanNameViewResolver : 요청한 빈 name과 실제 빈이 있다면 연결해주는 역할
+    	 				-> ex. return "jsonView" - jsonView 빈이 있나? 찾아서 - 그 빈에 응답작성을 위임
+    	 InternalResourceViewResolver - 리턴한 String을 가져와서 jsp를 찾아줌 /WEB-INF/views + String + .jsp
+    	  -->
+    <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    	<!--
+    		value를 1로 해서 internalResourceResolver보다 우선권을 가짐.
+    		순서1. 리턴된 이름으로 빈이 있나 확인 (jsonView bean)
+    		순서2. 빈이 없으면 jsp를 찾음 (/WEB-INF/views/jsonView.jsp)
+    		 -->
+        <beans:property name="order" value="1"/>
+    </beans:bean> 
+    <!-- jsonView 등록 --> 
+	<beans:bean 
+		id="jsonView" 
+		class="net.sf.json.spring.web.servlet.view.JsonView">
+		<beans:property name="contentType" value="application/json;charset=UTF-8" />
+	</beans:bean>	
+	
+	<!-- #15.1 @Responsebody사용을 위한 의존 : 빈등록 (스프링 5.x => MappingJackson2HttpMessageConverter) -->
+	<!-- messageConverter : 
+			client로부터 server로 요청이 들어오거나, client로 응답을 할 때, 
+			messageConverter를 통해 json데이터를 java객체로 상호변환
+			(handler에서 요청이 json으로 날아오면 바꿔서 자바객체로 변환
+			 handler에서 요청을 java객체로 처리하면 다시 json으로 바꿔서 응답으로 실어줌 -->
+	<beans:bean 
+		id="jacksonMessageConverter" 
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 </beans:beans>

@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -297,5 +301,81 @@ public class MemberController {
 			throw e;
 		}
 		return mav;
+	}
+	
+	/**
+	 * spring ajax을 이용하는 방법 (json을 리턴함)
+	 * 1. gson - 응답메시지에 json문자열을 직접 출력 (servlet, jsp에서 사용해본 방식)
+	 * 2. jsonView 빈을 통해 처리 -> model에 담긴 data를 json으로 변환, 응답에 출력
+	 * 	   우리는 model에 data만 담아두고, jsonView에게 처리를 맡기기만 하면 됨
+	 * 3. @responseBody - 리턴된 자바객체를 json으로 변환, 응답에 출력
+	 * 	   우리는 어노테이션만 붙이고 리턴만 하면 됨
+	 * 	   (@ResponseBody : 리턴된 객체를 응답메시지에 직접 출력해주는 역할)
+	 * 4. ResponseEntity<응답에 작성할 자바객체>
+	 * 	   ex. ResponseEntity<Map<String, Object>>
+	 */
+	/**
+	 * jsonView 방식
+	 */
+	@GetMapping("/checkIdDuplicate1.do")
+	public String checkIdDuplicate1(@RequestParam String id, Model model) {
+		// 1. 업무로직
+		// 저 아이디로 기존회원이 있는가 확인
+		Member member = memberService.selectOneMember(id);
+		// member가 null인지의 여부를 변수에 담아둠 (null이어야 true)
+		boolean available = member == null ;
+		
+		// 2. Model에 속성 저장
+		model.addAttribute("available", available);
+		model.addAttribute("id", id);
+		
+		return "jsonView";
+	}
+	/**
+	 * @responseBody 방식
+	 * 그냥 java객체를 리턴하면 json으로 변환하고 응답에 출력해줌
+	 */
+	@GetMapping("/checkIdDuplicate2.do")
+	@ResponseBody
+	public Map<String, Object> checkIdDuplicate2(@RequestParam String id) {
+		// 1. 업무로직
+		// 저 아이디로 기존회원이 있는가 확인
+		Member member = memberService.selectOneMember(id);
+		// member가 null인지의 여부를 변수에 담아둠 (null이어야 true)
+		boolean available = member == null ;
+		
+		// 2. map에 요소 저장 후 리턴
+		// model필요 없음
+		Map<String, Object> map = new HashMap<>();
+		map.put("available", available);
+		map.put("id", id);
+
+		return map;
+		// model이 아닌 리턴한 map을 변환한 것!
+	}
+	/**
+	 * ResponseEntity<응답에 작성할 자바객체> 방식
+	 */
+	@GetMapping("/checkIdDuplicate3.do")
+	// ResponseEntity에서 처리해주기 때문에 responseBody 필요없음
+	// ResponseEntity의 요소로 Map을 리턴
+	public ResponseEntity<Map<String, Object>> checkIdDuplicate3(@RequestParam String id) {
+		// 1. 업무로직
+		// 저 아이디로 기존회원이 있는가 확인
+		Member member = memberService.selectOneMember(id);
+		// member가 null인지의 여부를 변수에 담아둠 (null이어야 true)
+		boolean available = member == null ;
+		
+		// 2. map에 요소 저장 후 리턴
+		// model필요 없음
+		Map<String, Object> map = new HashMap<>();
+		map.put("available", available);
+		map.put("id", id);
+
+		// ResponseEntity객체를 만들어서 전달
+		return ResponseEntity
+				.ok() // 응답헤더 200번
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8" -> header값으로 json이라는 것을 알림
+				.body(map); // body에 map담기
 	}
 }

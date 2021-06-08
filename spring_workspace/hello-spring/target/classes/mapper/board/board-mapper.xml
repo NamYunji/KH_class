@@ -148,4 +148,13 @@
 	where
 		no = #{no}
 </select>
+<!-- ================== 검색 ================== -->
+<select id="searchTitle" resultType="board">
+	select
+		*
+	from
+		board
+	where
+		title like '%' || #{searchTitle} || '%'
+</select>
 </mapper>

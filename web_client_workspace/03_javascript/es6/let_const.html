@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6 - let | const</title>
+</head>
+<body>
+    <h1>let | const</h1>
+    <script>
+        /* let, const : var를 보완하기 위해 나온 것
+           var의 문제점
+           c언어 계열의 block scope가 아닌, function scope를 사용해서 혼란을 야기함
+           scope의 기준을 함수로 바꿔버림
+           cf. 보통의 프로그래밍적 흐름 : block 안의 것과 block 밖의 것이 구분지어져야 함
+        */
+        var a = 100; // 전역변수로 var를 선언하면 window속성(window.a)으로 등록됨
+        let k = 8; // 전역변수로 window속성이 아닌 별도 메모리에서 관리됨
+
+        (function foo(){
+            var a = 40;
+            console.log(a); // 40 - 지역변수
+            console.log(this.a) // 100 - 전역변수
+            // this.a (this용법2) 일반함수 안에서 this는 window객체를 가리킨다.
+
+            if(true) {
+                // if block안에 a를 선언하면 보통이면 block밖과 구분지어 처리되어야 하지만, 
+                // var는 무조건 함수 기준이기 때문에, 함수 안에 있으면 다 덮어씀
+                var a = 30;
+            }
+            console.log(a); // 30 - if block안의 a가 출력됨
+
+            // let - 동일한 변수를 또 선언하면 문법오류로 처리!
+            let b = 99;
+            // let b = 33; // Identifier 'b' has already been declared
+
+            // let, const는 block scope이기 때문에 자바 쓸때와 비슷한 느낌으로 사용하기!
+            if(true){
+                let b = 33333;
+                // block scope의 특징 -> block이 열리면 생성, block이 닫히면 소멸
+            }
+            console.log("b = ", b); // b =  99
+            // block scope이기 때문에 if block안의 것으로 덮어씌워지지 않음
+            // if문 안의 b와 if문 밖의 b를 다르게 처리함!
+
+            // const - 상수, 값 재설정 불가 + block scope
+            const c = 123; // 상수
+            // c = 234; // Assignment to constant variable.
+
+            // 실수 방지를 위해, 값을 변경할 일이 없다면 무조건 const사용 추천!
+        })();
+    </script>
+</body>
+</html>

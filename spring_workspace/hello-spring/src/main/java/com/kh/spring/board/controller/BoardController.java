@@ -17,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -189,46 +190,108 @@ public class BoardController {
 		model.addAttribute("board", board);
 	}
 	
+	/**
+	 * Response Entity를 통한 파일다운로드
+	 * 1. status code 커스터마이징
+	 * 2. 응답 header 커스터마이징 (response객체를 가져올 필요 없음)
+	 * 3. @ResponseBody 기능을 포함
+	 * 	 (@ResponseBody : 리턴된 객체를 응답메시지에 직접 쓰기작업하는 것)
+	 * @throws UnsupportedEncodingException 
+	 */
+	@GetMapping("/fileDownload.do")
+	// 응답에 작성할 타입을 generic의 안에 적어둠
+	public ResponseEntity<Resource> fileDownloadWithResponseEntity(@RequestParam int no) throws UnsupportedEncodingException{
+		ResponseEntity<Resource> responseEntity = null;
+		try { 
+			// 1. 업무로직 : db조회
+			Attachment attach = boardService.selectOneAttachment(no);
+			if(attach == null) {
+				return ResponseEntity.notFound().build();
+			}
+			// 2. Resource객체
+			String saveDirectory = application.getRealPath("/resources/upload/board");
+			// 다운로드 받을 파일
+			File downFile = new File(saveDirectory, attach.getRenamedFilename());
+			Resource resource = resourceLoader.getResource("file:" + downFile); 
+			// attach의 originalfilename을 가져와서 byte배열로 만든 후 다시 인코딩 변환
+			String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1"); // throws UnsupportedEncodingException
+			// 3. Response Entity객체 생성 및 리턴
+			// builder패턴 : 메소드를 연이어가면서 객체 생성
+			responseEntity = 
+					ResponseEntity
+						.ok() // status code를 200번으로 설정
+						.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
+						.body(resource);
+		} catch(Exception e){
+			log.error("파일 다운로드 오류", e);
+			throw e;
+		}
+		return responseEntity;
+	}
 	// import org.springframework.core.io.Resource;
 	// import org.springframework.http.MediaType;
-	@GetMapping(
-			value = "fileDownload.do",
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-		)
+//	@GetMapping(
+//			value = "/fileDownload.do",
+//			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+//		)
 	@ResponseBody // 응답메시지에 return된 객체를 직접 출력
 	public Resource fileDownload(@RequestParam int no, HttpServletResponse response) throws UnsupportedEncodingException {
-		// 1. 업무로직 : db에서 첨부파일 정보 조회
-		Attachment attach = boardService.selectOneAttachment(no);
-		log.debug("attach = {}", attach);
-		// 예외가 발생하면 예외를 던져서 이하 코드가 진행되지 않도록
-		if(attach == null) {
-			throw new IllegalArgumentException("해당 첨부파일은 존재하지 않습니다 : " + no);
+		Resource resource = null;
+		try {
+			// 1. 업무로직 : db에서 첨부파일 정보 조회
+			Attachment attach = boardService.selectOneAttachment(no);
+			log.debug("attach = {}", attach);
+			// 예외가 발생하면 예외를 던져서 이하 코드가 진행되지 않도록
+			if(attach == null) {
+				throw new IllegalArgumentException("해당 첨부파일은 존재하지 않습니다 : " + no);
+			}
+			
+			// 2. Resource객체를 리턴 : 응답메세지에서 출력은 spring-container가 처리
+			String originalFilename = attach.getOriginalFilename();
+			String renamedFilename = attach.getRenamedFilename();
+			// 저장된 절대경로
+			// application - ServletContext (의존주입 받기)
+			String saveDirectory = application.getRealPath("/resources/upload/board");
+			// 다운로드받을 파일
+			File downFile = new File(saveDirectory, renamedFilename);
+			// resource 객체 생성
+			// 웹 상의 자원, 현재 서버컴퓨터의 자원을 모두 다룰 수 있는 스프링의 추상화 layer
+			// downFile에 toString이 호출되면서 파일의 경로를 알려줌
+			String location = "file:" + downFile.toString();
+			log.debug(location);
+			// resourceLoader - ResourceLoader (의존주입 받기)
+			// resourceLoader한테 이 경로에 파일이 있을거야. 그 파일을 줘!
+			resource = resourceLoader.getResource(location);
+			
+			// 3. 응답헤더
+			// 한글깨짐 방지처리
+			// utf-8을 iso-8859-1 이 인코딩으로 변환해라
+			originalFilename = new String(originalFilename.getBytes("utf-8"), "iso-8859-1"); // throws UnsupportedEncodingException
+			response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + originalFilename);
+		} catch (Exception e) {
+			log.error("파일 다운로드 오류!", e);
+			throw e;
 		}
-		
-		// 2. Resource객체를 리턴 : 응답메세지에서 출력은 spring-container가 처리
-		String originalFilename = attach.getOriginalFilename();
-		String renamedFilename = attach.getRenamedFilename();
-		// 저장된 절대경로
-		// application - ServletContext (의존주입 받기)
-		String saveDirectory = application.getRealPath("/resources/upload/board");
-		// 다운로드받을 파일
-		File downFile = new File(saveDirectory, renamedFilename);
-		// resource 객체 생성
-		// 웹 상의 자원, 현재 서버컴퓨터의 자원을 모두 다룰 수 있는 스프링의 추상화 layer
-		// downFile에 toString이 호출되면서 파일의 경로를 알려줌
-		String location = "file:" + downFile.toString();
-		log.debug(location);
-		// resourceLoader - ResourceLoader (의존주입 받기)
-		// resourceLoader한테 이 경로에 파일이 있을거야. 그 파일을 줘!
-		Resource resource = resourceLoader.getResource(location);
-		
-		// 3. 응답헤더
-		// 한글깨짐 방지처리
-		// utf-8을 iso-8859-1 이 인코딩으로 변환해라
-		originalFilename = new String(originalFilename.getBytes("utf-8"), "iso-8859-1"); // throws UnsupportedEncodingException
-		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + originalFilename);
-		
 		return resource;
 	}
+	
+	@GetMapping("searchTitle.do")
+	@ResponseBody
+	public Map<String, Object> searchTitle(@RequestParam String searchTitle){
+		log.debug("searchTitle = {}", searchTitle);
+		
+		// 1. 업무로직 : 검색어로 board 조회
+		// 제목이 일치하느냐, 게시글의 번호만 조회하면 되니까 Board로 진행
+		List<Board> list = boardService.searchTitle(searchTitle);
+		log.debug("list = {}", list);
+
+		// 2. map에 검색결과를 담아서 전송
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("searchTitle", searchTitle);
+		return map;
+	}
+	
 }
 	

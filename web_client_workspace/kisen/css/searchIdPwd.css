@@ -1,0 +1,107 @@
+.nav-tabs {
+    margin : 10px auto 0;
+    width: 450px;
+}
+/* >> frm-container start */
+.frm-container {
+    width: 550px;
+    margin: auto;
+    margin-top: 50px;
+    border: 1px solid rgb(231, 212, 231);
+    padding: 10px;
+    border-radius: 10px;
+}
+/* << frm-container end */
+
+.search-radio-container {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.radio-container {
+    display: inline;
+    margin: 10px;
+}
+
+.search-area-container {
+    margin: 10px;
+}
+
+.search-area {
+    margin: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    width: 400px;
+    height: 40px;
+}
+
+input:hover {
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+input:focus {
+    outline: none;
+}
+
+.btn {
+    background-color: rgb(146, 105, 146);
+    width: 80%;
+    height: 45px;
+    margin: 15px auto 40px;
+    color: snow;
+}
+
+.btn:hover {
+    background-color: rgb(180, 126, 180);
+}
+
+.inactive {
+    color: rgb(172, 128, 172);
+}
+
+.inactive:hover {
+    color: rgb(112, 64, 112);
+}
+
+.search-area-container {
+    text-align: center;
+}
+
+.add-btn {
+    background-color: rgb(146, 105, 146);
+    width: 17%;
+    height: 40px;
+    color: snow;
+    border: none;
+    font-size: smaller;
+    transform: translateX(-4px);
+}
+.add-btn:hover {
+    background-color: rgb(202, 171, 202);
+    color: rgb(117, 59, 93);
+    font-weight: bolder;
+}
+
+#phone {
+    width: 61%;
+    transform: translateX(-3px);
+  }
+[name="email"]{
+    width: 55%;
+}
+[name="selectEmail"] {
+    width: 23%;
+    height: 37.3px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    font-size: smaller;
+    transform: translateX(-6px);
+}
+
+[name="selectEmail"]:focus{
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}

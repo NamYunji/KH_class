@@ -16,15 +16,14 @@
 		<table class="mx-auto">
 			<tr>
 				<th>아이디</th>
-				<td>
-				<!-- input태그 - form-control이라는 클래스값 -> input태그가 예쁘게 나옴 -->
-					<input type="text" 
-						   class="form-control" 
-						   placeholder="4글자이상"
-						   name="id" 
-						   id="id"
-						   required>
-				</td>
+			    <td>
+			        <div id="memberId-container">
+			            <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="id" id="id" required>
+			            <span class="guide ok">이 아이디는 사용가능합니다.</span>
+			            <span class="guide error">이 아이디는 사용할 수 없습니다.</span>
+			            <input type="hidden" id="idValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
+			        </div>
+			    </td>
 			</tr>
 			<tr>
 				<th>패스워드</th>
@@ -97,6 +96,45 @@
 	</form>
 </div>
 <script>
+$("#id").keyup(e => {
+	const id = $(e.target).val();
+	const $error = $(".guide.error");
+	const $ok = $(".guide.ok");
+	const $idValid = $("#idValid"); // 0 -> 1 (중복검사 성공시)
+
+	if(id.length < 4) {
+		// 4글자 이상을 썼다가 지우는 경우를 대비해서
+		$(".guide").hide(); // 있던 guide를 다 감추기
+		$idValid.val(0); // 다시 작성하는 경우를 대비, idValid를 다시 0으로 만들기
+		return; // 네글자 이상일 때만 검사할 수 있도록 return
+	}
+	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/checkIdDuplicate3.do",
+		data : {id},
+		success : data => {
+		// success : ({available}) => {
+			console.log(data); // {"available" : true} 이런식으로 json으로 넘어올 것
+			const {available} = data;
+			// 사용가능한 경우
+			// if(data.available){
+			if(available) {
+				$ok.show();
+				$error.hide();
+				$idValid.val(1);
+			}
+			// 사용불가한 경우
+			else {
+				$ok.hide();
+				$error.show();
+				$idValid.val(0);
+			}
+		},
+		error : (xhr, stautsText, err) => {
+			console.log(xhr, statusText, err);
+		}
+	});
+});
 	
 $("#passwordCheck").blur(function(){
 	var $password = $("#password"), $passwordCheck = $("#passwordCheck");
@@ -110,6 +148,14 @@ $("[name=memberEnrollFrm]").submit(function(){
 	var $id = $("#id");
 	if(/^\w{4,}$/.test($id.val()) == false) {
 		alert("아이디는 최소 4자리이상이어야 합니다.");
+		$id.focus();
+		return false;
+	}
+
+	// 아이디 중복검사 완료전에는 제출되지 않도록
+	var $idValid = $("#idValid");
+	if($idValid.val() == 0) {
+		alert("아이디 중복검사 해주세요.");
 		$id.focus();
 		return false;
 	}

@@ -1,0 +1,118 @@
+#logo {
+    text-align: center;
+}
+#logo img{
+    width: 200px;
+}
+.modal-body {
+    text-align: center;
+}
+
+.fill-in-area {
+    margin: 8px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    width: 400px;
+    height: 40px;
+}
+
+input:hover {
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+input:focus {
+    outline: none;
+}
+
+/* >> saveId checkbox start */
+input[type=checkbox] {  
+    display: none;  
+}
+input[type=checkbox] + label{
+    display: inline-block;  
+    cursor: pointer;  
+    position: relative;  
+    padding-left: 25px;  
+    margin-right: 15px;  
+    font-size: 13px;
+}
+input[type=checkbox]+ label:before {     
+
+    content: "";  
+    display: inline-block;  
+  
+    width: 20px;  
+    height: 20px;  
+  
+    margin-right: 15px;  
+    position: absolute;  
+    left: 0;  
+    bottom: 1px;  
+    background-color: rgb(187, 187, 187);
+    border-radius: 2px; 
+    box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
+}
+input[type=checkbox]:checked + label:before { 
+
+    content: "\2713";  /* 체크모양 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
+    font-size: 18px; 
+    font-weight:800; 
+    color: #fff;  
+    background:rgb(146, 105, 146);
+    text-align: center;  
+    line-height: 18px; 
+} 
+/* << saveId checkbox end */
+
+/* >> login btn start */
+.btn {
+    background-color: rgb(146, 105, 146);
+    width: 410px;
+    height: 45px;
+    margin: 0 auto 5px;
+    color: snow;
+    border-radius: 100px;
+}
+
+.btn:hover {
+    background-color: rgb(180, 126, 180);
+}
+/* << login btn end */
+
+/* >> saveId checkbox start */
+[name=saveId] {
+    margin-left: 50px;
+    margin-top: 15px;
+}
+
+/* >> login ext a_tag start */
+.login-ext {
+    margin: 20px 0 8px;
+}
+
+a {
+    margin: 0px 5px;
+    color: gray;
+}
+a:hover {
+    text-decoration: none;
+    color: #932fc1;
+}
+span {
+    color: gray;
+}
+/* << login ext end */
+
+.login-social {
+    margin: 10px auto 30px;
+    text-align: center;
+}
+
+#kakao-log {
+    width: 400px;
+    height: 40px;
+    margin: 5px 0;
+}

@@ -1,0 +1,81 @@
+#logo {
+    text-align: center;
+  }
+  #logo img {
+    width: 200px;
+  }
+
+.fill-in-area {
+    margin: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    width: 400px;
+    height: 40px;
+}
+
+input:hover {
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+input:focus {
+    outline: none;
+}
+
+
+.btn {
+    background-color: rgb(146, 105, 146);
+    width: 450px;
+    height: 40px;
+    margin: 15px auto 30px;
+    color: snow;
+  }
+  
+  .btn:hover {
+    background-color: rgb(180, 126, 180);
+  }
+
+
+
+  /* address start */
+.add1 {
+    width: 297px;
+}
+
+.add3 {
+    width: 100px;
+    margin-right: -5px;
+    transform: translateX(-3px);
+}
+.add4 {
+    width: 290px;
+}
+.add-btn {
+    background-color: rgb(146, 105, 146);
+    width: 100px;
+    height: 40px;
+    color: snow;
+    border: none;
+    font-size: smaller;
+    transform: translateX(-7px);
+}
+.add-btn:hover {
+    background-color: rgb(202, 171, 202);
+    color: rgb(117, 59, 93);
+    font-weight: bolder;
+}
+
+[name="signup-frm"] {
+    text-align: center;
+    margin: 0 auto;
+}
+
+label {
+    width: 65px;
+    text-align: left;
+}
+
+#zip-code {
+    display: inline;
+}

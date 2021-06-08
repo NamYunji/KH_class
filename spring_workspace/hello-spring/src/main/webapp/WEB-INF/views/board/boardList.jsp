@@ -6,11 +6,15 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시판" name="title"/>
 </jsp:include>
+<!-- autocomplete 관련 -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <style>
 /*글쓰기버튼*/
 input#btn-add{float:right; margin: 0 0 15px;}
 tr[data-no]{
-	cursor : pointer;
+	cursor: pointer;
 }
 </style>
 <script>
@@ -28,12 +32,62 @@ $(() => {
 		// tr에 적혀있는 data-no를 가져오기
 		var $tr = $(e.target).parent();
 		var no = $tr.data("no");
-
 		location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
 	});
+
+	// keyup이벤트가 일어나면 알아서 autocomplete 함수 호출됨
+	// 그때마다 사용자 입력값을 서버로 보내서 그것과 일치하는 게시글들을 가져오기
+	$( "#searchTitle" ).autocomplete({
+  		source: function(request, response){
+ 		  //console.log(request);
+ 		  //console.log(response);
+ 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
+ 		  
+ 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
+  	 	  $.ajax({
+			url: "${pageContext.request.contextPath}/board/searchTitle.do",
+			data: {
+				// searchTitle이라는 key값으로 request.term을 보냄
+				searchTitle: request.term
+			},
+			// success : function(data){
+			// 객체 안 메소드의 경우 아래와 같이 사용 가능
+			success(data){
+				console.log(data);
+				const {list} = data;
+				//배열
+				// map 이용 - 배열의 요소를 가져와서 다른 형식으로 변환 가능
+				list.map((board))
+				const arr = 
+					list.map(({no, title}) => ({
+						label: title,
+						value: title,
+						no		
+					}));
+				console.log(arr);
+				response(arr);
+			},
+			error(xhr, statusText, err){
+				console.log(xhr, statusText, err);
+			}
+  	  	  });
+		},
+		select: function(event, selected){
+			// 클릭했을때, 해당게시글 상세페이지로 이동
+			//console.log("select : ", selected);
+			const {item: {no}} = selected;
+			location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
+		},
+		focus: function(event, focused){
+		 return false;
+		},
+		autoFocus: true, 
+		minLength: 2
+  });
 });
 </script>
 <section id="board-container" class="container">
+	<input type="search" placeholder="제목 검색..." id="searchTitle" class="form-control col-sm-3 d-inline" autofocus/>
 	<input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success" onclick="goBoardForm();"/>
 	<table id="tbl-board" class="table table-striped table-hover">
 		<tr>
@@ -52,15 +106,17 @@ $(() => {
 			<td><fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd"/></td>
 			<td>
 				<c:if test="${board.hasAttachment}">
-				<img src="${pageContext.request.contextPath}/resources/images.file.png" width="16px"/>
+				<img src="${pageContext.request.contextPath}/resources/images/file.png" width="16px" alt="" />
 				</c:if>
 			</td>
 			<td>${board.readCount}</td>
 		</tr>
 		</c:forEach>
+		
 	</table>
 	
 	${pageBar}
+	
 </section> 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

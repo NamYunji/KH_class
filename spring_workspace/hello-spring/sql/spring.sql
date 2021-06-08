@@ -124,6 +124,23 @@ on b.no = a.board_no;
 
 commit;
 
+	select
+		b.*, 
+		a.no "attach_no",
+		a.board_no, 
+		a.original_filename, 
+		a.renamed_filename, 
+		a.upload_date, 
+		a.download_count,
+		a.status
+	from
+		board b
+	left join
+		attachment a
+			on b.no = a.board_no
+	where
+		b.no = 60;
+
 insert into attachment
 values (seq_attachment_no.nextval, 60, 'test.jpg', 
 '20200525_090909_123.jpg', default, default, default);

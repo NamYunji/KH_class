@@ -1,0 +1,63 @@
+.term-container {
+  width: 490px;
+  margin: 0 auto;
+  border: 1px solid rgb(221, 210, 221);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#logo {
+  text-align: center;
+}
+#logo img {
+  width: 200px;
+}
+
+#chk-all {
+  text-align: center;
+}
+
+.term {
+  border: 1px solid rgb(168, 146, 159);
+  border-radius: 2px;
+  width: 450px;
+  height: 100px;
+  overflow-y: scroll;
+  font-size: smaller;
+  background-color: rgb(255, 251, 251);
+  padding: 10px;
+}
+
+.term::-webkit-scrollbar {
+  width: 10px;
+}
+.term::-webkit-scrollbar-thumb {
+  background-color: rgb(136, 102, 136);
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.term::-webkit-scrollbar-track {
+  background-color: rgb(211, 201, 211);
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.btn {
+  background-color: rgb(146, 105, 146);
+  width: 450px;
+  height: 40px;
+  margin: 15px auto 30px;
+  color: snow;
+}
+
+.btn:hover {
+  background-color: rgb(180, 126, 180);
+}
+
+.required-span {
+  color: gray;
+  font-size: smaller;
+}
+

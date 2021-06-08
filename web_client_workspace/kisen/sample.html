@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>로그인</title>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<!-- bootstrap js: jquery load 이후에 작성할것.-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- bootstrap css -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<SCRIPT src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></SCRIPT>
+
+<input type="radio" id="aaa" name="abcd" value="00" onchange="setDisplay()"> AAA
+<input type="radio" id="bbb" name="abcd" value="10" onchange="setDisplay()"> BBB
+
+<script>
+function setDisplay(){
+  if($('input:radio[id=aaa]').is(':checked')){
+      $('#divId').hide();
+  }else{
+      $('#divId').show();
+  }
+}
+</script>
