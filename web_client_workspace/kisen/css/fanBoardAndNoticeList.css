@@ -14,18 +14,18 @@
     height: 50px;
     line-height: 35px;
 }
-.notice-nav {
+.active-nav {
     background-color: rgb(182, 144, 166);
 }
 
-.notice-nav:hover {
+.active-nav:hover {
     background-color: rgb(185, 137, 164);
 }
 
-.fan-board-nav {
+.inactive-nav {
     background-color: rgb(226, 226, 226);
 }
-.fan-board-nav:hover {
+.inactive-nav:hover {
     background-color: rgb(175, 174, 174);
 }
 .nav-link  {
@@ -78,6 +78,31 @@ tr:hover {
 
 /* 글쓰기 버튼 */
 .enroll-btn {
-    text-align: right;
+    margin: 10px auto 10px;
+    display: inline;
+    float: right;
+}
 
+/* 검색바 */
+.search-bar {
+    border: 2px solid rgb(169 169 169);
+    width: 36%;
+    margin: 10px auto 10px;
+    height: 37px;
+    border-radius: 21px;
+    background-color: #ffffff;
+    float: left;
+    display: inline;
+    line-height: 29px;
+}
+#search-text {
+    border: none;
+    outline: none;
+    background-color: transparent !important;
+    padding-left: 5%;
+}
+
+#search-img {
+    width: 5%;
+    transform: translate(120px, -1px);
 }

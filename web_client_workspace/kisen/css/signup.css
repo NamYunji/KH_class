@@ -1,9 +1,14 @@
 #logo {
     text-align: center;
   }
-  #logo img {
+ #logo img {
     width: 200px;
   }
+  
+.signup-container {
+	width : 50%;
+	margin : 10px auto;
+}
 
 .fill-in-area {
     margin: 10px;
@@ -11,8 +16,8 @@
     border-left: none;
     border-right: none;
     border-bottom: 1.9px solid rgb(180, 144, 180);
-    width: 400px;
-    height: 40px;
+    width: 60%;
+    height: 33px;
 }
 
 input:hover {
@@ -24,41 +29,40 @@ input:focus {
 }
 
 
-.btn {
+.submit-btn {
     background-color: rgb(146, 105, 146);
-    width: 450px;
-    height: 40px;
+    width: 62%;
+    height: 50px;
     margin: 15px auto 30px;
     color: snow;
-  }
+    border : none;
+ }
   
-  .btn:hover {
+.submit-btn:hover {
     background-color: rgb(180, 126, 180);
   }
 
-
-
   /* address start */
 .add1 {
-    width: 297px;
+    width: 45%;
 }
 
 .add3 {
-    width: 100px;
+    width: 20%;
     margin-right: -5px;
-    transform: translateX(-3px);
 }
 .add4 {
-    width: 290px;
+    width: 39%;
+    transform: translateX(-1px);
 }
 .add-btn {
     background-color: rgb(146, 105, 146);
-    width: 100px;
+    width: 14.7%;
     height: 40px;
     color: snow;
     border: none;
     font-size: smaller;
-    transform: translateX(-7px);
+    transform: translateX(-9px);
 }
 .add-btn:hover {
     background-color: rgb(202, 171, 202);
@@ -66,16 +70,62 @@ input:focus {
     font-weight: bolder;
 }
 
-[name="signup-frm"] {
+[name="signupFrm"], [name="signupAgencyFrm"] {
     text-align: center;
     margin: 0 auto;
 }
 
 label {
-    width: 65px;
+    width: 60%;
     text-align: left;
+    display: block;
+    margin: 10px auto 0;
 }
 
 #zip-code {
     display: inline;
+}
+
+/* 중복아이디체크관련 */
+p.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+p.ok { color:green; }
+p.error { color:red; }
+
+
+/* date타입 placeholder 색상 변경 */
+input[type=date]::-webkit-datetime-edit-text { color : gray; } 
+input[type=date]::-webkit-datetime-edit-month-field{ color : gray; } 
+input[type=date]::-webkit-datetime-edit-day-field { color : gray; } 
+input[type=date]::-webkit-datetime-edit-year-field { color : gray; }
+
+
+.required-mark {
+	color : rgb(128, 25, 128);
+}
+
+.chkNotice {
+    width: 60%;
+    font-size: smaller;
+    text-align: left;
+    margin: 0 auto 5px;
+}
+
+[name="selectEmail"] {
+    width: 12%;
+    height: 37.3px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    font-size: smaller;
+    margin-left: 15px;
+    transform: translate(-12px, -3px);
+}
+
+[name="selectEmail"]:focus{
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+#email-authentication {
+    margin-top: 13px;
 }

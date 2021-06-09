@@ -54,14 +54,20 @@ alert("${msg}");
                     
 			    </ul>
 			    <!-- 로그인 한 경우 -->
+			    <!-- access : isAuthenticated()함수 -> 인증함 : true  -->
+			    <!-- true면 안의 내용이 실행됨 -->
 			    <sec:authorize access="isAuthenticated()">
+			    <!-- authentication : 인증한 객체를 가지고 있는 태그 -->
+			    <!-- property : principal.username -> 인증한 객체의 아이디 -->
 			    <sec:authentication property="principal.username"/>님, 안녕하세요.
+			    <!-- property : authorities -> 인증한 객체가 가지고 있는 권한 -->
 			    <sec:authentication property="authorities"/>
 			    &nbsp;
 			    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="location.href='${pageContext.request.contextPath}/logout';">로그아웃</button>
 			    </sec:authorize>
 			    
 			    <!-- 로그인하지 않은 경우 -->
+			    <!-- access : isAnonymous()함수 -> 인증하지 않음 : true -->
 			    <sec:authorize access="isAnonymous()">
 			    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogin.do';">로그인</button>
                 &nbsp;

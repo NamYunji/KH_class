@@ -1,3 +1,4 @@
+
 <!-- enroll
     아이디 fanId
     비밀번호 password
@@ -72,57 +73,163 @@
     }
 </script>
 
+<div class="signup-container">
 <!-- 로고 -->
 <div class="term-container">
     <div id="logo">
-        <img src="images/kisen_logo.png" alt="kisen-logo">
+        <img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="kisen-logo">
     </div>
 </div>
 <!-- 회원가입 폼 -->
-<form action="" name="signup-frm">
+<form 
+	action="${pageContext.request.contextPath}/member/signup.do"
+	name="signupFrm"
+>
     <div>
-        <label for="id">아이디</label>
-        <input type="text" class="fill-in-area" name="id" id="id" placeholder="아이디 (5자~11자)">
+        <label for="id">아이디<span class="required-mark"> *</span></label>
+        <input type="text" class="fill-in-area" name="id" id="id" placeholder="5자~11자">
+		<p class="guide ok">이 아이디는 사용가능합니다.</p>
+        <p class="guide error">이 아이디는 사용할 수 없습니다.</p>
+        <input type="hidden" id="idValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
     </div>
     <div>
-        <label for="password">패스워드</label>
-        <input type="password" class="fill-in-area" name="password" id="password" placeholder="비밀번호 (숫자,영문,특수문자 조합 최소8자)">
+        <label for="password">패스워드<span class="required-mark"> *</span></label>
+        <input type="password" class="fill-in-area" name="password" id="password" placeholder="숫자,영문,특수문자 조합 최소6자">
+        <p id="chkNoticePwd1" class="chkNotice"></p>
     </div>
     <div>
-        <label for="email">이메일</label>
-        <input type="email" class="fill-in-area" name="email" id="email" placeholder="이메일">
+        <label for="password">패스워드 재확인<span class="required-mark"> *</span></label>
+        <input type="password" class="fill-in-area" name="passwordCheck" id="passwordCheck">
+        <p id="chkNoticePwd2" class="chkNotice"></p>
     </div>
     <div>
-        <label for="phone">휴대폰</label>
-        <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="휴대폰">
+        <div>
+        <label for="email">이메일<span class="required-mark"> *</span></label>
+        <input type="text" class="fill-in-area add1" name="email" id="email">
+        <select class="selectEmail" name="selectEmail" id="selectEmail">
+            <option value="1" selected>직접입력</option>
+            <option value="naver.com">naver.com</option> 
+            <option value="hanmail.net">hanmail.net</option>
+            <option value="hotmail.com">hotmail.com</option>
+            <option value="nate.com">nate.com</option>
+            <option value="yahoo.co.kr">yahoo.co.kr</option> 
+            <option value="gmail.com">gmail.com</option>
+            <option value="paran.com">paran.com</option>
+        </select>
+        </div>
+        <div id="email-authentication">
+            <input type="text" class="fill-in-area add1" placeholder="인증번호">
+            <input type="button" class="add-btn" onclick="requestEmail()" value="인증번호 요청"><br>
+        </div>
+        <p id="chkNoticeEmail" class="chkNotice"></p>
+    </div>
+    <div>
+        <label for="phone">휴대폰<span class="required-mark"> *</span></label>
+        <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="-없이 번호만 입력">
+        <p id="chkNoticePhone" class="chkNotice"></p>
     </div>
     <div>
         <label for="birthday">생년월일</label>
-        <input type="date" class="fill-in-area" name="birthday" id="birthday" placeholder="휴대폰">
+        <input type="date" class="fill-in-area" name="birthday" id="birthday">
     </div>
     <!-- 주소 -->
     <div>
-        <label for="sample6_postcode">주소</label>
+        <label for="sample6_postcode">주소<span class="required-mark"> *</span></label>
         <!-- 우편번호 검색 -->
         <div id="zip-code">
-            <input type="text" class="fill-in-area add1" id="sample6_postcode" placeholder="우편번호">
+            <input type="text" class="fill-in-area add1" id="sample6_postcode" readonly placeholder="우편번호">
             <input type="button" class="add-btn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
         </div>
         <!-- 검색에 의한 주소 -->
         <div>
             <label for="sample6_address"></label>
-            <input type="text" class="fill-in-area add2" id="sample6_address" placeholder="주소"><br>
+            <input type="text" class="fill-in-area add2" name="address-zipcode" id="sample6_address" readonly placeholder="주소"><br>
         </div>
         <!-- 참고항목 및 상세주소 -->
         <div>
             <label for="sample6_extraAddress"></label>
-            <input type="text" class="fill-in-area add3" id="sample6_extraAddress" placeholder="참고항목">
-            <input type="text" class="fill-in-area add4" id="sample6_detailAddress" placeholder="상세주소">
+            <input type="text" class="fill-in-area add3" id="sample6_extraAddress" readonly placeholder="참고항목">
+            <input type="text" class="fill-in-area add4" name="address-detail" id="sample6_detailAddress" placeholder="상세주소">
         </div>
+        <p id="chkNoticeAddress" class="chkNotice"></p>
     </div>
-    <button type="submit" class="btn btn-block">회원가입</button>
+    <input type="submit" class="submit-btn" value="회원가입" >
     </form>
+</div>
+
+<script>
+
+// 인증번호 요청 클릭 이벤트
+function requestEmail(){
+    $('#chkNoticeEmail').html('인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여 주세요. 이미 가입된 이메일이거나, 가상이메일은 인증번호를 받을 수 없습니다.').css("color","red");
+}
+
+$(function(){
+    $('#password').keyup(function(){
+        if($('#password').val().length < 6){
+            $('#chkNoticePwd1').html('비밀번호는 6자리 이상이어야 합니다.').css("color","red");
+        } else {
+            $('#chkNoticePwd1').html('');        
+        }
+    });
+
+    $('#passwordCheck').keyup(function(){
+        if($('#passwordCheck').val().length > 5){
+        if($('#password').val() != $('#passwordCheck').val()){
+          $('#chkNoticePwd2').html('패스워드 불일치').css("color","red");
+        } else{
+          $('#chkNoticePwd2').html('패스워드 일치').css("color","rgb(117, 59, 93)");
+        }
+    }
+    });
+});
 
 
 
+$("[name=signupFrm]").submit(function(){
 
+    // 아이디 유효성검사
+
+    // 패스워드 유효성검사
+	var $password = $("#password"), $passwordCheck = $("#passwordCheck");
+	if($password.val() != $passwordCheck.val()){
+		$password.select();
+        return false;
+	}
+
+    // 핸드폰 유효성검사
+    var $phone = $("#phone");
+    var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
+    if(!patternPhone.test($phone.val())){
+        $phone.select();
+        $('#chkNoticePhone').html('휴대폰 번호를 제대로 입력해주세요.').css("color","red");
+        $phone.keyup(function(){
+            if($phone.val() != ''){
+                $('#chkNoticePhone').html('').css("color","red");
+            }
+        });
+        return false;
+    }
+
+    // 주소 유효성검사
+    var $zipcode = $("[name='address-zipcode']");
+    var $detail = $("[name='address-detail']");
+
+    if($zipcode.val() == '' || $detail.val() == '') {
+        $('#chkNoticeAddress').html('주소를 모두 입력해주세요.').css("color","red");
+        $zipcode.select();
+        return false;
+
+        $zipcode.change(function(){
+            if($zipcode.val() != '' && $detail.val() != ''){
+                $('#chkNoticeAddress').html('');
+            }
+        })
+        $detail.keyup(function(){
+            if($zipcode.val() != '' && $detail.val() != ''){
+                $('#chkNoticeAddress').html('');
+            }
+        })
+    }
+});
+</script>

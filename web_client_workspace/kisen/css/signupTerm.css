@@ -61,3 +61,14 @@
   font-size: smaller;
 }
 
+#term-alert {
+  color : rgb(192, 47, 47);
+  text-align: center;
+  font-size: smaller;
+  margin-top: 10px;
+}
+
+.agency-div  {
+  text-align: right;
+  margin-top: 15px;
+}

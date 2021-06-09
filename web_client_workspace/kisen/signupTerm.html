@@ -15,21 +15,12 @@
 $(document).ready(function(){
     $("#all").click(function(){
         if($("#all").prop("checked")){
-            $(".check-term").prop("checked",true);
+            $(".checkTerm").prop("checked",true);
         }else{
-            $(".check-term").prop("checked",false);
+            $(".checkTerm").prop("checked",false);
         }
     })
 })
-
-// 필수조건 모두 체크 이전에는 폼 제출 방지
-$("[name=signupTermFrm]").submit(function(){
-    if (chk1 == false || chk2 == false) {
-        alert("gsesge");
-	    return false;
-    }
-        return true;
-});
 </script>
 <div class="term-container">
     <!-- 로고 -->
@@ -47,7 +38,7 @@ $("[name=signupTermFrm]").submit(function(){
             <label>키센 이용약관, 개인정보 수집 및 이용에 모두 동의합니다.</label>
         </p>
         <!-- kisen 이용약관 동의 -->
-        <input type="checkbox" class="check-term chk-1"> 
+        <input type="checkbox" class="checkTerm"> 
         <label>kisen 이용약관 동의</label> <span class="required-span">(필수)</span>
         <div class="term">
             제 1 조 (목 적)<br>
@@ -208,7 +199,7 @@ $("[name=signupTermFrm]").submit(function(){
         </div>
         <br>
         <!-- 개인정보 수집 및 이용 동의 -->
-        <input type="checkbox" class="check-term chk-2">
+        <input type="checkbox" class="checkTerm">
         <label>개인정보 수집 및 이용 동의</label> <span class="required-span">(필수)</span>
         <div class="term">
             사이트가 취급하는 모든 개인정보는 관련법령에 근거하거나 정보주체의 동의에 의하여 수집ㆍ보유 및 처리되고 있습니다. <br><br>
@@ -218,7 +209,31 @@ $("[name=signupTermFrm]").submit(function(){
             위와 같이 자동 수집ㆍ저장되는 정보는 이용자 여러분에게 보다 나은 서비스를 제공하기 위해 홈페이지의 개선과 보완을 위한 통계분석, 이용자와 홈페이지 간의 원활한 의사소통, 보안 침해 대응 등을 위해 이용될 수 있으며, 이러한 정보는 관계법령의 규정에 따라 제출될 수 있음을 유념하시기 바랍니다.<br><br>
             사이트가 운영하는 홈페이지에서 이메일 주소 등 식별할 수 있는 개인정보를 취득하여서는 아니 됩니다. 적법하지 아니한 방법으로 이러한 개인정보를 열람 또는 제공받은 자는 [개인정보보호법률]에 의하여 처벌을 받을 수 있습니다.<br><br>
         </div>
+        <p id="term-alert" style="display: none;">kisen 이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.</p>
+        <div class="agency-div">
+        <input type="checkbox" id="agencySignup" name="agency-signup">
+        <label for="agency-signup">기획사 회원가입</label>
+        </div>
         <button type="submit" class="btn btn-block">회원가입 진행</button>
     </form>
 </div>
 
+<script>
+$("[name=signupTermFrm]").submit(function(){
+    var chkCnt = $(".checkTerm:checked").length;
+    console.log(chkCnt);
+    if(chkCnt < 2){
+        $("#term-alert").css("display","");
+    return false;
+    }
+});
+
+// 기획사 회원가입
+$(document).ready(function(){
+    $("#agencySignup").change(function(){
+   if ($("#agencySignup").is(":checked")) {
+        alert("기획사 소속의 사용자인 경우에만 체크해주세요.");
+        }
+    });
+});
+</script>

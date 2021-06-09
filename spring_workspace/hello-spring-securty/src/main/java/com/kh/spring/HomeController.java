@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HomeController {
 
+	// 인덱스 요청하면 forwarding처리해서 index페이지로 가도록 되어있음
 	@GetMapping("/")
 	public String home() {
 		log.info("home 요청!");
