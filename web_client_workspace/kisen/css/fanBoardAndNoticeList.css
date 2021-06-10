@@ -86,7 +86,7 @@ tr:hover {
 /* 검색바 */
 .search-bar {
     border: 2px solid rgb(169 169 169);
-    width: 36%;
+    width: 47%;
     margin: 10px auto 10px;
     height: 37px;
     border-radius: 21px;
@@ -99,10 +99,35 @@ tr:hover {
     border: none;
     outline: none;
     background-color: transparent !important;
-    padding-left: 5%;
+    padding-left: 8%;
 }
 
 #search-img {
-    width: 5%;
-    transform: translate(120px, -1px);
+    width: 4.7%;
+    transform: translate(139px, -2px);
+}
+
+.dropdown-container {
+    display: inline;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    background: white;
+    font-size: small;
+    transform: translate(18px, -2px);
+    padding: 0px;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0px 0.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    font-size: small;
 }

@@ -18,8 +18,8 @@
 
 .footer-ext {
     text-align: left;
-    margin: 0 auto;
-    transform: translate(-10px, 10px);
+    margin: 10px auto;
+    transform: translate(-10px, 6px);
 }
 
 
@@ -77,6 +77,7 @@
 }
 .title {
     font-size: 30px;
+    font-weight: normal;
 }
 
 .btn-sm {
@@ -84,9 +85,8 @@
 }
 
 .more {
-    margin: 10px auto 30px;
+    margin: 40px auto 44px;
 }
-
 .more a {
     color: rgb(94, 94, 94);
     text-decoration: none;
@@ -119,7 +119,7 @@
 }
 
 .move {
-    width: 50%;
+    width: 51.3%;
     margin: 10px auto 40px;
 }
 
@@ -143,4 +143,157 @@
 .comment-cnt-text {
     font-size : 15px;
     font-weight: 600;
+}
+
+
+/* 게시판 리스트 테이블 */
+.list-container {
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.list-table {
+    font-size: small;
+}
+
+.table td, .table th {
+    padding: 0.55rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.nav-btn{
+    border-bottom: 2px solid rgb(85, 53, 70);
+    margin: 0px 10px;
+    font-size: 15px;
+    font-weight: 700;
+    transform: translate(-25px, 10px);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: white;
+    text-align: center;
+    padding-bottom: 7px;
+}
+
+#notice-nav-btn {
+    color: gray;
+    border-bottom: none;
+}
+
+.list-container p {
+    transform: translateY(26px);
+    font-weight: bold;
+    color: rgb(90, 90, 90);
+}
+
+
+/* 페이징바 */
+.paging-bar {
+    margin: 20px;
+    font-size: small;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.page-link {
+    color: rgb(39, 37, 39);
+}
+
+.page-link:hover {
+    color: white;
+    background-color: rgb(202, 187, 200);
+}
+
+.page-link:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    padding: 7px;
+}
+
+button:focus { 
+    outline:none;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input:focus {
+    outline:none;
+}
+
+.board-enroll-btn {
+    float: left;
+}
+
+.add-comment-section {
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 10px;
+}
+
+.comment-writer {
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 15px;
+    padding-top: 10px;
+    margin-bottom: 2px;
+}
+
+
+textarea {
+    border: none;
+    outline: none;
+    min-height: 10px;
+    overflow-y: hidden;
+    resize: none;
+    width: 100%;
+    padding-left: 16px;
+    background-color: transparent;
+    font-size: small;
+    padding-top: 5px;
+    padding-right: 16px;
+}
+
+.comment-submit-div {
+    width: 98%;
+    text-align: right;
+}
+
+.comment-submit {
+    border: none;
+    border-radius: 30px;
+    font-size: small;
+    padding: 3px 15px;
+    margin-bottom: 5px;
+    transform: translateY(-5px);
+}
+
+.comment-submit:hover {
+    background-color: rgb(190, 190, 190);
+    cursor: pointer;
+    color: white;
+}
+
+.comment-level2-enroll {
+    display: none;
+    width: 93%;
+    transform: translateX(37px);
+}
+
+h6:hover {
+    cursor: pointer;
+}
+
+.comment-level2 {
+    width: 93%;
+    transform: translateX(37px);
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 0.5rem!important;
+    margin-top: 0.5rem!important;
 }

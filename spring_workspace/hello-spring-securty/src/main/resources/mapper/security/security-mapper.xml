@@ -3,17 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="security">
-	<select id="selectOneMember" resultMap="memberMap">
+	<select id="loadUserByUsername" resultMap="memberMap">
 		select 
 		    *
-		from 
-		    member m
-		  left join
-		    authorities a
-		        on m.id = a.id
+		from
+			member
 		where 
-		    m.id = #{id}
+		    id = #{id}
 	</select>
+	<!-- Member객체를 만듦 -->
+	<!-- authorities만 제외하고 각각 조회된 컬럼값을 vo필드에 담음 -->
 	<resultMap type="member" id="memberMap">
 		<id column="id" property="id"/>
 		<result column="password" property="password"/>
@@ -23,17 +22,48 @@
 		<result column="email" property="email"/>
 		<result column="phone" property="phone"/>
 		<result column="address" property="address"/>
-		<result column="hobby" property="hobby" />
+		<!-- hobby는 StringArrayTypeHanlder가 사용됨 -->
+		<result column="hobby" property="hobby"/>
 		<result column="enroll_date" property="enrollDate"/>
 		<result column="enabled" property="enabled"/>
-		<collection property="authorities" ofType="simpleGrantedAuthority">
-			<constructor>
-				<arg column="auth" javaType="string"/>
-			</constructor>
-		</collection>
+		<!-- 제외된 authorities에 대한 내용을 위해 collection태그 호출
+			 -> 쿼리 안에 쿼리가 또 호출됨 -> selectAuthorities태그 호출
+			 -> List<SimpleGrantedAuthority>를 만들기 위한 절차 -->
+		<!-- javaType : list타입이라는 것을 알려줌 -->
+		<!-- column : 연결고리가 되는 fk컬럼이 뭔지 알려줌 -->
+		<!-- ofType : list의 요소가 무엇인지 -->
+		<!-- select : 어떤 쿼리에서 이 정보를 얻어야 하는지 -->
+		<collection
+				property="authorities"
+				javaType="arrayList"
+				column="id"
+				ofType="simpleGrantedAuthority"
+				select="selectAuthorities"/> 
 	</resultMap>
-	
-	
+	<!-- collection태그의 column인 id를 이용해서 selectAuthorities를 호출 -->
+	<!-- collection태그의 select -->
+	<!-- 회원의 권한 조회
+		 한 행 이상일 수 있음 (ex. admin -> USER, ADMIN)-->
+	<select id="selectAuthorities" resultMap="authoritiesMap">
+		select
+			*
+		from
+			authority
+		where
+			id = #{id}
+	</select>
+	<!-- resultMap을 다시한번 호출
+		 authority 컬럼값을 가져와서 생성자를 호출하라!
+		 -> simpleGrantedAuthority 객체가 여러개 리턴
+		 -> 리턴되어서 list에 담김 -->
+	<!-- collection태그의 ofType -->
+	<!-- 조회된 authority를 가지고 simpleGrantedAuthority 객체를 만듦 -->
+	<resultMap type="simpleGrantedAuthority" id="authoritiesMap">
+		<constructor>
+			<!-- arg : authority 컬럼을 가져와서 String인자를 하나 받는 생성자 호출 -->
+			<arg column="authority" javaType="string"/>
+		</constructor>
+	</resultMap>
 </mapper>
 
 

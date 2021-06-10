@@ -48,24 +48,44 @@ public class Member implements UserDetails{
 	// security가 필요로 하는 항목 4. enabled (활성화 여부)
 	private boolean enabled;
 	
+	/**
+	 * Collection타입
+	 * : list, set의 부모 interface
+	 * 
+	 * Collection<? extends GrantedAuthority> = Collection<GrantedAuthority>
+	 * - ? extends GrantedAuthority - GrantedAuthority를 상속하는 무언가
+	 * -> GrantedAuthority의 자식타입이면 ok다! (상한선)
+	 * -> GrantedAuthority의 하위타입만 받겠다
+	 * 
+	 * cf. <? super Integer>
+	 * - Integer의 부모타입이면 ok다! (하한선)
+	 */
+	// authority에 대한 getter
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
+	
+	// username에 대한 getter
 	@Override
 	public String getUsername() {
 		return id;
 	}
+	// 유효기간이 만료되었는지의 여부
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return true; // 사용 가능
 	}
+	
+	// 계정이 잠겼는지
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return true; // 잠기지 않음
 	}
+	
+	// 비밀번호 유효기간이 만료되었는지
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return true; // 만료 안됨
 	}
 }

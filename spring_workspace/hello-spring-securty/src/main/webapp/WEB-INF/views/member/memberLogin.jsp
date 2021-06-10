@@ -54,12 +54,15 @@ $(() => {
 				<!-- Cross-site Request Forgery 사용자가 공격자의 의도대로 crud를 실행하게 만듬. -->
 				<!-- 게시글에 form태그하고 관리자권한으로 실행하게 만듬. -->
 				<form:form
-					action="${pageContext.request.contextPath}/member/memberLogin.do"
+					action="${pageContext.request.contextPath}/member/memberLoginProcess.do"
 					method="post">
 					<div class="modal-body">
 						<c:if test="${param.error != null}">
 						<span class="text-danger">아이디 또는 비밀번호가 일치하지 않습니다.</span>
 						</c:if>
+						<!-- 여기 있는 name값은 vo의 필드명과 동일함 -->
+						<!-- security는 id와 password를 username과 password로 관리함 -->
+						<!-- id로 쓰고 싶다면? security-context에서 username-parameter/password-parameter 변경 -->
 						<input type="text" class="form-control" name="id"
 							placeholder="아이디" required> 
 						<br /> 

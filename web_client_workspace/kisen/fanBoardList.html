@@ -28,8 +28,18 @@
     </div>
     <!-- 검색바 -->
     <div class="search-bar">
+      <div class="input-group-prepend dropdown-container">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체검색</button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+          <div role="separator" class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Separated link</a>
+        </div>
         <input type="text" id="search-text" name="search" placeholder="search">
         <img src="/images/search.png" id="search-img" alt="검색이미지">
+    </div>
     </div>
   <!-- 공지사항 list 테이블 -->
   <table class="table">

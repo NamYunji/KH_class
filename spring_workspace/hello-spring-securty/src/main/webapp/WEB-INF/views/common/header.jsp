@@ -63,7 +63,13 @@ alert("${msg}");
 			    <!-- property : authorities -> 인증한 객체가 가지고 있는 권한 -->
 			    <sec:authentication property="authorities"/>
 			    &nbsp;
-			    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="location.href='${pageContext.request.contextPath}/logout';">로그아웃</button>
+			    <!-- action값으로 로그아웃 하고자 하는 주소
+			    	 method를 post로 설정 -->
+			    <!-- logout버튼의 타입을 submit으로 하면 로그아웃 버튼을 누르면 폼 제출 -->
+			    <!-- form namespace를 사용했기 때문에 csrf 토큰값이 발행됨 -->
+			    <form:form class="d-inline" action="${pageContext.request.contextPath}/member/memberLogout.do" method="POST">
+			    	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">로그아웃</button>
+			    </form:form>
 			    </sec:authorize>
 			    
 			    <!-- 로그인하지 않은 경우 -->
@@ -77,3 +83,6 @@ alert("${msg}");
 		</nav>
 	</header>
 	<section id="content">
+	<sec:authentication property="principal"/>
+	<sec:authentication property="credential"/>
+	<sec:authentication property="authority"/>
