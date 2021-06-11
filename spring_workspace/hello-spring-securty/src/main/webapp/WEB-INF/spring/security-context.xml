@@ -63,6 +63,37 @@
 			logout-success-url="/"
 			invalidate-session="true"
 		/>
+		
+		<!-- remember-me : 
+			session에서 정한 timeout속성 (session-timeout)시간 이상으로 사용자 정보를 관리할 수 있는 옵션
+			cf. session-timeout
+			session은 서버측의 자원을 사용하는 것
+			클라이언트마다 session객체를 생성해서 관리해줌
+			session id값은 cookie에서 jsessionid라는 이름으로 확인
+			jsessionid값으로 접근할 수 있는 서버측의 객체를 생성해서 관리
+			jsessionid는 서버컴퓨터의 메모리를 잡아먹고 있기 때문에 사용자의 jsessionid를 무한히 관리할 수 없음
+			-> session-timeout으로 그 시간 제한을 걸어두고 그 시간이 지나면 자동 로그아웃
+			-> 그 시간이 지나면 또 로그인해야 함
+			
+			remember-me설정을 하면 session객체의 timeout 제한시간이 지나도
+			로그인을 유지하도록 도와줌
+			
+			원리 :
+			db에 별도의 remember-me cookie를 발급하여 관리함
+			security가 remember-me cookie를 db에 담아둠
+			-> 그 cookie값을 보고 이 사람이 remember-me 옵션을 사용하는구나! 하고 판단
+			-> 그 값이 올바르다면 서버가 돌아가는 한 seesion에 객체가 없어도 사용자 인증정보를 계속 관리해줌
+			-> 별도의 데이터베이스 테이블 필요!
+		-->
+		<!-- 
+			 data-source-ref : db에 접속해야 하므로 datasource빈을 연결시켜줘야 함
+			 cf. datasource빈 : application-context에 빈을 등록해뒀었음
+			 token-validity-seconds : remember-me 토큰의 유효시간 (초단위 | 1209600 : 60 * 60 * 24 * 14 - 2주)
+			 cf. 당연히 session-timeout 시간보다 길어야 의미있음
+			  -->
+		<remember-me
+			data-source-ref="dataSource"
+			token-validity-seconds="1209600"/>
 	</http>	
 	
 	<!-- #6. 인증/권한 검사 manager bean 설정 -->

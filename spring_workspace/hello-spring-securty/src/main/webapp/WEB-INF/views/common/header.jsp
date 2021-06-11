@@ -59,7 +59,10 @@ alert("${msg}");
 			    <sec:authorize access="isAuthenticated()">
 			    <!-- authentication : 인증한 객체를 가지고 있는 태그 -->
 			    <!-- property : principal.username -> 인증한 객체의 아이디 -->
-			    <sec:authentication property="principal.username"/>님, 안녕하세요.
+			    <a href="${pageContext.request.contextPath}/member/memberDetail.do">
+			    <sec:authentication property="principal.username"/>
+			    </a>
+			    님, 안녕하세요.
 			    <!-- property : authorities -> 인증한 객체가 가지고 있는 권한 -->
 			    <sec:authentication property="authorities"/>
 			    &nbsp;
@@ -83,6 +86,6 @@ alert("${msg}");
 		</nav>
 	</header>
 	<section id="content">
-	<sec:authentication property="principal"/>
-	<sec:authentication property="credential"/>
-	<sec:authentication property="authority"/>
+	<sec:authentication property="principal"/> <br />
+	<sec:authentication property="credentials"/> <br />
+	<sec:authentication property="authorities"/> <br />

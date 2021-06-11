@@ -43,6 +43,12 @@ input:hover {
 
 input:focus {
     outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+select:focus {
+    outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
 }
 
 .btn {
@@ -69,6 +75,10 @@ input:focus {
     text-align: center;
 }
 
+.email-authentication {
+    width: 61.3%;
+}
+
 .add-btn {
     background-color: rgb(146, 105, 146);
     width: 17%;
@@ -76,7 +86,7 @@ input:focus {
     color: snow;
     border: none;
     font-size: smaller;
-    transform: translateX(-4px);
+    transform: translateX(-8px);
 }
 .add-btn:hover {
     background-color: rgb(202, 171, 202);
@@ -84,9 +94,10 @@ input:focus {
     font-weight: bolder;
 }
 
-#phone {
-    width: 61%;
-    transform: translateX(-3px);
+.searchPhone {
+    width: 22.4%;
+    transform: translateX(-1px);
+    text-align: center;
   }
 [name="email"]{
     width: 55%;
@@ -104,4 +115,13 @@ input:focus {
 
 [name="selectEmail"]:focus{
     border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+.fill-in-type {
+    font-weight: 600;
+    color: rgb(83, 83, 83);
+    width: 79%;
+    text-align: left;
+    margin: 5px auto 0;
+    transform: translateY(12px);
 }

@@ -31,11 +31,13 @@
             <label for="search-id">휴대폰으로 찾기</label>
         </div>
     </div>
-    <!-- 찾기 진행 입력 폼 -->
     <div class="search-area-container">
-        <form action="" id="searchFrm">
-            <input type="text" class="search-area searchEmail" name="name" id="name" placeholder="이름">
-            <input type="email" class="search-area searchEmail" name="email" id="email" placeholder="이메일">
+        <!-- 이메일로 찾기 진행 입력 폼 -->
+        <form action="" name="searchEmailFrm">
+            <p class="fill-in-type">이름</p>
+            <input type="text" class="search-area searchEmail" name="name" id="name">
+            <p class="fill-in-type">이메일</p>
+            <input type="email" class="search-area searchEmail" name="email" id="email">
             <select class="searchEmail" name="selectEmail" id="selectEmail">
                 <option value="1" selected>직접입력</option>
                 <option value="naver.com">naver.com</option> 
@@ -46,28 +48,39 @@
                 <option value="gmail.com">gmail.com</option>
                 <option value="paran.com">paran.com</option>
             </select>
+            <input type="text" class="search-area email-authentication" placeholder="휴대전화">
+            <input type="button" class="add-btn" value="인증요청">
             <button type="submit" class="btn btn-block searchEmail">아이디 찾기</button>
+        </form>
+        <!-- 휴대폰으로 찾기 진행 입력 폼 -->
+        <form action="" name="searchPhoneFrm" style="display: none;">
+            <p class="fill-in-type">이름</p>
+            <input type="text" class="search-area" name="name" id="name">
+            <p class="fill-in-type">휴대전화</p>
+            <input type="tel" class="search-area searchPhone" name="phone1">-
+            <input type="tel" class="search-area searchPhone" name="phone2" >-
+            <input type="tel" class="search-area searchPhone" name="phone3" >
+            <button type="submit" class="btn btn-block">아이디 찾기</button>
         </form>
     </div>
 </div>
+
+
 
 <script>
 $(() => {
     $("#searchWithPhone").click(function(){
         if($("#searchWithPhone").is(":checked")) {
-        $(".searchEmail").hide();
-        $("#searchFrm").append('<input type="text" class="search-area searchPhone" name="name" id="name" placeholder="이름">');
-        $("#searchFrm").append('<input type="tel" class="search-area searchPhone" name="phone" id="phone" placeholder="휴대전화">');
-        $("#searchFrm").append('<input type="button" class="add-btn searchPhone" value="인증요청">');
-        $("#searchFrm").append('<button type="submit" class="btn btn-block searchPhone">아이디 찾기</button>');
+        $("[name=searchEmailFrm]").hide();
+        $("[name=searchPhoneFrm]").show();
     } 
     });
 });
 $(() => {
     $("#searchWithEmail").click(function(){
         if($("#searchWithEmail").is(":checked")) {
-        $(".searchEmail").show();
-        $(".searchPhone").hide();
+        $("[name=searchEmailFrm]").show();
+        $("[name=searchPhoneFrm]").hide();
     } 
     });
 });

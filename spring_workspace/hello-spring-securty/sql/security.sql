@@ -32,7 +32,18 @@ commit;
 -- 회원정보와 회원권한을 각각 따로 조회해야 함
 
 --회원정보 조회
-select * from member where id = 'admin';
+select * from member where id = 'honggd';
 
 --회원권한 조회
 select * from authority where id = 'admin';
+
+
+--security의 remember-me 사용을 위한 table persistent_logins 생성
+--persistent_logins : 정해져있는 이름
+--hashing : 단방향 알고리즘. (값을 넣으면 value가 나오는 것). 역으로 원래값을 유추할 수 없음.
+create table persistent_logins (
+    username varchar2(64) not null, --사용자 아이디
+    series varchar2(64) primary key, --security에서 발급하는 문자열
+    token varchar2(64) not null, --username, password, expiry time에 대한 hashing값
+    last_used timestamp not null
+);
