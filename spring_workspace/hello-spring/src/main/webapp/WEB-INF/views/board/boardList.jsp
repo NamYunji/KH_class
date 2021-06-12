@@ -37,7 +37,7 @@ $(() => {
 
 	// keyup이벤트가 일어나면 알아서 autocomplete 함수 호출됨
 	// 그때마다 사용자 입력값을 서버로 보내서 그것과 일치하는 게시글들을 가져오기
-	$( "#searchTitle" ).autocomplete({
+	$("#searchTitle").autocomplete({
   		source: function(request, response){
  		  //console.log(request);
  		  //console.log(response);
@@ -55,16 +55,19 @@ $(() => {
 			success(data){
 				console.log(data);
 				const {list} = data;
-				//배열
+				// 배열을 하나 새로 만들기
 				// map 이용 - 배열의 요소를 가져와서 다른 형식으로 변환 가능
-				list.map((board))
+				// board를 가져와서 board에 있는 title을 꺼내서 label과 value 지정
+				// 우리는 board no값으로 페이지 이동하므로 no값을 함께 넣어줌
 				const arr = 
-					list.map(({no, title}) => ({
-						label: title,
-						value: title,
-						no		
+				list.map(({no, title}) => ({
+					// console.log(board);
+					label: title,
+					value: title,
+					no
 					}));
 				console.log(arr);
+				// response에 전달
 				response(arr);
 			},
 			error(xhr, statusText, err){
@@ -72,15 +75,21 @@ $(() => {
 			}
   	  	  });
 		},
+		// 클릭했을때, 해당게시글 상세페이지로 이동
 		select: function(event, selected){
-			// 클릭했을때, 해당게시글 상세페이지로 이동
-			//console.log("select : ", selected);
+			// console.log("select : ", selected);
+			// item이라는 속성값으로 아까만든 label과 value가 들어감
+			// -> value를 얻고 싶다면 item.value로 찾아야 함
+			
+			// item속성의 no속성 가져오기
 			const {item: {no}} = selected;
 			location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
 		},
 		focus: function(event, focused){
 		 return false;
 		},
+		// autofocus : true -> 처음것이 바로 선택됨
+		// minLength : n -> 몇글자를 쳐야 검색이 시작될지
 		autoFocus: true, 
 		minLength: 2
   });

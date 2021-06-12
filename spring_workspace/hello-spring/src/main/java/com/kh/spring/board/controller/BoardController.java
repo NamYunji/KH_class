@@ -276,13 +276,15 @@ public class BoardController {
 		return resource;
 	}
 	
-	@GetMapping("searchTitle.do")
+	// responseBody사용 - 리턴된 자바객체를 json으로 변환, 응답에 출력
+	@GetMapping("/searchTitle.do")
 	@ResponseBody
 	public Map<String, Object> searchTitle(@RequestParam String searchTitle){
 		log.debug("searchTitle = {}", searchTitle);
 		
 		// 1. 업무로직 : 검색어로 board 조회
 		// 제목이 일치하느냐, 게시글의 번호만 조회하면 되니까 Board로 진행
+		// 해당 검색어에 대해 여러건의 결과가 넘어오므로 list
 		List<Board> list = boardService.searchTitle(searchTitle);
 		log.debug("list = {}", list);
 
@@ -292,6 +294,5 @@ public class BoardController {
 		map.put("searchTitle", searchTitle);
 		return map;
 	}
-	
 }
 	
