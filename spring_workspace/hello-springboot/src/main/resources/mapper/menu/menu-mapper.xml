@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="menu">
+	<!-- =============== [전체메뉴조회] =============== -->
 	<select id="selectMenuList" resultMap="menuMap">
 		select
 			*
@@ -14,4 +15,26 @@
 	<resultMap type="menu" id="menuMap">
 		<result column="type" property="type" typeHandler="menuTypeHandler"/>
 	</resultMap>
+	<!-- =============== [추천메뉴조회] =============== -->
+	<select id="selectMenuListByTypeAndTaste" resultMap="menuMap">
+		select
+			*
+		from
+			menu
+		<where>
+		<!--
+		all인 경우는 where절이 실행되지 않도록 where 태그 사용
+		cf. where 태그
+		1. where절 내부에서 and/or가 선행되면 and/or 키워드 제거
+		2. where 몸통이 비어있다면 where태그 제거
+		-->
+			<!-- all이 아닌 경우에만 where절 실행 -->
+			<if test="type != 'all'">
+			type = #{type}
+			</if>
+			<if test="taste != 'all'">
+			and taste = #{taste}
+			</if>
+		</where>
+	</select>
 </mapper>

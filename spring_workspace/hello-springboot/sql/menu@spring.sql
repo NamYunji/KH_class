@@ -33,3 +33,23 @@ insert into spring.menu (id,restaurant,name,price,type,taste) values (seq_menu_i
 commit;
 
 select * from menu;
+
+select * from menu
+where name = '순대국' or restaurant = '순대국'; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

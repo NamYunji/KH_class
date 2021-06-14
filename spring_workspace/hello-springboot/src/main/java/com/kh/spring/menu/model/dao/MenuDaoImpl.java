@@ -1,6 +1,7 @@
 package com.kh.spring.menu.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,10 @@ public class MenuDaoImpl implements MenuDao {
 	@Override
 	public List<Menu> selectMenuList() {
 		return session.selectList("menu.selectMenuList");
+	}
+
+	@Override
+	public List<Menu> selectMenuListByTypeAndTaste(Map<String, Object> param) {
+		return session.selectList("menu.selectMenuListByTypeAndTaste", param);
 	}
 }
