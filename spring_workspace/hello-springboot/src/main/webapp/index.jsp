@@ -185,7 +185,6 @@ div.result{width:70%; margin:0 auto;}
 				taste
 			};
 			console.log(menu);
-			return;
 			// data로 JSON문자열로 바뀐 값 전달 -> JSON문자열로 바뀌어서 텍스트로 날아감
 			// json문자열로 보낼 때는 꼭 contentType 작성
 			$.ajax({
@@ -195,11 +194,179 @@ div.result{width:70%; margin:0 auto;}
 				method: "POST",
 				success(data) {
 					console.log(data);
+					const {msg} = data;
+					alert(msg);
 				},
-				error: console.log
+				error: console.log, 
+				complete(){
+					e.target.reset(); // 폼초기화
+				} 
 			});
 		});
 		</script>
+	<!-- #3.PUT /menu/123 -->
+	<div class="menu-test">
+		<h4>메뉴 수정하기(PUT)</h4>
+		<p>메뉴번호를 사용해 해당메뉴정보를 수정함.</p>
+		<form id="menuSearchFrm">
+			<input type="text" name="id" placeholder="메뉴번호" class="form-control" /><br />
+			<input type="submit" class="btn btn-block btn-outline-primary btn-send" value="검색" >
+		</form>
+		<hr />
+		<form id="menuUpdateFrm">
+			<input type="hidden" name="id" />
+			<input type="text" name="restaurant" placeholder="음식점" class="form-control" />
+			<br />
+			<input type="text" name="name" placeholder="메뉴" class="form-control" />
+			<br />
+			<input type="number" name="price" placeholder="가격" step="1000" class="form-control" />
+			<br />
+			<div class="form-check form-check-inline">
+				<input type="radio" class="form-check-input" name="type" id="put-kr" value="kr" checked>
+				<label for="put-kr" class="form-check-label">한식</label>&nbsp;
+				<input type="radio" class="form-check-input" name="type" id="put-ch" value="ch">
+				<label for="put-ch" class="form-check-label">중식</label>&nbsp;
+				<input type="radio" class="form-check-input" name="type" id="put-jp" value="jp">
+				<label for="put-jp" class="form-check-label">일식</label>&nbsp;
+			</div>
+			<br />
+			<div class="form-check form-check-inline">
+				<input type="radio" class="form-check-input" name="taste" id="put-hot" value="hot" checked>
+				<label for="put-hot" class="form-check-label">매운맛</label>&nbsp;
+				<input type="radio" class="form-check-input" name="taste" id="put-mild" value="mild">
+				<label for="put-mild" class="form-check-label">순한맛</label>
+			</div>
+			<br />
+			<input type="submit" class="btn btn-block btn-outline-success btn-send" value="수정" >
+		</form>
+	</div>
+	<script>
+	$("#menuUpdateFrm").submit(e => {
+		e.preventDefault();
+		const $frm = $(e.target);
+
+		// 객체만들기
+/*  		const menu = {
+			id : $frm.find("[name=id]").val(),
+			restaurant : $frm.find("[name=restaurant]").val(),
+			name : $frm.find("[name=name]").val(),
+			price : $frm.find("[name=price]").val(),
+			type : $frm.find("[name=type]:checked").val(),
+			taste : $frm.find("[name=taste]:checked").val()
+		}; */
+
+		// formData를 활용해서 객체만들기
+		// formData를 사용하면 form안의 값을 쉽게 가져올 수 있음
+		// formData 객체는 해당 폼 안의 데이터값을 고스란히 가지고 있음
+		// but 보여주지 않음 -> 꺼내는 작업 필요
+		const frmData = new FormData(e.target);
+		// 빈 menu 객체 생성
+		// -> json문자열로 만들기 위해, key, value속성을 menu객체에 옮겨담기
+		// 이때, key - value 순이 아닌, value - key순으로 들어옴
+		const menu = {};
+		frmData.forEach((value, key) => {
+			menu[key] = value;
+		});
+		console.log(menu);
+		// ---> formData안의 값들을 menu객체에 옮겨담음!
+
+		$.ajax({
+			url: `${pageContext.request.contextPath}/menu/\${menu.id}`,
+			method: "PUT",
+			data: JSON.stringify(menu),
+			contentType: "application/json; charset=utf-8",
+			success(data){
+				console.log(data);
+				const {msg} = data;
+				alert(msg);
+			},
+			error: console.log,
+			// 다 처리된 후에는 폼 리셋
+			complete(){
+				$("#menuSearchFrm")[0].reset();
+				$("#menuUpdateFrm")[0].reset();
+			}
+		});
+	});
+	
+	$("#menuSearchFrm").submit(e => {
+		e.preventDefault();
+		// $("선택자", context) -> context 하위의 "선택자"를 조회 
+		const id = $("[name=id]", e.target).val();
+		if(!id) return; // 아이디가 존재하지 않는다면 조기리턴
+
+		$.ajax({
+			url: `${pageContext.request.contextPath}/menu/\${id}`,
+			method: "GET",
+			success(data){
+				console.log(data);
+
+				if(data){
+					const $frm = $("#menuUpdateFrm");
+					const {id, restaurant, name, price, type, taste} = data;
+					$frm.find("[name=id]").val(id);
+					$frm.find("[name=restaurant]").val(restaurant);
+					$frm.find("[name=price]").val(price);
+					$frm.find("[name=name]").val(name);
+					$frm.find(`[name=type][value=\${type}]`).prop("checked", true);
+					$frm.find(`[name=taste][value=\${taste}]`).prop("checked", true);
+					
+				}
+				// 첫번째 방식의 경우
+				//else {
+				//	alert("해당 메뉴가 존재하지 않습니다.");
+				//	$("[name=id]", e.target).select();
+				//}
+			},
+			error(xhr, statusText, err){
+				console.log(xhr, statusText, err);
+
+				const {status} = xhr;
+				status == 404 && alert("해당 메뉴가 존재하지 않습니다.");
+				$("[name=id]", e.target).select();
+			}
+		})
+	});		
+	</script>
+	<!-- 4. 삭제 DELETE /menu/123 -->    
+	<div class="menu-test">
+    	<h4>메뉴 삭제하기(DELETE)</h4>
+    	<p>메뉴번호를 사용해 해당메뉴정보를 삭제함.</p>
+    	<form id="menuDeleteFrm">
+    		<input type="text" name="id" placeholder="메뉴번호" class="form-control" /><br />
+    		<input type="submit" class="btn btn-block btn-outline-danger btn-send" value="삭제" >
+    	</form>
+    </div>
+    <script>
+	$("#menuDeleteFrm").submit(e => {
+		e.preventDefault();
+
+		// 아이디값 알아내기
+		const id = $("[name=id]", e.target).val();
+		if(!id) return; // 아이디값이 존재하지 않으면 조기리턴
+		// success : function(){}의 단축형
+		// error: console.log -> 자바스크립트가 만들어준 존재하는 함수를 가져다가 메소드로 사용
+		$.ajax({
+			url: `${pageContext.request.contextPath}/menu/\${id}`,
+			method: "DELETE",
+			success(data){
+				console.log(data);
+				const {msg} = data;
+				alert(msg);
+			},
+			error(xhr, statusText, err){
+				const {status} = xhr;
+				switch(status){
+					case 404: alert("해당 메뉴가 존재하지 않습니다."); break;
+					default: alert("메뉴 삭제 실패!");
+				}
+			},
+			complete(){
+				$(e.target)[0].reset();
+			}
+		});
+	});
+    </script>
 	</div>
 	</section>
 		<footer>

@@ -13,4 +13,10 @@ public interface MenuService {
 
 	int insertMenu(Menu menu);
 
+	Menu selectOneMenu(String id);
+
+	int updateMenu(Menu menu);
+
+	int deleteMenu(String id);
+
 }

@@ -40,16 +40,3 @@ where name = '순대국' or restaurant = '순대국';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -11,4 +11,12 @@ public interface MenuDao {
 
 	List<Menu> selectMenuListByTypeAndTaste(Map<String, Object> param);
 
+	int insertMenu(Menu menu);
+
+	Menu selectOneMenu(String id);
+
+	int updateMenu(Menu menu);
+
+	int deleteMenu(String id);
+
 }
