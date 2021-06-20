@@ -85,9 +85,10 @@
         action="${pageContext.request.contextPath}/member/signup.do"
         name="signupAgencyFrm"
     >
-        <label for="serial-number">고유번호<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area add1" name="serial-number" id="serial-number" placeholder="기획사 고유번호 입력">
-        <input type="button" class="add-btn" value="고유번호 확인"><br>
+        <label for="serial-number">사업자번호<span class="required-mark"> *</span></label>
+        <input type="text" class="fill-in-area add1" name="corpRegNo" maxlength="3">-
+        <input type="text" class="fill-in-area corp-no" name="corpRegNo" maxlength="2">-
+        <input type="text" class="fill-in-area corp-no" name="corpRegNo" maxlength="5">
         <div>
             <label for="id">아이디<span class="required-mark"> *</span></label>
             <input type="text" class="fill-in-area" name="id" id="id" placeholder="5자~11자">

@@ -85,6 +85,6 @@ $(() => {
 			</div>
 		</div>
 	</div>
-	<!-- Modal 끝-->
+	<!-- Modal 끝-->  
 </body>
 </html>

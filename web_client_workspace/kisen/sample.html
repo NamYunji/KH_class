@@ -12,8 +12,33 @@
 <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-  
+<form action="/sendMail/id" id="findForm" method="post">
+  <fieldset>
+      <legend class="screen_out">아이디 찾기 폼</legend>
+
+      <div class="box email">
+          <label for="email">이메일</label>
+          <input type="text" id="email" name="email" autofocus autocomplete="off" required />
+      </div>
+      <!-- // .box.email -->
+
+      <div class="box captcha">
+          <div class="loading"></div>
+          <!-- // .loading -->
+
+          <label for="captcha">자동 방지 코드</label>
+          <input type="text" id="captcha" name="captcha" autocomplete="off" required />
+          <img src="/captcha" alt="캡차 이미지" title="클릭시 새로고침" />
+      </div>
+      <!-- // .box.captcha -->
+
+      <div class="box btn">
+          <button type="submit" class="btn join">
+              <i class="fa fa-envelope"></i>
+              이메일 전송
+          </button>
+      </div>
+      <!-- // .box.btn -->
+  </fieldset>
+</form>
+
