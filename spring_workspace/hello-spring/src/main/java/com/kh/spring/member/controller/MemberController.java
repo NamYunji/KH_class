@@ -379,3 +379,4 @@ public class MemberController {
 				.body(map); // body에 map담기
 	}
 }
+
